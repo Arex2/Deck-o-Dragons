@@ -35,20 +35,34 @@ public class CardHand : MonoBehaviour
     }
     public void ScrollLeft()
     {
+        if (!CheckIfCardNextTo(+1))
+            return;
         ++selectedIndex;
         DisplayAllCards();
     }
     public void ScrollRight()
     {
+        if (!CheckIfCardNextTo(-1))
+            return;
         --selectedIndex;
         DisplayAllCards();
     }
     public void PlayCard()
     {
+        if (cardsInHand.Count < 0)
+        {
+            //can't play / NEW HAND
+        }
         //MIDDLE CARD
         cardPositions[2].transform.position = new Vector2(cardPositions[2].transform.position.x, cardPositions[2].transform.position.y+2);
         //vänta lite tid, spela animation, och sen
         StartCoroutine(RemovePlayedCard());
+    }
+    private bool CheckIfCardNextTo(int direction)
+    {
+        if(selectedIndex + direction >= cardsInHand.Count || selectedIndex + direction < 0)
+        {  return false; }
+        return true;
     }
 
     IEnumerator RemovePlayedCard()
