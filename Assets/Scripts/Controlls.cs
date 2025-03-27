@@ -9,12 +9,22 @@ using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UIElements;
 using static UnityEngine.UI.Image;
 
+
+enum Direction
+{
+    Right, Left, Up, Down
+}
+
 public class Controlls : MonoBehaviour
 {
     InputSystem controls;
     Vector2 dragDir;
     Vector2 swipe;
     float minSwipeSize = 10f;
+    Direction swipeDirection;
+
+    [SerializeField]
+    CardHand hand;
 
     private void OnEnable()
     {
@@ -49,9 +59,33 @@ public class Controlls : MonoBehaviour
         //check if large enough touch
         if (Mathf.Abs(dragDir.magnitude) < minSwipeSize)
             return;
-        Debug.Log("Swipe, direction: " + swipe);
+        Debug.Log("Swipe, direction: " + swipeDirection);
+        SelectAction();
         //NOLLSTÄLL
         dragDir = Vector2.zero;
+    }
+    private void SelectAction()
+    {
+        switch(swipeDirection)
+        {
+            case Direction.Up:
+                //play card
+                Debug.Log("Play card");
+                hand.PlayCard();
+                break;
+            case Direction.Down:
+                //open card deck
+                Debug.Log("Open card deck [PH]");
+                break;
+            case Direction.Right:
+                //either switch to garden scene or scroll cards
+                Debug.Log("either switch to garden scene or scroll cards [PH] -->");
+                break;
+            case Direction.Left:
+                //scroll cards
+                Debug.Log("<-- scroll cards [PH]");
+                break;
+        }
     }
 
     private void GetSwipeDirection(TouchState touch)
@@ -63,28 +97,32 @@ public class Controlls : MonoBehaviour
         //if x axis has more input(?) than y
         if(Mathf.Abs(dragDir.x) > Mathf.Abs(dragDir.y))
         {
-            if(dragDir.x > 0) //RIGHT
+            if (dragDir.x > 0) //RIGHT
             {
                 //Debug.Log("RIGHT");
-                swipe = Vector2.right;
+                //swipe = Vector2.right;
+                swipeDirection = Direction.Right;
             }
             else //LEFT
             {
                 //Debug.Log("LEFT");
-                swipe = Vector2.left;
+                //swipe = Vector2.left;
+                swipeDirection = Direction.Left;
             }
         }
         else //y has more input
         {
-            if(dragDir.y > 0) //UP
+            if (dragDir.y > 0) //UP
             {
                 //Debug.Log("UP");
-                swipe = Vector2.up;
+                //swipe = Vector2.up;
+                swipeDirection = Direction.Up;
             }
             else //DOWN
             {
                 //Debug.Log("DOWN");
-                swipe = Vector2.down;
+                //swipe = Vector2.down;
+                swipeDirection = Direction.Down;
             }
         }
     }
@@ -100,12 +138,14 @@ public class Controlls : MonoBehaviour
             if (dragDir.x > 0) //RIGHT
             {
                 //Debug.Log("RIGHT");
-                swipe = Vector2.right;
+                //swipe = Vector2.right;
+                swipeDirection = Direction.Right;
             }
             else //LEFT
             {
                 //Debug.Log("LEFT");
-                swipe = Vector2.left;
+                //swipe = Vector2.left;
+                swipeDirection = Direction.Left;
             }
         }
         else //y has more input
@@ -113,12 +153,14 @@ public class Controlls : MonoBehaviour
             if (dragDir.y > 0) //UP
             {
                 //Debug.Log("UP");
-                swipe = Vector2.up;
+                //swipe = Vector2.up;
+                swipeDirection = Direction.Up;
             }
             else //DOWN
             {
                 //Debug.Log("DOWN");
-                swipe = Vector2.down;
+                //swipe = Vector2.down;
+                swipeDirection = Direction.Down;
             }
         }
     }
@@ -131,7 +173,7 @@ public class Controlls : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
