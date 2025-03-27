@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+//using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,7 +22,7 @@ public class Controlls : MonoBehaviour
         controls.Enable();
 
         controls.test.Touch.canceled += SwipeAction;
-        controls.test.ButtonPress.performed += ggg => { Debug.Log("Screen press"); };
+        controls.test.Tap.performed += ctx => { Debug.Log("Screen tap"); };
 
         controls.test.Swipe.performed += ctx =>
         {
@@ -137,7 +137,10 @@ public class Controlls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(UnityEngine.InputSystem.Gyroscope.current != null)
+        {
+            //Debug.Log(UnityEngine.InputSystem.Gyroscope.current.angularVelocity.ReadValue());
+        }
     }
 
     void ChooseAction()

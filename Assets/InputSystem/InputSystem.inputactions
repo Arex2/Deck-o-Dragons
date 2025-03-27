@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ButtonPress",
+                    "name": "Tap",
                     "type": "Button",
                     "id": "e29e9ea6-51d7-4566-be1b-6f4f321098c5",
                     "expectedControlType": "Button",
@@ -136,7 +136,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ButtonPress",
+                    "action": "Tap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

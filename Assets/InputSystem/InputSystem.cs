@@ -64,7 +64,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ButtonPress"",
+                    ""name"": ""Tap"",
                     ""type"": ""Button"",
                     ""id"": ""e29e9ea6-51d7-4566-be1b-6f4f321098c5"",
                     ""expectedControlType"": ""Button"",
@@ -158,7 +158,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ButtonPress"",
+                    ""action"": ""Tap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -173,7 +173,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_test_Touch = m_test.FindAction("Touch", throwIfNotFound: true);
         m_test_Swipe = m_test.FindAction("Swipe", throwIfNotFound: true);
         m_test_PressingWithMouse = m_test.FindAction("PressingWithMouse", throwIfNotFound: true);
-        m_test_ButtonPress = m_test.FindAction("ButtonPress", throwIfNotFound: true);
+        m_test_Tap = m_test.FindAction("Tap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -239,7 +239,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_test_Touch;
     private readonly InputAction m_test_Swipe;
     private readonly InputAction m_test_PressingWithMouse;
-    private readonly InputAction m_test_ButtonPress;
+    private readonly InputAction m_test_Tap;
     public struct TestActions
     {
         private @InputSystem m_Wrapper;
@@ -248,7 +248,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Touch => m_Wrapper.m_test_Touch;
         public InputAction @Swipe => m_Wrapper.m_test_Swipe;
         public InputAction @PressingWithMouse => m_Wrapper.m_test_PressingWithMouse;
-        public InputAction @ButtonPress => m_Wrapper.m_test_ButtonPress;
+        public InputAction @Tap => m_Wrapper.m_test_Tap;
         public InputActionMap Get() { return m_Wrapper.m_test; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -270,9 +270,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @PressingWithMouse.started += instance.OnPressingWithMouse;
             @PressingWithMouse.performed += instance.OnPressingWithMouse;
             @PressingWithMouse.canceled += instance.OnPressingWithMouse;
-            @ButtonPress.started += instance.OnButtonPress;
-            @ButtonPress.performed += instance.OnButtonPress;
-            @ButtonPress.canceled += instance.OnButtonPress;
+            @Tap.started += instance.OnTap;
+            @Tap.performed += instance.OnTap;
+            @Tap.canceled += instance.OnTap;
         }
 
         private void UnregisterCallbacks(ITestActions instance)
@@ -289,9 +289,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @PressingWithMouse.started -= instance.OnPressingWithMouse;
             @PressingWithMouse.performed -= instance.OnPressingWithMouse;
             @PressingWithMouse.canceled -= instance.OnPressingWithMouse;
-            @ButtonPress.started -= instance.OnButtonPress;
-            @ButtonPress.performed -= instance.OnButtonPress;
-            @ButtonPress.canceled -= instance.OnButtonPress;
+            @Tap.started -= instance.OnTap;
+            @Tap.performed -= instance.OnTap;
+            @Tap.canceled -= instance.OnTap;
         }
 
         public void RemoveCallbacks(ITestActions instance)
@@ -315,6 +315,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnTouch(InputAction.CallbackContext context);
         void OnSwipe(InputAction.CallbackContext context);
         void OnPressingWithMouse(InputAction.CallbackContext context);
-        void OnButtonPress(InputAction.CallbackContext context);
+        void OnTap(InputAction.CallbackContext context);
     }
 }
