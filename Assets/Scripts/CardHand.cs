@@ -47,6 +47,44 @@ public class CardHand : MonoBehaviour
     {
         //MIDDLE CARD
         cardPositions[2].transform.position = new Vector2(cardPositions[2].transform.position.x, cardPositions[2].transform.position.y+2);
+        //vänta lite tid, spela animation, och sen
+        StartCoroutine(RemovePlayedCard());
+    }
+
+    IEnumerator RemovePlayedCard()
+    {
+        //Wait for 0.4 seconds
+        yield return new WaitForSeconds(0.4f);
+
+        cardsInHand.RemoveAt(selectedIndex);
+        //return card to origin pos
+        cardPositions[2].transform.position = new Vector2(cardPositions[2].transform.position.x, cardPositions[2].transform.position.y - 2);
+
+        if(cardsInHand.Count < 0 )
+        {
+            //new hand
+        }
+
+        Debug.Log("SELECTED     " +selectedIndex);
+        //om är vid högra kanten kortet
+        if(selectedIndex == cardsInHand.Count)
+        {
+            //flytta ett till höger (och sortera)
+            ScrollRight();
+        }
+        /* //Behövs inte för att List<T> automatiskt sorterar bort från lägsta värdet perhaps?
+        else if(selectedIndex == 0)
+        {
+            //flytta ett till vänster (och sortera)
+            //ScrollLeft();
+            DisplayAllCards();
+        }
+        */
+        else
+        {
+            //sortera bara
+            DisplayAllCards();
+        }
     }
 
     private void DisplayCard(int index, int cardIndex)
