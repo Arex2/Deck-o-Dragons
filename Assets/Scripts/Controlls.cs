@@ -192,16 +192,21 @@ public class Controlls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(CheckForShake())
+        {
+            Debug.Log("SHAKE!");
+        }
         //Debug.Log(Input.acceleration);// gyro.userAcceleration);
-        if(UnityEngine.InputSystem.Gyroscope.current != null)
+        if (UnityEngine.InputSystem.Gyroscope.current != null)
         {
             //Debug.Log(UnityEngine.InputSystem.Gyroscope.current.angularVelocity.ReadValue());
         }
     }
 
-    private void CheckForShake()
+    private bool CheckForShake()
     {
         Vector3 acceleration = Input.acceleration; //mobil rörelse
+        return false;
     }
 
 }
