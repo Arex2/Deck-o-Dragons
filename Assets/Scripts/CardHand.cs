@@ -7,16 +7,20 @@ using UnityEngine;
 public class CardHand : MonoBehaviour
 {
     [SerializeField] List<GameObject> cardPositions; //the cards that are shown on screen
-    List<string> cardsInHand = new List<string>();
+    List<Color> cardsInHand = new List<Color>();
     List<object> cardsInDeck;
     int selectedIndex;
 
     private void PopulateCardsInHand()
     {
-        cardsInHand.Add("A");
-        cardsInHand.Add("B");
-        cardsInHand.Add("c");
-        cardsInHand.Add("L");
+        cardsInHand.Add(UnityEngine.Random.ColorHSV());
+        cardsInHand.Add(UnityEngine.Random.ColorHSV());
+        cardsInHand.Add(UnityEngine.Random.ColorHSV());
+        cardsInHand.Add(UnityEngine.Random.ColorHSV());
+        cardsInHand.Add(UnityEngine.Random.ColorHSV());
+        cardsInHand.Add(UnityEngine.Random.ColorHSV());
+        cardsInHand.Add(UnityEngine.Random.ColorHSV());
+        cardsInHand.Add(UnityEngine.Random.ColorHSV());
         //cardsInHand.Add("T");
     }
 
@@ -29,7 +33,16 @@ public class CardHand : MonoBehaviour
         //Middle card
         //cardPositions[0].GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV();
     }
-
+    public void ScrollLeft()
+    {
+        ++selectedIndex;
+        DisplayAllCards();
+    }
+    public void ScrollRight()
+    {
+        --selectedIndex;
+        DisplayAllCards();
+    }
     public void PlayCard()
     {
         //MIDDLE CARD
@@ -41,8 +54,10 @@ public class CardHand : MonoBehaviour
         if (cardIndex < 0 || cardIndex >= cardsInHand.Count)
         {
             cardPositions[index].GetComponent<SpriteRenderer>().enabled = false;
+            return;
         }
-        cardPositions[index].GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV();
+        cardPositions[index].GetComponent<SpriteRenderer>().enabled = true;
+        cardPositions[index].GetComponent<SpriteRenderer>().color = cardsInHand[cardIndex];
     }
 
     private void DisplayAllCards()

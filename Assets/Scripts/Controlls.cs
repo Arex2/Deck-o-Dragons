@@ -80,10 +80,12 @@ public class Controlls : MonoBehaviour
             case Direction.Right:
                 //either switch to garden scene or scroll cards
                 Debug.Log("either switch to garden scene or scroll cards [PH] -->");
+                hand.ScrollRight();
                 break;
             case Direction.Left:
                 //scroll cards
                 Debug.Log("<-- scroll cards [PH]");
+                hand.ScrollLeft();
                 break;
         }
     }
