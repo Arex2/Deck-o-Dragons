@@ -1,0 +1,44 @@
+using System;
+using UnityEngine;
+
+/// <summary>
+/// Is attached to a <see cref="Card"/> and responsible for giving functionality to a card.
+/// </summary>
+// Script by Ruben
+public abstract class CardComponent : ScriptableObject
+{
+#if UNITY_EDITOR
+    [HideInInspector]
+    [SerializeField] private bool expandedInEditor = true;
+#endif
+
+    [HideInInspector]
+    [SerializeField] protected Card card;
+
+    public void Initialize()
+    {
+
+    }
+
+    #region GetCardComponent Methods
+    public T GetCardComponent<T>() where T : CardComponent => card.GetCardComponent<T>();
+
+    public CardComponent GetCardComponent(Type type) => card.GetCardComponent(type);
+
+    public T[] GetCardComponents<T>() where T : CardComponent => card.GetCardComponents<T>();
+
+    public CardComponent[] GetCardComponents(Type type) => card.GetCardComponents(type);
+
+    public bool TryGetCardComponent<T>(out T cardComponent) where T : CardComponent => card.TryGetCardComponent(out cardComponent);
+
+    public bool TryGetCardComponent(Type type, out CardComponent cardComponent) => card.TryGetCardComponent(type, out cardComponent);
+
+    public bool TryGetCardComponents<T>(out T[] cardComponents) where T : CardComponent => card.TryGetCardComponents(out cardComponents);
+
+    public bool TryGetCardComponents(Type type, out CardComponent[] cardComponents) => card.TryGetCardComponents(type, out cardComponents);
+
+    public bool HasCardComponent<T>() => card.HasCardComponent(typeof(T));
+
+    public bool HasCardComponent(Type type) => card.HasCardComponent(type);
+    #endregion
+}
