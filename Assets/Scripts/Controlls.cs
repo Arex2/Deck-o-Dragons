@@ -19,7 +19,7 @@ public class Controlls : MonoBehaviour
 {
     InputSystem controls;
     Vector2 dragDir;
-    Vector2 swipe;
+    //Vector2 swipe;
     float minSwipeSize = 10f;
     Direction swipeDirection;
 
@@ -28,15 +28,19 @@ public class Controlls : MonoBehaviour
 
     private void OnEnable()
     {
+        Input.gyro.enabled = true;
+
         controls = new InputSystem();
         controls.Enable();
 
         controls.test.Touch.canceled += SwipeAction;
+        controls.test.KeyboardAny.canceled += SwipeActionKeyboard;
         controls.test.Tap.performed += ctx => { Debug.Log("Screen tap"); };
 
         controls.test.Swipe.performed += ctx =>
         {
             GetSwipeDirection(ctx.ReadValue<Vector2>());
+            //Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa" + ctx.ReadValue<Vector2>());
             //swipeDir = ctx.ReadValue<Vector2>();
             //ChooseAction();
 
@@ -48,11 +52,16 @@ public class Controlls : MonoBehaviour
         };// GetSwipeDirection(ctx.ReadValue<TouchState>()); };// Debug.Log("Current pos: " + ctx.ReadValue<TouchState>().position + "  start pos: " + ctx.ReadValue<TouchState>().startPosition); };
 
 
-
-
         //controls.test.press.canceled += SwipeAction;
         //controls.test.phonetest.performed += ctx => { Debug.Log(ctx.ReadValue<float>()); };
         //controls.test.PressingWithMouse.performed += ctx => { //ChooseAction();};
+    }
+    private void SwipeActionKeyboard(InputAction.CallbackContext c)
+    {
+        Debug.Log("Swipe, direction: " + swipeDirection);
+        SelectAction();
+        //NOLLSTÄLL
+        dragDir = Vector2.zero;
     }
     private void SwipeAction(InputAction.CallbackContext c)
     {
@@ -172,6 +181,8 @@ public class Controlls : MonoBehaviour
         controls.Disable();
     }
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -181,36 +192,16 @@ public class Controlls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(Input.acceleration);// gyro.userAcceleration);
         if(UnityEngine.InputSystem.Gyroscope.current != null)
         {
             //Debug.Log(UnityEngine.InputSystem.Gyroscope.current.angularVelocity.ReadValue());
         }
     }
 
-    void ChooseAction()
+    private void CheckForShake()
     {
-        //Debug.Log("controls value: " + swipeDir);
-        
-        if(dragDir.y > 0.6)
-        {
-            Debug.Log("UP");
-        }
-        else if (dragDir.y < -0.6)
-        {
-            Debug.Log("DOWN");
-        }
-        else
-        {
-            if (dragDir.x > 0)
-            {
-                Debug.Log("RIGHT");
-                return;
-            }
-            else if (dragDir.x < 0)
-            {
-                Debug.Log("LEFT");
-                return;
-            }
-        }
+        Vector3 acceleration = Input.acceleration; //mobil rörelse
     }
+
 }

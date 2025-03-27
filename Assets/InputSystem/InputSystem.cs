@@ -46,6 +46,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""KeyboardAny"",
+                    ""type"": ""Button"",
+                    ""id"": ""31d9b80d-eaed-4c3b-a5bf-532dbc83357f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Swipe"",
                     ""type"": ""Value"",
                     ""id"": ""4edd0af7-4b79-494f-84c9-52b1aef0d3ae"",
@@ -161,6 +170,72 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Tap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9d1ee6d5-e883-4f10-b4ad-8a49a71f8fd9"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyboardAny"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""c406f665-8d23-4c9d-8945-b0a12e2ecbc3"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swipe"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""af5f7a9e-eaed-4d47-a88d-7993cf2355ed"",
+                    ""path"": ""<Keyboard>/#(W)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swipe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""2286d208-a98d-4e72-be74-d0965199d8dd"",
+                    ""path"": ""<Keyboard>/#(S)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swipe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""a516a621-6e81-4067-b345-bf9585e61296"",
+                    ""path"": ""<Keyboard>/#(D)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swipe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""50618281-85bd-45a4-a00f-d83407ff276f"",
+                    ""path"": ""<Keyboard>/#(A)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swipe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -171,6 +246,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_test = asset.FindActionMap("test", throwIfNotFound: true);
         m_test_press = m_test.FindAction("press", throwIfNotFound: true);
         m_test_Touch = m_test.FindAction("Touch", throwIfNotFound: true);
+        m_test_KeyboardAny = m_test.FindAction("KeyboardAny", throwIfNotFound: true);
         m_test_Swipe = m_test.FindAction("Swipe", throwIfNotFound: true);
         m_test_PressingWithMouse = m_test.FindAction("PressingWithMouse", throwIfNotFound: true);
         m_test_Tap = m_test.FindAction("Tap", throwIfNotFound: true);
@@ -237,6 +313,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
     private readonly InputAction m_test_press;
     private readonly InputAction m_test_Touch;
+    private readonly InputAction m_test_KeyboardAny;
     private readonly InputAction m_test_Swipe;
     private readonly InputAction m_test_PressingWithMouse;
     private readonly InputAction m_test_Tap;
@@ -246,6 +323,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public TestActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @press => m_Wrapper.m_test_press;
         public InputAction @Touch => m_Wrapper.m_test_Touch;
+        public InputAction @KeyboardAny => m_Wrapper.m_test_KeyboardAny;
         public InputAction @Swipe => m_Wrapper.m_test_Swipe;
         public InputAction @PressingWithMouse => m_Wrapper.m_test_PressingWithMouse;
         public InputAction @Tap => m_Wrapper.m_test_Tap;
@@ -264,6 +342,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Touch.started += instance.OnTouch;
             @Touch.performed += instance.OnTouch;
             @Touch.canceled += instance.OnTouch;
+            @KeyboardAny.started += instance.OnKeyboardAny;
+            @KeyboardAny.performed += instance.OnKeyboardAny;
+            @KeyboardAny.canceled += instance.OnKeyboardAny;
             @Swipe.started += instance.OnSwipe;
             @Swipe.performed += instance.OnSwipe;
             @Swipe.canceled += instance.OnSwipe;
@@ -283,6 +364,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Touch.started -= instance.OnTouch;
             @Touch.performed -= instance.OnTouch;
             @Touch.canceled -= instance.OnTouch;
+            @KeyboardAny.started -= instance.OnKeyboardAny;
+            @KeyboardAny.performed -= instance.OnKeyboardAny;
+            @KeyboardAny.canceled -= instance.OnKeyboardAny;
             @Swipe.started -= instance.OnSwipe;
             @Swipe.performed -= instance.OnSwipe;
             @Swipe.canceled -= instance.OnSwipe;
@@ -313,6 +397,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     {
         void OnPress(InputAction.CallbackContext context);
         void OnTouch(InputAction.CallbackContext context);
+        void OnKeyboardAny(InputAction.CallbackContext context);
         void OnSwipe(InputAction.CallbackContext context);
         void OnPressingWithMouse(InputAction.CallbackContext context);
         void OnTap(InputAction.CallbackContext context);
