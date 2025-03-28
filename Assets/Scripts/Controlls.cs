@@ -18,6 +18,7 @@ enum Direction
 public class Controlls : MonoBehaviour
 {
     InputSystem controls;
+    Vector2 startPos;
     Vector2 dragDir;
     //Vector2 swipe;
     float minSwipeSize = 10f;
@@ -33,45 +34,111 @@ public class Controlls : MonoBehaviour
         controls = new InputSystem();
         controls.Enable();
 
-        controls.test.Touch.canceled += SwipeAction;
+
+
         controls.test.KeyboardAny.canceled += SwipeActionKeyboard;
         controls.test.Tap.performed += ctx => { Debug.Log("Screen tap"); };
-
+        //controls.test.Touch.enabled += ctx => { SaveStartingPos(ctx); }
+        //controls.test.press.started += ctx => { SaveStartingPos(ctx.ReadValue<TouchState>().position); };
         controls.test.Swipe.performed += ctx =>
         {
+            //Debug.Log("Continuous pos: " + ctx.ReadValue<Vector2>());
             GetSwipeDirection(ctx.ReadValue<Vector2>());
-            //Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa" + ctx.ReadValue<Vector2>());
-            //swipeDir = ctx.ReadValue<Vector2>();
-            //ChooseAction();
 
         };
         //ANTINGEN OVAN eller NEDAN, båda kan användas för att känna direction of swipe
         controls.test.press.performed += ctx => 
         {
-             //GetSwipeDirection(ctx.ReadValue<TouchState>());
+            //Debug.Log("Area: " + ctx.ReadValue<TouchState>().position.x);
+            SaveStartingPos(ctx.ReadValue<TouchState>());
+            //Debug.Log("Magnitude: " + ctx.ReadValue<TouchState>().position.magnitude);
+            //SaveStartingPosX(ctx.ReadValue<TouchState>().position.x);
+            //CalculateTotalMagnitude(ctx.ReadValue<TouchState>().position.x);
+            //GetSwipeDirection(ctx.ReadValue<TouchState>());
         };// GetSwipeDirection(ctx.ReadValue<TouchState>()); };// Debug.Log("Current pos: " + ctx.ReadValue<TouchState>().position + "  start pos: " + ctx.ReadValue<TouchState>().startPosition); };
 
+        controls.test.Area.performed += ctx =>
+        {
+            //Debug.Log("Area2: " + ctx.ReadValue<float>());
+            SaveStartingPosX(ctx.ReadValue<float>());
+        };
+        //controls.test.press.WasPressedThisFrame += ctx => { Stuff(); };// SaveStartingPosX(ctx.ReadValue<TouchState>()); };
+        //controls.test.Area.started += ctx => { Debug.Log("STARTED"); };
+        controls.test.Area.canceled += ctx => { SetToZero(); };
+        controls.test.Touch.canceled += ctx => { SwipeAction(ctx);};// 
+        //controls.test.haspressedscreen. += ctx => { };
 
         //controls.test.press.canceled += SwipeAction;
         //controls.test.phonetest.performed += ctx => { Debug.Log(ctx.ReadValue<float>()); };
         //controls.test.PressingWithMouse.performed += ctx => { //ChooseAction();};
     }
+    float startPosX;
+    float startPos2;
+    bool done = true;
+    bool done2 = true;
+    float totalMagnitude;
+
+    private void Stuff()
+    {
+        startPos2 = startPosX;
+        //Debug.Log("Saved : " + startPosX);
+    }
+    private void SetToZero()
+    {
+        done = true;
+        done2 = true;
+        startPosX = 0f;
+        //startPos = Vector2.zero;
+        //Debug.Log("SetToZero");
+    }
+    private void SaveStartingPosX(float mag)
+    {
+        /*
+        //if (startPosX == 0 && controls.test.Area.inProgress)
+            //return;
+        if (startPosX != 0)// && mag > startPosX)
+            return;
+        */
+
+        startPosX = mag;
+        if (controls.test.press.WasReleasedThisFrame())
+            return;
+
+        done2 = false;
+    }
+    private void CalculateTotalMagnitude(float mag)
+    {
+        totalMagnitude = Mathf.Abs(mag-startPosX);
+    }
+    private void SaveStartingPos(TouchState touch)
+    {
+        //only save when doesn't already have startPos
+        //if (startPos != Vector2.zero)
+        // return;
+        if (!done)
+            return;
+        startPos = touch.startPosition;
+        done = false;
+        //Debug.Log(startPos);
+    }
     private void SwipeActionKeyboard(InputAction.CallbackContext c)
     {
-        Debug.Log("Swipe, direction: " + swipeDirection);
+        //Debug.Log("Swipe, direction: " + swipeDirection);
         SelectAction();
         //NOLLSTÄLL
         dragDir = Vector2.zero;
     }
     private void SwipeAction(InputAction.CallbackContext c)
     {
+        //Debug.Log("Swipe, direction: " + swipeDirection);
+        //Debug.Log("Size: " + (Mathf.Abs(dragDir.magnitude)) + " min size: " + minSwipeSize);
         //check if large enough touch
         if (Mathf.Abs(dragDir.magnitude) < minSwipeSize)
             return;
-        Debug.Log("Swipe, direction: " + swipeDirection);
         SelectAction();
         //NOLLSTÄLL
         dragDir = Vector2.zero;
+        //Debug.Log("Total mag dif: " + totalMagnitude);
     }
     private void SelectAction()
     {
@@ -88,19 +155,47 @@ public class Controlls : MonoBehaviour
                 break;
             case Direction.Right:
                 //either switch to garden scene or scroll cards
-                Debug.Log("either switch to garden scene or scroll cards [PH] -->");
-                hand.ScrollRight();
+                //Debug.Log("R Used : " + startPos2);// + startPos.x + " old : " +startPosX);
+                //Debug.Log("either switch to garden scene or scroll cards [PH] -->");
+                if (startPos2 < 40)
+                {
+                    //switch scene
+                    Debug.LogError("Switch scene");
+                }
+                else
+                {
+                    //scroll cards
+                    Debug.LogError("Scroll right");
+                    hand.ScrollRight();
+                }
+                //Debug.Log("Startpos should be 0: " + startPos);
+                SetToZero();
                 break;
             case Direction.Left:
-                //scroll cards
-                Debug.Log("<-- scroll cards [PH]");
-                hand.ScrollLeft();
+                //Debug.Log("L Used : " + startPos2);//+ startPos.x + " old : " + startPosX);
+                if (startPos2 > 200)
+                {
+                    //switch scene
+                    Debug.LogError("Switch scene");
+                }
+                else
+                {
+                    //scroll cards
+                    Debug.LogError("Scroll left");
+                    hand.ScrollLeft();
+                }
+                //Debug.Log("Startpos should be 0: " + startPos);
+                SetToZero();
                 break;
         }
     }
 
+
+
     private void GetSwipeDirection(TouchState touch)
     {
+        startPos = touch.startPosition;
+        //Debug.Log("STARTPOS: " +startPos);
         //Vector3 AB = B - A.Destination - Origin.
         dragDir = touch.position - touch.startPosition;
         //dragDir.Normalize();
@@ -200,6 +295,12 @@ public class Controlls : MonoBehaviour
         if (UnityEngine.InputSystem.Gyroscope.current != null)
         {
             //Debug.Log(UnityEngine.InputSystem.Gyroscope.current.angularVelocity.ReadValue());
+        }
+
+        if(controls.test.haspressedscreen.triggered)
+        {
+            Debug.LogWarning("Triggered");
+            Stuff();
         }
     }
 
