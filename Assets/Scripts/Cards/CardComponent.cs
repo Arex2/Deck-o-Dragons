@@ -8,8 +8,13 @@ using UnityEngine;
 public abstract class CardComponent : ScriptableObject
 {
 #if UNITY_EDITOR
+#pragma warning disable 414
     [HideInInspector]
     [SerializeField] private bool expandedInEditor = true;
+#pragma warning restore 414
+
+    [HideInInspector]
+    [SerializeField] private int orderInEditor;
 #endif
 
     [HideInInspector]

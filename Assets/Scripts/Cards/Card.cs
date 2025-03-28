@@ -17,10 +17,9 @@ public class Card : ScriptableObject
 
     [Space]
     [SerializeField] private string cardName;
-    [TextArea(3, 6)]
     [SerializeField] private string cardDescription;
 
-    [HideInInspector]
+    //[HideInInspector]
     [SerializeField] private CardComponent[] cardComponents;
     private Dictionary<Type, CardComponent[]> _cardComponentDictionary = new();
 
