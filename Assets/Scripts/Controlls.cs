@@ -153,12 +153,15 @@ public class Controlls : MonoBehaviour
                 break;
             case Direction.Down:
                 //open card deck
-                Debug.Log("Open card deck [PH]");
+                //Debug.Log("Open card deck [PH]");
+                hand.DrawCard();
                 break;
             case Direction.Right:
                 //either switch to garden scene or scroll cards
                 //Debug.Log("R Used : " + startPos2);// + startPos.x + " old : " +startPosX);
                 //Debug.Log("either switch to garden scene or scroll cards [PH] -->");
+                hand.ShiftAllRight();
+                /*
                 if (startPos2 < 40)
                 {
                     //switch scene
@@ -169,13 +172,16 @@ public class Controlls : MonoBehaviour
                 {
                     //scroll cards
                     Debug.LogError("Scroll right");
-                    hand.ScrollRight();
+                    //hand.ScrollRight();
                 }
                 //Debug.Log("Startpos should be 0: " + startPos);
+                */
                 SetToZero();
                 break;
             case Direction.Left:
+                hand.ShiftAllLeft();
                 //Debug.Log("L Used : " + startPos2);//+ startPos.x + " old : " + startPosX);
+                /*
                 if (startPos2 > 200)
                 {
                     //switch scene
@@ -186,8 +192,9 @@ public class Controlls : MonoBehaviour
                 {
                     //scroll cards
                     Debug.LogError("Scroll left");
-                    hand.ScrollLeft();
+                    //hand.ScrollLeft();
                 }
+                */
                 //Debug.Log("Startpos should be 0: " + startPos);
                 SetToZero();
                 break;

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,11 +7,211 @@ using UnityEngine;
 
 public class CardHand : MonoBehaviour
 {
+    int amountToDraw = 6;
+    List<GameObject> cardsInHand = new List<GameObject>();
+    [SerializeField] GameObject cardPrefab;
+    int selectedIndex;
+    private void Start()
+    {
+        SelectInitialCard();
+    }
+
+    public void PlayCard() { }
+
+    public void DrawCard() 
+    {
+        //check if can draw card
+        //instantiate new card
+        GameObject card = Instantiate(cardPrefab);
+        card.GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV();
+        //add to cardsInHand
+        cardsInHand.Add(card);
+        //update positions
+        UpdateCardPositions();
+    }
+
+    private void DrawNewHand() 
+    { 
+        for(int i = 0; i < amountToDraw; i++)
+        {
+            DrawCard();
+        }
+    }
+
+    private void SelectInitialCard()
+    {
+        //selected index = Middle position of cards in hand. If middle is below 1, set to 1
+        if ((cardsInHand.Count / 2) < 1)
+            selectedIndex = 0;
+        else
+            selectedIndex = Mathf.RoundToInt(cardsInHand.Count / 2);
+
+    }
+    private void UpdateCardPositions() 
+    {
+        if (cardsInHand.Count == 0)
+            return;
+        float spacing = 0.8f;
+        float firstPos = 0f - spacing * selectedIndex;
+
+        for (int i = 0; i < cardsInHand.Count; i++)
+        {
+            float posX = firstPos + i * spacing;
+            Vector2 newPos = new Vector2(posX, -2f);
+            cardsInHand[i].transform.DOMove(newPos, 0.4f);
+        }
+
+        /*
+        //lägg ut kort till vänster om selected card
+        for(int i = 0; i < selectedIndex; i++)
+        {
+            float posX = firstPos - i * spacing;
+            Vector2 newPos = new Vector2(posX, -2f);
+            cardsInHand[i].transform.DOMove(newPos, 0.4f);
+        }
+        for(int i = 0; i < 1; i++)
+        {
+            //Lägg ut selected card
+            float posX = 0;
+            Vector2 newPos = new Vector2(posX, -2f);
+            cardsInHand[selectedIndex].transform.DOMove(newPos, 0.4f);
+        }
+        //lägg ut kort till höger om selected card
+        for (int i = selectedIndex; i < cardsInHand.Count; i++)
+        {
+            float posX = firstPos + i * spacing;
+            Vector2 newPos = new Vector2(posX, -2f);
+            cardsInHand[i].transform.DOMove(newPos, 0.4f);
+        }
+        */
+
+
+        /*
+        for (int i = 0;i < cardsInHand.Count;i++)
+        {
+            
+            float posX; 
+            float centerPos = 0f;
+            if(i==0)
+            {
+                posX = 0;
+            }
+            else if(i%2 ==0)
+            {
+                posX = centerPos + i * spacing;
+            }
+            else
+            {
+                posX = centerPos - i * spacing;
+            }
+            
+            float posX = firstPos + i * spacing;
+            Vector2 newPos = new Vector2(posX,-2f);
+            cardsInHand[i].transform.DOMove(newPos, 0.4f);
+        }
+        */
+        UpdateCardLayers();
+    }
+
+    private void UpdateCardLayers()
+    {
+        //vänstra sidan från selected index
+        for(int i = 0; i < selectedIndex; i++)
+        {
+            cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (selectedIndex - i);
+        }
+        //selected index
+        cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 2;
+        //högra sidan från selected index
+        for(int i = selectedIndex; i < cardsInHand.Count;i++)
+        {
+            cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (i -(selectedIndex) +1);
+        }
+    }
+
+
+
+    public void ShiftAllRight()
+    {
+        if (!CheckIfCardNextTo(-1))
+            return;
+        --selectedIndex;
+        /*
+        for(int i = 0; i < cardsInHand.Count-1; i++)
+        {
+            GameObject temp = cardsInHand[i];
+            cardsInHand[i] = cardsInHand[i + 1];
+            cardsInHand[i + 1] = temp;
+        }
+        */
+        UpdateCardPositions();
+    }
+    public void ShiftAllLeft()
+    {
+        if (!CheckIfCardNextTo(+1))
+            return;
+        ++selectedIndex;
+        /*
+        for (int i = 0; i < cardsInHand.Count - 1; i++)
+        {
+            GameObject temp = cardsInHand[cardsInHand.Count-1];
+            cardsInHand[cardsInHand.Count - 1] = cardsInHand[i];
+            cardsInHand[i] = temp;
+        }
+        */
+        UpdateCardPositions();
+    }
+
+    private bool CheckIfCardNextTo(int direction)
+    {
+        if (selectedIndex + direction >= cardsInHand.Count || selectedIndex + direction < 0)
+        { return false; }
+        return true;
+    }
+    private void ShiftCardsByOne()
+    {
+        GameObject temp = cardsInHand[0];
+        cardsInHand[0] = cardsInHand[cardsInHand.Count-1];
+        cardsInHand[cardsInHand.Count - 1] = temp;
+
+        /*
+        for(int i = 0; i < cardsInHand.Count; i++) 
+        {
+            ShiftCard(i);
+        }
+        */
+    }
+
+    private void ShiftCard(int index)
+    {
+        if (cardsInHand.Count < index + 2)
+            return;
+
+        GameObject temp = cardsInHand[index];
+        cardsInHand[index] = cardsInHand[index + 2];
+        cardsInHand[index +2] = temp;
+    }
+
+    public void ChangeSelectedCard()
+    {
+        //ShiftCardsByOne();
+        ShiftAllLeft();
+        /*
+        GameObject temp = cardsInHand[0];
+        cardsInHand[0] = cardsInHand[cardsInHand.Count - 1];
+        cardsInHand.RemoveAt(cardsInHand.Count - 1);
+        cardsInHand.Add(temp);
+        */
+
+        UpdateCardPositions();
+    }
+
+
+    /*
     [SerializeField] List<GameObject> cardPositions; //the cards that are shown on screen
     List<Color> cardsInHand = new List<Color>();
     List<object> cardsInDeck;
     int selectedIndex;
-
     private void PopulateCardsInHand()
     {
         cardsInHand.Add(UnityEngine.Random.ColorHSV());
@@ -86,14 +287,14 @@ public class CardHand : MonoBehaviour
             //flytta ett till höger (och sortera)
             ScrollRight();
         }
-        /* //Behövs inte för att List<T> automatiskt sorterar bort från lägsta värdet perhaps?
-        else if(selectedIndex == 0)
+         //Behövs inte för att List<T> automatiskt sorterar bort från lägsta värdet perhaps?
+        else if(false)//selectedIndex == 0)
         {
             //flytta ett till vänster (och sortera)
             //ScrollLeft();
             DisplayAllCards();
         }
-        */
+        
         else
         {
             //sortera bara
@@ -160,4 +361,5 @@ public class CardHand : MonoBehaviour
     {
 
     }
+    */
 }
