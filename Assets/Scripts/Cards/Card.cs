@@ -7,7 +7,7 @@ using UnityEngine;
 /// Does nothing on it's own and needs a <see cref="CardComponent"/> (or multiple) to work.
 /// </summary>
 // Script by Ruben
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Cards/Create New Card")]
 public class Card : ScriptableObject
 {
     [SerializeField] private int cost;
@@ -16,10 +16,10 @@ public class Card : ScriptableObject
     [SerializeField] private CardDiscardMethod immuneToDiscard;
 
     [Space]
-    [SerializeField] private string cardName;
-    [SerializeField] private string cardDescription;
+    [SerializeField] private string displayName;
+    [SerializeField] private string description;
 
-    //[HideInInspector]
+    [HideInInspector]
     [SerializeField] private CardComponent[] cardComponents;
     private Dictionary<Type, CardComponent[]> _cardComponentDictionary = new();
 

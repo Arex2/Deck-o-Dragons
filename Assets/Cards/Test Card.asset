@@ -16,7 +16,16 @@ MonoBehaviour:
   orderInEditor: 0
   card: {fileID: 11400000}
   target: 1
-  damage: 5
+  damage:
+    baseValue: 1
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 1
+      method: 0
+    downgrades:
+    - value: 1
+      method: 1
   overrideElement:
     Enabled: 0
     Value: 0
@@ -36,7 +45,16 @@ MonoBehaviour:
   orderInEditor: 1
   card: {fileID: 11400000}
   target: 2
-  healing: 0
+  healing:
+    baseValue: 2
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 1
+      method: 0
+    downgrades:
+    - value: 1
+      method: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,8 +71,8 @@ MonoBehaviour:
   element: 0
   category: 0
   immuneToDiscard: 0
-  cardName: Test Card
-  cardDescription: But why is this not working
+  displayName: 
+  description: 
   cardComponents:
   - {fileID: -1860155053858908950}
   - {fileID: -1223053199875735651}

@@ -9,5 +9,5 @@ public class CardHeal : CardComponent
     [SerializeField] private CardTarget target = CardTarget.Self;
 
     [Space]
-    [SerializeField] private int healing;
+    [SerializeField] private UpgradeableFloat healing = new UpgradeableFloat(2);
 }

@@ -3,12 +3,17 @@ using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Media;
 
+/// <summary>
+/// The custom property drawer for <see cref="UpgradeableFloat"/>.
+/// </summary>
+// Script by Ruben
 [CustomPropertyDrawer(typeof(UpgradeableFloat))]
 public class UpgradeableFloatPropertyDrawer : PropertyDrawer
 {
     private const float SPACING = 8;
+    private const string STACK_LOOP_SESSION_STATE_NAME = "ShowStackAndLoopState";
+    private static bool _showStackAndLoopState => SessionState.GetBool(STACK_LOOP_SESSION_STATE_NAME, false);
 
     private static readonly GUIContent _emptyContent = new GUIContent(" ");
     private static GUIStyle _italicLabelStyle;
@@ -57,7 +62,7 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
 
         GUIContent propertyLabel = EditorGUI.BeginProperty(rect, label, property);
 
-        Rect foldoutPosition = baseProp.isExpanded ? rect : GetPrefixRect(rect);
+        Rect foldoutPosition = /*baseProp.isExpanded ? rect : */GetPrefixRect(rect);
 
         /*
         float offset = EditorStyles.inspectorDefaultMargins.padding.left - EditorStyles.inspectorDefaultMargins.padding.right;
@@ -110,7 +115,7 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
             }
         }
 
-        baseProp.floatValue = EditorGUI.FloatField(rect, new GUIContent("    " + propertyLabel.text), baseProp.floatValue);
+        baseProp.floatValue = EditorGUI.FloatField(rect, propertyLabel, baseProp.floatValue);
 
         if (_oldFloatValue != baseProp.floatValue)
         {
@@ -138,17 +143,50 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
 
         NextHeight();
 
+        SerializedProperty stackProp = property.FindPropertyRelative("stack");
+
+        if (_showStackAndLoopState)
+        {
+            EditorGUI.PropertyField(rect, stackProp);
+
+            NextHeight();
+
+            SerializedProperty loopBehaviourProp = property.FindPropertyRelative("loopBehaviour");
+
+            EditorGUI.PropertyField(rect, loopBehaviourProp);
+
+            NextHeight();
+
+            rect.y += SPACING;
+        }
+
+        bool stack = stackProp.boolValue;
+
         // Upgrades
         SerializedProperty upgradesProp = property.FindPropertyRelative("upgrades");
         int upgradesArraySize = upgradesProp.arraySize;
 
         if (upgradesArraySize > 0)
         {
+            float result = baseProp.floatValue;
+
+            Rect[] rects = new Rect[upgradesArraySize];
+
             for (int i = upgradesArraySize - 1; i >= 0; i--)
             {
-                DrawTier(rect, upgradesProp.GetArrayElementAtIndex(i), new GUIContent("Upgrade " + (i + 1)), false);
+                rects[i] = rect;
 
                 NextHeight();
+            }
+
+            for (int i = 0; i < upgradesArraySize; i++)
+            {
+                if (!stack)
+                {
+                    result = baseProp.floatValue;
+                }
+
+                DrawTier(rects[i], upgradesProp.GetArrayElementAtIndex(i), new GUIContent("Upgrade " + (i + 1)), false, ref result);
             }
         }
         else
@@ -185,9 +223,16 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
 
         if (downgradesArraySize > 0)
         {
+            float result = baseProp.floatValue;
+
             for (int i = 0; i < downgradesArraySize; i++)
             {
-                DrawTier(rect, downgradesProp.GetArrayElementAtIndex(i), new GUIContent("Downgrade " + (i + 1)), true);
+                if (!stack)
+                {
+                    result = baseProp.floatValue;
+                }
+
+                DrawTier(rect, downgradesProp.GetArrayElementAtIndex(i), new GUIContent("Downgrade " + (i + 1)), true, ref result);
 
                 NextHeight();
             }
@@ -215,39 +260,28 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
 
     private void OnPropertyContextMenu(GenericMenu menu, SerializedProperty property)
     {
-        if (property.propertyType == SerializedPropertyType.Float)
-        {
-            int lastDotIndex = property.propertyPath.LastIndexOf('.');
-
-            if (lastDotIndex < 0)
-            {
-                return;
-            }
-
-            string fixedPath = property.propertyPath.Substring(0, lastDotIndex);
-
-            SerializedProperty fixedProp = property.serializedObject.FindProperty(fixedPath);
-            if (fixedProp.type == "UpgradeableFloat")
-            {
-                AddUpgradeAndDowngradeOptions(menu, fixedProp);
-            }
-        }
+        int lastDotIndex;
+        string fixedPath;
 
         switch (property.type)
         {
             case "UpgradeableFloat":
                 AddUpgradeAndDowngradeOptions(menu, property);
-                break;
+
+                menu.AddSeparator("");
+
+                AddStackAndLoopOptions(menu);
+                return;
 
             case "Tier":
-                int lastDotIndex = property.propertyPath.LastIndexOf('.');
+                lastDotIndex = property.propertyPath.LastIndexOf('.');
 
                 if (lastDotIndex < 0)
                 {
                     return;
                 }
 
-                string fixedPath = property.propertyPath.Substring(0, lastDotIndex);
+                fixedPath = property.propertyPath.Substring(0, lastDotIndex);
 
                 if (!fixedPath.EndsWith(".Array"))
                 {
@@ -311,7 +345,7 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
                     property.serializedObject.ApplyModifiedProperties();
                 }
 
-                menu.AddItem(new GUIContent("Move up"), false, (isDowngrade ? lowerBound : upperBound ) ? null : () =>
+                menu.AddItem(new GUIContent("Move up"), false, (isDowngrade ? lowerBound : upperBound) ? null : () =>
                 {
                     SwapWith(index + (isDowngrade ? -1 : 1));
                 });
@@ -323,10 +357,32 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
 
                 menu.AddSeparator("");
 
+                AddStackAndLoopOptions(menu);
                 AddMethodOptions(menu, "Calculation Method/", property.FindPropertyRelative("method"));
-                
-                break;
+
+                return;
         }
+
+        lastDotIndex = property.propertyPath.LastIndexOf('.');
+
+        if (lastDotIndex < 0)
+        {
+            return;
+        }
+
+        fixedPath = property.propertyPath.Substring(0, lastDotIndex);
+
+        SerializedProperty fixedProp = property.serializedObject.FindProperty(fixedPath);
+        if (fixedProp.type != "UpgradeableFloat")
+        {
+            return;
+        }
+
+        AddUpgradeAndDowngradeOptions(menu, fixedProp);
+
+        menu.AddSeparator("");
+
+        AddStackAndLoopOptions(menu);
     }
 
     private static void LoopThroughAllMenuItemsInList<T>(List<T> list, Action<object> callback)
@@ -360,6 +416,16 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
         });
     }
 
+    private static void AddStackAndLoopOptions(GenericMenu menu)
+    {
+        bool currentShowStackAndLoopState = _showStackAndLoopState;
+
+        menu.AddItem(new GUIContent("Show Stack and Loop options"), currentShowStackAndLoopState, () =>
+        {
+            SessionState.SetBool(STACK_LOOP_SESSION_STATE_NAME, !currentShowStackAndLoopState);
+        });
+    }
+
     private static void AddMethodOptions(GenericMenu menu, string folder, SerializedProperty property)
     {
         int enumValueIndex = property.enumValueIndex;
@@ -378,7 +444,7 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
         }
     }
 
-    private static void DrawTier(Rect rect, SerializedProperty property, GUIContent label, bool isDowngrade)
+    private static void DrawTier(Rect rect, SerializedProperty property, GUIContent label, bool isDowngrade, ref float result)
     {
         label = EditorGUI.BeginProperty(rect, label, property);
 
@@ -403,16 +469,45 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
 
             evt.Use();
         }
-        /*
-        else if (prefixRect.Contains(evt.mousePosition) && evt.type == EventType.ContextClick)
-        {
-            evt.Use();
-        }
-        */
-
-        valueProp.floatValue = EditorGUI.FloatField(rect, label, valueProp.floatValue);
 
         UpgradeableFloat.Method method = (UpgradeableFloat.Method)methodProp.enumValueIndex;
+
+        // Result label
+        Rect resultRect = rect;
+
+        resultRect.width = 60;
+        resultRect.x += rect.width - resultRect.width - 14;
+
+        rect.width -= resultRect.width;
+
+        resultRect.width += 14;
+
+        switch (method)
+        {
+            case UpgradeableFloat.Method.Add:
+                result += valueProp.floatValue;
+                break;
+
+            case UpgradeableFloat.Method.Subtract:
+                result -= valueProp.floatValue;
+                break;
+
+            case UpgradeableFloat.Method.Multiply:
+                result *= valueProp.floatValue;
+                break;
+
+            case UpgradeableFloat.Method.Divide:
+                result /= valueProp.floatValue;
+                break;
+
+            case UpgradeableFloat.Method.Override:
+                result = valueProp.floatValue;
+                break;
+        }
+
+        DoFadedLabel(resultRect, "= " + result);
+
+        valueProp.floatValue = EditorGUI.FloatField(rect, label, valueProp.floatValue);
 
         string icon = method switch
         {
@@ -483,6 +578,11 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
 
             height += SPACING * 4;
 
+            if (_showStackAndLoopState)
+            {
+                height += SPACING;
+            }
+
             SerializedProperty upgradesProp = property.FindPropertyRelative("upgrades");
             SerializedProperty downgradesProp = property.FindPropertyRelative("downgrades");
 
@@ -490,6 +590,11 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
             int downgradesArraySize = downgradesProp.arraySize;
 
             int count = Mathf.Max(upgradesArraySize, 1) + Mathf.Max(downgradesArraySize, 1) + 1;
+
+            if (_showStackAndLoopState)
+            {
+                count += 2;
+            }
 
             height += EditorGUIUtility.singleLineHeight * (float)count + EditorGUIUtility.standardVerticalSpacing * (float)count;
         }

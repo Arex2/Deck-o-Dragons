@@ -1,14 +1,17 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// A float that has upgrades and downgrades.
 /// </summary>
+// Script by Ruben
 [Serializable]
 public class UpgradeableFloat
 {
     [SerializeField] private float baseValue;
+
+    [SerializeField] private bool stack = true;
+    [SerializeField] private LoopBehaviour loopBehaviour = LoopBehaviour.RepeatLast;
 
     [SerializeField] private Tier[] upgrades;
     [SerializeField] private Tier[] downgrades;
@@ -57,23 +60,61 @@ public class UpgradeableFloat
 
         tier -= 1;
 
-        tier = Mathf.Clamp(tier, 0, (isDowngrade ? DowngradeAmount :  UpgradeAmount) - 1);
+        Tier[] array = isDowngrade ? downgrades : upgrades;
+        int length = isDowngrade ? DowngradeAmount : UpgradeAmount;
 
-        return (isDowngrade ? downgrades : upgrades)[tier].Modify(baseValue);
+        if (!stack)
+        {
+            switch (loopBehaviour)
+            {
+                default:
+                    tier = Mathf.Clamp(tier, 0, length - 1);
+                    break;
+
+                case LoopBehaviour.Reset:
+                    tier %= length;
+                    break;
+            }
+
+            return array[tier].Modify(baseValue);
+        }
+
+        float result = baseValue;
+
+        int limit = tier;
+
+        if (loopBehaviour == LoopBehaviour.Clamp)
+        {
+            limit = Mathf.Min(tier, length - 1);
+        }
+
+        for (int i = 0; i <= limit; i++)
+        {
+            int index = i;
+
+            if (index > length - 1)
+            {
+                switch (loopBehaviour)
+                {
+                    default:
+                        index = length - 1;
+                        break;
+
+                    case LoopBehaviour.Reset:
+                        index %= length;
+                        break;
+                }
+            }
+
+            result = array[index].Modify(result);
+        }
+
+        return result;
     }
 
-    public UpgradeableFloat(float baseValue, Method method = default, int upgradeAmount = 2, int downgradeAmount = 2)
+    public UpgradeableFloat(float baseValue, float tierValue, Method method = default, int upgradeAmount = 1, int downgradeAmount = 1)
     {
         this.baseValue = baseValue;
-
-        float tierValue = method switch
-        {
-            Method.Add => 0,
-            Method.Subtract => 0,
-            Method.Multiply => 1,
-            Method.Divide => 1,
-            _ => baseValue,
-        };
 
         upgrades = new Tier[upgradeAmount];
         for (int i = 0; i < upgradeAmount; i++)
@@ -86,6 +127,23 @@ public class UpgradeableFloat
         {
             downgrades[i] = new Tier(tierValue, method == Method.Add ? Method.Subtract : method);
         }
+    }
+
+    public UpgradeableFloat(float baseValue, Method method = default, int upgradeAmount = 1, int downgradeAmount = 1)
+        : 
+        this(baseValue,
+        // Goofy ahh syntax
+        method switch
+        {
+            Method.Add => 0,
+            Method.Subtract => 0,
+            Method.Multiply => 1,
+            Method.Divide => 1,
+            _ => baseValue,
+        }, 
+        method, upgradeAmount, downgradeAmount)
+    {
+
     }
 
     [Serializable]
@@ -135,5 +193,12 @@ public class UpgradeableFloat
         Multiply,
         Divide,
         Override,
+    }
+
+    public enum LoopBehaviour
+    {
+        Clamp,
+        RepeatLast,
+        Reset,
     }
 }

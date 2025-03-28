@@ -20,7 +20,7 @@ public abstract class CardComponent : ScriptableObject
     [HideInInspector]
     [SerializeField] protected Card card;
 
-    public void Initialize()
+    public virtual void Initialize()
     {
 
     }
