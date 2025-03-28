@@ -26,6 +26,8 @@ public class Controlls : MonoBehaviour
 
     [SerializeField]
     CardHand hand;
+    [SerializeField]
+    SceneSwitcher sceneSwitcher;
 
     private void OnEnable()
     {
@@ -161,6 +163,7 @@ public class Controlls : MonoBehaviour
                 {
                     //switch scene
                     Debug.LogError("Switch scene");
+                    sceneSwitcher.SwitchScene(-1); 
                 }
                 else
                 {
@@ -177,6 +180,7 @@ public class Controlls : MonoBehaviour
                 {
                     //switch scene
                     Debug.LogError("Switch scene");
+                    sceneSwitcher.SwitchScene(+1);
                 }
                 else
                 {
