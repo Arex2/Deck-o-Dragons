@@ -209,6 +209,13 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
 
         rect.y += SPACING;
 
+        Rect bgRect = rect;
+
+        bgRect.height += SPACING;
+        bgRect.y -= SPACING / 2;
+
+        DrawBGBox(bgRect);
+
         propertyLabel = EditorGUI.BeginProperty(rect, new GUIContent("Base Value"), baseProp);
         baseProp.floatValue = EditorGUI.FloatField(rect, propertyLabel, baseProp.floatValue);
         EditorGUI.EndProperty();

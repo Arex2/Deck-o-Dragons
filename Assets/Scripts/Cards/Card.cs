@@ -16,6 +16,9 @@ public class Card : ScriptableObject
     [SerializeField] private CardDiscardMethod immuneToDiscard;
 
     [Space]
+    [SerializeField] private CardTag[] tags;
+
+    [Space]
     [SerializeField] private string displayName;
     [SerializeField] private string description;
 

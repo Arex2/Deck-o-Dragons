@@ -71,8 +71,10 @@ MonoBehaviour:
   element: 0
   category: 0
   immuneToDiscard: 0
-  displayName: 
-  description: 
+  tags:
+  - {fileID: 11400000, guid: 789701f024d709f41ab3f63be0739412, type: 2}
+  displayName: Test Card
+  description: For testing purposes
   cardComponents:
   - {fileID: -1860155053858908950}
   - {fileID: -1223053199875735651}
