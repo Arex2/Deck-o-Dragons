@@ -149,7 +149,7 @@ public class Controlls : MonoBehaviour
             case Direction.Up:
                 //play card
                 Debug.Log("Play card");
-                hand.PlayCard();
+                hand.OldPlayCard();
                 break;
             case Direction.Down:
                 //open card deck

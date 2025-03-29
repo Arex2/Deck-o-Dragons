@@ -8,15 +8,128 @@ using UnityEngine;
 public class CardHand : MonoBehaviour
 {
     int amountToDraw = 6;
-    List<GameObject> cardsInHand = new List<GameObject>();
-    [SerializeField] GameObject cardPrefab;
     int selectedIndex;
+
+    [SerializeField] GameObject cardPrefab;
+    Vector3 cardPlayPosition = new Vector3(0, 0.5f, 0);
+    List<GameObject> cardsInHand = new List<GameObject>();
+    List<GameObject> cardsSelected = new List<GameObject>();
+
+    GameObject cardBeingPlayed;
+
+
     private void Start()
     {
         SelectInitialCard();
     }
 
-    public void PlayCard() { }
+
+    #region MULTI SELECTED CARDS - not fully functional yet.
+    public void SelectCard()
+    {
+        if (cardsInHand.Count == 0 || cardsSelected.Count == 2)
+            return;
+
+        cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 2;
+        cardsInHand[selectedIndex].transform.DOMove(cardPlayPosition, 0.4f);
+        //om inget card är being played, play selected card,
+        if (cardBeingPlayed == null)
+        {
+            PlayCard();
+        }
+        else //annars ska selected card bli skickat till cardBeingPlayed för att bli påverkat
+        {
+            //sortera kort som är uppe
+            //skicka selected card att användas /buffa/käkas/etc till played card 
+            cardsSelected.Add(cardBeingPlayed);
+            cardsSelected.Add(cardsInHand[selectedIndex]);
+            cardsInHand.RemoveAt(selectedIndex);
+            UpdateSelectedCardPositions();
+
+            //temp för att testa, DeSelectCard bör nog triggas någonannan stans ifrån
+            Invoke("DeSelectCard", 2f);
+            Invoke("RemoveCard", 2.5f);
+        }
+    }
+    private void UpdateSelectedCardPositions()
+    {
+        if (cardsSelected.Count == 0)
+            return;
+        float spacingX = 2f;
+        float firstPos = 0f - spacingX;
+
+        for (int i = 0; i < cardsSelected.Count; i++)
+        {
+            float posX = firstPos + i * spacingX;
+            Vector2 newPos = new Vector2(posX, cardPlayPosition.y);
+
+            cardsSelected[i].transform.DOMove(newPos, 0.4f);
+
+        }
+        UpdateCardLayers();
+    }
+    private void DeSelectCard()
+    {
+        //return to og position
+        cardsInHand.Add(cardsSelected[1]);
+        cardsSelected.RemoveAt(1);
+        UpdateCardPositions();
+    }
+    public void PlayCard() 
+    {
+        if (cardsInHand.Count == 0)
+            return;
+
+        //this method should probably be in the card script instead?
+        //card triggering to destroy itself after having played its animation
+        //and done it's actions
+        cardBeingPlayed = cardsInHand[selectedIndex];
+        //Invoke("RemoveCard",0.5f);
+
+        cardsInHand.RemoveAt(selectedIndex);
+
+
+        UpdateSelectedIndex();
+        UpdateCardPositions();
+
+        if(cardsInHand.Count == 0)
+            DrawNewHand();
+    }
+    #endregion
+    public void OldPlayCard()
+    {
+        if (cardsInHand.Count == 0)
+            return;
+        cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 2;
+        cardsInHand[selectedIndex].transform.DOMove(cardPlayPosition, 0.4f);
+
+        //this method should probably be in the card script instead?
+        //card triggering to destroy itself after having played its animation
+        //and done it's actions
+        cardBeingPlayed = cardsInHand[selectedIndex];
+        Invoke("RemoveCard",0.5f);
+
+        cardsInHand.RemoveAt(selectedIndex);
+
+
+        UpdateSelectedIndex();
+        UpdateCardPositions();
+
+        if (cardsInHand.Count == 0)
+            DrawNewHand();
+    }
+
+    private void RemoveCard()
+    {
+        cardsSelected.RemoveAt(0);
+        Destroy(cardBeingPlayed);
+    }
+
+    private void UpdateSelectedIndex()
+    {
+        if(selectedIndex > 0)
+        --selectedIndex;
+    }
 
     public void DrawCard() 
     {
@@ -51,14 +164,20 @@ public class CardHand : MonoBehaviour
     {
         if (cardsInHand.Count == 0)
             return;
-        float spacing = 0.8f;
-        float firstPos = 0f - spacing * selectedIndex;
+        float spacingX = 0.8f;
+        float spacingY = 0.1f;
+        float firstPos = 0f - spacingX * selectedIndex;
 
         for (int i = 0; i < cardsInHand.Count; i++)
         {
-            float posX = firstPos + i * spacing;
-            Vector2 newPos = new Vector2(posX, -2f);
+            float posX = firstPos + i * spacingX;
+            float spaceFromSelected = Mathf.Abs(i - selectedIndex);
+            float posY = -spacingY * spaceFromSelected;
+            Vector2 newPos = new Vector2(posX, -2.2f + posY);
+            Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0,0,10f * (i-selectedIndex)));
+            Quaternion rot = Quaternion.AngleAxis((-5f * (i - selectedIndex)),Vector3.forward);
             cardsInHand[i].transform.DOMove(newPos, 0.4f);
+            cardsInHand[i].transform.DOLocalRotateQuaternion(rot, 0.2f);
         }
 
         /*
@@ -121,9 +240,9 @@ public class CardHand : MonoBehaviour
             cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (selectedIndex - i);
         }
         //selected index
-        cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 2;
+        cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 1;
         //högra sidan från selected index
-        for(int i = selectedIndex; i < cardsInHand.Count;i++)
+        for(int i = selectedIndex+1; i < cardsInHand.Count;i++)
         {
             cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (i -(selectedIndex) +1);
         }
@@ -168,21 +287,23 @@ public class CardHand : MonoBehaviour
         { return false; }
         return true;
     }
+
+    /*
     private void ShiftCardsByOne()
     {
         GameObject temp = cardsInHand[0];
         cardsInHand[0] = cardsInHand[cardsInHand.Count-1];
         cardsInHand[cardsInHand.Count - 1] = temp;
 
-        /*
-        for(int i = 0; i < cardsInHand.Count; i++) 
-        {
+        
+        //for(int i = 0; i < cardsInHand.Count; i++) 
+        //{
             ShiftCard(i);
-        }
-        */
-    }
+        //}
+        
+}
 
-    private void ShiftCard(int index)
+private void ShiftCard(int index)
     {
         if (cardsInHand.Count < index + 2)
             return;
@@ -196,170 +317,170 @@ public class CardHand : MonoBehaviour
     {
         //ShiftCardsByOne();
         ShiftAllLeft();
-        /*
-        GameObject temp = cardsInHand[0];
-        cardsInHand[0] = cardsInHand[cardsInHand.Count - 1];
-        cardsInHand.RemoveAt(cardsInHand.Count - 1);
-        cardsInHand.Add(temp);
-        */
+        
+        //GameObject temp = cardsInHand[0];
+        //cardsInHand[0] = cardsInHand[cardsInHand.Count - 1];
+        //cardsInHand.RemoveAt(cardsInHand.Count - 1);
+        //cardsInHand.Add(temp);
+        
 
         UpdateCardPositions();
     }
+*/
 
-
-    /*
-    [SerializeField] List<GameObject> cardPositions; //the cards that are shown on screen
-    List<Color> cardsInHand = new List<Color>();
-    List<object> cardsInDeck;
-    int selectedIndex;
-    private void PopulateCardsInHand()
-    {
-        cardsInHand.Add(UnityEngine.Random.ColorHSV());
-        cardsInHand.Add(UnityEngine.Random.ColorHSV());
-        cardsInHand.Add(UnityEngine.Random.ColorHSV());
-        cardsInHand.Add(UnityEngine.Random.ColorHSV());
-        cardsInHand.Add(UnityEngine.Random.ColorHSV());
-        cardsInHand.Add(UnityEngine.Random.ColorHSV());
-        cardsInHand.Add(UnityEngine.Random.ColorHSV());
-        cardsInHand.Add(UnityEngine.Random.ColorHSV());
-        //cardsInHand.Add("T");
-    }
-
-    private void ChooseCard(int index)
-    {
-        SelectCard(index);
-    }
-    private void SelectCard(int i)
-    {
-        //Middle card
-        //cardPositions[0].GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV();
-    }
-    public void ScrollLeft()
-    {
-        if (!CheckIfCardNextTo(+1))
-            return;
-        ++selectedIndex;
-        DisplayAllCards();
-    }
-    public void ScrollRight()
-    {
-        if (!CheckIfCardNextTo(-1))
-            return;
-        --selectedIndex;
-        DisplayAllCards();
-    }
-    public void PlayCard()
-    {
-        if (cardsInHand.Count < 0)
+        /*
+        [SerializeField] List<GameObject> cardPositions; //the cards that are shown on screen
+        List<Color> cardsInHand = new List<Color>();
+        List<object> cardsInDeck;
+        int selectedIndex;
+        private void PopulateCardsInHand()
         {
-            //can't play / NEW HAND
-        }
-        //MIDDLE CARD
-        cardPositions[2].transform.position = new Vector2(cardPositions[2].transform.position.x, cardPositions[2].transform.position.y+2);
-        //vänta lite tid, spela animation, och sen
-        StartCoroutine(RemovePlayedCard());
-    }
-    private bool CheckIfCardNextTo(int direction)
-    {
-        if(selectedIndex + direction >= cardsInHand.Count || selectedIndex + direction < 0)
-        {  return false; }
-        return true;
-    }
-
-    IEnumerator RemovePlayedCard()
-    {
-        //Wait for 0.4 seconds
-        yield return new WaitForSeconds(0.4f);
-
-        cardsInHand.RemoveAt(selectedIndex);
-        //return card to origin pos
-        cardPositions[2].transform.position = new Vector2(cardPositions[2].transform.position.x, cardPositions[2].transform.position.y - 2);
-
-        if(cardsInHand.Count < 0 )
-        {
-            //new hand
+            cardsInHand.Add(UnityEngine.Random.ColorHSV());
+            cardsInHand.Add(UnityEngine.Random.ColorHSV());
+            cardsInHand.Add(UnityEngine.Random.ColorHSV());
+            cardsInHand.Add(UnityEngine.Random.ColorHSV());
+            cardsInHand.Add(UnityEngine.Random.ColorHSV());
+            cardsInHand.Add(UnityEngine.Random.ColorHSV());
+            cardsInHand.Add(UnityEngine.Random.ColorHSV());
+            cardsInHand.Add(UnityEngine.Random.ColorHSV());
+            //cardsInHand.Add("T");
         }
 
-        Debug.Log("SELECTED     " +selectedIndex);
-        //om är vid högra kanten kortet
-        if(selectedIndex == cardsInHand.Count)
+        private void ChooseCard(int index)
         {
-            //flytta ett till höger (och sortera)
-            ScrollRight();
+            SelectCard(index);
         }
-         //Behövs inte för att List<T> automatiskt sorterar bort från lägsta värdet perhaps?
-        else if(false)//selectedIndex == 0)
+        private void SelectCard(int i)
         {
-            //flytta ett till vänster (och sortera)
-            //ScrollLeft();
+            //Middle card
+            //cardPositions[0].GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV();
+        }
+        public void ScrollLeft()
+        {
+            if (!CheckIfCardNextTo(+1))
+                return;
+            ++selectedIndex;
             DisplayAllCards();
         }
-        
-        else
+        public void ScrollRight()
         {
-            //sortera bara
+            if (!CheckIfCardNextTo(-1))
+                return;
+            --selectedIndex;
             DisplayAllCards();
         }
-    }
-
-    private void DisplayCard(int index, int cardIndex)
-    {
-        if (cardIndex < 0 || cardIndex >= cardsInHand.Count)
+        public void PlayCard()
         {
-            cardPositions[index].GetComponent<SpriteRenderer>().enabled = false;
-            return;
-        }
-        cardPositions[index].GetComponent<SpriteRenderer>().enabled = true;
-        cardPositions[index].GetComponent<SpriteRenderer>().color = cardsInHand[cardIndex];
-    }
-
-    private void DisplayAllCards()
-    {
-        int j = 0;
-        for(int i = selectedIndex-2; i <= selectedIndex+2;  i++)
-        {
-            //Debug.Log("i " + i + " count:  " + cardPositions.Count + " index:" + selectedIndex);
-            //i = card to display
-            //j = position to display on 
-            DisplayCard(j, i);
-            j++;
-        }
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        PopulateCardsInHand();
-
-        //SELECTS THE INITIAL CARD
-        if (cardsInHand != null)
-        {
-            //Debug.Log("HAND IS NOT NULL");
-            if(cardsInHand.Count > 0)
+            if (cardsInHand.Count < 0)
             {
-                //selected index = Middle position of cards in hand. If middle is below 1, set to 1
-                if ((cardsInHand.Count / 2) < 1)
-                    selectedIndex = 0;
-                else
-                    selectedIndex = Mathf.RoundToInt(cardsInHand.Count / 2);
+                //can't play / NEW HAND
+            }
+            //MIDDLE CARD
+            cardPositions[2].transform.position = new Vector2(cardPositions[2].transform.position.x, cardPositions[2].transform.position.y+2);
+            //vänta lite tid, spela animation, och sen
+            StartCoroutine(RemovePlayedCard());
+        }
+        private bool CheckIfCardNextTo(int direction)
+        {
+            if(selectedIndex + direction >= cardsInHand.Count || selectedIndex + direction < 0)
+            {  return false; }
+            return true;
+        }
 
-                //Debug.Log("Selected index: " +selectedIndex + "   " + (cardsInHand.Count / 2));
-                //selectedIndex = cardsInHand.Count / 2 < 1 ? 0 : selectedIndex;
-                ChooseCard(selectedIndex);
+        IEnumerator RemovePlayedCard()
+        {
+            //Wait for 0.4 seconds
+            yield return new WaitForSeconds(0.4f);
+
+            cardsInHand.RemoveAt(selectedIndex);
+            //return card to origin pos
+            cardPositions[2].transform.position = new Vector2(cardPositions[2].transform.position.x, cardPositions[2].transform.position.y - 2);
+
+            if(cardsInHand.Count < 0 )
+            {
+                //new hand
+            }
+
+            Debug.Log("SELECTED     " +selectedIndex);
+            //om är vid högra kanten kortet
+            if(selectedIndex == cardsInHand.Count)
+            {
+                //flytta ett till höger (och sortera)
+                ScrollRight();
+            }
+             //Behövs inte för att List<T> automatiskt sorterar bort från lägsta värdet perhaps?
+            else if(false)//selectedIndex == 0)
+            {
+                //flytta ett till vänster (och sortera)
+                //ScrollLeft();
+                DisplayAllCards();
+            }
+
+            else
+            {
+                //sortera bara
+                DisplayAllCards();
             }
         }
 
-        //Debug.Log("Selected index: " + selectedIndex);
-        DisplayAllCards();
+        private void DisplayCard(int index, int cardIndex)
+        {
+            if (cardIndex < 0 || cardIndex >= cardsInHand.Count)
+            {
+                cardPositions[index].GetComponent<SpriteRenderer>().enabled = false;
+                return;
+            }
+            cardPositions[index].GetComponent<SpriteRenderer>().enabled = true;
+            cardPositions[index].GetComponent<SpriteRenderer>().color = cardsInHand[cardIndex];
+        }
 
-        //PlayCard();
+        private void DisplayAllCards()
+        {
+            int j = 0;
+            for(int i = selectedIndex-2; i <= selectedIndex+2;  i++)
+            {
+                //Debug.Log("i " + i + " count:  " + cardPositions.Count + " index:" + selectedIndex);
+                //i = card to display
+                //j = position to display on 
+                DisplayCard(j, i);
+                j++;
+            }
+        }
+
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            PopulateCardsInHand();
+
+            //SELECTS THE INITIAL CARD
+            if (cardsInHand != null)
+            {
+                //Debug.Log("HAND IS NOT NULL");
+                if(cardsInHand.Count > 0)
+                {
+                    //selected index = Middle position of cards in hand. If middle is below 1, set to 1
+                    if ((cardsInHand.Count / 2) < 1)
+                        selectedIndex = 0;
+                    else
+                        selectedIndex = Mathf.RoundToInt(cardsInHand.Count / 2);
+
+                    //Debug.Log("Selected index: " +selectedIndex + "   " + (cardsInHand.Count / 2));
+                    //selectedIndex = cardsInHand.Count / 2 < 1 ? 0 : selectedIndex;
+                    ChooseCard(selectedIndex);
+                }
+            }
+
+            //Debug.Log("Selected index: " + selectedIndex);
+            DisplayAllCards();
+
+            //PlayCard();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+        */
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    */
-}
