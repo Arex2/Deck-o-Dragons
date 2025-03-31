@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -10,6 +11,8 @@ public class CardManager : MonoBehaviour
     public static CardManager Instance { get; private set; }
 
     public static bool Loaded { get; private set; }
+
+    public static Card[] AllCards { get; private set; }
 
     [RuntimeInitializeOnLoadMethod]
     public static
@@ -28,16 +31,15 @@ public class CardManager : MonoBehaviour
         AssetLabelReference labelReference = new AssetLabelReference();
         labelReference.labelString = "Cards";
 
-        Debug.Log("Began loading...");
-
 #if !UNITY_EDITOR
             await
 #endif
+        List<Card> cards = new List<Card>();
+
         Addressables.LoadAssetsAsync<Card>(labelReference, (card) =>
         {
             card.OnLoad();
-
-            Debug.Log("Loaded \"" + card.name + "\"");
+            cards.Add(card);
         })
 #if UNITY_EDITOR
             // Instantly load in editor to prevent issues
@@ -46,7 +48,8 @@ public class CardManager : MonoBehaviour
             .Task;
 #endif
 
+        AllCards = cards.ToArray();
+
         Loaded = true;
-        Debug.Log("Loaded all cards!");
     }
 }

@@ -10,17 +10,28 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Cards/Create New Card")]
 public class Card : ScriptableObject
 {
+    public string DisplayName => displayName;
+    public string Description => description;
+
+    // TODO: Make this modifiable by card components
+    public int Cost => cost;
+    public Element Element => element;
+    public CardCategory Category => category;
+
+    [SerializeField] private string displayName;
+    [SerializeField] private string description;
+
+    [Space]
     [SerializeField] private int cost;
     [SerializeField] private Element element;
     [SerializeField] private CardCategory category;
+
+    [Space]
+    [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Random, TargetFilter.FilterMode.Random);
     [SerializeField] private CardDiscardMethod immuneToDiscard;
 
     [Space]
-    [SerializeField] private CardTag[] tags;
-
-    [Space]
-    [SerializeField] private string displayName;
-    [SerializeField] private string description;
+    [SerializeField] private List<CardTag> tags = new();
 
     [HideInInspector]
     [SerializeField] private CardComponent[] cardComponents;
@@ -50,6 +61,11 @@ public class Card : ScriptableObject
         {
             _cardComponentDictionary.Add(pair.Key, pair.Value.ToArray());
         }
+    }
+
+    public void Play(Target target, Action onFinish = null)
+    {
+
     }
 
     #region GetCardComponent Methods

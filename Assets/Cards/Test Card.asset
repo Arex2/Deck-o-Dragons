@@ -15,9 +15,13 @@ MonoBehaviour:
   expandedInEditor: 1
   orderInEditor: 0
   card: {fileID: 11400000}
-  target: 1
+  overrideTarget:
+    Enabled: 1
+    Value:
+      team: 0
+      mode: 0
   damage:
-    baseValue: 1
+    baseValue: 3
     stack: 1
     loopBehaviour: 1
     upgrades:
@@ -25,6 +29,16 @@ MonoBehaviour:
       method: 0
     downgrades:
     - value: 1
+      method: 1
+  attackAmount:
+    baseValue: 1
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 0
+      method: 0
+    downgrades:
+    - value: 0
       method: 1
   overrideElement:
     Enabled: 0
@@ -44,16 +58,20 @@ MonoBehaviour:
   expandedInEditor: 1
   orderInEditor: 1
   card: {fileID: 11400000}
-  target: 2
+  overrideTarget:
+    Enabled: 1
+    Value:
+      team: 1
+      mode: 0
   healing:
     baseValue: 2
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 1
+    - value: 0
       method: 0
     downgrades:
-    - value: 1
+    - value: 0
       method: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -67,14 +85,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
   m_Name: Test Card
   m_EditorClassIdentifier: 
-  cost: 0
-  element: 0
-  category: 0
+  displayName: Test Card
+  description: For testing purposes
+  cost: 5
+  element: 1
+  category: 1
+  targetFilter:
+    team: 0
+    mode: 0
   immuneToDiscard: 0
   tags:
   - {fileID: 11400000, guid: 789701f024d709f41ab3f63be0739412, type: 2}
-  displayName: Test Card
-  description: For testing purposes
   cardComponents:
   - {fileID: -1860155053858908950}
   - {fileID: -1223053199875735651}

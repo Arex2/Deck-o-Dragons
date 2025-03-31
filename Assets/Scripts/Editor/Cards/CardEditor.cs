@@ -252,15 +252,21 @@ public class CardEditor : Editor
 
         while (iterator.NextVisible(enterChildren))
         {
+            enterChildren = false;
+
             switch (iterator.propertyPath)
             {
                 case "m_Script":
                     continue;
+
+                case "description":
+                    EditorGUILayout.LabelField(iterator.displayName);
+
+                    iterator.stringValue = EditorGUILayout.TextArea(iterator.stringValue, GUILayout.Height(60));
+                    continue;
             }
 
             EditorGUILayout.PropertyField(iterator, true);
-
-            enterChildren = false;
         }
     }
 

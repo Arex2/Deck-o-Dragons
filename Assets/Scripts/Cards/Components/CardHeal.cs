@@ -6,7 +6,7 @@ using UnityEngine;
 // Script by Ruben
 public class CardHeal : CardComponent
 {
-    [SerializeField] private CardTarget target = CardTarget.Self;
+    [SerializeField] private Optional<TargetFilter> overrideTarget = new(true, new(TargetFilter.FilterTeam.Own, TargetFilter.FilterMode.Leader));
 
     [Space]
     [SerializeField] private UpgradeableFloat healing = new UpgradeableFloat(2);
