@@ -19,7 +19,7 @@ MonoBehaviour:
     Enabled: 1
     Value:
       team: 0
-      mode: 0
+      mode: 1
   damage:
     baseValue: 3
     stack: 1

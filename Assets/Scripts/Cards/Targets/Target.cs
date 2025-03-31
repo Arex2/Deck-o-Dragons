@@ -10,8 +10,12 @@ public abstract class Target : MonoBehaviour
     public float MaxHP => maxHp;
     public float HP => hp;
 
+    public bool IsLeader => isLeader;
+
     [SerializeField] protected float maxHp;
     protected float hp;
+
+    [SerializeField] protected bool isLeader;
 
     private void OnEnable()
     {

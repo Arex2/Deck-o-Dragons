@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -10,4 +11,9 @@ public class CardHeal : CardComponent
 
     [Space]
     [SerializeField] private UpgradeableFloat healing = new UpgradeableFloat(2);
+
+    public override IEnumerator Play()
+    {
+        yield return null;
+    }
 }

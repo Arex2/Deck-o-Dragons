@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,6 +38,8 @@ public class Card : ScriptableObject
     [SerializeField] private CardComponent[] cardComponents;
     private Dictionary<Type, CardComponent[]> _cardComponentDictionary = new();
 
+    private Coroutine _coroutine;
+
     public void OnLoad()
     {
         Dictionary<Type, List<CardComponent>> temp = new();
@@ -63,9 +66,19 @@ public class Card : ScriptableObject
         }
     }
 
-    public void Play(Target target, Action onFinish = null)
+    public void Play(Action onFinish = null)
     {
+        _coroutine = CardManager.StartStaticCoroutine(PlayCoroutine(onFinish));
+    }
 
+    private IEnumerator PlayCoroutine(Action onFinish = null)
+    {
+        foreach (CardComponent cardComponent in cardComponents)
+        {
+            yield return cardComponent.Play();
+        }
+        
+        yield break;
     }
 
     #region GetCardComponent Methods

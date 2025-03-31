@@ -15,7 +15,9 @@ public class TargetManager : MonoBehaviour
 
     private static readonly List<Target> _allTargets = new List<Target>();
 
-    private static Dictionary<Team, List<Target>> _targetsDictionary = null;
+    private static readonly Dictionary<Team, List<Target>> _targetsDictionary = new();
+    private static readonly Dictionary<Team, Target> _targetLeaderDictionary = new();
+    private static bool _dictionariesInvalid = true;
 
     private void Awake()
     {
@@ -26,7 +28,7 @@ public class TargetManager : MonoBehaviour
     public static void AddCardTarget(Target cardTarget)
     {
         // Invalidate dictionary
-        _targetsDictionary = null;
+        _dictionariesInvalid = true;
 
         _allTargets.Add(cardTarget);
     }
@@ -34,7 +36,7 @@ public class TargetManager : MonoBehaviour
     public static bool RemoveCardTarget(Target cardTarget)
     {
         // Invalidate dictionary
-        _targetsDictionary = null;
+        _dictionariesInvalid = true;
 
         return _allTargets.Remove(cardTarget);
     }
@@ -42,12 +44,20 @@ public class TargetManager : MonoBehaviour
     public static List<Target> GetTargets(Team team)
     {
         // Create dictionary if it's been invalidated
-        if (_targetsDictionary == null)
+        if (_dictionariesInvalid)
         {
-            _targetsDictionary = new();
+            _dictionariesInvalid = false;
+
+            _targetsDictionary.Clear();
+            _targetLeaderDictionary.Clear();
 
             foreach (Target target in _allTargets)
             {
+                if (target.IsLeader)
+                {
+                    _targetLeaderDictionary[target.Team] = target;
+                }
+
                 if (!_targetsDictionary.TryGetValue(target.Team, out List<Target> targets))
                 {
                     targets = new List<Target>();

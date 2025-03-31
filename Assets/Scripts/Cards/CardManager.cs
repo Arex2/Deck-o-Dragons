@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -51,5 +52,15 @@ public class CardManager : MonoBehaviour
         AllCards = cards.ToArray();
 
         Loaded = true;
+    }
+
+    public static Coroutine StartStaticCoroutine(IEnumerator method)
+    {
+        return Instance.StartCoroutine(method);
+    }
+
+    public static void StopStaticCoroutine(Coroutine coroutine)
+    {
+        Instance.StopCoroutine(coroutine);
     }
 }

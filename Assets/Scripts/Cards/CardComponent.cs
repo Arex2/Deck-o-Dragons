@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -23,6 +24,13 @@ public abstract class CardComponent : ScriptableObject
     public virtual void Initialize()
     {
 
+    }
+
+    public abstract IEnumerator Play();
+
+    public string ModifyCardDescription(string description)
+    {
+        return description;
     }
 
     #region GetCardComponent Methods

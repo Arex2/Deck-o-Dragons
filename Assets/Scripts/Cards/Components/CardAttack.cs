@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -16,5 +17,10 @@ public class CardAttack : CardComponent
     public override void Initialize()
     {
 
+    }
+
+    public override IEnumerator Play()
+    {
+        yield return null;
     }
 }
