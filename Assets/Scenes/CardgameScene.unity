@@ -153,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hand: {fileID: 1137492236}
   sceneSwitcher: {fileID: 1178398005}
+  camera: {fileID: 1058481261}
 --- !u!4 &151584343
 Transform:
   m_ObjectHideFlags: 0

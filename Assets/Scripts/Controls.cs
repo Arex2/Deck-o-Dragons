@@ -15,7 +15,7 @@ enum Direction
     Right, Left, Up, Down
 }
 
-public class Controlls : MonoBehaviour
+public class Controls : MonoBehaviour
 {
     InputSystem controls;
     Vector2 startPos;
@@ -28,6 +28,9 @@ public class Controlls : MonoBehaviour
     CardHand hand;
     [SerializeField]
     SceneSwitcher sceneSwitcher;
+    [SerializeField]
+    Camera camera;
+    int leftEdgeArea, rightEdgeArea;
 
     private void OnEnable()
     {
@@ -82,8 +85,10 @@ public class Controlls : MonoBehaviour
 
     private void Stuff()
     {
-        startPos2 = startPosX;
-        //Debug.Log("Saved : " + startPosX);
+        //startPos2 = startPosX;
+        //startPos2 = camera.ScreenToWorldPoint(new Vector2(startPosX, 0f)).x;
+        startPos2 = camera.ScreenToViewportPoint(new Vector2(startPosX, 0f)).x;
+        Debug.Log("Saved : " + startPos2);
     }
     private void SetToZero()
     {
@@ -137,7 +142,7 @@ public class Controlls : MonoBehaviour
         //check if large enough touch
         if (Mathf.Abs(dragDir.magnitude) < minSwipeSize)
             return;
-        SelectAction();
+        SelectAction(); 
         //NOLLSTÄLL
         dragDir = Vector2.zero;
         //Debug.Log("Total mag dif: " + totalMagnitude);
@@ -160,41 +165,43 @@ public class Controlls : MonoBehaviour
                 //either switch to garden scene or scroll cards
                 //Debug.Log("R Used : " + startPos2);// + startPos.x + " old : " +startPosX);
                 //Debug.Log("either switch to garden scene or scroll cards [PH] -->");
-                hand.ShiftAllRight();
-                /*
-                if (startPos2 < 40)
+                
+                
+                if (startPos2 < 0.15f)
                 {
                     //switch scene
                     Debug.LogError("Switch scene");
-                    sceneSwitcher.SwitchScene(-1); 
+                    //sceneSwitcher.SwitchScene(-1); 
                 }
                 else
                 {
                     //scroll cards
                     Debug.LogError("Scroll right");
                     //hand.ScrollRight();
+                    hand.ShiftAllRight();
                 }
                 //Debug.Log("Startpos should be 0: " + startPos);
-                */
+                
                 SetToZero();
                 break;
             case Direction.Left:
-                hand.ShiftAllLeft();
+                //and.ShiftAllLeft();
                 //Debug.Log("L Used : " + startPos2);//+ startPos.x + " old : " + startPosX);
-                /*
-                if (startPos2 > 200)
+                
+                if (startPos2 > 0.85f)
                 {
                     //switch scene
                     Debug.LogError("Switch scene");
-                    sceneSwitcher.SwitchScene(+1);
+                    //sceneSwitcher.SwitchScene(+1);
                 }
                 else
                 {
                     //scroll cards
                     Debug.LogError("Scroll left");
                     //hand.ScrollLeft();
+                    hand.ShiftAllLeft();
                 }
-                */
+                
                 //Debug.Log("Startpos should be 0: " + startPos);
                 SetToZero();
                 break;
@@ -292,7 +299,7 @@ public class Controlls : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+       
     }
 
     // Update is called once per frame
