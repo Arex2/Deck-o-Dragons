@@ -5,6 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UIElements;
 using static UnityEngine.UI.Image;
@@ -39,7 +40,17 @@ public class Controls : MonoBehaviour
         controls = new InputSystem();
         controls.Enable();
 
-
+        #region mus controller
+        //håller musens position uppdateras
+        controls.test.MousePosition.performed +=  ctx => 
+        { 
+            UpdateMousePos(ctx.ReadValue<Vector2>());
+        };
+        //sparar musens start pos
+        controls.test.MousePress.started += ctx => { SaveStartingPosMouse(); };
+        //jämför musens position och väljer action
+        controls.test.MousePress.canceled += ctx => { CompareThisPosToStartingPosMouse(); SwipeAction(ctx); };
+        #endregion
 
         controls.test.KeyboardAny.canceled += SwipeActionKeyboard;
         controls.test.Tap.performed += ctx => { Debug.Log("Screen tap"); };
@@ -51,6 +62,7 @@ public class Controls : MonoBehaviour
             GetSwipeDirection(ctx.ReadValue<Vector2>());
 
         };
+        /*
         //ANTINGEN OVAN eller NEDAN, båda kan användas för att känna direction of swipe
         controls.test.press.performed += ctx => 
         {
@@ -61,7 +73,7 @@ public class Controls : MonoBehaviour
             //CalculateTotalMagnitude(ctx.ReadValue<TouchState>().position.x);
             //GetSwipeDirection(ctx.ReadValue<TouchState>());
         };// GetSwipeDirection(ctx.ReadValue<TouchState>()); };// Debug.Log("Current pos: " + ctx.ReadValue<TouchState>().position + "  start pos: " + ctx.ReadValue<TouchState>().startPosition); };
-
+        */
         controls.test.Area.performed += ctx =>
         {
             //Debug.Log("Area2: " + ctx.ReadValue<float>());
@@ -77,6 +89,27 @@ public class Controls : MonoBehaviour
         //controls.test.phonetest.performed += ctx => { Debug.Log(ctx.ReadValue<float>()); };
         //controls.test.PressingWithMouse.performed += ctx => { //ChooseAction();};
     }
+
+    Vector2 mousePos;
+    Vector2 mouseStartPos;
+    private void UpdateMousePos(Vector2 pos)
+    {
+        mousePos = pos;
+        //startPosX = pos.x;
+    }
+    private void SaveStartingPosMouse()
+    {
+        mouseStartPos = mousePos;
+    }
+
+    private void CompareThisPosToStartingPosMouse()
+    {
+        //compare mousePos and mouseStartPos
+        Vector2 dir = mousePos - mouseStartPos;
+        startPos2 = camera.ScreenToViewportPoint(new Vector2(mouseStartPos.x, 0f)).x;
+        GetSwipeDirection(dir);
+    }
+
     float startPosX;
     float startPos2;
     bool done = true;
@@ -117,6 +150,7 @@ public class Controls : MonoBehaviour
     {
         totalMagnitude = Mathf.Abs(mag-startPosX);
     }
+    /*
     private void SaveStartingPos(TouchState touch)
     {
         //only save when doesn't already have startPos
@@ -128,6 +162,7 @@ public class Controls : MonoBehaviour
         done = false;
         //Debug.Log(startPos);
     }
+    */
     private void SwipeActionKeyboard(InputAction.CallbackContext c)
     {
         //Debug.Log("Swipe, direction: " + swipeDirection);

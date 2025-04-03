@@ -121,7 +121,7 @@ public class CardHand : MonoBehaviour
 
     private void RemoveCard()
     {
-        cardsSelected.RemoveAt(0);
+        //cardsSelected.RemoveAt(0);
         Destroy(cardBeingPlayed);
     }
 

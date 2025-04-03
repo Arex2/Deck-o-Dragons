@@ -89,6 +89,24 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePress"",
+                    ""type"": ""Button"",
+                    ""id"": ""6fb4399e-8599-4d3a-8173-ef2b44c5ab66"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""f5f4060d-d4e0-4bc2-90a3-3a20d2e2ece8"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -223,6 +241,28 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""haspressedscreen"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20a2bca1-c48d-4230-9099-1d35ddbd75d3"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cce33c97-07fd-4505-9d47-a39b32eee6f7"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -238,6 +278,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_test_press = m_test.FindAction("press", throwIfNotFound: true);
         m_test_Area = m_test.FindAction("Area", throwIfNotFound: true);
         m_test_haspressedscreen = m_test.FindAction("haspressedscreen", throwIfNotFound: true);
+        m_test_MousePress = m_test.FindAction("MousePress", throwIfNotFound: true);
+        m_test_MousePosition = m_test.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -306,6 +348,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_test_press;
     private readonly InputAction m_test_Area;
     private readonly InputAction m_test_haspressedscreen;
+    private readonly InputAction m_test_MousePress;
+    private readonly InputAction m_test_MousePosition;
     public struct TestActions
     {
         private @InputSystem m_Wrapper;
@@ -317,6 +361,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @press => m_Wrapper.m_test_press;
         public InputAction @Area => m_Wrapper.m_test_Area;
         public InputAction @haspressedscreen => m_Wrapper.m_test_haspressedscreen;
+        public InputAction @MousePress => m_Wrapper.m_test_MousePress;
+        public InputAction @MousePosition => m_Wrapper.m_test_MousePosition;
         public InputActionMap Get() { return m_Wrapper.m_test; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -347,6 +393,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @haspressedscreen.started += instance.OnHaspressedscreen;
             @haspressedscreen.performed += instance.OnHaspressedscreen;
             @haspressedscreen.canceled += instance.OnHaspressedscreen;
+            @MousePress.started += instance.OnMousePress;
+            @MousePress.performed += instance.OnMousePress;
+            @MousePress.canceled += instance.OnMousePress;
+            @MousePosition.started += instance.OnMousePosition;
+            @MousePosition.performed += instance.OnMousePosition;
+            @MousePosition.canceled += instance.OnMousePosition;
         }
 
         private void UnregisterCallbacks(ITestActions instance)
@@ -372,6 +424,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @haspressedscreen.started -= instance.OnHaspressedscreen;
             @haspressedscreen.performed -= instance.OnHaspressedscreen;
             @haspressedscreen.canceled -= instance.OnHaspressedscreen;
+            @MousePress.started -= instance.OnMousePress;
+            @MousePress.performed -= instance.OnMousePress;
+            @MousePress.canceled -= instance.OnMousePress;
+            @MousePosition.started -= instance.OnMousePosition;
+            @MousePosition.performed -= instance.OnMousePosition;
+            @MousePosition.canceled -= instance.OnMousePosition;
         }
 
         public void RemoveCallbacks(ITestActions instance)
@@ -398,5 +456,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnPress(InputAction.CallbackContext context);
         void OnArea(InputAction.CallbackContext context);
         void OnHaspressedscreen(InputAction.CallbackContext context);
+        void OnMousePress(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }
