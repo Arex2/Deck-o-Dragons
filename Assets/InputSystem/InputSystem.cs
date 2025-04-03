@@ -24,7 +24,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     ""name"": ""InputSystem"",
     ""maps"": [
         {
-            ""name"": ""test"",
+            ""name"": ""CardGame"",
             ""id"": ""70454ef2-cf61-40d0-a835-a2a596827443"",
             ""actions"": [
                 {
@@ -62,15 +62,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""press"",
-                    ""type"": ""Value"",
-                    ""id"": ""497351f1-dddc-4327-89dc-2bc55b24bd89"",
-                    ""expectedControlType"": ""Touch"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Area"",
@@ -211,17 +202,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d21b4c08-a517-4e1a-9fa2-625e9971bf60"",
-                    ""path"": ""<Touchscreen>/primaryTouch"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""press"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""332352d2-83fd-418e-a4b6-014fc40407cc"",
                     ""path"": ""<Touchscreen>/position/x"",
                     ""interactions"": """",
@@ -269,17 +249,16 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // test
-        m_test = asset.FindActionMap("test", throwIfNotFound: true);
-        m_test_Touch = m_test.FindAction("Touch", throwIfNotFound: true);
-        m_test_KeyboardAny = m_test.FindAction("KeyboardAny", throwIfNotFound: true);
-        m_test_Swipe = m_test.FindAction("Swipe", throwIfNotFound: true);
-        m_test_Tap = m_test.FindAction("Tap", throwIfNotFound: true);
-        m_test_press = m_test.FindAction("press", throwIfNotFound: true);
-        m_test_Area = m_test.FindAction("Area", throwIfNotFound: true);
-        m_test_haspressedscreen = m_test.FindAction("haspressedscreen", throwIfNotFound: true);
-        m_test_MousePress = m_test.FindAction("MousePress", throwIfNotFound: true);
-        m_test_MousePosition = m_test.FindAction("MousePosition", throwIfNotFound: true);
+        // CardGame
+        m_CardGame = asset.FindActionMap("CardGame", throwIfNotFound: true);
+        m_CardGame_Touch = m_CardGame.FindAction("Touch", throwIfNotFound: true);
+        m_CardGame_KeyboardAny = m_CardGame.FindAction("KeyboardAny", throwIfNotFound: true);
+        m_CardGame_Swipe = m_CardGame.FindAction("Swipe", throwIfNotFound: true);
+        m_CardGame_Tap = m_CardGame.FindAction("Tap", throwIfNotFound: true);
+        m_CardGame_Area = m_CardGame.FindAction("Area", throwIfNotFound: true);
+        m_CardGame_haspressedscreen = m_CardGame.FindAction("haspressedscreen", throwIfNotFound: true);
+        m_CardGame_MousePress = m_CardGame.FindAction("MousePress", throwIfNotFound: true);
+        m_CardGame_MousePosition = m_CardGame.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -338,40 +317,38 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // test
-    private readonly InputActionMap m_test;
-    private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
-    private readonly InputAction m_test_Touch;
-    private readonly InputAction m_test_KeyboardAny;
-    private readonly InputAction m_test_Swipe;
-    private readonly InputAction m_test_Tap;
-    private readonly InputAction m_test_press;
-    private readonly InputAction m_test_Area;
-    private readonly InputAction m_test_haspressedscreen;
-    private readonly InputAction m_test_MousePress;
-    private readonly InputAction m_test_MousePosition;
-    public struct TestActions
+    // CardGame
+    private readonly InputActionMap m_CardGame;
+    private List<ICardGameActions> m_CardGameActionsCallbackInterfaces = new List<ICardGameActions>();
+    private readonly InputAction m_CardGame_Touch;
+    private readonly InputAction m_CardGame_KeyboardAny;
+    private readonly InputAction m_CardGame_Swipe;
+    private readonly InputAction m_CardGame_Tap;
+    private readonly InputAction m_CardGame_Area;
+    private readonly InputAction m_CardGame_haspressedscreen;
+    private readonly InputAction m_CardGame_MousePress;
+    private readonly InputAction m_CardGame_MousePosition;
+    public struct CardGameActions
     {
         private @InputSystem m_Wrapper;
-        public TestActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Touch => m_Wrapper.m_test_Touch;
-        public InputAction @KeyboardAny => m_Wrapper.m_test_KeyboardAny;
-        public InputAction @Swipe => m_Wrapper.m_test_Swipe;
-        public InputAction @Tap => m_Wrapper.m_test_Tap;
-        public InputAction @press => m_Wrapper.m_test_press;
-        public InputAction @Area => m_Wrapper.m_test_Area;
-        public InputAction @haspressedscreen => m_Wrapper.m_test_haspressedscreen;
-        public InputAction @MousePress => m_Wrapper.m_test_MousePress;
-        public InputAction @MousePosition => m_Wrapper.m_test_MousePosition;
-        public InputActionMap Get() { return m_Wrapper.m_test; }
+        public CardGameActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Touch => m_Wrapper.m_CardGame_Touch;
+        public InputAction @KeyboardAny => m_Wrapper.m_CardGame_KeyboardAny;
+        public InputAction @Swipe => m_Wrapper.m_CardGame_Swipe;
+        public InputAction @Tap => m_Wrapper.m_CardGame_Tap;
+        public InputAction @Area => m_Wrapper.m_CardGame_Area;
+        public InputAction @haspressedscreen => m_Wrapper.m_CardGame_haspressedscreen;
+        public InputAction @MousePress => m_Wrapper.m_CardGame_MousePress;
+        public InputAction @MousePosition => m_Wrapper.m_CardGame_MousePosition;
+        public InputActionMap Get() { return m_Wrapper.m_CardGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(TestActions set) { return set.Get(); }
-        public void AddCallbacks(ITestActions instance)
+        public static implicit operator InputActionMap(CardGameActions set) { return set.Get(); }
+        public void AddCallbacks(ICardGameActions instance)
         {
-            if (instance == null || m_Wrapper.m_TestActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_TestActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_CardGameActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CardGameActionsCallbackInterfaces.Add(instance);
             @Touch.started += instance.OnTouch;
             @Touch.performed += instance.OnTouch;
             @Touch.canceled += instance.OnTouch;
@@ -384,9 +361,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Tap.started += instance.OnTap;
             @Tap.performed += instance.OnTap;
             @Tap.canceled += instance.OnTap;
-            @press.started += instance.OnPress;
-            @press.performed += instance.OnPress;
-            @press.canceled += instance.OnPress;
             @Area.started += instance.OnArea;
             @Area.performed += instance.OnArea;
             @Area.canceled += instance.OnArea;
@@ -401,7 +375,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @MousePosition.canceled += instance.OnMousePosition;
         }
 
-        private void UnregisterCallbacks(ITestActions instance)
+        private void UnregisterCallbacks(ICardGameActions instance)
         {
             @Touch.started -= instance.OnTouch;
             @Touch.performed -= instance.OnTouch;
@@ -415,9 +389,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Tap.started -= instance.OnTap;
             @Tap.performed -= instance.OnTap;
             @Tap.canceled -= instance.OnTap;
-            @press.started -= instance.OnPress;
-            @press.performed -= instance.OnPress;
-            @press.canceled -= instance.OnPress;
             @Area.started -= instance.OnArea;
             @Area.performed -= instance.OnArea;
             @Area.canceled -= instance.OnArea;
@@ -432,28 +403,27 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @MousePosition.canceled -= instance.OnMousePosition;
         }
 
-        public void RemoveCallbacks(ITestActions instance)
+        public void RemoveCallbacks(ICardGameActions instance)
         {
-            if (m_Wrapper.m_TestActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_CardGameActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(ITestActions instance)
+        public void SetCallbacks(ICardGameActions instance)
         {
-            foreach (var item in m_Wrapper.m_TestActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_CardGameActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_TestActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_CardGameActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public TestActions @test => new TestActions(this);
-    public interface ITestActions
+    public CardGameActions @CardGame => new CardGameActions(this);
+    public interface ICardGameActions
     {
         void OnTouch(InputAction.CallbackContext context);
         void OnKeyboardAny(InputAction.CallbackContext context);
         void OnSwipe(InputAction.CallbackContext context);
         void OnTap(InputAction.CallbackContext context);
-        void OnPress(InputAction.CallbackContext context);
         void OnArea(InputAction.CallbackContext context);
         void OnHaspressedscreen(InputAction.CallbackContext context);
         void OnMousePress(InputAction.CallbackContext context);

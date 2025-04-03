@@ -2,7 +2,7 @@
     "name": "InputSystem",
     "maps": [
         {
-            "name": "test",
+            "name": "CardGame",
             "id": "70454ef2-cf61-40d0-a835-a2a596827443",
             "actions": [
                 {
@@ -40,15 +40,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "press",
-                    "type": "Value",
-                    "id": "497351f1-dddc-4327-89dc-2bc55b24bd89",
-                    "expectedControlType": "Touch",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 },
                 {
                     "name": "Area",
@@ -186,17 +177,6 @@
                     "action": "Swipe",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "d21b4c08-a517-4e1a-9fa2-625e9971bf60",
-                    "path": "<Touchscreen>/primaryTouch",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "press",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
