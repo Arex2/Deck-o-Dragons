@@ -17,7 +17,7 @@ enum Direction
 
 public class Controls : MonoBehaviour
 {
-    InputSystem controls;
+    public InputSystem controls;
     //Vector2 startPos;
     Vector2 dragDir;
     //Vector2 swipe;
@@ -45,7 +45,8 @@ public class Controls : MonoBehaviour
         Input.gyro.enabled = true;
 
         controls = new InputSystem();
-        controls.Enable();
+        //controls.Enable();
+
 
         #region mouse controls
         //håller musens position uppdateras
@@ -120,8 +121,25 @@ public class Controls : MonoBehaviour
         dragDir = Vector2.zero;
     }
     */
+    float mag = 0;
     private void SwipeAction(InputAction.CallbackContext c)
     {
+
+        #region swipe more than one at a time test
+
+        //Debug.Log("MAGNITUDE: " + dragDir.magnitude);
+        float size = Mathf.Abs(dragDir.x - startPos2);
+        Debug.Log("drag size: " + size);
+        //mag = (int)(dragDir.magnitude/25);
+
+        mag = (int)size/50;
+
+        if (mag < 1) { mag = 1; }
+
+        mag = 1;
+
+        #endregion
+
         //check if large enough touch
         if (Mathf.Abs(dragDir.magnitude) < minSwipeSize)
             return;
@@ -149,7 +167,8 @@ public class Controls : MonoBehaviour
                 else
                 {
                     Debug.Log("Scroll right");
-                    hand.ShiftAllRight();
+                    for(int i = 0; i < mag; i++)
+                        hand.ShiftAllRight();
                 }
                 SetToZero();
                 break;
@@ -162,7 +181,8 @@ public class Controls : MonoBehaviour
                 else
                 {
                     Debug.Log("Scroll left");
-                    hand.ShiftAllLeft();
+                    for (int i = 0; i < mag; i++)
+                        hand.ShiftAllLeft();
                 }
                 SetToZero();
                 break;
