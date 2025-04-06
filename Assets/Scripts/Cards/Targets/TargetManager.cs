@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,9 +14,11 @@ public class TargetManager : MonoBehaviour
     }
     #endregion
 
-    private static readonly List<Target> _allTargets = new List<Target>();
+    public static readonly List<Target> AllTargets = new List<Target>();
+    public static int AllTargetsCount { get; private set; }
 
     private static readonly Dictionary<Team, List<Target>> _targetsDictionary = new();
+    private static readonly Dictionary<Team, int> _targetCountDictionary = new();
     private static readonly Dictionary<Team, Target> _targetLeaderDictionary = new();
     private static bool _dictionariesInvalid = true;
 
@@ -30,7 +33,8 @@ public class TargetManager : MonoBehaviour
         // Invalidate dictionary
         _dictionariesInvalid = true;
 
-        _allTargets.Add(cardTarget);
+        AllTargets.Add(cardTarget);
+        AllTargetsCount++;
     }
 
     public static bool RemoveCardTarget(Target cardTarget)
@@ -38,37 +42,70 @@ public class TargetManager : MonoBehaviour
         // Invalidate dictionary
         _dictionariesInvalid = true;
 
-        return _allTargets.Remove(cardTarget);
+        bool success = AllTargets.Remove(cardTarget);
+
+        if (success)
+        {
+            AllTargetsCount--;
+        }
+
+        return success;
+    }
+
+    public static List<Target> GetTargets(Team team, out int count)
+    {
+        // Create dictionaries if it's been invalidated
+        if (_dictionariesInvalid)
+        {
+            CreateDictionaries();
+        }
+
+        count = _targetCountDictionary[team];
+
+        return _targetsDictionary[team];
     }
 
     public static List<Target> GetTargets(Team team)
     {
-        // Create dictionary if it's been invalidated
+        return GetTargets(team, out _);
+    }
+
+    public static Target GetLeader(Team team)
+    {
+        // Create dictionaries if it's been invalidated
         if (_dictionariesInvalid)
         {
-            _dictionariesInvalid = false;
-
-            _targetsDictionary.Clear();
-            _targetLeaderDictionary.Clear();
-
-            foreach (Target target in _allTargets)
-            {
-                if (target.IsLeader)
-                {
-                    _targetLeaderDictionary[target.Team] = target;
-                }
-
-                if (!_targetsDictionary.TryGetValue(target.Team, out List<Target> targets))
-                {
-                    targets = new List<Target>();
-
-                    _targetsDictionary[target.Team] = targets;
-                }
-
-                targets.Add(target);
-            }
+            CreateDictionaries();
         }
 
-        return _targetsDictionary[team];
+        return _targetLeaderDictionary[team];
+    }
+
+    private static void CreateDictionaries()
+    {
+        _dictionariesInvalid = false;
+
+        _targetsDictionary.Clear();
+        _targetCountDictionary.Clear();
+        _targetLeaderDictionary.Clear();
+
+        foreach (Target target in AllTargets)
+        {
+            if (target.IsLeader)
+            {
+                _targetLeaderDictionary[target.Team] = target;
+            }
+
+            if (!_targetsDictionary.TryGetValue(target.Team, out List<Target> targets))
+            {
+                targets = new List<Target>();
+
+                _targetsDictionary[target.Team] = targets;
+                _targetCountDictionary[target.Team] = 0;
+            }
+
+            targets.Add(target);
+            _targetCountDictionary[target.Team]++;
+        }
     }
 }

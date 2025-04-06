@@ -15,11 +15,9 @@ MonoBehaviour:
   expandedInEditor: 1
   orderInEditor: 0
   card: {fileID: 11400000}
-  overrideTarget:
-    Enabled: 1
-    Value:
-      team: 0
-      mode: 1
+  targetFilter:
+    team: 0
+    mode: 1
   damage:
     baseValue: 3
     stack: 1
@@ -58,20 +56,18 @@ MonoBehaviour:
   expandedInEditor: 1
   orderInEditor: 1
   card: {fileID: 11400000}
-  overrideTarget:
-    Enabled: 1
-    Value:
-      team: 1
-      mode: 0
+  targetFilter:
+    team: 1
+    mode: 0
   healing:
     baseValue: 2
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 0
+    - value: 1
       method: 0
     downgrades:
-    - value: 0
+    - value: 1
       method: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -90,12 +86,7 @@ MonoBehaviour:
   cost: 5
   element: 1
   category: 1
-  targetFilter:
-    team: 0
-    mode: 0
-  immuneToDiscard: 0
-  tags:
-  - {fileID: 11400000, guid: 789701f024d709f41ab3f63be0739412, type: 2}
+  tags: []
   cardComponents:
   - {fileID: -1860155053858908950}
   - {fileID: -1223053199875735651}

@@ -5,15 +5,16 @@ using UnityEngine;
 /// 
 /// </summary>
 // Script by Ruben
-public class CardHeal : CardComponent
+public class CardHeal : CardComponent, IUseSingle
 {
-    [SerializeField] private Optional<TargetFilter> overrideTarget = new(true, new(TargetFilter.FilterTeam.Own, TargetFilter.FilterMode.Leader));
+    public override TargetFilter TargetFilter => targetFilter;
+    [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Own, TargetFilter.FilterMode.Leader);
 
     [Space]
     [SerializeField] private UpgradeableFloat healing = new UpgradeableFloat(2);
 
-    public override IEnumerator Play()
+    public void Use(Target target)
     {
-        yield return null;
+        target.Heal(healing.GetValue(Tier));
     }
 }

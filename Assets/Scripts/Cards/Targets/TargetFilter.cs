@@ -2,11 +2,11 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Struct used to filter what <see cref="Target"/>s to, well... target.
+/// Class used to filter what <see cref="Target"/>s to, well... target.
 /// </summary>
 // Script by Ruben
 [Serializable]
-public struct TargetFilter
+public class TargetFilter
 {
     public FilterTeam Team => team;
     public FilterMode Mode => mode;
@@ -27,8 +27,9 @@ public struct TargetFilter
     {
         Opponent,
         Own,
-        All,
+        Chosen,
         Random,
+        All,
     }
 
     /// <summary>

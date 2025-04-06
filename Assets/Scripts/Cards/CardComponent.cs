@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -18,6 +19,10 @@ public abstract class CardComponent : ScriptableObject
     [SerializeField] private int orderInEditor;
 #endif
 
+    public virtual TargetFilter TargetFilter => null;
+
+    public int Tier => card.Tier;
+
     [HideInInspector]
     [SerializeField] protected Card card;
 
@@ -26,9 +31,7 @@ public abstract class CardComponent : ScriptableObject
 
     }
 
-    public abstract IEnumerator Play();
-
-    public string ModifyCardDescription(string description)
+    public virtual string ModifyCardDescription(string description)
     {
         return description;
     }

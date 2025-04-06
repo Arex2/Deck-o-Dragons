@@ -40,10 +40,14 @@ public abstract class Target : MonoBehaviour
     public virtual void Hurt(float amount)
     {
         hp -= amount;
+
+        Debug.Log(name + " has taken " + amount + " damage");
     }
 
     public virtual void Heal(float amount)
     {
         hp += amount;
+
+        Debug.Log(name + " has healed " + amount + " HP");
     }
 }

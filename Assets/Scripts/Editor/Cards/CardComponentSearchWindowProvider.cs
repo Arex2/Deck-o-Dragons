@@ -41,22 +41,13 @@ public class CardComponentSearchWindowProvider : ScriptableObject, ISearchWindow
     }
     private static List<Type> _cachedTypes = null;
 
-    private List<SearchTreeEntry> _searchTree = null;
+    private List<SearchTreeEntry> _searchTree = new();
 
     public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
     {
-        // Return the search tree if it has already been created
-        if (_searchTree != null)
-        {
-            return _searchTree;
-        }
+        _searchTree.Clear();
 
-        // Create a new search tree because our current one is nonexistent
-        _searchTree = new List<SearchTreeEntry>
-        {
-            // Add the top title to the search tree
-            new SearchTreeGroupEntry(new GUIContent("Select Card Component"), 0)
-        };
+        _searchTree.Add(new SearchTreeGroupEntry(new GUIContent("Select Card Component"), 0));
 
         // Go through every Card Component type and add entries for each
         List<Entry> pendingEntries = new List<Entry>();
