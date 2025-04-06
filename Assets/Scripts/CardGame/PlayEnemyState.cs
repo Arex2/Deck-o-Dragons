@@ -18,7 +18,7 @@ public class PlayEnemyState : IState
     public virtual IState Execute()
     {
         Debug.Log("Damage the player");
-        //gameBehaviour.LoseHp(3);
+        gameBehaviour.LoseHp(3);
         //Debug.Log("Heal itself (?)");
 
 
@@ -27,7 +27,7 @@ public class PlayEnemyState : IState
         //else return setupState
         if (gameBehaviour.Hp <= 0)
         {
-            Debug.Log("RETURN GAME LOST");
+            Debug.Log("RETURN GAME LOST " + gameBehaviour.Hp);
             return new BattleOverState();
         }
         else return new SetupState();
