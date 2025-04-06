@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameBehaviour : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class GameBehaviour : MonoBehaviour
     public int Hp
     { get { return hp; } }
 
+    public int Mana 
+    { get { return mana; } }
+
 
     //temp enemy stats
     private int enemyHp = 20;
@@ -33,21 +37,32 @@ public class GameBehaviour : MonoBehaviour
     public CardHand cardHand;
 
 
+
     //temp canvas text
     [SerializeField]
     private TMP_Text statusText;
+    [SerializeField]
+    private TMP_Text manaText;
     [SerializeField]
     private TMP_Text playerHealthText;
     [SerializeField]
     private TMP_Text enemyHealthText;
 
+    [SerializeField]
+    private Slider hpSlider;
+
     // Start is called before the first frame update
     void Start()
     {
         hp = maxHp;
+        mana = maxMana;
 
+        manaText.text = mana.ToString();
         enemyHealthText.text = enemyHp.ToString();
         playerHealthText.text = hp.ToString();
+
+        hpSlider.maxValue = maxHp;
+        hpSlider.value = hp;
     }
 
     // Update is called once per frame
@@ -84,16 +99,32 @@ public class GameBehaviour : MonoBehaviour
     public void LoseHp(int count)
     {
         hp -= count;
+        hpSlider.value = hp;
         playerHealthText.text = hp.ToString();
     }
 
     public void LoseMana(int count)
     {
         mana -= count;
+        manaText.text = mana.ToString();
     }
 
     public void ResetMana()
     {
         mana = maxMana;
+        manaText.text = mana.ToString();
+    }
+
+    /// <summary>
+    /// Check if player has enough mana
+    /// to play selected card.
+    /// </summary>
+    /// <param name="cardCost">mana cost of selected card</param>
+    /// <returns>true for enough mana, false for not enough mana</returns>
+    public bool CheckMana(int cardCost)
+    {
+        if (cardCost <= mana)
+            return true;
+        else return false;
     }
 }

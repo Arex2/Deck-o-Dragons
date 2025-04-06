@@ -19,6 +19,7 @@ public class SetupState : IState //VET EJ OM MONO BEHÖVS HÄR, ALTERNATIVT HA DEN
     public virtual IState Execute()
     {
         Debug.Log("reset mana");
+        gameBehaviour.ResetMana();
         Debug.Log("discard old cards");
         Debug.Log("draw new cards");
         gameBehaviour.cardHand.DrawNewHand();

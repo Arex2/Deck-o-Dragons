@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class CardHand : MonoBehaviour
 {
+    [SerializeField]
+    private GameBehaviour gameBehaviour;
+
     int amountToDraw = 6;
     int selectedIndex;
 
@@ -100,6 +103,9 @@ public class CardHand : MonoBehaviour
     public void OldPlayCard()
     {
         if (cardsInHand.Count == 0)
+            return;
+        //OBS BEHÖVER BYTA UT 1 MOT card.Mana så att man kan jämföra mana!!!
+        if (!gameBehaviour.CheckMana(1))
             return;
         cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 2;
         cardsInHand[selectedIndex].transform.DOMove(cardPlayPosition, 0.4f);

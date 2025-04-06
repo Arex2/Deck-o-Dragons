@@ -11,7 +11,7 @@ public class PlayCardState : IState
         this.gameBehaviour = gameBehaviour;
         gameBehaviour.UpdateStatusText("Card playing");
 
-        gameBehaviour.EnemyTakeDamage(5);//temp flyttad för att den körde så ofta i execute
+
         return null;
     }
 
@@ -20,8 +20,10 @@ public class PlayCardState : IState
     {
         //if endturn button input
         Debug.Log("Play card effect");
+        //remove mana here? or in card, don't know where it is to be triggered
+        gameBehaviour.LoseMana(1); //1 should be cardmanacost instead
         Debug.Log("Damage enemy");
-        //gameBehaviour.EnemyTakeDamage(5);  //DET HÄR HÄNDER VARJE FRAME HELA TIDEN
+        gameBehaviour.EnemyTakeDamage(5);  //DET HÄR HÄNDER VARJE FRAME HELA TIDEN
         
         //when played effect is done // could possibly be a cooldown timer have timer in gameBehaviour and return? would that work?
                  //check enemy hp,
