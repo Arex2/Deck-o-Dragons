@@ -36,11 +36,18 @@ public class GameBehaviour : MonoBehaviour
     //temp canvas text
     [SerializeField]
     private TMP_Text statusText;
+    [SerializeField]
+    private TMP_Text playerHealthText;
+    [SerializeField]
+    private TMP_Text enemyHealthText;
 
     // Start is called before the first frame update
     void Start()
     {
         hp = maxHp;
+
+        enemyHealthText.text = enemyHp.ToString();
+        playerHealthText.text = hp.ToString();
     }
 
     // Update is called once per frame
@@ -54,6 +61,7 @@ public class GameBehaviour : MonoBehaviour
     {
         Debug.Log("enemy dmg take: " + count);
         enemyHp -= count;
+        enemyHealthText.text = enemyHp.ToString();
     }
 
     //update status text
@@ -76,6 +84,7 @@ public class GameBehaviour : MonoBehaviour
     public void LoseHp(int count)
     {
         hp -= count;
+        playerHealthText.text = hp.ToString();
     }
 
     public void LoseMana(int count)

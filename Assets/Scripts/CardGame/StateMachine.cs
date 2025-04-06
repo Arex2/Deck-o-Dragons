@@ -5,22 +5,6 @@ using UnityEngine.InputSystem.LowLevel;
 
 public class StateMachine : MonoBehaviour
 {
-    //försöker göra den här till en singleton
-    static StateMachine mInstance;
-
-    public static StateMachine Instance
-    {
-        get
-        {
-            return mInstance ? (mInstance = (new GameObject("MyClassContainer")).AddComponent<StateMachine>()): mInstance;
-        }
-    }
-
-
-
-
-
-
     [SerializeField]
     GameBehaviour gameBehaviour;
     IState activeState = new SetupState(); //state man bör börja med
