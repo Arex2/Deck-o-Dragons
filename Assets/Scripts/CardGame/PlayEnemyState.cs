@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PlayEnemyState : IState
 {
-    public virtual IState Enter()
+    GameBehaviour gameBehaviour;
+    public virtual IState Enter(GameBehaviour gameBehaviour)
     {
-        Debug.Log("ENEMY!!");
+        Debug.Log("ENEMY TURN!!");
+        this.gameBehaviour = gameBehaviour;
+        gameBehaviour.UpdateStatusText("Enemy Turn");
         //play own cards
         return null;
     }
@@ -14,8 +17,21 @@ public class PlayEnemyState : IState
 
     public virtual IState Execute()
     {
-        //do nothing
-        return null;
+        Debug.Log("Damage the player");
+        //gameBehaviour.LoseHp(3);
+        //Debug.Log("Heal itself (?)");
+
+
+        //check player hp
+        //if player hp <= 0, return gameLost
+        //else return setupState
+        if (gameBehaviour.Hp <= 0)
+        {
+            Debug.Log("RETURN GAME LOST");
+            return new BattleOverState();
+        }
+        else return new SetupState();
+
     }
 
     public virtual IState Exit()

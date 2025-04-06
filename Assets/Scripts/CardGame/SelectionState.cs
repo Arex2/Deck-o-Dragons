@@ -9,12 +9,15 @@ public class SelectionState : IState
     //[SerializeField]
     bool test = false;
     protected Controls controls;
-    public virtual IState Enter(Controls controls)
+    GameBehaviour gameBehaviour;
+    public virtual IState Enter(GameBehaviour gameBehaviour)
     {
-        this.controls = controls;
+        this.gameBehaviour = gameBehaviour;
+        this.controls = gameBehaviour.controls;
         Debug.Log("SELECTION!!");
+        gameBehaviour.UpdateStatusText("Select a card");
         //player gets input
-
+        //Wait();
         controls.controls.Enable();
         return null;
     }
@@ -22,10 +25,18 @@ public class SelectionState : IState
 
     public virtual IState Execute()
     {
+        //if endTurn button pressed end turn
+        if(gameBehaviour.EndTurn)
+            return new PlayEnemyState();
+
         //recieve input and select card
-        //if play selected card
-        if (test)
+        //kolla om card är kort som ska selecta mer, gå då till selectAdditionalCard state maybe?
+        if(gameBehaviour.cardHand.cardIsPlaying)//gameBehaviour.cardHand.cardBeingPlayed != null)
+        {
+            gameBehaviour.cardHand.cardIsPlaying = false;
             return new PlayCardState();
+        }
+
 
         return null;
     }
@@ -35,5 +46,13 @@ public class SelectionState : IState
         controls.controls.Disable();
         return null;
     }
+
+    /*
+    private IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(5);
+        test = true;
+    }
+    */
 
 }

@@ -15,7 +15,8 @@ public class CardHand : MonoBehaviour
     List<GameObject> cardsInHand = new List<GameObject>();
     List<GameObject> cardsSelected = new List<GameObject>();
 
-    GameObject cardBeingPlayed;
+    public GameObject cardBeingPlayed;
+    public bool cardIsPlaying;
 
 
     private void Start()
@@ -107,6 +108,7 @@ public class CardHand : MonoBehaviour
         //card triggering to destroy itself after having played its animation
         //and done it's actions
         cardBeingPlayed = cardsInHand[selectedIndex];
+        cardIsPlaying = true;
         Invoke("RemoveCard",0.5f);
 
         cardsInHand.RemoveAt(selectedIndex);
@@ -115,13 +117,16 @@ public class CardHand : MonoBehaviour
         UpdateSelectedIndex();
         UpdateCardPositions();
 
+        /*
         if (cardsInHand.Count == 0)
             DrawNewHand();
+        */
     }
 
     private void RemoveCard()
     {
         //cardsSelected.RemoveAt(0);
+        cardIsPlaying = false;
         Destroy(cardBeingPlayed);
     }
 
@@ -143,7 +148,7 @@ public class CardHand : MonoBehaviour
         UpdateCardPositions();
     }
 
-    private void DrawNewHand() 
+    public void DrawNewHand() 
     { 
         for(int i = 0; i < amountToDraw; i++)
         {

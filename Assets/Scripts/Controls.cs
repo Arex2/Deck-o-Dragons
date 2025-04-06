@@ -129,7 +129,7 @@ public class Controls : MonoBehaviour
 
         //Debug.Log("MAGNITUDE: " + dragDir.magnitude);
         float size = Mathf.Abs(dragDir.x - startPos2);
-        Debug.Log("drag size: " + size);
+        //Debug.Log("drag size: " + size);
         //mag = (int)(dragDir.magnitude/25);
 
         mag = (int)size/50;
@@ -152,7 +152,7 @@ public class Controls : MonoBehaviour
         switch(swipeDirection)
         {
             case Direction.Up:
-                Debug.Log("Play card");
+                //Debug.Log("Play card");
                 hand.OldPlayCard();
                 break;
             case Direction.Down:
@@ -166,7 +166,7 @@ public class Controls : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Scroll right");
+                    //Debug.Log("Scroll right");
                     for(int i = 0; i < mag; i++)
                         hand.ShiftAllRight();
                 }
@@ -180,7 +180,7 @@ public class Controls : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Scroll left");
+                    //Debug.Log("Scroll left");
                     for (int i = 0; i < mag; i++)
                         hand.ShiftAllLeft();
                 }

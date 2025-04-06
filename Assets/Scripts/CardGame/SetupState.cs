@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class SetupState : IState //VET EJ OM MONO BEHÖVS HÄR, ALTERNATIVT HA DEN I ISTATE
 {
-    private Controls controls;
-    public virtual IState Enter(Controls controls)
+
+    GameBehaviour gameBehaviour;
+    public virtual IState Enter(GameBehaviour gameBehaviour)
     {
-        this.controls = controls;
-        //reset mana
-        //discard old cards (?)
-        //draw new cards
         Debug.Log("SETUP!!");
+        this.gameBehaviour = gameBehaviour;
+        gameBehaviour.NewTurn();
+        gameBehaviour.UpdateStatusText("New turn");
         return null; 
     }
 
@@ -21,6 +21,7 @@ public class SetupState : IState //VET EJ OM MONO BEHÖVS HÄR, ALTERNATIVT HA DEN
         Debug.Log("reset mana");
         Debug.Log("discard old cards");
         Debug.Log("draw new cards");
+        gameBehaviour.cardHand.DrawNewHand();
         return new SelectionState(); //byter till selection State efter det här
     }
     public virtual IState Exit()
