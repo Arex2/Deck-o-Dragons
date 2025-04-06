@@ -19,6 +19,7 @@ using System;
 /// 
 /// Adding a ReplaceDescriptionKeyword attribute without any parameters like this: <c>[ReplaceDescriptionKeyword]</c> will instead replace the attributes keyword parameter with the <see cref="CardComponent"/>s name in the inspector.
 /// </summary>
+// Script by Ruben
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 public class ReplaceDescriptionKeywordAttribute : Attribute
 {

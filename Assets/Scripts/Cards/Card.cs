@@ -18,7 +18,7 @@ public class Card : ScriptableObject
 
     private static readonly Regex _descriptionKeywordRegex = new Regex(@"\{[\w\s\:]+\}", RegexOptions.IgnoreCase);
 
-    public string DisplayName => displayName;
+    public string DisplayName => string.IsNullOrEmpty(displayName) ? name : displayName;
     public string Description
     {
         get
@@ -33,10 +33,11 @@ public class Card : ScriptableObject
     }
     private string _descriptionCache = null;
 
-    // TODO: Make this modifiable by card components
+    // TODO: Make cost modifiable by card components
     public int Cost => cost;
     public Element Element => element;
     public CardCategory Category => category;
+    public CardRarity Rarity => rarity;
 
     // TODO: Upgrades
     public int Tier { get; private set; } = 0;
@@ -48,6 +49,7 @@ public class Card : ScriptableObject
     [SerializeField] private int cost;
     [SerializeField] private Element element;
     [SerializeField] private CardCategory category;
+    [SerializeField] private CardRarity rarity;
 
     [Space]
     [SerializeField] private List<CardTag> tags = new();

@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// The custom property drawer for <see cref="TargetFilter"/>.
+/// </summary>
+// Script by Ruben
 [CustomPropertyDrawer(typeof(TargetFilter))]
-public class TargetFilterEditor : PropertyDrawer
+public class TargetFilterPropertyDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {

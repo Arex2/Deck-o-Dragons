@@ -88,6 +88,7 @@ MonoBehaviour:
   cost: 5
   element: 1
   category: 1
+  rarity: 0
   tags: []
   cardComponents:
   - {fileID: -1860155053858908950}
