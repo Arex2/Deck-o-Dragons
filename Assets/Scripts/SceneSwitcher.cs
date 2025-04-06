@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitcher : MonoBehaviour
 {
-
     public void SwitchScene(int sceneIndexChange)
     {
         int newScenePos = SceneManager.GetActiveScene().buildIndex + sceneIndexChange;
@@ -13,6 +12,12 @@ public class SceneSwitcher : MonoBehaviour
             return;
         SceneManager.LoadScene(newScenePos);
     }
+
+    public void PlayGame()
+    {
+        SceneManager.LoadScene(4);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
