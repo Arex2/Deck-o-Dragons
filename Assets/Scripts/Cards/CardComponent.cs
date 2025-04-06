@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 /// <summary>
@@ -19,6 +19,9 @@ public abstract class CardComponent : ScriptableObject
     [SerializeField] private int orderInEditor;
 #endif
 
+    private delegate string ReplaceDescriptionKeywordDelegate();
+    private Dictionary<string, ReplaceDescriptionKeywordDelegate> _keywordReplacementDelegates = null;
+
     public virtual TargetFilter TargetFilter => null;
 
     public int Tier => card.Tier;
@@ -26,14 +29,65 @@ public abstract class CardComponent : ScriptableObject
     [HideInInspector]
     [SerializeField] protected Card card;
 
+    public void InternalInitialize()
+    {
+        foreach (MethodInfo methodInfo in GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+        {
+            ReplaceDescriptionKeywordDelegate @delegate = null;
+
+            // Loop through all modify card description attributes the method has
+            foreach (ReplaceDescriptionKeywordAttribute attribute in methodInfo.GetCustomAttributes<ReplaceDescriptionKeywordAttribute>())
+            {
+                if (attribute == null)
+                {
+                    continue;
+                }
+
+                // Should return float
+                if (methodInfo.ReturnType != typeof(string))
+                {
+                    continue;
+                }
+
+                // Should have no parameters
+                if (methodInfo.GetParameters().Length != 0)
+                {
+                    continue;
+                }
+
+                // Add to collection
+                if (@delegate == null)
+                {
+                    @delegate = (ReplaceDescriptionKeywordDelegate)methodInfo.CreateDelegate(typeof(ReplaceDescriptionKeywordDelegate), this);
+                }
+
+                if (_keywordReplacementDelegates == null)
+                {
+                    _keywordReplacementDelegates = new();
+                }
+
+                _keywordReplacementDelegates.Add((string.IsNullOrEmpty(attribute.Keyword) ? name : attribute.Keyword).ToLower().Trim(), @delegate);
+            }
+        }
+
+        Initialize();
+    }
+
     public virtual void Initialize()
     {
 
     }
 
-    public virtual string ModifyCardDescription(string description)
+    public bool ShouldReplaceDescriptionKeywords() => _keywordReplacementDelegates != null;
+
+    public string ReplaceDescriptionKeyword(string keyword)
     {
-        return description;
+        if (!_keywordReplacementDelegates.TryGetValue(keyword, out ReplaceDescriptionKeywordDelegate @delegate))
+        {
+            return null;
+        }
+
+        return @delegate.Invoke();
     }
 
     #region GetCardComponent Methods

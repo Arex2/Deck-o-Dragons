@@ -27,4 +27,29 @@ public class CardAttack : CardComponent, IUseCoroutineSingle
 
         yield return new WaitForSeconds(0.1f);
     }
+
+    [ReplaceDescriptionKeyword]
+    private string ReplaceMainKeyword()
+    {
+        float value = attackAmount.GetValue(Tier);
+
+        if (value != 1)
+        {
+            return damage.ToString(Tier) + "x" + value.ToString();
+        }
+
+        return damage.ToString(Tier);
+    }
+
+    [ReplaceDescriptionKeyword("DAMAGE")]
+    private string ReplaceDamageKeyword()
+    {
+        return damage.ToString(Tier);
+    }
+
+    [ReplaceDescriptionKeyword("AMOUNT")]
+    private string ReplaceAttackAmountKeyword()
+    {
+        return attackAmount.ToString(Tier);
+    }
 }

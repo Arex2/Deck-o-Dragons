@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,8 +16,22 @@ public class Card : ScriptableObject
 {
     public static bool PlayingACard { get; private set; } = false;
 
+    private static readonly Regex _descriptionKeywordRegex = new Regex(@"\{[\w\s\:]+\}", RegexOptions.IgnoreCase);
+
     public string DisplayName => displayName;
-    public string Description => description;
+    public string Description
+    {
+        get
+        {
+            if (_descriptionCache == null)
+            {
+                UpdateDescription();
+            }
+
+            return _descriptionCache;
+        }
+    }
+    private string _descriptionCache = null;
 
     // TODO: Make this modifiable by card components
     public int Cost => cost;
@@ -38,34 +54,50 @@ public class Card : ScriptableObject
 
     [HideInInspector]
     [SerializeField] private CardComponent[] cardComponents;
-    private Dictionary<Type, CardComponent[]> _cardComponentDictionary = new();
+    private Dictionary<Type, CardComponent[]> _cardComponentTypeDictionary = new();
+    private Dictionary<string, CardComponent> _cardComponentNameDictionary = new();
 
     private Coroutine _coroutine;
 
     public void OnLoad()
     {
+        _cardComponentTypeDictionary.Clear();
+        _cardComponentNameDictionary.Clear();
+
+        // Forgive me for doing this... Whatever this is...
         Dictionary<Type, List<CardComponent>> temp = new();
 
         foreach (CardComponent cardComponent in cardComponents)
         {
             Type type = cardComponent.GetType();
 
-            if (!HasCardComponent(type))
+            if (!temp.ContainsKey(type))
             {
                 temp.Add(type, new());
             }
 
             temp[type].Add(cardComponent);
 
-            cardComponent.Initialize();
-        }
+            string name = cardComponent.name.Trim().ToLower();
 
-        _cardComponentDictionary = new();
+            if (!_cardComponentNameDictionary.ContainsKey(name))
+            {
+                _cardComponentNameDictionary.Add(name, cardComponent);
+            }
+            else
+            {
+                Debug.LogWarning($"The Card: \"{this.name}\" has more than one CardComponent named \"{name}\"! Please rename them in the inspector.", this);
+            }
+
+            cardComponent.InternalInitialize();
+        }
 
         foreach (var pair in temp)
         {
-            _cardComponentDictionary.Add(pair.Key, pair.Value.ToArray());
+            _cardComponentTypeDictionary.Add(pair.Key, pair.Value.ToArray());
         }
+
+        _descriptionCache = null;
     }
 
     public void Play(Target user, Action onFinish = null)
@@ -236,6 +268,58 @@ public class Card : ScriptableObject
         PlayingACard = false;
     }
 
+    public void UpdateDescription()
+    {
+        _descriptionCache = _descriptionKeywordRegex.Replace(description, DescriptionKeywordEvaluator);
+    }
+
+    private string DescriptionKeywordEvaluator(Match match)
+    {
+        if (match.Success)
+        {
+            string keyword = match.Value.Substring(1, match.Value.Length - 2).Trim().ToLower();
+
+            Debug.Log("Keyword: " + keyword);
+
+            if (keyword.Contains(':'))
+            {
+                string[] split = keyword.Split(':');
+                string name = split[0].Trim();
+                string tempKeyword = split[1].Trim();
+
+                if (TryGetCardComponent(name, out CardComponent cardComponent))
+                {
+                    string result = cardComponent.ReplaceDescriptionKeyword(tempKeyword);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
+
+            foreach (CardComponent cardComponent in cardComponents)
+            {
+                if (!cardComponent.ShouldReplaceDescriptionKeywords())
+                {
+                    continue;
+                }
+
+                string result = cardComponent.ReplaceDescriptionKeyword(keyword);
+
+                if (result == null)
+                {
+                    continue;
+                }
+
+                return result;
+            }
+
+        }
+
+        return match.Value;
+    }
+
     #region GetCardComponent Methods
     public T GetCardComponent<T>() where T : CardComponent
     {
@@ -247,6 +331,16 @@ public class Card : ScriptableObject
         return GetCardComponents(type)[0];
     }
 
+    public CardComponent GetCardComponent(string name, bool formatName = false)
+    {
+        if (TryGetCardComponent(name, out CardComponent result, formatName))
+        {
+            return result;
+        }
+
+        return null;
+    }
+
     public T[] GetCardComponents<T>() where T : CardComponent
     {
         return GetCardComponents(typeof(T)) as T[];
@@ -254,12 +348,22 @@ public class Card : ScriptableObject
 
     public CardComponent[] GetCardComponents(Type type)
     {
-        return _cardComponentDictionary[type];
+        return _cardComponentTypeDictionary[type];
     }
 
     public bool TryGetCardComponent<T>(out T cardComponent) where T : CardComponent
     {
         return TryGetCardComponent(out cardComponent);
+    }
+
+    public bool TryGetCardComponent(string name, out CardComponent cardComponent, bool formatName = false)
+    {
+        if (formatName)
+        {
+            name = name.ToLower().Trim();
+        }
+
+        return _cardComponentNameDictionary.TryGetValue(name, out cardComponent);
     }
 
     public bool TryGetCardComponent(Type type, out CardComponent cardComponent)
@@ -285,7 +389,7 @@ public class Card : ScriptableObject
 
     public bool TryGetCardComponents(Type type, out CardComponent[] cardComponents)
     {
-        return _cardComponentDictionary.TryGetValue(type, out cardComponents);
+        return _cardComponentTypeDictionary.TryGetValue(type, out cardComponents);
     }
 
     public bool HasCardComponent<T>()
@@ -295,7 +399,17 @@ public class Card : ScriptableObject
 
     public bool HasCardComponent(Type type)
     {
-        return _cardComponentDictionary.ContainsKey(type);
+        return _cardComponentTypeDictionary.ContainsKey(type);
+    }
+
+    public bool HasCardComponent(string name, bool formatName = false)
+    {
+        if (formatName)
+        {
+            name = name.ToLower().Trim();
+        }
+
+        return _cardComponentNameDictionary.ContainsKey(name);
     }
     #endregion
 }

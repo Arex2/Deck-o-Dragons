@@ -17,4 +17,11 @@ public class CardHeal : CardComponent, IUseSingle
     {
         target.Heal(healing.GetValue(Tier));
     }
+
+    [ReplaceDescriptionKeyword]
+    [ReplaceDescriptionKeyword("HEALING")]
+    private string ReplaceDescriptionKeyword()
+    {
+        return healing.ToString(Tier);
+    }
 }

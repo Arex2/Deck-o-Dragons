@@ -82,7 +82,9 @@ MonoBehaviour:
   m_Name: Test Card
   m_EditorClassIdentifier: 
   displayName: Test Card
-  description: For testing purposes
+  description: 'Deals {Attack} damage.
+
+    Heals you for {Heal} HP.'
   cost: 5
   element: 1
   category: 1

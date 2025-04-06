@@ -146,6 +146,11 @@ public class UpgradeableFloat
 
     }
 
+    public string ToString(int tier)
+    {
+        return GetValue(tier).ToString();
+    }
+
     [Serializable]
     private class Tier
     {
