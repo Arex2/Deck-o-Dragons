@@ -21,6 +21,7 @@ public class SetupState : IState //VET EJ OM MONO BEHÖVS HÄR, ALTERNATIVT HA DEN
         Debug.Log("reset mana");
         gameBehaviour.ResetMana();
         Debug.Log("discard old cards");
+        gameBehaviour.cardHand.EmptyHand();
         Debug.Log("draw new cards");
         gameBehaviour.cardHand.DrawNewHand();
         return new SelectionState(); //byter till selection State efter det här

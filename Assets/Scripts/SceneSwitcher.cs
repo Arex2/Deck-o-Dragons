@@ -18,6 +18,11 @@ public class SceneSwitcher : MonoBehaviour
         SceneManager.LoadScene(4);
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

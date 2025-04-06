@@ -155,11 +155,21 @@ public class CardHand : MonoBehaviour
     }
 
     public void DrawNewHand() 
-    { 
+    {
         for(int i = 0; i < amountToDraw; i++)
         {
             DrawCard();
         }
+    }
+
+    public void EmptyHand()
+    {
+        selectedIndex = 0;
+        for (int i = 0; i < cardsInHand.Count; i++)
+        {
+            Destroy(cardsInHand[i].gameObject);
+        }
+        cardsInHand.RemoveRange(0, cardsInHand.Count);
     }
 
     private void SelectInitialCard()
