@@ -39,7 +39,7 @@ public class DraggableObject : MonoBehaviour
                     Vector2 pointerPosition = Pointer.current.position.ReadValue();
                     Vector2 worldPos = cam.ScreenToWorldPoint(new Vector3(pointerPosition.x, pointerPosition.y, cam.nearClipPlane));
 
-                    if (Vector2.Distance(transform.position, worldPos) < 0.5f) 
+                    if (Vector2.Distance(transform.position, worldPos) < 4.5f) 
                     {
                         isDragging = true; 
                         Debug.Log("Started dragging");
