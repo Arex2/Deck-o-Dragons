@@ -46,12 +46,13 @@ public class PlayCardState : IState
             //else return selectionState
 
 
-            if (gameBehaviour.EnemyHp > 0)
+            if (gameBehaviour.enemyBoss.HP > 0)
             {
                 return new SelectionState();
             }
             else
             {
+                gameBehaviour.enemyBoss.DeathEvent();
                 Debug.Log("Enemy death");
                 return new BattleOverState();
             }
