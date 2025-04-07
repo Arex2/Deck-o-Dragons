@@ -1,21 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-//using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
-using UnityEngine.InputSystem.EnhancedTouch;
-using UnityEngine.InputSystem.LowLevel;
-using UnityEngine.UIElements;
-using static UnityEngine.UI.Image;
 
-enum Direction
-{
-    Right, Left, Up, Down
-}
-
-public class Controls : MonoBehaviour
+public class ControlsBackyard : MonoBehaviour
 {
     public InputSystem controls;
     //Vector2 startPos;
@@ -24,8 +12,6 @@ public class Controls : MonoBehaviour
     float minSwipeSize = 10f;
     Direction swipeDirection;
 
-    [SerializeField]
-    CardHand hand;
     [SerializeField]
     SceneSwitcher sceneSwitcher;
     [SerializeField]
@@ -42,16 +28,14 @@ public class Controls : MonoBehaviour
 
     private void OnEnable()
     {
-        Input.gyro.enabled = true;
 
         controls = new InputSystem();
-        //controls.Enable();
-
+        controls.Enable();
 
         #region mouse controls
         //håller musens position uppdateras
-        controls.CardGame.MousePosition.performed +=  ctx => 
-        { 
+        controls.CardGame.MousePosition.performed += ctx =>
+        {
             UpdateMousePos(ctx.ReadValue<Vector2>());
         };
         //sparar musens start pos
@@ -59,8 +43,6 @@ public class Controls : MonoBehaviour
         //jämför musens position och väljer action
         controls.CardGame.MousePress.canceled += ctx => { CompareThisPosToStartingPosMouse(); SwipeAction(ctx); };
         #endregion
-
-        //controls.CardGame.KeyboardAny.canceled += SwipeActionKeyboard;
 
         controls.CardGame.Tap.performed += ctx => { Debug.Log("Screen tap"); };
         controls.CardGame.Swipe.performed += ctx =>
@@ -73,7 +55,7 @@ public class Controls : MonoBehaviour
             SaveStartingPosX(ctx.ReadValue<float>());
         };
         controls.CardGame.Area.canceled += ctx => { SetToZero(); };
-        controls.CardGame.Touch.canceled += ctx => { SwipeAction(ctx);}; 
+        controls.CardGame.Touch.canceled += ctx => { SwipeAction(ctx); };
     }
 
     private void OnDisable()
@@ -84,7 +66,6 @@ public class Controls : MonoBehaviour
     private void UpdateMousePos(Vector2 pos)
     {
         mousePos = pos;
-        //startPosX = pos.x;
     }
     private void SaveStartingPosMouse()
     {
@@ -106,21 +87,12 @@ public class Controls : MonoBehaviour
     private void CaclulateScreenStartposX()
     {
         startPos2 = camera.ScreenToViewportPoint(new Vector2(startPosX, 0f)).x;
-        Debug.Log("Saved : " + startPos2);
     }
     private void SetToZero()
     {
         startPosX = 0f;
     }
 
-    /*
-    private void SwipeActionKeyboard(InputAction.CallbackContext c)
-    {
-        SelectAction();
-        //NOLLSTÄLL
-        dragDir = Vector2.zero;
-    }
-    */
     float mag = 0;
     private void SwipeAction(InputAction.CallbackContext c)
     {
@@ -132,7 +104,7 @@ public class Controls : MonoBehaviour
         //Debug.Log("drag size: " + size);
         //mag = (int)(dragDir.magnitude/25);
 
-        mag = (int)size/50;
+        mag = (int)size / 50;
 
         if (mag < 1) { mag = 1; }
 
@@ -143,20 +115,17 @@ public class Controls : MonoBehaviour
         //check if large enough touch
         if (Mathf.Abs(dragDir.magnitude) < minSwipeSize)
             return;
-        SelectAction(); 
+        SelectAction();
         //NOLLSTÄLL
         dragDir = Vector2.zero;
     }
     private void SelectAction()
     {
-        switch(swipeDirection)
+        switch (swipeDirection)
         {
             case Direction.Up:
-                //Debug.Log("Play card");
-                hand.OldPlayCard();
                 break;
             case Direction.Down:
-                //hand.DrawCard();
                 break;
             case Direction.Right:
                 if (startPos2 < leftEdgeArea)
@@ -164,12 +133,6 @@ public class Controls : MonoBehaviour
                     Debug.Log("Switch scene");
                     //sceneSwitcher.SwitchScene(-1); 
                     sceneSwitcher.SwitchToGarden();
-                }
-                else
-                {
-                    //Debug.Log("Scroll right");
-                    for(int i = 0; i < mag; i++)
-                        hand.ShiftAllRight();
                 }
                 SetToZero();
                 break;
@@ -179,12 +142,6 @@ public class Controls : MonoBehaviour
                     Debug.Log("Switch scene");
                     //sceneSwitcher.SwitchScene(+1);
                     sceneSwitcher.SwitchToCardGame();
-                }
-                else
-                {
-                    //Debug.Log("Scroll left");
-                    for (int i = 0; i < mag; i++)
-                        hand.ShiftAllLeft();
                 }
                 SetToZero();
                 break;
@@ -224,66 +181,10 @@ public class Controls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (UnityEngine.InputSystem.Gyroscope.current != null)
+        if (controls.CardGame.haspressedscreen.triggered)
         {
-            //Debug.Log(UnityEngine.InputSystem.Gyroscope.current.angularVelocity.ReadValue());
-        }
-
-        if(controls.CardGame.haspressedscreen.triggered)
-        {
-            Debug.LogWarning("Triggered");
             CaclulateScreenStartposX();
         }
     }
-
-    /*
-    float totalMagnitude;
-    private void CalculateTotalMagnitude(float mag)
-    {
-        totalMagnitude = Mathf.Abs(mag - startPosX);
-    }
-    */
-    /*private void GetSwipeDirection(TouchState touch)
-    {
-        startPos = touch.startPosition;
-        //Debug.Log("STARTPOS: " +startPos);
-        //Vector3 AB = B - A.Destination - Origin.
-        dragDir = touch.position - touch.startPosition;
-        //dragDir.Normalize();
-        //Debug.Log(direction);
-        //if x axis has more input(?) than y
-        if (Mathf.Abs(dragDir.x) > Mathf.Abs(dragDir.y))
-        {
-            if (dragDir.x > 0) //RIGHT
-            {
-                //Debug.Log("RIGHT");
-                //swipe = Vector2.right;
-                swipeDirection = Direction.Right;
-            }
-            else //LEFT
-            {
-                //Debug.Log("LEFT");
-                //swipe = Vector2.left;
-                swipeDirection = Direction.Left;
-            }
-        }
-        else //y has more input
-        {
-            if (dragDir.y > 0) //UP
-            {
-                //Debug.Log("UP");
-                //swipe = Vector2.up;
-                swipeDirection = Direction.Up;
-            }
-            else //DOWN
-            {
-                //Debug.Log("DOWN");
-                //swipe = Vector2.down;
-                swipeDirection = Direction.Down;
-            }
-        }
-    }
-    */
 
 }

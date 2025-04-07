@@ -13,6 +13,20 @@ public class SceneSwitcher : MonoBehaviour
         SceneManager.LoadScene(newScenePos);
     }
 
+    public void SwitchToGarden()
+    {
+        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByBuildIndex(5))
+            return;
+        SceneManager.LoadScene(5);
+    }
+
+    public void SwitchToCardGame()
+    {
+        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByBuildIndex(4))
+            return;
+        SceneManager.LoadScene(4);
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene(4);
