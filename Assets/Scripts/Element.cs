@@ -11,5 +11,5 @@ public enum Element
     Fire = 1,
     Water = 2,
     Wind = 4,
-    Stone = 8,
+    Earth = 8,
 }
