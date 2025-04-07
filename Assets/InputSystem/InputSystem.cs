@@ -24,18 +24,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     ""name"": ""InputSystem"",
     ""maps"": [
         {
-            ""name"": ""test"",
+            ""name"": ""CardGame"",
             ""id"": ""70454ef2-cf61-40d0-a835-a2a596827443"",
             ""actions"": [
-                {
-                    ""name"": ""press"",
-                    ""type"": ""Value"",
-                    ""id"": ""497351f1-dddc-4327-89dc-2bc55b24bd89"",
-                    ""expectedControlType"": ""Touch"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
                 {
                     ""name"": ""Touch"",
                     ""type"": ""Button"",
@@ -64,15 +55,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""PressingWithMouse"",
-                    ""type"": ""Button"",
-                    ""id"": ""31e5da52-bf7d-49ea-8399-8cdd2594c0ce"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Tap"",
                     ""type"": ""Button"",
                     ""id"": ""e29e9ea6-51d7-4566-be1b-6f4f321098c5"",
@@ -80,20 +62,45 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Area"",
+                    ""type"": ""Value"",
+                    ""id"": ""795d91ac-528a-41a8-be01-9fb858388227"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""haspressedscreen"",
+                    ""type"": ""Button"",
+                    ""id"": ""b4b4a79d-840c-455e-84ab-8c31e3f544db"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePress"",
+                    ""type"": ""Button"",
+                    ""id"": ""6fb4399e-8599-4d3a-8173-ef2b44c5ab66"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""f5f4060d-d4e0-4bc2-90a3-3a20d2e2ece8"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""d21b4c08-a517-4e1a-9fa2-625e9971bf60"",
-                    ""path"": ""<Touchscreen>/primaryTouch"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""press"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""6a579392-24bf-4cab-9fa9-719524cc96a2"",
@@ -115,50 +122,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Swipe"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1ea3eb3f-311d-4fc1-8db7-0d03abcbaac8"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PressingWithMouse"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""29408788-28ea-4ec9-b2d8-d035076b91ce"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PressingWithMouse"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""bedeabcf-7e68-4acd-a708-9f3762424c55"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PressingWithMouse"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""7e613ecc-9719-4adb-9af6-3aefae6cd406"",
-                    ""path"": ""<Mouse>/press"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PressingWithMouse"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -236,20 +199,66 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Swipe"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""332352d2-83fd-418e-a4b6-014fc40407cc"",
+                    ""path"": ""<Touchscreen>/position/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Area"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""474aec21-96d8-48bc-b6c5-9ddd4aade7bd"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""haspressedscreen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20a2bca1-c48d-4230-9099-1d35ddbd75d3"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cce33c97-07fd-4505-9d47-a39b32eee6f7"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
     ""controlSchemes"": []
 }");
-        // test
-        m_test = asset.FindActionMap("test", throwIfNotFound: true);
-        m_test_press = m_test.FindAction("press", throwIfNotFound: true);
-        m_test_Touch = m_test.FindAction("Touch", throwIfNotFound: true);
-        m_test_KeyboardAny = m_test.FindAction("KeyboardAny", throwIfNotFound: true);
-        m_test_Swipe = m_test.FindAction("Swipe", throwIfNotFound: true);
-        m_test_PressingWithMouse = m_test.FindAction("PressingWithMouse", throwIfNotFound: true);
-        m_test_Tap = m_test.FindAction("Tap", throwIfNotFound: true);
+        // CardGame
+        m_CardGame = asset.FindActionMap("CardGame", throwIfNotFound: true);
+        m_CardGame_Touch = m_CardGame.FindAction("Touch", throwIfNotFound: true);
+        m_CardGame_KeyboardAny = m_CardGame.FindAction("KeyboardAny", throwIfNotFound: true);
+        m_CardGame_Swipe = m_CardGame.FindAction("Swipe", throwIfNotFound: true);
+        m_CardGame_Tap = m_CardGame.FindAction("Tap", throwIfNotFound: true);
+        m_CardGame_Area = m_CardGame.FindAction("Area", throwIfNotFound: true);
+        m_CardGame_haspressedscreen = m_CardGame.FindAction("haspressedscreen", throwIfNotFound: true);
+        m_CardGame_MousePress = m_CardGame.FindAction("MousePress", throwIfNotFound: true);
+        m_CardGame_MousePosition = m_CardGame.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -308,37 +317,38 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // test
-    private readonly InputActionMap m_test;
-    private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
-    private readonly InputAction m_test_press;
-    private readonly InputAction m_test_Touch;
-    private readonly InputAction m_test_KeyboardAny;
-    private readonly InputAction m_test_Swipe;
-    private readonly InputAction m_test_PressingWithMouse;
-    private readonly InputAction m_test_Tap;
-    public struct TestActions
+    // CardGame
+    private readonly InputActionMap m_CardGame;
+    private List<ICardGameActions> m_CardGameActionsCallbackInterfaces = new List<ICardGameActions>();
+    private readonly InputAction m_CardGame_Touch;
+    private readonly InputAction m_CardGame_KeyboardAny;
+    private readonly InputAction m_CardGame_Swipe;
+    private readonly InputAction m_CardGame_Tap;
+    private readonly InputAction m_CardGame_Area;
+    private readonly InputAction m_CardGame_haspressedscreen;
+    private readonly InputAction m_CardGame_MousePress;
+    private readonly InputAction m_CardGame_MousePosition;
+    public struct CardGameActions
     {
         private @InputSystem m_Wrapper;
-        public TestActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputAction @press => m_Wrapper.m_test_press;
-        public InputAction @Touch => m_Wrapper.m_test_Touch;
-        public InputAction @KeyboardAny => m_Wrapper.m_test_KeyboardAny;
-        public InputAction @Swipe => m_Wrapper.m_test_Swipe;
-        public InputAction @PressingWithMouse => m_Wrapper.m_test_PressingWithMouse;
-        public InputAction @Tap => m_Wrapper.m_test_Tap;
-        public InputActionMap Get() { return m_Wrapper.m_test; }
+        public CardGameActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Touch => m_Wrapper.m_CardGame_Touch;
+        public InputAction @KeyboardAny => m_Wrapper.m_CardGame_KeyboardAny;
+        public InputAction @Swipe => m_Wrapper.m_CardGame_Swipe;
+        public InputAction @Tap => m_Wrapper.m_CardGame_Tap;
+        public InputAction @Area => m_Wrapper.m_CardGame_Area;
+        public InputAction @haspressedscreen => m_Wrapper.m_CardGame_haspressedscreen;
+        public InputAction @MousePress => m_Wrapper.m_CardGame_MousePress;
+        public InputAction @MousePosition => m_Wrapper.m_CardGame_MousePosition;
+        public InputActionMap Get() { return m_Wrapper.m_CardGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(TestActions set) { return set.Get(); }
-        public void AddCallbacks(ITestActions instance)
+        public static implicit operator InputActionMap(CardGameActions set) { return set.Get(); }
+        public void AddCallbacks(ICardGameActions instance)
         {
-            if (instance == null || m_Wrapper.m_TestActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_TestActionsCallbackInterfaces.Add(instance);
-            @press.started += instance.OnPress;
-            @press.performed += instance.OnPress;
-            @press.canceled += instance.OnPress;
+            if (instance == null || m_Wrapper.m_CardGameActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CardGameActionsCallbackInterfaces.Add(instance);
             @Touch.started += instance.OnTouch;
             @Touch.performed += instance.OnTouch;
             @Touch.canceled += instance.OnTouch;
@@ -348,19 +358,25 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Swipe.started += instance.OnSwipe;
             @Swipe.performed += instance.OnSwipe;
             @Swipe.canceled += instance.OnSwipe;
-            @PressingWithMouse.started += instance.OnPressingWithMouse;
-            @PressingWithMouse.performed += instance.OnPressingWithMouse;
-            @PressingWithMouse.canceled += instance.OnPressingWithMouse;
             @Tap.started += instance.OnTap;
             @Tap.performed += instance.OnTap;
             @Tap.canceled += instance.OnTap;
+            @Area.started += instance.OnArea;
+            @Area.performed += instance.OnArea;
+            @Area.canceled += instance.OnArea;
+            @haspressedscreen.started += instance.OnHaspressedscreen;
+            @haspressedscreen.performed += instance.OnHaspressedscreen;
+            @haspressedscreen.canceled += instance.OnHaspressedscreen;
+            @MousePress.started += instance.OnMousePress;
+            @MousePress.performed += instance.OnMousePress;
+            @MousePress.canceled += instance.OnMousePress;
+            @MousePosition.started += instance.OnMousePosition;
+            @MousePosition.performed += instance.OnMousePosition;
+            @MousePosition.canceled += instance.OnMousePosition;
         }
 
-        private void UnregisterCallbacks(ITestActions instance)
+        private void UnregisterCallbacks(ICardGameActions instance)
         {
-            @press.started -= instance.OnPress;
-            @press.performed -= instance.OnPress;
-            @press.canceled -= instance.OnPress;
             @Touch.started -= instance.OnTouch;
             @Touch.performed -= instance.OnTouch;
             @Touch.canceled -= instance.OnTouch;
@@ -370,36 +386,47 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Swipe.started -= instance.OnSwipe;
             @Swipe.performed -= instance.OnSwipe;
             @Swipe.canceled -= instance.OnSwipe;
-            @PressingWithMouse.started -= instance.OnPressingWithMouse;
-            @PressingWithMouse.performed -= instance.OnPressingWithMouse;
-            @PressingWithMouse.canceled -= instance.OnPressingWithMouse;
             @Tap.started -= instance.OnTap;
             @Tap.performed -= instance.OnTap;
             @Tap.canceled -= instance.OnTap;
+            @Area.started -= instance.OnArea;
+            @Area.performed -= instance.OnArea;
+            @Area.canceled -= instance.OnArea;
+            @haspressedscreen.started -= instance.OnHaspressedscreen;
+            @haspressedscreen.performed -= instance.OnHaspressedscreen;
+            @haspressedscreen.canceled -= instance.OnHaspressedscreen;
+            @MousePress.started -= instance.OnMousePress;
+            @MousePress.performed -= instance.OnMousePress;
+            @MousePress.canceled -= instance.OnMousePress;
+            @MousePosition.started -= instance.OnMousePosition;
+            @MousePosition.performed -= instance.OnMousePosition;
+            @MousePosition.canceled -= instance.OnMousePosition;
         }
 
-        public void RemoveCallbacks(ITestActions instance)
+        public void RemoveCallbacks(ICardGameActions instance)
         {
-            if (m_Wrapper.m_TestActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_CardGameActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(ITestActions instance)
+        public void SetCallbacks(ICardGameActions instance)
         {
-            foreach (var item in m_Wrapper.m_TestActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_CardGameActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_TestActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_CardGameActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public TestActions @test => new TestActions(this);
-    public interface ITestActions
+    public CardGameActions @CardGame => new CardGameActions(this);
+    public interface ICardGameActions
     {
-        void OnPress(InputAction.CallbackContext context);
         void OnTouch(InputAction.CallbackContext context);
         void OnKeyboardAny(InputAction.CallbackContext context);
         void OnSwipe(InputAction.CallbackContext context);
-        void OnPressingWithMouse(InputAction.CallbackContext context);
         void OnTap(InputAction.CallbackContext context);
+        void OnArea(InputAction.CallbackContext context);
+        void OnHaspressedscreen(InputAction.CallbackContext context);
+        void OnMousePress(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }
