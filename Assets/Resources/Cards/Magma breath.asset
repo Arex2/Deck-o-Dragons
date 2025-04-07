@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3435640499591242949
+--- !u!114 &-692344988407194979
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19,21 +19,21 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 2
+    baseValue: 1
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 0
+    - value: 1
       method: 0
     downgrades:
     - value: 1
       method: 1
   attackAmount:
-    baseValue: 3
+    baseValue: 4
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 1
+    - value: 0
       method: 0
     downgrades:
     - value: 0
@@ -48,15 +48,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: Primal Flury
+  m_Name: Magma breath
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  displayName: 
+  displayName: Magma breath
   description: Deal {DAMAGE} damage {AMOUNT} times
-  cost: 5
-  element: 0
+  cost: 3
+  element: 1
   category: 1
   rarity: 0
   tags: []
   cardComponents:
-  - {fileID: -3435640499591242949}
+  - {fileID: -692344988407194979}

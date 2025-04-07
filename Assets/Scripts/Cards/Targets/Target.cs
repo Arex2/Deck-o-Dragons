@@ -9,7 +9,6 @@ public abstract class Target : MonoBehaviour
     public abstract Team Team { get; }
     public float MaxHP => maxHp;
     public float HP => hp;
-    public float Block => block;
 
     public bool IsLeader => isLeader;
 
