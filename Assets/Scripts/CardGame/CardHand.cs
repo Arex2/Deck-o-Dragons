@@ -36,21 +36,21 @@ public class CardHand : MonoBehaviour
 
         cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 2;
         cardsInHand[selectedIndex].transform.DOMove(cardPlayPosition, 0.4f);
-        //om inget card är being played, play selected card,
+        //om inget card ï¿½r being played, play selected card,
         if (cardBeingPlayed == null)
         {
             PlayCard();
         }
-        else //annars ska selected card bli skickat till cardBeingPlayed för att bli påverkat
+        else //annars ska selected card bli skickat till cardBeingPlayed fï¿½r att bli pï¿½verkat
         {
-            //sortera kort som är uppe
-            //skicka selected card att användas /buffa/käkas/etc till played card 
+            //sortera kort som ï¿½r uppe
+            //skicka selected card att anvï¿½ndas /buffa/kï¿½kas/etc till played card 
             cardsSelected.Add(cardBeingPlayed);
             cardsSelected.Add(cardsInHand[selectedIndex]);
             cardsInHand.RemoveAt(selectedIndex);
             UpdateSelectedCardPositions();
 
-            //temp för att testa, DeSelectCard bör nog triggas någonannan stans ifrån
+            //temp fï¿½r att testa, DeSelectCard bï¿½r nog triggas nï¿½gonannan stans ifrï¿½n
             Invoke("DeSelectCard", 2f);
             Invoke("RemoveCard", 2.5f);
         }
@@ -106,7 +106,7 @@ public class CardHand : MonoBehaviour
             return;
 
         GameObject card = cardsInHand[selectedIndex];
-        //OBS BEHÖVER BYTA UT 1 MOT card.Mana så att man kan jämföra mana!!!
+        //OBS BEHï¿½VER BYTA UT 1 MOT card.Mana sï¿½ att man kan jï¿½mfï¿½ra mana!!!
         if (!gameBehaviour.CheckMana(card.GetComponent<CardObject>().GetCost()))
             return;
 
@@ -156,7 +156,7 @@ public class CardHand : MonoBehaviour
         
         SpriteRenderer r = card.GetComponent<SpriteRenderer>();
         //r.sprite = testCard.Sprite;
-        r.color = UnityEngine.Random.ColorHSV();
+        //r.color = UnityEngine.Random.ColorHSV();
 
         //add to cardsInHand
         cardsInHand.Add(card);
@@ -212,7 +212,7 @@ public class CardHand : MonoBehaviour
         }
 
         /*
-        //lägg ut kort till vänster om selected card
+        //lï¿½gg ut kort till vï¿½nster om selected card
         for(int i = 0; i < selectedIndex; i++)
         {
             float posX = firstPos - i * spacing;
@@ -221,12 +221,12 @@ public class CardHand : MonoBehaviour
         }
         for(int i = 0; i < 1; i++)
         {
-            //Lägg ut selected card
+            //Lï¿½gg ut selected card
             float posX = 0;
             Vector2 newPos = new Vector2(posX, -2f);
             cardsInHand[selectedIndex].transform.DOMove(newPos, 0.4f);
         }
-        //lägg ut kort till höger om selected card
+        //lï¿½gg ut kort till hï¿½ger om selected card
         for (int i = selectedIndex; i < cardsInHand.Count; i++)
         {
             float posX = firstPos + i * spacing;
@@ -265,14 +265,14 @@ public class CardHand : MonoBehaviour
 
     private void UpdateCardLayers()
     {
-        //vänstra sidan från selected index
+        //vï¿½nstra sidan frï¿½n selected index
         for(int i = 0; i < selectedIndex; i++)
         {
             cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (selectedIndex - i);
         }
         //selected index
         cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 1;
-        //högra sidan från selected index
+        //hï¿½gra sidan frï¿½n selected index
         for(int i = selectedIndex+1; i < cardsInHand.Count;i++)
         {
             cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (i -(selectedIndex) +1);
@@ -408,7 +408,7 @@ private void ShiftCard(int index)
             }
             //MIDDLE CARD
             cardPositions[2].transform.position = new Vector2(cardPositions[2].transform.position.x, cardPositions[2].transform.position.y+2);
-            //vänta lite tid, spela animation, och sen
+            //vï¿½nta lite tid, spela animation, och sen
             StartCoroutine(RemovePlayedCard());
         }
         private bool CheckIfCardNextTo(int direction)
@@ -433,16 +433,16 @@ private void ShiftCard(int index)
             }
 
             Debug.Log("SELECTED     " +selectedIndex);
-            //om är vid högra kanten kortet
+            //om ï¿½r vid hï¿½gra kanten kortet
             if(selectedIndex == cardsInHand.Count)
             {
-                //flytta ett till höger (och sortera)
+                //flytta ett till hï¿½ger (och sortera)
                 ScrollRight();
             }
-             //Behövs inte för att List<T> automatiskt sorterar bort från lägsta värdet perhaps?
+             //Behï¿½vs inte fï¿½r att List<T> automatiskt sorterar bort frï¿½n lï¿½gsta vï¿½rdet perhaps?
             else if(false)//selectedIndex == 0)
             {
-                //flytta ett till vänster (och sortera)
+                //flytta ett till vï¿½nster (och sortera)
                 //ScrollLeft();
                 DisplayAllCards();
             }
