@@ -23,7 +23,8 @@ public class SetupState : IState //VET EJ OM MONO BEHÖVS HÄR, ALTERNATIVT HA DEN
         Debug.Log("discard old cards");
         gameBehaviour.cardHand.EmptyHand();
         Debug.Log("draw new cards");
-        gameBehaviour.cardHand.DrawNewHand();
+        //gameBehaviour.cardHand.DrawNewHand();
+        gameBehaviour.StartCoroutine(gameBehaviour.cardHand.DrawNewHandNew());
         return new SelectionState(); //byter till selection State efter det här
     }
     public virtual IState Exit()

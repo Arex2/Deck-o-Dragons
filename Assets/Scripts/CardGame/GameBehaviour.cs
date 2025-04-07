@@ -47,7 +47,9 @@ public class GameBehaviour : Target
     [SerializeField]
     public CardHand cardHand;
 
-
+    //End turn button
+    [SerializeField]
+    Button endTurnButton;
 
     //temp canvas text
     [SerializeField]
@@ -56,8 +58,8 @@ public class GameBehaviour : Target
     private TMP_Text manaText;
     [SerializeField]
     private TMP_Text playerHealthText;
-    [SerializeField]
-    private TMP_Text enemyHealthText;
+    //[SerializeField]
+    //private TMP_Text enemyHealthText;
 
     [SerializeField]
     private Slider hpSlider;
@@ -73,7 +75,7 @@ public class GameBehaviour : Target
         mana = maxMana;
 
         manaText.text = mana.ToString();
-        enemyHealthText.text = enemyHp.ToString();
+        //enemyHealthText.text = enemyHp.ToString();
         playerHealthText.text = HP.ToString();
 
         hpSlider.maxValue = MaxHP;
@@ -91,7 +93,7 @@ public class GameBehaviour : Target
     {
         Debug.Log("enemy dmg take: " + count);
         enemyHp -= count;
-        enemyHealthText.text = enemyHp.ToString();
+        //enemyHealthText.text = enemyHp.ToString();
     }
 
     //update status text
@@ -105,11 +107,16 @@ public class GameBehaviour : Target
     {
         endTurn = true;
         enemyBoss.StartTurn();
+        //stäng av knapp
+        endTurnButton.interactable = false;
+
     }
 
     public void NewTurn()
     {
         endTurn = false;
+        //sätt på knapp
+        endTurnButton.interactable = true;
     }
 
     public void LoseHp(int count)

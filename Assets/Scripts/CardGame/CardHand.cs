@@ -16,6 +16,7 @@ public class CardHand : MonoBehaviour
     [SerializeField] GameObject cardPrefab;
     [SerializeField] Card testCard;
     Vector3 cardPlayPosition = new Vector3(0, 0.5f, 0);
+    Vector3 cardPlayErrorPosition = new Vector3(0, 0.5f, 0);
     List<GameObject> cardsInHand = new List<GameObject>();
     List<GameObject> cardsSelected = new List<GameObject>();
 
@@ -108,7 +109,14 @@ public class CardHand : MonoBehaviour
         GameObject card = cardsInHand[selectedIndex];
         //OBS BEH�VER BYTA UT 1 MOT card.Mana s� att man kan j�mf�ra mana!!!
         if (!gameBehaviour.CheckMana(card.GetComponent<CardObject>().GetCost()))
+        {
+            Vector2 oldPos = card.transform.position;
+            card.transform.DOMove(cardPlayErrorPosition, 0.2f);
+            card.transform.DOMove(oldPos, 0.4f);
+            //error sound?
             return;
+        }
+
 
 
         card.GetComponent<SpriteRenderer>().sortingOrder = 2;
@@ -169,6 +177,15 @@ public class CardHand : MonoBehaviour
         for(int i = 0; i < amountToDraw; i++)
         {
             DrawCard();
+        }
+    }
+
+    public IEnumerator DrawNewHandNew()
+    {
+        for (int i = 0; i < amountToDraw; i++)
+        {
+            DrawCard();
+            yield return new WaitForSeconds(0.1f);
         }
     }
 

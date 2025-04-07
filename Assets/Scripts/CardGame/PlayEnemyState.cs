@@ -25,7 +25,7 @@ public class PlayEnemyState : IState
     IEnumerator Wait()
     {
         //Debug.Log("Wait start " + Time.time);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         //Debug.Log("Wait over " + Time.time);
         temp = true;
     }
