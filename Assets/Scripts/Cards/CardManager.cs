@@ -1,52 +1,34 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 /// <summary>
 /// The script that handles loading every <see cref="Card"/> object.
 /// </summary>
 // Script by Ruben
-public class CardManager : MonoBehaviour
+[SingletonMode(true)]
+public class CardManager : Singleton<CardManager>
 {
-    public static CardManager Instance { get; private set; }
+    public static Card[] AllCards { get; private set; }
 
-    public static bool Loaded { get; private set; }
-
-    [RuntimeInitializeOnLoadMethod]
-    public static
-#if !UNITY_EDITOR
-            async
-#endif
-        void Initialize()
+    protected override void Awake()
     {
-        //CardManager cardManager = await Addressables.LoadAssetAsync<CardManager>(nameof(CardManager)).Task;
+        base.Awake();
 
-        GameObject newObj = new GameObject(nameof(CardManager), typeof(CardManager));
-        DontDestroyOnLoad(newObj);
+        AllCards = Resources.LoadAll<Card>("Cards");
 
-        Instance = newObj.GetComponent<CardManager>();
-
-        AssetLabelReference labelReference = new AssetLabelReference();
-        labelReference.labelString = "Cards";
-
-        Debug.Log("Began loading...");
-
-#if !UNITY_EDITOR
-            await
-#endif
-        Addressables.LoadAssetsAsync<Card>(labelReference, (card) =>
+        foreach (Card card in AllCards)
         {
             card.OnLoad();
+        }
+    }
 
-            Debug.Log("Loaded \"" + card.name + "\"");
-        })
-#if UNITY_EDITOR
-            // Instantly load in editor to prevent issues
-            .WaitForCompletion();
-#else
-            .Task;
-#endif
+    public static Coroutine StartStaticCoroutine(IEnumerator method)
+    {
+        return Instance.StartCoroutine(method);
+    }
 
-        Loaded = true;
-        Debug.Log("Loaded all cards!");
+    public static void StopStaticCoroutine(Coroutine coroutine)
+    {
+        Instance.StopCoroutine(coroutine);
     }
 }

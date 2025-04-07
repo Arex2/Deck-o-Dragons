@@ -2,7 +2,7 @@
     "name": "InputSystem",
     "maps": [
         {
-            "name": "test",
+            "name": "CardGame",
             "id": "70454ef2-cf61-40d0-a835-a2a596827443",
             "actions": [
                 {
@@ -42,15 +42,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "press",
-                    "type": "Value",
-                    "id": "497351f1-dddc-4327-89dc-2bc55b24bd89",
-                    "expectedControlType": "Touch",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Area",
                     "type": "Value",
                     "id": "795d91ac-528a-41a8-be01-9fb858388227",
@@ -67,6 +58,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MousePress",
+                    "type": "Button",
+                    "id": "6fb4399e-8599-4d3a-8173-ef2b44c5ab66",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MousePosition",
+                    "type": "Value",
+                    "id": "f5f4060d-d4e0-4bc2-90a3-3a20d2e2ece8",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -171,17 +180,6 @@
                 },
                 {
                     "name": "",
-                    "id": "d21b4c08-a517-4e1a-9fa2-625e9971bf60",
-                    "path": "<Touchscreen>/primaryTouch",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "press",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "332352d2-83fd-418e-a4b6-014fc40407cc",
                     "path": "<Touchscreen>/position/x",
                     "interactions": "",
@@ -199,6 +197,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "haspressedscreen",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "20a2bca1-c48d-4230-9099-1d35ddbd75d3",
+                    "path": "<Mouse>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cce33c97-07fd-4505-9d47-a39b32eee6f7",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

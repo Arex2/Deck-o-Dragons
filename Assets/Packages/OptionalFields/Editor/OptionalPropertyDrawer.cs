@@ -42,7 +42,7 @@ public class OptionalPropertyDrawer : PropertyDrawer
         }
         else
         {
-            EditorGUI.PropertyField(remainderRect, valueProp, label);
+            EditorGUI.PropertyField(remainderRect, valueProp, label, true);
         }
 
         EditorGUI.EndDisabledGroup();

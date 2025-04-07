@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1664057210514653765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822a222e4a0d9b542865244da1dd501e, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 1
+  card: {fileID: 11400000}
+  targetFilter:
+    team: 0
+    mode: 1
+  damage:
+    baseValue: 6
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 1
+      method: 0
+    downgrades:
+    - value: 1
+      method: 1
+  attackAmount:
+    baseValue: 1
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 0
+      method: 0
+    downgrades:
+    - value: 0
+      method: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
+  m_Name: Reckles Charge
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 072e276e5e4716c49ac910d40e7702cc, type: 3}
+  displayName: Reckles Charge
+  description: Deal {DAMAGE} damage, take {DAMAGE} damage
+  cost: 2
+  element: 0
+  category: 1
+  rarity: 1
+  tags: []
+  cardComponents:
+  - {fileID: 6048581319076399096}
+  - {fileID: -1664057210514653765}
+--- !u!114 &6048581319076399096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822a222e4a0d9b542865244da1dd501e, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 0
+  card: {fileID: 11400000}
+  targetFilter:
+    team: 1
+    mode: 1
+  damage:
+    baseValue: 2
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 1
+      method: 0
+    downgrades:
+    - value: 1
+      method: 1
+  attackAmount:
+    baseValue: 1
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 0
+      method: 0
+    downgrades:
+    - value: 0
+      method: 1
