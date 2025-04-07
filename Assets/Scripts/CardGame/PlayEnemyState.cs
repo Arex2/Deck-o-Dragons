@@ -45,9 +45,9 @@ public class PlayEnemyState : IState
             //check player hp
             //if player hp <= 0, return gameLost
             //else return setupState
-            if (gameBehaviour.HpNew <= 0)
+            if (gameBehaviour.HP <= 0)
             {
-                Debug.Log("RETURN GAME LOST " + gameBehaviour.HpNew);
+                Debug.Log("RETURN GAME LOST " + gameBehaviour.HP);
                 return new BattleOverState();
             }
             else return new SetupState();

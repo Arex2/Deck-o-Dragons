@@ -38,7 +38,7 @@ public class PlayCardState : IState
         if (temp)
         {
             Debug.Log("Damage enemy");
-            gameBehaviour.EnemyTakeDamage(5);  //DET HÄR HÄNDER VARJE FRAME HELA TIDEN
+            //gameBehaviour.EnemyTakeDamage(5);  //DET HÄR HÄNDER VARJE FRAME HELA TIDEN
 
             //when played effect is done // could possibly be a cooldown timer have timer in gameBehaviour and return? would that work?
             //check enemy hp,
