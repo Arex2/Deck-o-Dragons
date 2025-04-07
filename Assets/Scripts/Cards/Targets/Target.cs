@@ -14,7 +14,7 @@ public abstract class Target : MonoBehaviour
 
     [SerializeField] private float maxHp;
     protected float hp;
-    protected float block;
+
     [SerializeField] private bool isLeader;
 
     private void OnEnable()
@@ -39,21 +39,11 @@ public abstract class Target : MonoBehaviour
 
     public virtual void Hurt(float amount)
     {
-        //If the incoming damage is greater then the targets block set block to zero and deal damage to the targets hp
-        if(amount > block)
-        {
-            block = 0;
-            hp -= amount;
+        hp -= amount;
 
-            if (hp < 0)
-            {
-                hp = 0;
-            }
-        }
-        //If targets block is greater then the incoming damage, reduce block by the amount
-        else
+        if (hp < 0)
         {
-            block -= amount;
+            hp = 0;
         }
 
         //Debug.Log(name + " has taken " + amount + " damage");
@@ -71,11 +61,6 @@ public abstract class Target : MonoBehaviour
 
         //Debug.Log(name + " has healed " + amount + " HP");
         UpdateHP();
-    }
-
-    public virtual void AddBlock(float amount)
-    {
-        block += amount;
     }
 
     protected virtual void UpdateHP()
