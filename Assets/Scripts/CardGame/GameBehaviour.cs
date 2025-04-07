@@ -62,6 +62,10 @@ public class GameBehaviour : Target
     [SerializeField]
     private Slider hpSlider;
 
+    //Reference to enemy script
+    [SerializeField]
+    public EnemyBoss enemyBoss;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -100,6 +104,7 @@ public class GameBehaviour : Target
     public void EndCurrentTurn()
     {
         endTurn = true;
+        enemyBoss.StartTurn();
     }
 
     public void NewTurn()
