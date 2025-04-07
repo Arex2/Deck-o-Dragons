@@ -384,8 +384,13 @@ MonoBehaviour:
   card: {fileID: 11400000, guid: 4420287fca5bb59498d4e4f92e41fd6c, type: 2}
   user: {fileID: 151584345}
   cards:
-  - {fileID: 11400000, guid: 4420287fca5bb59498d4e4f92e41fd6c, type: 2}
-  - {fileID: 11400000, guid: ee0c150733ad3124c84008ef9a74c6b6, type: 2}
+  - {fileID: 11400000, guid: 9cc527b6d0cc85547b021d492a15161f, type: 2}
+  - {fileID: 11400000, guid: c17ab45f4ed7fd144b6a6e4fdc7f69c0, type: 2}
+  - {fileID: 11400000, guid: 9f6a71bf88d32634681c9df4bc542c4d, type: 2}
+  - {fileID: 11400000, guid: 391dd47343e7986488677edfff97eb51, type: 2}
+  - {fileID: 11400000, guid: 9f65d50d3cd838748934cfdcdd670adb, type: 2}
+  - {fileID: 11400000, guid: 40eab4164775d014b9740b6f1dfa9bf6, type: 2}
+  - {fileID: 11400000, guid: c6efc07c042cb7343b361ef4baa35d94, type: 2}
 --- !u!1 &538179056
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,7 +911,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 61.85
+  m_fontSize: 36.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1322,7 +1327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameBehaviour: {fileID: 151584345}
   cardPrefab: {fileID: 348892547}
-  testCard: {fileID: 11400000, guid: 9cc527b6d0cc85547b021d492a15161f, type: 2}
+  testCard: {fileID: 11400000, guid: 40eab4164775d014b9740b6f1dfa9bf6, type: 2}
   cardBeingPlayed: {fileID: 0}
   cardIsPlaying: 0
 --- !u!4 &1137492237
