@@ -34,17 +34,20 @@ public class PlayEnemyState : IState
     {
         if (temp)
         {
+
+            //CARDS PLAY THEMSELVES
+
             //play own cards
-            Debug.Log("Damage the player");
-            gameBehaviour.LoseHp(3);
+            //Debug.Log("Damage the player");
+            //gameBehaviour.LoseHp(3);
             //Debug.Log("Heal itself (?)");
 
             //check player hp
             //if player hp <= 0, return gameLost
             //else return setupState
-            if (gameBehaviour.Hp <= 0)
+            if (gameBehaviour.HpNew <= 0)
             {
-                Debug.Log("RETURN GAME LOST " + gameBehaviour.Hp);
+                Debug.Log("RETURN GAME LOST " + gameBehaviour.HpNew);
                 return new BattleOverState();
             }
             else return new SetupState();
