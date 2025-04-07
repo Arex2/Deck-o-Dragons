@@ -6,10 +6,18 @@ public class CardObject : MonoBehaviour
 {
     [SerializeField] private Card card;
     [SerializeField] private Target user;
+    [SerializeField] private Card[] cards;
 
     private void Start()
     {
+        BecomeRandomCard();
         gameObject.GetComponent<SpriteRenderer>().sprite = card.Sprite;
+    }
+
+    private void BecomeRandomCard()
+    {
+        int i = Random.Range(0, cards.Length);
+        card = cards[i];
     }
 
     public int GetCost()

@@ -39,7 +39,7 @@ public class PlayEnemyState : IState
 
             //play own cards
             //Debug.Log("Damage the player");
-            //gameBehaviour.LoseHp(3);
+            //gameBehaviour.Hurt(3);
             //Debug.Log("Heal itself (?)");
 
             //check player hp

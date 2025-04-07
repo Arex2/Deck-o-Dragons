@@ -121,6 +121,13 @@ public class GameBehaviour : Target
         playerHealthText.text = HP.ToString();
     }
 
+    public override void Heal(float amount)
+    {
+        base.Heal(amount);
+        hpSlider.value = HP;
+        playerHealthText.text = HP.ToString();
+    }
+
     public void LoseMana(int count)
     {
         mana -= count;

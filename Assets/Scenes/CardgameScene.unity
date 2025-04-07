@@ -382,6 +382,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card: {fileID: 11400000, guid: 4420287fca5bb59498d4e4f92e41fd6c, type: 2}
   user: {fileID: 151584345}
+  cards:
+  - {fileID: 11400000, guid: 4420287fca5bb59498d4e4f92e41fd6c, type: 2}
+  - {fileID: 11400000, guid: ee0c150733ad3124c84008ef9a74c6b6, type: 2}
 --- !u!1 &413598065
 GameObject:
   m_ObjectHideFlags: 0
