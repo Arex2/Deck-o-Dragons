@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 
+/// A <see cref="CardComponent"/> responsible for healing a <see cref="Target"/>.
 /// </summary>
 // Script by Ruben
 public class CardHeal : CardComponent, IUseSingle

@@ -400,6 +400,8 @@ public class UpgradeableFloatPropertyDrawer : PropertyDrawer
         }
     }
 
+    // TODO: Add a clean list method
+
     private static void AddUpgradeAndDowngradeOptions(GenericMenu menu, SerializedProperty property)
     {
         void AddTo(string propertyName)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: REMOVE
 public class Test : MonoBehaviour
 {
     [SerializeField] private Card card;
@@ -17,6 +18,11 @@ public class Test : MonoBehaviour
 
     public void Play()
     {
-        card.Play(user, () => Debug.Log("I'm finish"));
+        card.Play(user, OnFinishPlayingCard);
+    }
+
+    private void OnFinishPlayingCard()
+    {
+        Debug.Log("I'm finish");
     }
 }

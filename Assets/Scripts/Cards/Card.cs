@@ -18,6 +18,8 @@ public class Card : ScriptableObject
 
     private static readonly Regex _descriptionKeywordRegex = new Regex(@"\{[\w\s\:]+\}", RegexOptions.IgnoreCase);
 
+    public Sprite Sprite => sprite;
+
     public string DisplayName => string.IsNullOrEmpty(displayName) ? name : displayName;
     public string Description
     {
@@ -42,6 +44,9 @@ public class Card : ScriptableObject
     // TODO: Upgrades
     public int Tier { get; private set; } = 0;
 
+    [SerializeField] private Sprite sprite;
+
+    [Space]
     [SerializeField] private string displayName;
     [SerializeField] private string description;
 
@@ -90,13 +95,16 @@ public class Card : ScriptableObject
             {
                 Debug.LogWarning($"The Card: \"{this.name}\" has more than one CardComponent named \"{name}\"! Please rename them in the inspector.", this);
             }
-
-            cardComponent.InternalInitialize();
         }
 
         foreach (var pair in temp)
         {
             _cardComponentTypeDictionary.Add(pair.Key, pair.Value.ToArray());
+        }
+
+        foreach (CardComponent cardComponent in cardComponents)
+        {
+            cardComponent.InternalInitialize();
         }
 
         _descriptionCache = null;
@@ -110,12 +118,17 @@ public class Card : ScriptableObject
         }
 
         _coroutine = CardManager.StartStaticCoroutine(PlayCoroutine(user, onFinish));
-
-        PlayingACard = true;
     }
 
-    private IEnumerator PlayCoroutine(Target user, Action onFinish = null)
+    public IEnumerator PlayCoroutine(Target user, Action onFinish = null)
     {
+        if (PlayingACard)
+        {
+            yield break;
+        }
+
+        PlayingACard = true;
+
         Team ownTeam = user.Team;
         Team opponentTeam = ownTeam.GetOpponentTeam();
 
@@ -159,8 +172,9 @@ public class Card : ScriptableObject
                         break;
 
                     case TargetFilter.FilterTeam.Chosen:
-                        Debug.Log("TODO!!! UI");
-                        team = opponentTeam;
+                        yield return TargetSelector.SelectTeam();
+
+                        team = TargetSelector.TeamResult;
                         break;
 
                     // Chaos
@@ -177,7 +191,6 @@ public class Card : ScriptableObject
                 switch (targetFilter.Mode)
                 {
                     case TargetFilter.FilterMode.Leader:
-                    case TargetFilter.FilterMode.Chosen:
 
                         // Failsafe
                         if (!team.HasValue)
@@ -190,17 +203,26 @@ public class Card : ScriptableObject
                         doSingleTarget = true;
                         break;
 
-                    /* TODO
-                case TargetFilter.FilterMode.Chosen:
-                    // TODO: Choose UI
-                    singleTarget[0]
-                    doSingleTarget = true;
-                    break;
-                    */
+                    case TargetFilter.FilterMode.Chosen:
+                        List<Target> list = GetTargets(team, out count);
+
+                        if (count <= 1)
+                        {
+                            singleTarget[0] = list[0];
+                        }
+                        else
+                        {
+                            yield return TargetSelector.SelectTarget(list, count);
+
+                            singleTarget[0] = TargetSelector.TargetResult;
+                        }
+
+                        doSingleTarget = true;
+                        break;
 
                     // Chaos
                     case TargetFilter.FilterMode.Random:
-                        List<Target> list = GetTargets(team, out count);
+                        list = GetTargets(team, out count);
 
                         singleTarget[0] = list[Random.Range(0, count)];
                         doSingleTarget = true;
@@ -280,8 +302,6 @@ public class Card : ScriptableObject
         if (match.Success)
         {
             string keyword = match.Value.Substring(1, match.Value.Length - 2).Trim().ToLower();
-
-            Debug.Log("Keyword: " + keyword);
 
             if (keyword.Contains(':'))
             {

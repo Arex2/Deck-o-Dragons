@@ -264,6 +264,10 @@ public class CardEditor : Editor
 
                     iterator.stringValue = EditorGUILayout.TextArea(iterator.stringValue, GUILayout.Height(60));
                     continue;
+
+                case "sprite":
+                    iterator.objectReferenceValue = EditorGUILayout.ObjectField(new GUIContent(iterator.displayName), iterator.objectReferenceValue, typeof(Sprite), false, GUILayout.Height(64));
+                    continue;
             }
 
             EditorGUILayout.PropertyField(iterator, true);

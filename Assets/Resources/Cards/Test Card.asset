@@ -38,9 +38,6 @@ MonoBehaviour:
     downgrades:
     - value: 0
       method: 1
-  overrideElement:
-    Enabled: 0
-    Value: 0
 --- !u!114 &-1223053199875735651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
   m_Name: Test Card
   m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
   displayName: Test Card
   description: 'Deals {Attack} damage.
 

@@ -12,10 +12,10 @@ public abstract class Target : MonoBehaviour
 
     public bool IsLeader => isLeader;
 
-    [SerializeField] protected float maxHp;
+    [SerializeField] private float maxHp;
     protected float hp;
 
-    [SerializeField] protected bool isLeader;
+    [SerializeField] private bool isLeader;
 
     private void OnEnable()
     {
@@ -29,7 +29,7 @@ public abstract class Target : MonoBehaviour
 
     protected virtual void Awake()
     {
-
+        hp = maxHp;
     }
 
     protected virtual void Start()
@@ -41,13 +41,32 @@ public abstract class Target : MonoBehaviour
     {
         hp -= amount;
 
-        Debug.Log(name + " has taken " + amount + " damage");
+        if (hp < 0)
+        {
+            hp = 0;
+        }
+
+        //Debug.Log(name + " has taken " + amount + " damage");
+        UpdateHP();
     }
 
     public virtual void Heal(float amount)
     {
         hp += amount;
 
-        Debug.Log(name + " has healed " + amount + " HP");
+        if (hp > maxHp)
+        {
+            hp = maxHp;
+        }
+
+        //Debug.Log(name + " has healed " + amount + " HP");
+        UpdateHP();
     }
+
+    protected virtual void UpdateHP()
+    {
+
+    }
+
+    public abstract Bounds GetWorldBounds();
 }

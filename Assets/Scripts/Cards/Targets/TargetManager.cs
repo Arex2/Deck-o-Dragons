@@ -1,19 +1,8 @@
-using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class TargetManager : MonoBehaviour
+[SingletonMode(true)]
+public class TargetManager : Singleton<TargetManager>
 {
-    #region Singleton Instance
-    public static TargetManager Instance { get; private set; }
-
-    [RuntimeInitializeOnLoadMethod]
-    public static void Init()
-    {
-        new GameObject(nameof(TargetManager), typeof(TargetManager));
-    }
-    #endregion
-
     public static readonly List<Target> AllTargets = new List<Target>();
     public static int AllTargetsCount { get; private set; }
 
@@ -21,12 +10,6 @@ public class TargetManager : MonoBehaviour
     private static readonly Dictionary<Team, int> _targetCountDictionary = new();
     private static readonly Dictionary<Team, Target> _targetLeaderDictionary = new();
     private static bool _dictionariesInvalid = true;
-
-    private void Awake()
-    {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
 
     public static void AddCardTarget(Target cardTarget)
     {

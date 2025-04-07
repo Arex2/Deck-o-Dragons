@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 
+/// A <see cref="CardComponent"/> responsible for dealing damage to a <see cref="Target"/>.
 /// </summary>
 // Script by Ruben
-public class CardAttack : CardComponent, IUseCoroutineSingle
+public class CardAttack : CardComponent, IUseCoroutineMulti
 {
     public override TargetFilter TargetFilter => targetFilter;
     [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Opponent, TargetFilter.FilterMode.Chosen);
@@ -14,20 +14,47 @@ public class CardAttack : CardComponent, IUseCoroutineSingle
     [Space]
     [SerializeField] private UpgradeableFloat damage = new UpgradeableFloat(3, 1);
     [SerializeField] private UpgradeableFloat attackAmount = new UpgradeableFloat(1);
-    [SerializeField] private Optional<Element> overrideElement;
 
-    public IEnumerator UseCoroutine(Target target)
+    public IEnumerator UseCoroutine(List<Target> targets)
     {
-        int count = Mathf.RoundToInt(attackAmount.GetValue(Tier));
+        int attackAmount = Mathf.RoundToInt(this.attackAmount.GetValue(Tier));
+        float damage = this.damage.GetValue(Tier);
 
-        for (int i = 0; i < count; i++)
+        IEnumerator HurtTarget(Target target)
         {
-            target.Hurt(damage.GetValue(Tier));
+            if (attackAmount <= 1)
+            {
+                target.Hurt(damage);
+            }
+            else
+            {
+                for (int i = 0; i < attackAmount; i++)
+                {
+                    target.Hurt(damage);
+
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
         }
 
-        yield return new WaitForSeconds(0.1f);
+        int count = targets.Count;
+
+        if (count == 1)
+        {
+            yield return HurtTarget(targets[0]);
+        }
+        else
+        {
+            foreach (Target target in targets)
+            {
+                yield return HurtTarget(target);
+
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
     }
 
+    #region Description Stuff
     [ReplaceDescriptionKeyword]
     private string ReplaceMainKeyword()
     {
@@ -52,4 +79,5 @@ public class CardAttack : CardComponent, IUseCoroutineSingle
     {
         return attackAmount.ToString(Tier);
     }
+    #endregion
 }
