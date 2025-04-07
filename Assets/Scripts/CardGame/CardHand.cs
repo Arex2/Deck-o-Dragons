@@ -14,13 +14,13 @@ public class CardHand : MonoBehaviour
     int selectedIndex;
 
     [SerializeField] GameObject cardPrefab;
+    [SerializeField] Card testCard;
     Vector3 cardPlayPosition = new Vector3(0, 0.5f, 0);
     List<GameObject> cardsInHand = new List<GameObject>();
     List<GameObject> cardsSelected = new List<GameObject>();
 
     public GameObject cardBeingPlayed;
     public bool cardIsPlaying;
-
 
     private void Start()
     {
@@ -104,18 +104,23 @@ public class CardHand : MonoBehaviour
     {
         if (cardsInHand.Count == 0)
             return;
+
+        GameObject card = cardsInHand[selectedIndex];
         //OBS BEHÖVER BYTA UT 1 MOT card.Mana så att man kan jämföra mana!!!
-        if (!gameBehaviour.CheckMana(1))
+        if (!gameBehaviour.CheckMana(card.GetComponent<CardObject>().GetCost()))
             return;
-        cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 2;
-        cardsInHand[selectedIndex].transform.DOMove(cardPlayPosition, 0.4f);
+
+
+        card.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        card.transform.DOMove(cardPlayPosition, 0.4f);
+        card.GetComponent<CardObject>().Play();
 
         //this method should probably be in the card script instead?
         //card triggering to destroy itself after having played its animation
         //and done it's actions
-        cardBeingPlayed = cardsInHand[selectedIndex];
+        cardBeingPlayed = card;
         cardIsPlaying = true;
-        Invoke("RemoveCard",0.5f);
+        //Invoke("RemoveCard",0.5f);
 
         cardsInHand.RemoveAt(selectedIndex);
 
@@ -144,10 +149,15 @@ public class CardHand : MonoBehaviour
 
     public void DrawCard() 
     {
+
         //check if can draw card
         //instantiate new card
         GameObject card = Instantiate(cardPrefab);
-        card.GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV();
+        
+        SpriteRenderer r = card.GetComponent<SpriteRenderer>();
+        //r.sprite = testCard.Sprite;
+        r.color = UnityEngine.Random.ColorHSV();
+
         //add to cardsInHand
         cardsInHand.Add(card);
         //update positions

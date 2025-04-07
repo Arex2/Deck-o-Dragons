@@ -4,21 +4,32 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class GameBehaviour : MonoBehaviour
+public class GameBehaviour : Target
 {
+    #region stuff for Target class
+    public override Team Team => Team.Player;
+    public override Bounds GetWorldBounds()
+    {
+        return new Bounds(transform.position, transform.localScale);
+    }
+    #endregion
+
+
     private bool endTurn;
 
     public bool EndTurn
     { get { return endTurn; } }
 
     //player stats, should maybe be moved? or script renamed
+    //OBS MaxHP and HP is instead used from Target superclass
     private int mana;
     private int maxMana = 8;
-    private int hp;
-    private int maxHp = 10;
+    private int hpNew;
+    private int maxHpNew = 10;
 
-    public int Hp
-    { get { return hp; } }
+    public int HpNew
+    { get { return hpNew; } }
+    
 
     public int Mana 
     { get { return mana; } }
@@ -54,15 +65,15 @@ public class GameBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hp = maxHp;
+        hpNew = maxHpNew;
         mana = maxMana;
 
         manaText.text = mana.ToString();
         enemyHealthText.text = enemyHp.ToString();
-        playerHealthText.text = hp.ToString();
+        playerHealthText.text = HP.ToString();
 
-        hpSlider.maxValue = maxHp;
-        hpSlider.value = hp;
+        hpSlider.maxValue = MaxHP;
+        hpSlider.value = HP;
     }
 
     // Update is called once per frame
@@ -98,9 +109,23 @@ public class GameBehaviour : MonoBehaviour
 
     public void LoseHp(int count)
     {
-        hp -= count;
-        hpSlider.value = hp;
-        playerHealthText.text = hp.ToString();
+        hpNew -= count;
+        hpSlider.value = hpNew;
+        playerHealthText.text = hpNew.ToString();
+    }
+
+    public override void Hurt(float amount)
+    {
+        base.Hurt(amount);
+        hpSlider.value = HP;
+        playerHealthText.text = HP.ToString();
+    }
+
+    public override void Heal(float amount)
+    {
+        base.Heal(amount);
+        hpSlider.value = HP;
+        playerHealthText.text = HP.ToString();
     }
 
     public void LoseMana(int count)
