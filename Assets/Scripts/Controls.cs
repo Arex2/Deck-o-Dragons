@@ -156,7 +156,7 @@ public class Controls : MonoBehaviour
                 hand.OldPlayCard();
                 break;
             case Direction.Down:
-                hand.DrawCard();
+                //hand.DrawCard();
                 break;
             case Direction.Right:
                 if (startPos2 < leftEdgeArea)
