@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
+  m_Name: Eart Shield
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  displayName: 
+  description: Gain {BLOCK} block
+  cost: 4
+  element: 8
+  category: 2
+  rarity: 0
+  tags: []
+  cardComponents:
+  - {fileID: 787867238879520844}
+--- !u!114 &787867238879520844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e60eaba77fb7842aa98cfa86d9a117, type: 3}
+  m_Name: Block
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 0
+  card: {fileID: 11400000}
+  targetFilter:
+    team: 1
+    mode: 0
+  block:
+    baseValue: 12
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 0
+      method: 0
+    downgrades:
+    - value: 0
+      method: 1
