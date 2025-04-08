@@ -45,10 +45,10 @@ MonoBehaviour:
   description: 'Draw {CARD_AMOUNT} new cards.
 
     Heal {HEAL}.'
-  cost: 0
+  cost: 6
   element: 0
   category: 4
-  rarity: 1
+  rarity: 2
   tags: []
   cardComponents:
   - {fileID: 8844600729371645363}

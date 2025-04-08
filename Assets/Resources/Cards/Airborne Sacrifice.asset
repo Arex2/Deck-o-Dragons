@@ -55,7 +55,7 @@ MonoBehaviour:
   description: 'Take {Attack} damage.
 
     Draw {CARD_AMOUNT} new cards.'
-  cost: 0
+  cost: 2
   element: 4
   category: 4
   rarity: 1
@@ -79,7 +79,7 @@ MonoBehaviour:
   orderInEditor: 1
   card: {fileID: 11400000}
   tempAmount:
-    baseValue: 5
+    baseValue: 4
     stack: 0
     loopBehaviour: 0
     upgrades: []

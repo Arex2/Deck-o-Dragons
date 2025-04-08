@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: d9b8cfd1ac2998f46a24dbb76b2ffb3b, type: 3}
   displayName: Whirlpool
-  description: Discard your entire hand and draw a new set of cards
+  description: Discard your entire hand and draw 5
   cost: 3
   element: 2
   category: 4
@@ -22,6 +22,7 @@ MonoBehaviour:
   tags: []
   cardComponents:
   - {fileID: 4250661183866793492}
+  - {fileID: 4436496413160806555}
 --- !u!114 &4250661183866793492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,3 +38,24 @@ MonoBehaviour:
   expandedInEditor: 1
   orderInEditor: 0
   card: {fileID: 11400000}
+--- !u!114 &4436496413160806555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa0ce210d39eae47ac0fdb6ceb48e2d, type: 3}
+  m_Name: DrawCard
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 1
+  card: {fileID: 11400000}
+  tempAmount:
+    baseValue: 5
+    stack: 0
+    loopBehaviour: 0
+    upgrades: []
+    downgrades: []
