@@ -8,9 +8,19 @@ public class SceneSwitcher : MonoBehaviour
     public void SwitchScene(int sceneIndexChange)
     {
         int newScenePos = SceneManager.GetActiveScene().buildIndex + sceneIndexChange;
-        if (SceneManager.GetSceneByBuildIndex(newScenePos).IsValid())
+        
+        if (!SceneManager.GetSceneByBuildIndex(newScenePos).IsValid())
             return;
         SceneManager.LoadScene(newScenePos);
+    }
+
+    public void SwitchSceneByName(string sceneNameChange)
+    {
+        
+
+        
+        print("Wa");
+        SceneManager.LoadScene(sceneNameChange);
     }
 
     public void SwitchToGarden()
