@@ -242,6 +242,7 @@ public class Card : ScriptableObject
             IUseSingle useSingle = cardComponent as IUseSingle;
             IUseCoroutineMulti useCoroutineMulti = cardComponent as IUseCoroutineMulti;
             IUseCoroutineSingle useCoroutineSingle = cardComponent as IUseCoroutineSingle;
+            IUse use = cardComponent as IUse;
 
             if (useMulti != null)
             {
@@ -284,6 +285,11 @@ public class Card : ScriptableObject
                         yield return enumerator;
                     }
                 }
+            }
+
+            if (use != null)
+            {
+                use.Use();
             }
         }
 
