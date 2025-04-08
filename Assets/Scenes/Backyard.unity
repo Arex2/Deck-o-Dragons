@@ -1339,6 +1339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b2f26bb88a7baa4d8ce20968ad92b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swipeActions: 1
   sceneSwitcher: {fileID: 857169906}
   camera: {fileID: 129061404}
 --- !u!4 &857169908
