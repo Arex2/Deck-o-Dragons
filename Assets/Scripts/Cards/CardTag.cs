@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 // Script by Ruben
 [CreateAssetMenu(menuName = "Cards/Create New Card Tag")]
-public class CardTag : ScriptableObject
+public class CardTag : GUIDScriptableObject
 {
     // Nada
 }

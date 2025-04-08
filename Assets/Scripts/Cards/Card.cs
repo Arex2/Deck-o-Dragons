@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,7 +11,7 @@ using Random = UnityEngine.Random;
 /// </summary>
 // Script by Ruben
 [CreateAssetMenu(menuName = "Cards/Create New Card")]
-public class Card : ScriptableObject
+public class Card : GUIDScriptableObject
 {
     public static bool PlayingACard { get; private set; } = false;
 
@@ -43,6 +42,8 @@ public class Card : ScriptableObject
 
     // TODO: Upgrades
     public int Tier { get; private set; } = 0;
+
+    public List<CardTag> Tags => tags;
 
     [SerializeField] private Sprite sprite;
 

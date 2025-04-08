@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// <see cref="CardComponent"/> that will add a new card to the players hand.
+/// </summary>
+// Script by Ruben
 public class DrawCard : CardComponent, IUse
 {
     //[SerializeField] private Card[] cardsToDraw;

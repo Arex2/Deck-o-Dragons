@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
   m_Name: Reckles Charge
   m_EditorClassIdentifier: 
+  guid: 9f65d50d3cd838748934cfdcdd670adb
   sprite: {fileID: 21300000, guid: 072e276e5e4716c49ac910d40e7702cc, type: 3}
   displayName: Reckles Charge
   description: Deal {DAMAGE} damage, take {DAMAGE} damage

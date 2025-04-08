@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
   m_Name: Primal Flury
   m_EditorClassIdentifier: 
+  guid: 391dd47343e7986488677edfff97eb51
   sprite: {fileID: 21300000, guid: ca6af70b07b094642943c33a59381792, type: 3}
   displayName: 
   description: Deal {DAMAGE} damage {AMOUNT} times

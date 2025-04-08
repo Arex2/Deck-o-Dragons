@@ -1,7 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <see cref="CardComponent"/> that will change the players mana stat.
+/// </summary>
+// Script by Ruben
 public class ModifyMana : CardComponent, IUse
 {
     [SerializeField] private UpgradeableFloat manaAmount = new(1);

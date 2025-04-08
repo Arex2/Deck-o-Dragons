@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
   m_Name: Airborne Sacrifice
   m_EditorClassIdentifier: 
+  guid: 439881303f08dc641bade804432640d2
   sprite: {fileID: 21300000, guid: 4bd770e5448860a40989bec8da70241b, type: 3}
   displayName: Airborne Sacrifice
   description: 'Take {Attack} damage.

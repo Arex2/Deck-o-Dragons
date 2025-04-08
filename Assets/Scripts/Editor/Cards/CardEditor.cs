@@ -259,6 +259,10 @@ public class CardEditor : Editor
                 case "m_Script":
                     continue;
 
+                case "guid":
+                    GUIDScriptableObjectEditor.HandleGUIDField(iterator, target);
+                    continue;
+
                 case "description":
                     EditorGUILayout.LabelField(iterator.displayName);
 
