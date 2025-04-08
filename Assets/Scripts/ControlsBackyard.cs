@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class ControlsBackyard : MonoBehaviour
 {
+    public bool swipeActions;
+
     public InputSystem controls;
     //Vector2 startPos;
     Vector2 dragDir;
@@ -121,6 +123,9 @@ public class ControlsBackyard : MonoBehaviour
     }
     private void SelectAction()
     {
+        if (!swipeActions)
+            return;
+
         switch (swipeDirection)
         {
             case Direction.Up:
