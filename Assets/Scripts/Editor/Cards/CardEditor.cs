@@ -13,7 +13,7 @@ using Object = UnityEngine.Object;
 public class CardEditor : Editor
 {
     // I love regex
-    private static readonly Regex _componentNameRegex = new Regex("(?i)card(.+)");
+    private static readonly Regex _componentNameRegex = new Regex("card(.+)", RegexOptions.IgnoreCase);
 
     private CardComponentSearchWindowProvider _searchWindowProvider;
 
