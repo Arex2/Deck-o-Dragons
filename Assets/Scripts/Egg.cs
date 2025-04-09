@@ -16,8 +16,8 @@ public class Egg : MonoBehaviour
     float shakeTreshold = 2.0f * 2.0f;
     Vector3 lowPassValue;
 
-    [SerializeField]
-    GameObject dragon;
+    [SerializeField] GameObject[] dragons;
+
 
     private void OnEnable()
     {
@@ -81,8 +81,10 @@ public class Egg : MonoBehaviour
 
     private void SpawnDragon()
     {
-        Instantiate(dragon, new Vector3(0,0,0), Quaternion.identity);
+        int index = Random.Range(0, dragons.Length);
+        Instantiate(dragons[index], new Vector3(0, 0, 0), Quaternion.identity);
     }
+
 
     private void DeleteEgg()
     {
