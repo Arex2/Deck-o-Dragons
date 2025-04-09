@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4398965917801278530}
   - component: {fileID: 1175524385058043577}
   - component: {fileID: -5764474394801084514}
+  - component: {fileID: 3335402999359318831}
   m_Layer: 0
   m_Name: VattenDrake
   m_TagString: Untagged
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: -1671871013, guid: c101e50d907112942832b1b60c2b3ddc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -100,5 +101,50 @@ MonoBehaviour:
   dragonSprites:
   - {fileID: -1671871013, guid: c101e50d907112942832b1b60c2b3ddc, type: 3}
   - {fileID: 21300000, guid: 1eb6b45cc69947c4e9a4b088a7e68726, type: 3}
+  - {fileID: 111282262, guid: 9e44d79c69bc3d442bbf9c915e938b8c, type: 3}
   eggPrefab: {fileID: 1257647025133526901, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
-  spriteRenderer: {fileID: 1175524385058043577}
+--- !u!61 &3335402999359318831
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9204316637168426044}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.9525, y: 7.06}
+    newSize: {x: 30.953125, y: 44.125}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.9525, y: 7.06}
+  m_EdgeRadius: 0
