@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 125aadda6b0f197418631ec1aa8ee951
+guid: c101e50d907112942832b1b60c2b3ddc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -94,7 +94,33 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -110,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BebisDrakar_0
+      name: BabyDragons_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 496
-        height: 649
+        width: 495.25
+        height: 706
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8fe2e6bf3258c0042af86a61cb3cd2aa
-      internalID: -300042107
+      spriteID: f2bf6310a08b9b145b0ddd5b4ab7cda6
+      internalID: 2008665284
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BebisDrakar_1
+      name: BabyDragons_1
       rect:
         serializedVersion: 2
-        x: 496
+        x: 495
         y: 0
-        width: 496
-        height: 649
+        width: 495.25
+        height: 706
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 733e0668657f35343a392240bfaa8532
-      internalID: 1445468521
+      spriteID: 75430b4acc9ec97489eb78b5e80ce24c
+      internalID: -1826580087
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BebisDrakar_2
+      name: BabyDragons_2
       rect:
         serializedVersion: 2
-        x: 992
+        x: 990
         y: 0
-        width: 496
-        height: 649
+        width: 495.25
+        height: 706
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +192,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 39386ac041ab1c5438c1594707124a5e
-      internalID: 684624324
+      spriteID: 767648c07ce684e469d23d4e9c2c1599
+      internalID: -1671871013
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BebisDrakar_3
+      name: BabyDragons_3
       rect:
         serializedVersion: 2
-        x: 1488
+        x: 1485
         y: 0
-        width: 496
-        height: 649
+        width: 495.25
+        height: 706
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,8 +213,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f365872baefe7c459f07ec9d34755fe
-      internalID: 1604557490
+      spriteID: 10a87e3e5fdc06343a6c40ca86074af4
+      internalID: 1099427735
       vertices: []
       indices: 
       edges: []
@@ -204,10 +230,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BebisDrakar_0: -300042107
-      BebisDrakar_1: 1445468521
-      BebisDrakar_2: 684624324
-      BebisDrakar_3: 1604557490
+      BabyDragons_0: 2008665284
+      BabyDragons_1: -1826580087
+      BabyDragons_2: -1671871013
+      BabyDragons_3: 1099427735
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
