@@ -3,30 +3,34 @@ using UnityEngine;
 public class DragonController : MonoBehaviour
 {
     [SerializeField] private Sprite[] dragonSprites;
+    [SerializeField] private GameObject eggPrefab;
+
+    private SpriteRenderer spriteRenderer;
     private int currentIndex = 0;
 
-
-    [Header("Reset Settings")]
-    [SerializeField] private GameObject eggPrefab;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     void Start()
     {
-        if (dragonSprites.Length > 0)
+        if (dragonSprites.Length > 0 && spriteRenderer != null)
         {
             spriteRenderer.sprite = dragonSprites[0];
         }
     }
+
+    void OnMouseDown()
+    {
+        NextDragon();
+    }
+
     public void NextDragon()
     {
-        if (dragonSprites.Length == 0) return;
+        if (dragonSprites.Length == 0 || spriteRenderer == null) return;
 
         currentIndex = (currentIndex + 1) % dragonSprites.Length;
         spriteRenderer.sprite = dragonSprites[currentIndex];
-    }
-    public void ResetToEgg()
-    {
-        Instantiate(eggPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        Destroy(gameObject);
     }
 }
