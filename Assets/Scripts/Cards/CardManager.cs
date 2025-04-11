@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// The script that handles loading and keeping track of every <see cref="Card"/>.
+/// The script that has a reference to every <see cref="Card"/> and <see cref="CardTag"/>.
 /// </summary>
 // Script by Ruben
 [SingletonMode(true)]
 public class CardManager : Singleton<CardManager>
 {
-    public static Card[] AllCards { get; private set; }
-    public static CardTag[] AllTags { get; private set; }
+    public static Card[] AllCards => Instance.allCards;
+    public static CardTag[] AllTags => Instance.allTags;
+
+    [HideInInspector] [SerializeField] private Card[] allCards;
+    [HideInInspector] [SerializeField] private CardTag[] allTags;
 
     private static readonly Dictionary<CardTag, List<Card>> _cardsTagDictionary = new();
     private static readonly Dictionary<string, Card> _cardsNameDictionary = new();
@@ -22,11 +25,13 @@ public class CardManager : Singleton<CardManager>
     {
         base.Awake();
 
-        AllCards = Resources.LoadAll<Card>("Cards");
-        AllTags = Resources.LoadAll<CardTag>("Cards/Tags");
-
-        foreach (CardTag tag in AllTags)
+        foreach (CardTag tag in allTags)
         {
+            if (tag == null)
+            {
+                continue;
+            }
+
             string name = tag.name.ToLower().Trim();
 
             if (!_cardTagsNameDictionary.ContainsKey(name))
@@ -42,10 +47,20 @@ public class CardManager : Singleton<CardManager>
             _cardTagsGUIDDictionary.Add(tag.GUID, tag);
         }
 
-        foreach (Card card in AllCards)
+        foreach (Card card in allCards)
         {
+            if (card == null)
+            {
+                continue;
+            }
+
             foreach (CardTag tag in card.Tags)
             {
+                if (tag == null)
+                {
+                    continue;
+                }
+
                 if (!_cardsTagDictionary.ContainsKey(tag))
                 {
                     _cardsTagDictionary.Add(tag, new());
@@ -67,11 +82,34 @@ public class CardManager : Singleton<CardManager>
             }
 #endif
 
-            _cardsGUIDDictionary.Add(card.GUID, card);
+            if (string.IsNullOrEmpty(card.GUID))
+            {
+#if UNITY_EDITOR
+                Debug.LogWarning($"The card \"{card.name}\" is missing a GUID! The fix to this is to simply select the card in the inspector.", card);
+#endif
+                continue;
+            }
+
+            if (!_cardsGUIDDictionary.ContainsKey(card.GUID))
+            {
+                _cardsGUIDDictionary.Add(card.GUID, card);
+            }
+#if UNITY_EDITOR
+            else
+            {
+                // Should be impossible
+                Debug.LogWarning($"There are multiple Cards with the GUID \"{card.GUID}\"! How could this happen?");
+            }
+#endif
         }
 
-        foreach (Card card in AllCards)
+        foreach (Card card in allCards)
         {
+            if (card == null)
+            {
+                continue;
+            }
+
             card.OnLoad();
         }
     }
