@@ -12,8 +12,8 @@ public class CardAttack : CardComponent, IUseCoroutineMulti
     [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Opponent, TargetFilter.FilterMode.Chosen);
 
     [Space]
-    [SerializeField] private UpgradeableFloat damage = new UpgradeableFloat(3, 1);
-    [SerializeField] private UpgradeableFloat attackAmount = new UpgradeableFloat(1);
+    [SerializeField] private UpgradeableFloat damage = new(3, 1);
+    [SerializeField] private UpgradeableInt attackAmount = new(1);
 
     public IEnumerator UseCoroutine(List<Target> targets)
     {

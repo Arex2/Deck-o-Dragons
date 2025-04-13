@@ -15,7 +15,7 @@ public class CardManager : Singleton<CardManager>
     [HideInInspector] [SerializeField] private Card[] allCards;
     [HideInInspector] [SerializeField] private CardTag[] allTags;
 
-    private static readonly Dictionary<CardTag, List<Card>> _cardsTagDictionary = new();
+    private static readonly Dictionary<CardTag, Card[]> _cardsTagDictionary = new();
     private static readonly Dictionary<string, Card> _cardsNameDictionary = new();
     private static readonly Dictionary<string, Card> _cardsGUIDDictionary = new();
     private static readonly Dictionary<string, CardTag> _cardTagsNameDictionary = new();
@@ -47,6 +47,8 @@ public class CardManager : Singleton<CardManager>
             _cardTagsGUIDDictionary.Add(tag.GUID, tag);
         }
 
+        Dictionary<CardTag, List<Card>> temp = new();
+
         foreach (Card card in allCards)
         {
             if (card == null)
@@ -61,12 +63,12 @@ public class CardManager : Singleton<CardManager>
                     continue;
                 }
 
-                if (!_cardsTagDictionary.ContainsKey(tag))
+                if (!temp.ContainsKey(tag))
                 {
-                    _cardsTagDictionary.Add(tag, new());
+                    temp.Add(tag, new());
                 }
 
-                _cardsTagDictionary[tag].Add(card);
+                temp[tag].Add(card);
             }
 
             string name = card.name.ToLower().Trim();
@@ -103,6 +105,11 @@ public class CardManager : Singleton<CardManager>
 #endif
         }
 
+        foreach (var pair in temp)
+        {
+            _cardsTagDictionary.Add(pair.Key, pair.Value.ToArray());
+        }
+
         foreach (Card card in allCards)
         {
             if (card == null)
@@ -125,11 +132,11 @@ public class CardManager : Singleton<CardManager>
     }
 
     /// <summary>
-    /// Returns a list of <see cref="Card"/>s that have the attached <paramref name="tag"/>.
+    /// Returns an array of <see cref="Card"/>s that have the attached <paramref name="tag"/>.
     /// </summary>
-    public static List<Card> GetCardsByTag(CardTag tag)
+    public static Card[] GetCardsByTag(CardTag tag)
     {
-        if (_cardsTagDictionary.TryGetValue(tag, out List<Card> cards))
+        if (_cardsTagDictionary.TryGetValue(tag, out Card[] cards))
         {
             return cards;
         }
@@ -170,7 +177,7 @@ public class CardManager : Singleton<CardManager>
     }
 
     /// <summary>
-    /// Returns a <see cref="Card"/> with the given <paramref name="name"/>.
+    /// Returns a <see cref="CardTag"/> with the given <paramref name="name"/>.
     /// </summary>
     public static CardTag GetCardTagByName(string name)
     {
@@ -185,7 +192,7 @@ public class CardManager : Singleton<CardManager>
     }
 
     /// <summary>
-    /// Returns a <see cref="Card"/> with the given <paramref name="guid"/>.
+    /// Returns a <see cref="CardTag"/> with the given <paramref name="guid"/>.
     /// </summary>
     public static CardTag GetCardTagByGUID(string guid)
     {

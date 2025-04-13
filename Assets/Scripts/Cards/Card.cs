@@ -43,7 +43,7 @@ public class Card : GUIDScriptableObject
     // TODO: Upgrades
     public int Tier { get; private set; } = 0;
 
-    public List<CardTag> Tags => tags;
+    public CardTag[] Tags => tags;
 
     [SerializeField] private Sprite sprite;
 
@@ -58,7 +58,8 @@ public class Card : GUIDScriptableObject
     [SerializeField] private CardRarity rarity;
 
     [Space]
-    [SerializeField] private List<CardTag> tags = new();
+    [SerializeField] private CardTag[] tags;
+    private HashSet<CardTag> _tagsHashSet = new();
 
     [HideInInspector]
     [SerializeField] private CardComponent[] cardComponents;
@@ -69,6 +70,11 @@ public class Card : GUIDScriptableObject
 
     public void OnLoad()
     {
+        foreach (CardTag tag in tags)
+        {
+            _tagsHashSet.Add(tag);
+        }
+
         _cardComponentTypeDictionary.Clear();
         _cardComponentNameDictionary.Clear();
 
@@ -111,6 +117,15 @@ public class Card : GUIDScriptableObject
         _descriptionCache = null;
     }
 
+    /// <summary>
+    /// Returns whether or not this card has the given card <paramref name="tag"/>.
+    /// </summary>
+    public bool HasTag(CardTag tag) => _tagsHashSet.Contains(tag);
+    
+    /// <summary>
+    /// Will play this card with the <see cref="Target"/> that's playing the card being the given <paramref name="user"/>. <para/>
+    /// <paramref name="onFinish"/> is invoked when this card has finished playing.
+    /// </summary>
     public void Play(Target user, Action onFinish = null)
     {
         if (PlayingACard)
