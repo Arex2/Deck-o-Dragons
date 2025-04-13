@@ -553,6 +553,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Egg
       objectReference: {fileID: 0}
+    - target: {fileID: 1257647025133526901, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1959526222223085108, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -597,6 +601,26 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2676673371402437761, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
+      propertyPath: dragons.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2676673371402437761, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
+      propertyPath: dragons.Array.data[0]
+      value: 
+      objectReference: {fileID: 7121439608008037001, guid: 60e6f567f22e0564f8edeeaa57e0db33, type: 3}
+    - target: {fileID: 2676673371402437761, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
+      propertyPath: dragons.Array.data[1]
+      value: 
+      objectReference: {fileID: 2889075239259481593, guid: edcac1b3e8b5468439309d637b55858b, type: 3}
+    - target: {fileID: 2676673371402437761, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
+      propertyPath: dragons.Array.data[2]
+      value: 
+      objectReference: {fileID: 8632546672829060183, guid: 4c8ce8e8a14936e4982ac204393ee83a, type: 3}
+    - target: {fileID: 2676673371402437761, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
+      propertyPath: dragons.Array.data[3]
+      value: 
+      objectReference: {fileID: 312332381619448646, guid: 6c9fb1b4e0593bd4ebdb04149a1373aa, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
