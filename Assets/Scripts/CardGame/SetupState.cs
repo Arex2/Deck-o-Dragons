@@ -15,6 +15,11 @@ public class SetupState : IState //VET EJ OM MONO BEHÖVS HÄR, ALTERNATIVT HA DEN
         return null; 
     }
 
+    public virtual IEnumerator PlayEffects(GameBehaviour gameBehaviour)
+    {
+        yield return new WaitForSeconds(1.5f);
+
+    }
 
     public virtual IState Execute()
     {

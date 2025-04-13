@@ -118,8 +118,8 @@ public class CardHand : MonoBehaviour
         }
 
 
-
-        card.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        card.GetComponent<Canvas>().sortingOrder = 2;
+        //card.GetComponent<SpriteRenderer>().sortingOrder = 2; //previously used for old card type
         card.transform.DOMove(cardPlayPosition, 0.4f);
         card.GetComponent<CardObject>().Play();
 
@@ -162,7 +162,7 @@ public class CardHand : MonoBehaviour
         //instantiate new card
         GameObject card = Instantiate(cardPrefab);
         
-        SpriteRenderer r = card.GetComponent<SpriteRenderer>();
+        //SpriteRenderer r = card.GetComponent<SpriteRenderer>();
         //r.sprite = testCard.Sprite;
         //r.color = UnityEngine.Random.ColorHSV();
 
@@ -212,7 +212,7 @@ public class CardHand : MonoBehaviour
     {
         if (cardsInHand.Count == 0)
             return;
-        float spacingX = 0.8f;
+        float spacingX = 1f;// 0.8f;
         float spacingY = 0.1f;
         float firstPos = 0f - spacingX * selectedIndex;
 
@@ -285,14 +285,17 @@ public class CardHand : MonoBehaviour
         //v�nstra sidan fr�n selected index
         for(int i = 0; i < selectedIndex; i++)
         {
-            cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (selectedIndex - i);
+            cardsInHand[i].GetComponent<Canvas>().sortingOrder = -1 * (selectedIndex - i);
+            //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (selectedIndex - i);
         }
         //selected index
-        cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 1;
+        cardsInHand[selectedIndex].GetComponent<Canvas>().sortingOrder = 1;
+        //cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 1;
         //h�gra sidan fr�n selected index
-        for(int i = selectedIndex+1; i < cardsInHand.Count;i++)
+        for (int i = selectedIndex+1; i < cardsInHand.Count;i++)
         {
-            cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (i -(selectedIndex) +1);
+            cardsInHand[i].GetComponent<Canvas>().sortingOrder = -1 * (i -(selectedIndex) +1);
+            //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (i - (selectedIndex) + 1);
         }
     }
 

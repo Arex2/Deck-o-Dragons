@@ -28,6 +28,11 @@ public class BattleOverState : IState
         temp = true;
     }
 
+    public virtual IEnumerator PlayEffects(GameBehaviour gameBehaviour)
+    {
+        return null;
+    }
+
     public virtual IState Execute()
     {
         if (temp)

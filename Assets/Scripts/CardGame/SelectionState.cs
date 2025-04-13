@@ -6,8 +6,6 @@ using UnityEngine.PlayerLoop;
 
 public class SelectionState : IState
 {
-    //[SerializeField]
-    bool test = false;
     protected Controls controls;
     GameBehaviour gameBehaviour;
     public virtual IState Enter(GameBehaviour gameBehaviour)
@@ -22,6 +20,10 @@ public class SelectionState : IState
         return null;
     }
 
+    public virtual IEnumerator PlayEffects(GameBehaviour gameBehaviour)
+    {
+        return null;
+    }
 
     public virtual IState Execute()
     {

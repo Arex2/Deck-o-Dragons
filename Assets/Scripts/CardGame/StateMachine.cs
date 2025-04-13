@@ -9,14 +9,11 @@ public class StateMachine : MonoBehaviour
     GameBehaviour gameBehaviour;
     IState activeState = new SetupState(); //state man bör börja med
 
-    // Start is called before the first frame update
     void Start()
     {
         activeState.Enter(gameBehaviour);
-        //ChangeState(newState);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (activeState != null)
@@ -37,9 +34,6 @@ public class StateMachine : MonoBehaviour
         }
         activeState = newState;
         activeState.Enter(gameBehaviour);
-        
-
-        //newState = null;
     }
 
 
