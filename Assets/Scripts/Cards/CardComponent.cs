@@ -66,18 +66,7 @@ public abstract class CardComponent : ScriptableObject
                     _keywordReplacementDelegates = new();
                 }
 
-                string key = (string.IsNullOrEmpty(attribute.Keyword) ? name : attribute.Keyword).ToLower().Trim();
-
-                if (!_keywordReplacementDelegates.ContainsKey(key))
-                {
-                    _keywordReplacementDelegates.Add(key, @delegate);
-                }
-#if UNITY_EDITOR
-                else
-                {
-                    Debug.LogWarning($"The CardComponent \"{name}\" on {card.name} has multiple Description Keywords called: \"{key}\"", this);
-                }
-#endif
+                _keywordReplacementDelegates.Add((string.IsNullOrEmpty(attribute.Keyword) ? name : attribute.Keyword).ToLower().Trim(), @delegate);
             }
         }
 
