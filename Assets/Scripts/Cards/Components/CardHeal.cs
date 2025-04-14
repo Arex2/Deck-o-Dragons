@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +10,7 @@ public class CardHeal : CardComponent, IUseSingle
     [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Own, TargetFilter.FilterMode.Leader);
 
     [Space]
-    [SerializeField] private UpgradeableFloat healing = new UpgradeableFloat(2);
+    [SerializeField] private UpgradeableFloat healing = new(2);
 
     public void Use(Target target)
     {
