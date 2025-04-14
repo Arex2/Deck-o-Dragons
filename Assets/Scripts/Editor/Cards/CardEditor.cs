@@ -13,7 +13,8 @@ using Object = UnityEngine.Object;
 public class CardEditor : Editor
 {
     // I love regex
-    private static readonly Regex _componentNameRegex = new Regex("card(.+)", RegexOptions.IgnoreCase);
+    private static readonly Regex _componentNameRegex = new Regex(@"^card[s]?(.+)", RegexOptions.IgnoreCase);
+    private static readonly Regex _componentNumberIndexRegex = new Regex(@"(.*) [0-9]+");
 
     private CardComponentSearchWindowProvider _searchWindowProvider;
 
@@ -27,6 +28,8 @@ public class CardEditor : Editor
 
     private void OnEnable()
     {
+        _cardComponentsProperty = serializedObject.FindProperty("cardComponents");
+
         _searchWindowProvider = CreateInstance<CardComponentSearchWindowProvider>();
 
         _searchWindowProvider.OnSelectType = (type) =>
@@ -46,6 +49,47 @@ public class CardEditor : Editor
                 newComponent.name = name;
             }
 
+            name = newComponent.name;
+
+            // Ensure the name is unique
+            int arraySize = _cardComponentsProperty.arraySize;
+
+            bool cardWithSameNameExists = false;
+            int numberOfTries = 1;
+
+            do
+            {
+                if (cardWithSameNameExists)
+                {
+                    Match numberIndexMatch = _componentNumberIndexRegex.Match(name);
+
+                    name = (numberIndexMatch.Success ? numberIndexMatch.Result("$1").Trim() : name) + " " + numberOfTries;
+                    newComponent.name = name;
+                    numberOfTries++;
+                }
+
+                bool foundMatch = false;
+
+                for (int i = 0; i < arraySize; i++)
+                {
+                    Object obj = _cardComponentsProperty.GetArrayElementAtIndex(i).objectReferenceValue;
+
+                    if (obj == null)
+                    {
+                        continue;
+                    }
+
+                    if (obj.name == name)
+                    {
+                        foundMatch = true;
+                        break;
+                    }
+                }
+
+                cardWithSameNameExists = foundMatch;
+            }
+            while (cardWithSameNameExists);
+
             AssetDatabase.AddObjectToAsset(newComponent, target);
 
             using (SerializedObject serializedObject = new SerializedObject(newComponent))
@@ -64,8 +108,6 @@ public class CardEditor : Editor
 
             _shouldCacheCardComponents = true;
         };
-
-        _cardComponentsProperty = serializedObject.FindProperty("cardComponents");
 
         CacheCardComponents();
 

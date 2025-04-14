@@ -40,10 +40,28 @@ public class Card : GUIDScriptableObject
     public CardCategory Category => category;
     public CardRarity Rarity => rarity;
 
-    // TODO: Upgrades
-    public int Tier { get; private set; } = 0;
+    /// <summary>
+    /// The current level of the card. <para/>
+    /// Negative numbers are for downgrades and positive numbers are for upgrades. <para/>
+    /// 0 means no upgrade or downgrades and is the base level of the card.
+    /// </summary>
+    public int Tier
+    {
+        get => _tier;
+        set
+        {
+            if (_tier == value)
+            {
+                return;
+            }
 
-    public List<CardTag> Tags => tags;
+            _tier = value;
+            _descriptionCache = null;
+        }
+    }
+    private int _tier = 0;
+
+    public CardTag[] Tags => tags;
 
     [SerializeField] private Sprite sprite;
 
@@ -58,7 +76,8 @@ public class Card : GUIDScriptableObject
     [SerializeField] private CardRarity rarity;
 
     [Space]
-    [SerializeField] private List<CardTag> tags = new();
+    [SerializeField] private CardTag[] tags;
+    private HashSet<CardTag> _tagsHashSet = new();
 
     [HideInInspector]
     [SerializeField] private CardComponent[] cardComponents;
@@ -69,6 +88,11 @@ public class Card : GUIDScriptableObject
 
     public void OnLoad()
     {
+        foreach (CardTag tag in tags)
+        {
+            _tagsHashSet.Add(tag);
+        }
+
         _cardComponentTypeDictionary.Clear();
         _cardComponentNameDictionary.Clear();
 
@@ -92,10 +116,12 @@ public class Card : GUIDScriptableObject
             {
                 _cardComponentNameDictionary.Add(name, cardComponent);
             }
+#if UNITY_EDITOR
             else
             {
                 Debug.LogWarning($"The Card: \"{this.name}\" has more than one CardComponent named \"{name}\"! Please rename them in the inspector.", this);
             }
+#endif
         }
 
         foreach (var pair in temp)
@@ -109,8 +135,18 @@ public class Card : GUIDScriptableObject
         }
 
         _descriptionCache = null;
+        //Debug.Log("Description print test for: " + DisplayName + " = " + Description, this);
     }
 
+    /// <summary>
+    /// Returns whether or not this card has the given card <paramref name="tag"/>.
+    /// </summary>
+    public bool HasTag(CardTag tag) => _tagsHashSet.Contains(tag);
+    
+    /// <summary>
+    /// Will play this card with the <see cref="Target"/> that's playing the card being the given <paramref name="user"/>. <para/>
+    /// <paramref name="onFinish"/> is invoked when this card has finished playing.
+    /// </summary>
     public void Play(Target user, Action onFinish = null)
     {
         if (PlayingACard)
@@ -123,6 +159,7 @@ public class Card : GUIDScriptableObject
 
     public IEnumerator PlayCoroutine(Target user, Action onFinish = null)
     {
+        // Break if we are already playing a Card
         if (PlayingACard)
         {
             yield break;
@@ -130,11 +167,16 @@ public class Card : GUIDScriptableObject
 
         PlayingACard = true;
 
+        // Setup team variables
         Team ownTeam = user.Team;
         Team opponentTeam = ownTeam.GetOpponentTeam();
 
+        // Local method for getting a random team
         Team GetRandomTeam() => Random.Range(0, 2) == 0 ? ownTeam : opponentTeam;
 
+        // Local method for getting all of the targets in a given team
+        // Also gives an out value for the amount of targets
+        // If no team is given (its nullable) then ALL targets will be used
         List<Target> GetTargets(Team? team, out int count)
         {
             if (team.HasValue)
@@ -299,9 +341,16 @@ public class Card : GUIDScriptableObject
         PlayingACard = false;
     }
 
+    /// <summary>
+    /// Updates the description of this card to match with any current changes applied to its CardComponents.
+    /// </summary>
     public void UpdateDescription()
     {
-        _descriptionCache = _descriptionKeywordRegex.Replace(description, DescriptionKeywordEvaluator);
+        _descriptionCache = 
+            _descriptionKeywordRegex.IsMatch(description) ? 
+            _descriptionKeywordRegex.Replace(description, DescriptionKeywordEvaluator)
+            :
+            description;
     }
 
     private string DescriptionKeywordEvaluator(Match match)

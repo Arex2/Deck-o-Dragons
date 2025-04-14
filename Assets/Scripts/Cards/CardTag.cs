@@ -7,5 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Cards/Create New Card Tag")]
 public class CardTag : GUIDScriptableObject
 {
-    // Nada
+    public string DisplayName => displayName;
+
+    [SerializeField] private string displayName;
 }
