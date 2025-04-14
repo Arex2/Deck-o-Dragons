@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// The script that has a reference to every <see cref="Card"/> and <see cref="CardTag"/>.
+/// The script that handles loading and keeping track of every <see cref="Card"/>.
 /// </summary>
 // Script by Ruben
 [SingletonMode(true)]
 public class CardManager : Singleton<CardManager>
 {
-    public static Card[] AllCards => Instance.allCards;
-    public static CardTag[] AllTags => Instance.allTags;
+    public static Card[] AllCards { get; private set; }
+    public static CardTag[] AllTags { get; private set; }
 
-    [HideInInspector] [SerializeField] private Card[] allCards;
-    [HideInInspector] [SerializeField] private CardTag[] allTags;
-
-    private static readonly Dictionary<CardTag, Card[]> _cardsTagDictionary = new();
+    private static readonly Dictionary<CardTag, List<Card>> _cardsTagDictionary = new();
     private static readonly Dictionary<string, Card> _cardsNameDictionary = new();
     private static readonly Dictionary<string, Card> _cardsGUIDDictionary = new();
     private static readonly Dictionary<string, CardTag> _cardTagsNameDictionary = new();
@@ -25,13 +22,11 @@ public class CardManager : Singleton<CardManager>
     {
         base.Awake();
 
-        foreach (CardTag tag in allTags)
-        {
-            if (tag == null)
-            {
-                continue;
-            }
+        AllCards = Resources.LoadAll<Card>("Cards");
+        AllTags = Resources.LoadAll<CardTag>("Cards/Tags");
 
+        foreach (CardTag tag in AllTags)
+        {
             string name = tag.name.ToLower().Trim();
 
             if (!_cardTagsNameDictionary.ContainsKey(name))
@@ -47,28 +42,16 @@ public class CardManager : Singleton<CardManager>
             _cardTagsGUIDDictionary.Add(tag.GUID, tag);
         }
 
-        Dictionary<CardTag, List<Card>> temp = new();
-
-        foreach (Card card in allCards)
+        foreach (Card card in AllCards)
         {
-            if (card == null)
-            {
-                continue;
-            }
-
             foreach (CardTag tag in card.Tags)
             {
-                if (tag == null)
+                if (!_cardsTagDictionary.ContainsKey(tag))
                 {
-                    continue;
+                    _cardsTagDictionary.Add(tag, new());
                 }
 
-                if (!temp.ContainsKey(tag))
-                {
-                    temp.Add(tag, new());
-                }
-
-                temp[tag].Add(card);
+                _cardsTagDictionary[tag].Add(card);
             }
 
             string name = card.name.ToLower().Trim();
@@ -84,39 +67,11 @@ public class CardManager : Singleton<CardManager>
             }
 #endif
 
-            if (string.IsNullOrEmpty(card.GUID))
-            {
-#if UNITY_EDITOR
-                Debug.LogWarning($"The card \"{card.name}\" is missing a GUID! The fix to this is to simply select the card in the inspector.", card);
-#endif
-                continue;
-            }
-
-            if (!_cardsGUIDDictionary.ContainsKey(card.GUID))
-            {
-                _cardsGUIDDictionary.Add(card.GUID, card);
-            }
-#if UNITY_EDITOR
-            else
-            {
-                // Should be impossible
-                Debug.LogWarning($"There are multiple Cards with the GUID \"{card.GUID}\"! How could this happen?");
-            }
-#endif
+            _cardsGUIDDictionary.Add(card.GUID, card);
         }
 
-        foreach (var pair in temp)
+        foreach (Card card in AllCards)
         {
-            _cardsTagDictionary.Add(pair.Key, pair.Value.ToArray());
-        }
-
-        foreach (Card card in allCards)
-        {
-            if (card == null)
-            {
-                continue;
-            }
-
             card.OnLoad();
         }
     }
@@ -132,11 +87,11 @@ public class CardManager : Singleton<CardManager>
     }
 
     /// <summary>
-    /// Returns an array of <see cref="Card"/>s that have the attached <paramref name="tag"/>.
+    /// Returns a list of <see cref="Card"/>s that have the attached <paramref name="tag"/>.
     /// </summary>
-    public static Card[] GetCardsByTag(CardTag tag)
+    public static List<Card> GetCardsByTag(CardTag tag)
     {
-        if (_cardsTagDictionary.TryGetValue(tag, out Card[] cards))
+        if (_cardsTagDictionary.TryGetValue(tag, out List<Card> cards))
         {
             return cards;
         }
@@ -177,7 +132,7 @@ public class CardManager : Singleton<CardManager>
     }
 
     /// <summary>
-    /// Returns a <see cref="CardTag"/> with the given <paramref name="name"/>.
+    /// Returns a <see cref="Card"/> with the given <paramref name="name"/>.
     /// </summary>
     public static CardTag GetCardTagByName(string name)
     {
@@ -192,7 +147,7 @@ public class CardManager : Singleton<CardManager>
     }
 
     /// <summary>
-    /// Returns a <see cref="CardTag"/> with the given <paramref name="guid"/>.
+    /// Returns a <see cref="Card"/> with the given <paramref name="guid"/>.
     /// </summary>
     public static CardTag GetCardTagByGUID(string guid)
     {
