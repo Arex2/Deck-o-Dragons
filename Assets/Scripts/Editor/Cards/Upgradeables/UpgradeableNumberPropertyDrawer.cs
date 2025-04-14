@@ -58,7 +58,7 @@ public abstract class UpgradeableNumberPropertyDrawer<T> : UpgradeableBaseProper
         SerializedProperty valueProp = property.FindPropertyRelative("value");
         SerializedProperty methodProp = property.FindPropertyRelative("method");
 
-        Rect prefixRect = GetPrefixRect(rect);
+        Rect prefixRect = CustomEditorUtility.GetPrefixRect(rect);
 
         Rect iconRect = prefixRect;
         iconRect.width = 16;
@@ -114,7 +114,7 @@ public abstract class UpgradeableNumberPropertyDrawer<T> : UpgradeableBaseProper
                 break;
         }
 
-        DoFadedLabel(resultRect, "= " + result);
+        CustomEditorUtility.DoFadedLabel(resultRect, "= " + result);
 
         DrawProp(rect, valueProp, label);
 

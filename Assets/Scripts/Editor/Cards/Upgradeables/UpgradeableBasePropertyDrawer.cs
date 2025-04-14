@@ -15,7 +15,6 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
     private static bool _showStackAndLoopState => SessionState.GetBool(STACK_LOOP_SESSION_STATE_NAME, false);
 
     private static readonly GUIContent _emptyContent = new GUIContent(" ");
-    private static GUIStyle _italicLabelStyle;
 
     private static readonly FieldInfo _genericMenuItemsField = typeof(GenericMenu).GetField("m_MenuItems", BindingFlags.NonPublic | BindingFlags.Instance);
     private static readonly Type _genericMenuItemType = typeof(GenericMenu).GetNestedType("MenuItem", BindingFlags.NonPublic);
@@ -66,7 +65,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
         GUIContent propertyLabel = EditorGUI.BeginProperty(rect, label, property);
 
-        Rect foldoutPosition = GetPrefixRect(rect);
+        Rect foldoutPosition = CustomEditorUtility.GetPrefixRect(rect);
 
         if (evt.type == EventType.MouseDown && evt.button == 0)
         {
@@ -107,7 +106,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
         Rect remainderRect = position;
         remainderRect.yMin += rect.height + SPACING / 2;
 
-        DrawBGBox(remainderRect);
+        CustomEditorUtility.DrawBGBox(remainderRect);
 
         rect.y += SPACING;
 
@@ -172,7 +171,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
         }
         else
         {
-            DoFadedLabel(rect, "This field has no upgrades. Right click to add some!");
+            CustomEditorUtility.DoFadedLabel(rect, "This field has no upgrades. Right click to add some!");
 
             if (rect.Contains(evt.mousePosition) && evt.type == EventType.ContextClick)
             {
@@ -197,7 +196,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
         bgRect.height += SPACING;
         bgRect.y -= SPACING / 2;
 
-        DrawBGBox(bgRect);
+        CustomEditorUtility.DrawBGBox(bgRect);
 
         propertyLabel = EditorGUI.BeginProperty(rect, new GUIContent("Base Value"), baseProp);
         EditorGUI.EndProperty();
@@ -234,7 +233,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
         }
         else
         {
-            DoFadedLabel(rect, "This field has no downgrades. Right click to add some!");
+            CustomEditorUtility.DoFadedLabel(rect, "This field has no downgrades. Right click to add some!");
 
             if (rect.Contains(evt.mousePosition) && evt.type == EventType.ContextClick)
             {
@@ -427,29 +426,6 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
 
     public abstract void DrawTier(Rect rect, SerializedProperty property, GUIContent label, bool isDowngrade, ref T result);
-
-    public static Rect GetPrefixRect(Rect rect) => new Rect(rect.x + EditorGUI.indentLevel * 15, rect.y, EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15, rect.height);
-
-    public static void DoFadedLabel(Rect rect, GUIContent label, bool italic = true)
-    {
-        if (_italicLabelStyle == null)
-        {
-            _italicLabelStyle = new GUIStyle(EditorStyles.label);
-
-            _italicLabelStyle.fontStyle = FontStyle.Italic;
-        }
-
-        using (new EditorGUI.DisabledScope(true))
-        {
-            EditorGUI.LabelField(rect, label, italic ? _italicLabelStyle : EditorStyles.label);
-        }
-    }
-    public static void DoFadedLabel(Rect rect, string label, bool italic = true) => DoFadedLabel(rect, new GUIContent(label), italic);
-
-    public static void DrawBGBox(Rect rect)
-    {
-        EditorGUI.DrawRect(rect, new Color(0, 0, 0, 0.1f));
-    }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {

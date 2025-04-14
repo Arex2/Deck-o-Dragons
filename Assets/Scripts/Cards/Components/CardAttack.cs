@@ -17,7 +17,7 @@ public class CardAttack : CardComponent, IUseCoroutineMulti
 
     public IEnumerator UseCoroutine(List<Target> targets)
     {
-        int attackAmount = Mathf.RoundToInt(this.attackAmount.GetValue(Tier));
+        int attackAmount = this.attackAmount.GetValue(Tier);
         float damage = this.damage.GetValue(Tier);
 
         IEnumerator HurtTarget(Target target)
