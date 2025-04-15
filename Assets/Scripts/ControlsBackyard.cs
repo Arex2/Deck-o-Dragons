@@ -137,7 +137,7 @@ public class ControlsBackyard : MonoBehaviour
                 {
                     Debug.Log("Switch scene");
                     //sceneSwitcher.SwitchScene(-1); 
-                    sceneSwitcher.SwitchToGarden();
+                   // sceneSwitcher.SwitchToGarden();
                 }
                 SetToZero();
                 break;
@@ -146,7 +146,7 @@ public class ControlsBackyard : MonoBehaviour
                 {
                     Debug.Log("Switch scene");
                     //sceneSwitcher.SwitchScene(+1);
-                    sceneSwitcher.SwitchToCardGame();
+                    sceneSwitcher.SwitchToEgg();
                 }
                 SetToZero();
                 break;

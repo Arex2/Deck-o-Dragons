@@ -163,7 +163,7 @@ public class Controls : MonoBehaviour
                 {
                     Debug.Log("Switch scene");
                     //sceneSwitcher.SwitchScene(-1); 
-                    sceneSwitcher.SwitchToGarden();
+                    sceneSwitcher.SwitchToEgg();
                 }
                 else
                 {
@@ -176,9 +176,9 @@ public class Controls : MonoBehaviour
             case Direction.Left:
                 if (startPos2 > rightEdgeArea)
                 {
-                    Debug.Log("Switch scene");
+                   // Debug.Log("Switch scene");
                     //sceneSwitcher.SwitchScene(+1);
-                    sceneSwitcher.SwitchToCardGame();
+                   // sceneSwitcher.SwitchToCardGame();
                 }
                 else
                 {
