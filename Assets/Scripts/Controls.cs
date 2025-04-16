@@ -44,8 +44,9 @@ public class Controls : MonoBehaviour
     {
         Input.gyro.enabled = true;
 
-        controls = new InputSystem();
+        //controls = new InputSystem();
         //controls.Enable();
+        //controls.CardGame.Disable();
 
 
         #region mouse controls
@@ -61,6 +62,7 @@ public class Controls : MonoBehaviour
         #endregion
 
         //controls.CardGame.KeyboardAny.canceled += SwipeActionKeyboard;
+        /*
 
         controls.CardGame.Tap.performed += ctx => { Debug.Log("Screen tap"); };
         controls.CardGame.Swipe.performed += ctx =>
@@ -74,11 +76,12 @@ public class Controls : MonoBehaviour
         };
         controls.CardGame.Area.canceled += ctx => { SetToZero(); };
         controls.CardGame.Touch.canceled += ctx => { SwipeAction(ctx);}; 
+        */
     }
 
     private void OnDisable()
     {
-        controls.Disable();
+        //controls.Disable();
     }
 
     private void UpdateMousePos(Vector2 pos)
@@ -136,7 +139,7 @@ public class Controls : MonoBehaviour
 
         if (mag < 1) { mag = 1; }
 
-        mag = 1;
+        //mag = 1;
 
         #endregion
 
@@ -229,12 +232,14 @@ public class Controls : MonoBehaviour
         {
             //Debug.Log(UnityEngine.InputSystem.Gyroscope.current.angularVelocity.ReadValue());
         }
-
-        if(controls.CardGame.haspressedscreen.triggered)
+        //TEMP DISABLED FOR TESTING CONTROLSV2
+        /*
+        if(controls.CardGame.enabled && controls.CardGame.haspressedscreen.triggered)
         {
             Debug.LogWarning("Triggered");
             CaclulateScreenStartposX();
         }
+        */
     }
 
     /*
