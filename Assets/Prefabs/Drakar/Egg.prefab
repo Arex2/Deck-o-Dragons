@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -103,6 +103,6 @@ MonoBehaviour:
   - {fileID: 8632546672829060183, guid: 4c8ce8e8a14936e4982ac204393ee83a, type: 3}
   - {fileID: 312332381619448646, guid: 6c9fb1b4e0593bd4ebdb04149a1373aa, type: 3}
   crackedSprites:
-  - {fileID: 1145891658, guid: a069f94e8fc87bd42a18fa5617bec68b, type: 3}
-  - {fileID: -517180868, guid: a069f94e8fc87bd42a18fa5617bec68b, type: 3}
-  - {fileID: -55149198, guid: a069f94e8fc87bd42a18fa5617bec68b, type: 3}
+  - {fileID: 579575771, guid: f8db8686045b53342a6177f4c78d41a3, type: 3}
+  - {fileID: -314025812, guid: f8db8686045b53342a6177f4c78d41a3, type: 3}
+  - {fileID: 1471289581, guid: f8db8686045b53342a6177f4c78d41a3, type: 3}

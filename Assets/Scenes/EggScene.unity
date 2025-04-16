@@ -520,6 +520,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Egg
       objectReference: {fileID: 0}
+    - target: {fileID: 1257647025133526901, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1959526222223085108, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
