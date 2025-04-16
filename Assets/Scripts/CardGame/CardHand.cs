@@ -23,7 +23,56 @@ public class CardHand : MonoBehaviour
     public GameObject cardBeingPlayed;
     public bool cardIsPlaying;
 
-    private void Start()
+
+    //NEW STUFF FOR CONTROLSV2
+    public void ShiftCards(float changeX)
+    {
+        int checkIndex;
+        //change to upp int
+        if (changeX > 0)
+            checkIndex = Mathf.CeilToInt(changeX);
+        else checkIndex = Mathf.RoundToInt(changeX);
+        Debug.Log("Check Index: " + checkIndex);
+
+        if (!CheckIfCardNextTo(checkIndex))
+            return;
+        //--selectedIndex;
+        selectedIndex = checkIndex;
+        
+
+        UpdatePositions(changeX);
+        UpdateCardLayers();
+    }
+
+
+    private void UpdatePositions(float changeX)
+    {
+        float middlePos = changeX;// = selectedIndex;
+
+        if (cardsInHand.Count == 0)
+            return;
+        float spacingX = 1f;// 0.8f;
+        float spacingY = 0.1f;
+        float firstPos = 0f - spacingX * middlePos;
+
+        for (int i = 0; i < cardsInHand.Count; i++)
+        {
+            float posX = firstPos + i * spacingX;
+            float spaceFromSelected = Mathf.Abs(i - middlePos);
+            float posY = -spacingY * spaceFromSelected;
+            Vector2 newPos = new Vector2(posX, -2.2f + posY);
+            Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0, 0, 10f * (i - middlePos)));
+            Quaternion rot = Quaternion.AngleAxis((-5f * (i - middlePos)), Vector3.forward);
+            cardsInHand[i].transform.DOMove(newPos, 0.0f); //past time was 0.4
+            cardsInHand[i].transform.DOLocalRotateQuaternion(rot, 0.2f);
+        }
+    }
+
+        //END
+
+
+
+        private void Start()
     {
         SelectInitialCard();
     }
@@ -208,22 +257,29 @@ public class CardHand : MonoBehaviour
             selectedIndex = Mathf.RoundToInt(cardsInHand.Count / 2);
 
     }
-    private void UpdateCardPositions() 
+    private void UpdateCardPositions()
     {
+        //this is method called from Controls wihout parameters
+        UpdateCardPositions(selectedIndex);
+    }
+    private void UpdateCardPositions(float changeX) 
+    {
+        float middlePos = changeX;// = selectedIndex;
+
         if (cardsInHand.Count == 0)
             return;
         float spacingX = 1f;// 0.8f;
         float spacingY = 0.1f;
-        float firstPos = 0f - spacingX * selectedIndex;
+        float firstPos = 0f - spacingX * middlePos;
 
         for (int i = 0; i < cardsInHand.Count; i++)
         {
             float posX = firstPos + i * spacingX;
-            float spaceFromSelected = Mathf.Abs(i - selectedIndex);
+            float spaceFromSelected = Mathf.Abs(i - middlePos);
             float posY = -spacingY * spaceFromSelected;
             Vector2 newPos = new Vector2(posX, -2.2f + posY);
-            Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0,0,10f * (i-selectedIndex)));
-            Quaternion rot = Quaternion.AngleAxis((-5f * (i - selectedIndex)),Vector3.forward);
+            Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0,0,10f * (i- middlePos)));
+            Quaternion rot = Quaternion.AngleAxis((-5f * (i - middlePos)),Vector3.forward);
             cardsInHand[i].transform.DOMove(newPos, 0.4f);
             cardsInHand[i].transform.DOLocalRotateQuaternion(rot, 0.2f);
         }
@@ -298,8 +354,6 @@ public class CardHand : MonoBehaviour
             //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (i - (selectedIndex) + 1);
         }
     }
-
-
 
     public void ShiftAllRight()
     {

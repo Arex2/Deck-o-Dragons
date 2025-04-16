@@ -245,6 +245,74 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""CardMovement"",
+            ""id"": ""7beef808-ad92-4a16-9081-b536caa3d23e"",
+            ""actions"": [
+                {
+                    ""name"": ""Position"",
+                    ""type"": ""Value"",
+                    ""id"": ""b8a27965-0ae6-4fa3-9753-a121d14eed1c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Contact"",
+                    ""type"": ""Value"",
+                    ""id"": ""a140f1bf-ba41-4334-9522-fb5401f7c476"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Direction"",
+                    ""type"": ""Value"",
+                    ""id"": ""68a3a2b8-0d4e-4547-9f98-ed72cb9e29d9"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0f9a7ea5-72de-4f6e-afd6-acaeb1cb290c"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Contact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cf8c1ed2-aec4-41a0-865d-2a27d1239b77"",
+                    ""path"": ""<Touchscreen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d25565c4-c0b1-49f4-bba1-b8fe6f242efb"",
+                    ""path"": ""<Touchscreen>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Direction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -259,6 +327,11 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_CardGame_haspressedscreen = m_CardGame.FindAction("haspressedscreen", throwIfNotFound: true);
         m_CardGame_MousePress = m_CardGame.FindAction("MousePress", throwIfNotFound: true);
         m_CardGame_MousePosition = m_CardGame.FindAction("MousePosition", throwIfNotFound: true);
+        // CardMovement
+        m_CardMovement = asset.FindActionMap("CardMovement", throwIfNotFound: true);
+        m_CardMovement_Position = m_CardMovement.FindAction("Position", throwIfNotFound: true);
+        m_CardMovement_Contact = m_CardMovement.FindAction("Contact", throwIfNotFound: true);
+        m_CardMovement_Direction = m_CardMovement.FindAction("Direction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -418,6 +491,68 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         }
     }
     public CardGameActions @CardGame => new CardGameActions(this);
+
+    // CardMovement
+    private readonly InputActionMap m_CardMovement;
+    private List<ICardMovementActions> m_CardMovementActionsCallbackInterfaces = new List<ICardMovementActions>();
+    private readonly InputAction m_CardMovement_Position;
+    private readonly InputAction m_CardMovement_Contact;
+    private readonly InputAction m_CardMovement_Direction;
+    public struct CardMovementActions
+    {
+        private @InputSystem m_Wrapper;
+        public CardMovementActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Position => m_Wrapper.m_CardMovement_Position;
+        public InputAction @Contact => m_Wrapper.m_CardMovement_Contact;
+        public InputAction @Direction => m_Wrapper.m_CardMovement_Direction;
+        public InputActionMap Get() { return m_Wrapper.m_CardMovement; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CardMovementActions set) { return set.Get(); }
+        public void AddCallbacks(ICardMovementActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CardMovementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CardMovementActionsCallbackInterfaces.Add(instance);
+            @Position.started += instance.OnPosition;
+            @Position.performed += instance.OnPosition;
+            @Position.canceled += instance.OnPosition;
+            @Contact.started += instance.OnContact;
+            @Contact.performed += instance.OnContact;
+            @Contact.canceled += instance.OnContact;
+            @Direction.started += instance.OnDirection;
+            @Direction.performed += instance.OnDirection;
+            @Direction.canceled += instance.OnDirection;
+        }
+
+        private void UnregisterCallbacks(ICardMovementActions instance)
+        {
+            @Position.started -= instance.OnPosition;
+            @Position.performed -= instance.OnPosition;
+            @Position.canceled -= instance.OnPosition;
+            @Contact.started -= instance.OnContact;
+            @Contact.performed -= instance.OnContact;
+            @Contact.canceled -= instance.OnContact;
+            @Direction.started -= instance.OnDirection;
+            @Direction.performed -= instance.OnDirection;
+            @Direction.canceled -= instance.OnDirection;
+        }
+
+        public void RemoveCallbacks(ICardMovementActions instance)
+        {
+            if (m_Wrapper.m_CardMovementActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICardMovementActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CardMovementActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CardMovementActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CardMovementActions @CardMovement => new CardMovementActions(this);
     public interface ICardGameActions
     {
         void OnTouch(InputAction.CallbackContext context);
@@ -428,5 +563,11 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnHaspressedscreen(InputAction.CallbackContext context);
         void OnMousePress(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+    }
+    public interface ICardMovementActions
+    {
+        void OnPosition(InputAction.CallbackContext context);
+        void OnContact(InputAction.CallbackContext context);
+        void OnDirection(InputAction.CallbackContext context);
     }
 }
