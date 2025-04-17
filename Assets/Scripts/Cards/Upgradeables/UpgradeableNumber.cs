@@ -11,13 +11,13 @@ public abstract class UpgradeableNumber<T> : UpgradeableBase<T, UpgradeableNumbe
 {
     public override bool CanStack => true;
 
-    public abstract T AddMethod(T a, T b);
+    protected abstract T AddMethod(T a, T b);
 
-    public abstract T SubtractMethod(T a, T b);
+    protected abstract T SubtractMethod(T a, T b);
 
-    public abstract T MultiplyMethod(T a, T b);
+    protected abstract T MultiplyMethod(T a, T b);
 
-    public abstract T DivideMethod(T a, T b);
+    protected abstract T DivideMethod(T a, T b);
 
     protected override T GetTierValue(NumberTier tier, T currentValue)
     {

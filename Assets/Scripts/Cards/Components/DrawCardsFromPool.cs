@@ -28,15 +28,16 @@ public class DrawCardsFromPool : CardComponent, IUse
         }
     }
 
-    [ReplaceDescriptionKeyword("CARD_POOL")]
-    private string ReplacePoolKeyword()
-    {
-        return tag.DisplayName;
-    }
-
+    [ReplaceDescriptionKeyword]
     [ReplaceDescriptionKeyword("CARD_AMOUNT")]
     private string ReplaceAmountKeyword()
     {
         return amount.ToString(Tier);
+    }
+
+    [ReplaceDescriptionKeyword("CARD_POOL")]
+    private string ReplacePoolKeyword()
+    {
+        return tag.DisplayName;
     }
 }

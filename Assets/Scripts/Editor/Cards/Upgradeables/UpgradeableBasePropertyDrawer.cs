@@ -10,11 +10,8 @@ using UnityEditor;
 // Script by Ruben
 public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 {
-    private const float SPACING = 8;
     private const string STACK_LOOP_SESSION_STATE_NAME = "ShowStackAndLoopState";
     private static bool _showStackAndLoopState => SessionState.GetBool(STACK_LOOP_SESSION_STATE_NAME, false);
-
-    private static readonly GUIContent _emptyContent = new GUIContent(" ");
 
     private static readonly FieldInfo _genericMenuItemsField = typeof(GenericMenu).GetField("m_MenuItems", BindingFlags.NonPublic | BindingFlags.Instance);
     private static readonly Type _genericMenuItemType = typeof(GenericMenu).GetNestedType("MenuItem", BindingFlags.NonPublic);
@@ -95,7 +92,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
             _shouldExpand = false;
         }
 
-        baseProp.isExpanded = EditorGUI.BeginFoldoutHeaderGroup(foldoutPosition, baseProp.isExpanded, _emptyContent, EditorStyles.foldout);
+        baseProp.isExpanded = EditorGUI.BeginFoldoutHeaderGroup(foldoutPosition, baseProp.isExpanded, CustomEditorUtility.EmptyContent, EditorStyles.foldout);
         EditorGUI.EndFoldoutHeaderGroup();
 
         if (!baseProp.isExpanded)
@@ -104,11 +101,11 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
         }
 
         Rect remainderRect = position;
-        remainderRect.yMin += rect.height + SPACING / 2;
+        remainderRect.yMin += rect.height + CustomEditorUtility.SPACING / 2;
 
         CustomEditorUtility.DrawBGBox(remainderRect);
 
-        rect.y += SPACING;
+        rect.y += CustomEditorUtility.SPACING;
 
         EditorGUI.indentLevel++;
 
@@ -135,7 +132,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
             NextHeight();
 
-            rect.y += SPACING;
+            rect.y += CustomEditorUtility.SPACING;
         }
 
         bool stack = stackProp.boolValue;
@@ -187,14 +184,14 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
             NextHeight();
         }
 
-        rect.y += SPACING;
+        rect.y += CustomEditorUtility.SPACING;
 
         rect.height = GetPropHeight(baseProp);
 
         Rect bgRect = rect;
 
-        bgRect.height += SPACING;
-        bgRect.y -= SPACING / 2;
+        bgRect.height += CustomEditorUtility.SPACING;
+        bgRect.y -= CustomEditorUtility.SPACING / 2;
 
         CustomEditorUtility.DrawBGBox(bgRect);
 
@@ -205,7 +202,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
         NextHeight();
 
-        rect.y += SPACING;
+        rect.y += CustomEditorUtility.SPACING;
 
         // Downgrades
         SerializedProperty downgradesProp = property.FindPropertyRelative("downgrades");
@@ -438,11 +435,11 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
             height += EditorGUIUtility.standardVerticalSpacing * 2;
             height += GetPropHeight(baseProp);
 
-            height += SPACING * 4;
+            height += CustomEditorUtility.SPACING * 4;
 
             if (_showStackAndLoopState)
             {
-                height += SPACING;
+                height += CustomEditorUtility.SPACING;
             }
 
             int count = 0;

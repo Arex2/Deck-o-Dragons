@@ -46,6 +46,8 @@ public abstract class UpgradeableBase<T, Tier>
     }
     private int? _downgradesLength;
 
+    public T this[int tier] => GetValue(tier);
+
     public T GetValue(int tier)
     {
         if (tier == 0)

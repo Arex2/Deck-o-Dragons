@@ -20,17 +20,24 @@ public class CardAttack : CardComponent, IUseCoroutineMulti
         int attackAmount = this.attackAmount.GetValue(Tier);
         float damage = this.damage.GetValue(Tier);
 
+        void DoDamage(Target target)
+        {
+            User.DoAttack(target, ref damage);
+
+            target.Hurt(User, damage);
+        }
+
         IEnumerator HurtTarget(Target target)
         {
             if (attackAmount <= 1)
             {
-                target.Hurt(damage);
+                DoDamage(target);
             }
             else
             {
                 for (int i = 0; i < attackAmount; i++)
                 {
-                    target.Hurt(damage);
+                    DoDamage(target);
 
                     yield return new WaitForSeconds(0.1f);
                 }

@@ -26,6 +26,11 @@ public abstract class CardComponent : ScriptableObject
 
     public int Tier => card.Tier;
 
+    /// <summary>
+    /// The current <see cref="Target"/> that's using this <see cref="Card"/>.
+    /// </summary>
+    public Target User => card.User;
+
     [HideInInspector]
     [SerializeField] protected Card card;
 

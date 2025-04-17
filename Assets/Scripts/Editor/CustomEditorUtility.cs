@@ -7,6 +7,9 @@ using UnityEditor;
 // Script by Ruben
 public static class CustomEditorUtility
 {
+    public const float SPACING = 8;
+    public static readonly GUIContent EmptyContent = new GUIContent(" ");
+
     private static GUIStyle _italicLabelStyle;
 
     public static Rect GetPrefixRect(Rect rect) => new Rect(rect.x + EditorGUI.indentLevel * 15, rect.y, EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15, rect.height);

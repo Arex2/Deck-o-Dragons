@@ -7,22 +7,22 @@ using System;
 [Serializable]
 public class UpgradeableFloat : UpgradeableNumber<float>
 {
-    public override float AddMethod(float a, float b)
+    protected override float AddMethod(float a, float b)
     {
         return a + b;
     }
 
-    public override float SubtractMethod(float a, float b)
+    protected override float SubtractMethod(float a, float b)
     {
         return a - b;
     }
 
-    public override float MultiplyMethod(float a, float b)
+    protected override float MultiplyMethod(float a, float b)
     {
         return a * b;
     }
 
-    public override float DivideMethod(float a, float b)
+    protected override float DivideMethod(float a, float b)
     {
         return a / b;
     }

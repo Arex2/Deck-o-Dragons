@@ -83,7 +83,7 @@ public abstract class UpgradeableNumberPropertyDrawer<T> : UpgradeableBaseProper
         Rect resultRect = rect;
 
         resultRect.width = 60;
-        resultRect.x += rect.width - resultRect.width - 14;
+        resultRect.x += rect.width - resultRect.width + CustomEditorUtility.SPACING / 2;
 
         rect.width -= resultRect.width;
 
@@ -114,7 +114,12 @@ public abstract class UpgradeableNumberPropertyDrawer<T> : UpgradeableBaseProper
                 break;
         }
 
+        int indentLevel = EditorGUI.indentLevel;
+        EditorGUI.indentLevel = 0;
+
         CustomEditorUtility.DoFadedLabel(resultRect, "= " + result);
+
+        EditorGUI.indentLevel = indentLevel;
 
         DrawProp(rect, valueProp, label);
 

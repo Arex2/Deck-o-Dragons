@@ -63,6 +63,11 @@ public class Card : GUIDScriptableObject
 
     public CardTag[] Tags => tags;
 
+    /// <summary>
+    /// The current <see cref="Target"/> that's using this <see cref="Card"/>.
+    /// </summary>
+    public Target User { get; private set; }
+
     [SerializeField] private Sprite sprite;
 
     [Space]
@@ -166,6 +171,8 @@ public class Card : GUIDScriptableObject
         }
 
         PlayingACard = true;
+
+        User = user;
 
         // Setup team variables
         Team ownTeam = user.Team;
@@ -338,6 +345,7 @@ public class Card : GUIDScriptableObject
 
         onFinish?.Invoke();
 
+        User = null;
         PlayingACard = false;
     }
 
