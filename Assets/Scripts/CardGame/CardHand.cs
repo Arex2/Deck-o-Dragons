@@ -13,6 +13,24 @@ public class CardHand : MonoBehaviour
     int amountToDraw = 6;
     int selectedIndex;
 
+    //för att få current pos av cards
+    public int SelectedIndex
+    { get { return selectedIndex; } }
+
+    public Vector2 CurrentPos
+    {
+        get { if (cardsInHand.Count > 0) 
+                 return new Vector2(cardsInHand[0].transform.position.x, 0);
+            else return new Vector2(0,0);
+        }
+    }
+
+    private int startPoint;
+    public void SetStart()
+    {
+        startPoint = selectedIndex;
+    }
+
     [SerializeField] GameObject cardPrefab;
     [SerializeField] Card testCard;
     Vector3 cardPlayPosition = new Vector3(0, 0.5f, 0);
@@ -25,7 +43,7 @@ public class CardHand : MonoBehaviour
 
 
     //NEW STUFF FOR CONTROLSV2
-    public void ShiftCards(float changeX)
+    public void ShiftCards(float changeX, Vector2 currentPos)
     {
         int checkIndex;
         //change to upp int
@@ -34,23 +52,64 @@ public class CardHand : MonoBehaviour
         else checkIndex = Mathf.RoundToInt(changeX);
         Debug.Log("Check Index: " + checkIndex);
 
-        if (!CheckIfCardNextTo(checkIndex))
-            return;
+        //if (!CheckIfCardNextTo(checkIndex))
+        //return;
         //--selectedIndex;
-        selectedIndex = checkIndex;
-        
+        //if (CheckIfCardNextTo(checkIndex))
+        if (startPoint+checkIndex >= cardsInHand.Count|| startPoint+checkIndex < 0)
+            return;
 
-        UpdatePositions(changeX);
+
+
+
+            selectedIndex = startPoint + checkIndex;
+
+
+        UpdatePositions(changeX,currentPos);
         UpdateCardLayers();
     }
 
 
-    private void UpdatePositions(float changeX)
+    private void UpdatePositions(float changeX, Vector2 currentPos)
     {
-        float middlePos = changeX;// = selectedIndex;
+        //måste lägga till detta på currentPos utifrån first card?
+
+        float middlePos = changeX + startPoint;// = selectedIndex;
+        Debug.Log("Selected index: " + selectedIndex);
 
         if (cardsInHand.Count == 0)
             return;
+
+        //Vector2 currentFirstPos = currentPos;// new Vector2(cardsInHand[0].transform.position.x,0);
+
+        float spacingX = 1f;// 0.8f;
+        float spacingY = 0.1f;
+        float firstPos = 0f - spacingX * (middlePos);
+
+        for (int i = 0; i < cardsInHand.Count; i++)
+        {
+            float posX = firstPos + i * spacingX;
+            float spaceFromSelected = Mathf.Abs(i - middlePos);
+            float posY = -spacingY * spaceFromSelected;
+            Vector2 newPos = new Vector2(posX, -2.2f + posY);
+            //newPos += currentFirstPos;
+            Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0, 0, 10f * (i - middlePos)));
+            Quaternion rot = Quaternion.AngleAxis((-5f * (i - middlePos)), Vector3.forward);
+            cardsInHand[i].transform.DOMove(newPos, 0.1f); //past time was 0.4
+            cardsInHand[i].transform.DOLocalRotateQuaternion(rot, 0.2f);
+        }
+    }
+
+    public void SnapIntoPosition()
+    {
+        //UpdatePositions(selectedIndex,Vector2.zero);
+        float middlePos = selectedIndex;// = selectedIndex;
+
+        if (cardsInHand.Count == 0)
+            return;
+
+        //Vector2 currentFirstPos = currentPos;// new Vector2(cardsInHand[0].transform.position.x,0);
+
         float spacingX = 1f;// 0.8f;
         float spacingY = 0.1f;
         float firstPos = 0f - spacingX * middlePos;
@@ -61,11 +120,14 @@ public class CardHand : MonoBehaviour
             float spaceFromSelected = Mathf.Abs(i - middlePos);
             float posY = -spacingY * spaceFromSelected;
             Vector2 newPos = new Vector2(posX, -2.2f + posY);
+            //newPos += currentFirstPos;
             Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0, 0, 10f * (i - middlePos)));
             Quaternion rot = Quaternion.AngleAxis((-5f * (i - middlePos)), Vector3.forward);
-            cardsInHand[i].transform.DOMove(newPos, 0.0f); //past time was 0.4
+            cardsInHand[i].transform.DOMove(newPos, 0.1f); //past time was 0.4
             cardsInHand[i].transform.DOLocalRotateQuaternion(rot, 0.2f);
         }
+
+
     }
 
         //END
