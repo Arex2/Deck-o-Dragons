@@ -10,8 +10,9 @@ public class EnemyBoss : Target
      * Mana and health variables
      */
 
-    [SerializeField] private int maxMana;
+    
     [SerializeField] private TMP_Text healthText;
+    [SerializeField] private int maxMana;
     private int currentMana;
     private string healthTextFormat;
 
@@ -34,6 +35,11 @@ public class EnemyBoss : Target
     protected override void Awake()
     {
         base.Awake();
+
+        if (EnemyScalingManager.Instance != null)
+        {
+            maxMana = EnemyScalingManager.Instance.GetScaledMana();
+        }
         healthTextFormat = healthText.text;
         UpdateHP();
         originalPosition = transform.position;
@@ -42,6 +48,7 @@ public class EnemyBoss : Target
     public void StartTurn()
     {
         currentMana = maxMana;
+        print(currentMana);
         PlayCards();
     }
 
