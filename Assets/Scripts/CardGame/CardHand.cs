@@ -30,6 +30,13 @@ public class CardHand : MonoBehaviour
     {
         startPoint = selectedIndex;
     }
+    private float currentChangeX = 0;
+    private float startPointFloat;
+    public void SetStartFloat()
+    {
+        startPointFloat = startPoint + currentChangeX;
+        currentChangeX = 0;
+    }
 
     [SerializeField] GameObject cardPrefab;
     [SerializeField] Card testCard;
@@ -41,48 +48,56 @@ public class CardHand : MonoBehaviour
     public GameObject cardBeingPlayed;
     public bool cardIsPlaying;
 
+    private bool selected;
+
+    private float cardSpacingX = 1.7f;
+
 
     //NEW STUFF FOR CONTROLSV2
-    public void ShiftCards(float changeX, Vector2 currentPos)
+    public void ShiftCards(float changeX)
     {
+        selected = false;
+
         int checkIndex;
         //change to upp int
         if (changeX > 0)
             checkIndex = Mathf.CeilToInt(changeX);
         else checkIndex = Mathf.RoundToInt(changeX);
-        Debug.Log("Check Index: " + checkIndex);
+       // Debug.Log("Check Index: " + checkIndex);
 
         //if (!CheckIfCardNextTo(checkIndex))
         //return;
         //--selectedIndex;
         //if (CheckIfCardNextTo(checkIndex))
-        if (startPoint+checkIndex >= cardsInHand.Count|| startPoint+checkIndex < 0)
-            return;
+        //if (startPoint+checkIndex >= cardsInHand.Count|| startPoint+checkIndex < 0)
+            //return;
 
+        if (startPoint + checkIndex >= cardsInHand.Count)
+            selectedIndex = cardsInHand.Count-1;
+        else if (startPoint + checkIndex < 0)
+            selectedIndex = 0;
+        else selectedIndex = startPoint + checkIndex;
 
-
-
-            selectedIndex = startPoint + checkIndex;
-
-
-        UpdatePositions(changeX,currentPos);
+        currentChangeX = changeX;
+        UpdatePositions(changeX);
         UpdateCardLayers();
     }
 
 
-    private void UpdatePositions(float changeX, Vector2 currentPos)
+    private void UpdatePositions(float changeX)
     {
+
         //måste lägga till detta på currentPos utifrån first card?
 
-        float middlePos = changeX + startPoint;// = selectedIndex;
-        Debug.Log("Selected index: " + selectedIndex);
+        float middlePos = changeX + startPoint;// startPointFloat;//startPoint;// = selectedIndex;
+        Debug.Log("middlePos: " + middlePos);
 
         if (cardsInHand.Count == 0)
             return;
 
         //Vector2 currentFirstPos = currentPos;// new Vector2(cardsInHand[0].transform.position.x,0);
 
-        float spacingX = 1f;// 0.8f;
+        float spacingX = cardSpacingX;// 0.8f;
         float spacingY = 0.1f;
         float firstPos = 0f - spacingX * (middlePos);
 
@@ -110,7 +125,7 @@ public class CardHand : MonoBehaviour
 
         //Vector2 currentFirstPos = currentPos;// new Vector2(cardsInHand[0].transform.position.x,0);
 
-        float spacingX = 1f;// 0.8f;
+        float spacingX = cardSpacingX;// 0.8f;
         float spacingY = 0.1f;
         float firstPos = 0f - spacingX * middlePos;
 
@@ -123,11 +138,12 @@ public class CardHand : MonoBehaviour
             //newPos += currentFirstPos;
             Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0, 0, 10f * (i - middlePos)));
             Quaternion rot = Quaternion.AngleAxis((-5f * (i - middlePos)), Vector3.forward);
-            cardsInHand[i].transform.DOMove(newPos, 0.1f); //past time was 0.4
+            cardsInHand[i].transform.DOMove(newPos, 0.2f); //past time was 0.4
             cardsInHand[i].transform.DOLocalRotateQuaternion(rot, 0.2f);
         }
 
-
+        selected = true;
+        Debug.Log("Selected index: " + selectedIndex);
     }
 
         //END
@@ -330,7 +346,7 @@ public class CardHand : MonoBehaviour
 
         if (cardsInHand.Count == 0)
             return;
-        float spacingX = 1f;// 0.8f;
+        float spacingX = cardSpacingX;// 0.8f;
         float spacingY = 0.1f;
         float firstPos = 0f - spacingX * middlePos;
 
