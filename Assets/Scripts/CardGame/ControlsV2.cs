@@ -27,7 +27,8 @@ public class ControlsV2 : MonoBehaviour
     private float latestEdgeContactTime;
     private float endContactTime;
 
-    private float scrollStrength = 6;
+    private float scrollStrength = 0.5f;
+    private float minSwipeSize = 1f;
 
     private bool firstContact = true;
 
@@ -55,15 +56,17 @@ public class ControlsV2 : MonoBehaviour
     //method to detect when finger drag changes direction
     private void DetectDirectionChange()
     {
-        if (Mathf.Abs(currentContactPoint.x) > Mathf.Abs(dragDir.y))
+        if (Mathf.Abs(dragDir.x) > Mathf.Abs(dragDir.y))
         {
             if (dragDir.x > 0) //RIGHT
             {
                 if (dragDirection != Direction.Right)
                 {
                     Debug.LogWarning("Change in direction!");
+                    hand.SetStartFloat();
+                   // hand.SetStart();
                     SaveEdgeContactPoint();
-                    hand.SetStart();
+
                 }
                 dragDirection = Direction.Right;
 
@@ -73,11 +76,18 @@ public class ControlsV2 : MonoBehaviour
                 if (dragDirection != Direction.Left)
                 {
                     Debug.LogWarning("Change in direction!");
+                    hand.SetStartFloat();
+                    //hand.SetStart();
                     SaveEdgeContactPoint();
-                    hand.SetStart();
+
                 }
                 dragDirection = Direction.Left;
             }
+        }
+        else
+        {
+            if (dragDir.y > 0) { dragDirection = Direction.Up; }
+            else               { dragDirection = Direction.Down; }
         }
     }
 
@@ -92,19 +102,23 @@ public class ControlsV2 : MonoBehaviour
     private float CalculatePosToMoveTowards()
     {
         float change;
+        change = latestEdgeContactPoint.x - currentContactPoint.x;
         //change = dragDir.magnitude
+        /*
         if (currentContactPoint.x > startContactPoint.x)
             change = (0.5f - currentContactPoint.x) * 6;
         else change = (0.5f - currentContactPoint.x) * 6;
-
+        */
 
         //length of swipe
-        float lenght = Mathf.Abs(latestEdgeContactPoint.x - currentContactPoint.x);
+        float length = latestEdgeContactPoint.x - currentContactPoint.x;
 
         //speed of swipe
         float speed = Time.time - latestEdgeContactTime;
 
-        //Debug.Log("Speed: " + speed + "  length: " + lenght + "  dragDir: " + dragDir);
+        change = length * (dragDir.magnitude/100);// (speed/100); //desto kortare tid desto längre
+
+       // Debug.Log("Speed: " + speed + "  length: " + length + "  dragDir: " + dragDir.magnitude);
         //add speed of swipe
         change *= 2;
 
@@ -118,12 +132,13 @@ public class ControlsV2 : MonoBehaviour
         //save startContactPoint
         startContactPoint = currentContactPoint;
         latestEdgeContactPoint = startContactPoint;
-        Debug.Log("Start Pos: " + startContactPoint);
+        //Debug.Log("Start Pos: " + startContactPoint);
         //save startContactTime
         startContactTime = Time.time;
 
         startSelectedIndex = hand.SelectedIndex;
         startCurrentPos = hand.CurrentPos;
+        hand.SetStartFloat();
         hand.SetStart();
     }
 
@@ -144,27 +159,42 @@ public class ControlsV2 : MonoBehaviour
 
         DetectDirectionChange();
 
+
+        //Debug.Log("DragDir magnitude: " + Mathf.Abs(dragDir.magnitude));
+
+        //check if large enough touch/movements
+        if (Mathf.Abs(dragDir.magnitude) < minSwipeSize)
+            return;
+
+        //check if direction is horizontal
+        if (dragDirection.Equals(Direction.Up) || dragDirection.Equals(Direction.Down))
+            return;
+
+
         //card hand move cards
         float change; //camera.ScreenToViewportPoint(new Vector2(Mathf.Abs(currentContactPoint.x), 0f)).x  - camera.ScreenToViewportPoint(new Vector2(Mathf.Abs(startContactPoint.x), 0f)).x  * 6;
         //add current position to this, and only update current position on onfirstContact()
 
+        //translating viewport to game world distance
+        //change = camera.ViewportToWorldPoint(latestEdgeContactPoint).x - camera.ViewportToWorldPoint(currentContactPoint).x;// Mathf.Abs(latestEdgeContactPoint.x - currentContactPoint.x);
+                                                                                                                            //if (dragDirection.Equals(Direction.Right))
+                                                                                                                            //change *= -1;
 
-        change = latestEdgeContactPoint.x - currentContactPoint.x;// Mathf.Abs(latestEdgeContactPoint.x - currentContactPoint.x);
-        //if (dragDirection.Equals(Direction.Right))
-            //change *= -1;
+        change = camera.ViewportToWorldPoint(startContactPoint).x - camera.ViewportToWorldPoint(currentContactPoint).x;
         /*
 
         if (currentContactPoint.x > startContactPoint.x)
             change = (0.5f - currentContactPoint.x);// * 6;
         else change = (0.5f - currentContactPoint.x);// * 6;
         */
+        change -= camera.ViewportToWorldPoint(new Vector3(0.5f,0,0)).x;
 
         change *= scrollStrength; 
         //change -= startContactPoint.x;
         //change -= star
         //change += startSelectedIndex;
         //Debug.Log("Change = " + change);
-        hand.ShiftCards(change, startCurrentPos);
+        hand.ShiftCards(change);
 
     }
 
@@ -174,10 +204,10 @@ public class ControlsV2 : MonoBehaviour
     {
         //Debug.Log("OnRelease() at: " + Time.time);
         //cardHand.movecards using CalculatePosToMoveTowards();
+        //hand.SetStart();
+        float change = CalculatePosToMoveTowards();
 
-        //float change = CalculatePosToMoveTowards();
-
-        //hand.ShiftCards(change, startCurrentPos);
+        //hand.ShiftCards(change);
         hand.SnapIntoPosition();
 
         firstContact = true;
