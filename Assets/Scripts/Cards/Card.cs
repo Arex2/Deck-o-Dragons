@@ -19,7 +19,20 @@ public class Card : GUIDScriptableObject
 
     public Sprite Sprite => sprite;
 
-    public string DisplayName => string.IsNullOrEmpty(displayName) ? name : displayName;
+    public string DisplayName
+    {
+        get
+        {
+            if (_cachedDisplayName == null)
+            {
+                _cachedDisplayName = string.IsNullOrEmpty(displayName) ? displayName : name;
+            }
+
+            return _cachedDisplayName;
+        }
+    }
+    private string _cachedDisplayName;
+
     public string Description
     {
         get
@@ -202,6 +215,11 @@ public class Card : GUIDScriptableObject
 
         foreach (CardComponent cardComponent in cardComponents)
         {
+            if (!cardComponent.Enabled)
+            {
+                continue;
+            }
+
             TargetFilter targetFilter = cardComponent.TargetFilter;
 
             List<Target> targets = null;

@@ -1,7 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <see cref="StatusEffect"/>: Increases/reduces damage of target by X.
+/// </summary>
+// Script by Ruben
 [CreateAssetMenu(fileName = "Damage Modify", menuName = ASSET_MENU_PATH + "Damage Modify")]
 public class DamageModifyStatusEffect : StatusEffect
 {
@@ -11,9 +13,9 @@ public class DamageModifyStatusEffect : StatusEffect
 
     public override string DurationName => "Attacks";
 
-    public override void OnAttack(Target user, StatusEffectData data, Target target, ref float amount)
+    public override void OnAttack(Target target, ref float amount)
     {
-        float potency = data.Potency * (IsDebuff ? -1f : 1f);
+        float potency = Potency * (IsDebuff ? -1f : 1f);
 
         if (PotencyIsPercent)
         {
@@ -24,6 +26,6 @@ public class DamageModifyStatusEffect : StatusEffect
             amount += potency;
         }
 
-        data.Duration--;
+        Duration--;
     }
 }

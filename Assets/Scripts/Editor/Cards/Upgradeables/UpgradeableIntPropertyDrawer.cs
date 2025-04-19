@@ -8,22 +8,22 @@ using UnityEditor;
 [CustomPropertyDrawer(typeof(UpgradeableInt))]
 public class UpgradeableIntPropertyDrawer : UpgradeableNumberPropertyDrawer<int>
 {
-    public override int AddMethod(int a, int b)
+    protected override int AddMethod(int a, int b)
     {
         return a + b;
     }
 
-    public override int SubtractMethod(int a, int b)
+    protected override int SubtractMethod(int a, int b)
     {
         return a - b;
     }
 
-    public override int MultiplyMethod(int a, int b)
+    protected override int MultiplyMethod(int a, int b)
     {
         return a * b;
     }
 
-    public override int DivideMethod(int a, int b)
+    protected override int DivideMethod(int a, int b)
     {
         return a / b;
     }

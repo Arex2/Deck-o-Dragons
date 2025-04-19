@@ -66,9 +66,11 @@ public class StatusEffectOptionsPropertyDrawer : PropertyDrawer
 
         label.text = potencyProp.displayName;
 
-        if (statusEffect != null)
+        string potencyName = statusEffect == null ? null : statusEffect.PotencyName;
+
+        if (!string.IsNullOrEmpty(potencyName))
         {
-            label.text += $" ({statusEffect.PotencyName})";
+            label.text += $" ({potencyName})";
         }
 
         EditorGUI.BeginDisabledGroup(statusEffect != null && !statusEffect.HasPotency);
@@ -83,9 +85,11 @@ public class StatusEffectOptionsPropertyDrawer : PropertyDrawer
 
         label.text = durationProp.displayName;
 
-        if (statusEffect != null)
+        string durationName = statusEffect == null ? null : statusEffect.DurationName;
+
+        if (!string.IsNullOrEmpty(durationName))
         {
-            label.text += $" ({statusEffect.DurationName})";
+            label.text += $" ({durationName})";
         }
 
         EditorGUI.PropertyField(rect, durationProp, label);

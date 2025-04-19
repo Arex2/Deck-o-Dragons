@@ -1,14 +1,17 @@
 using UnityEngine;
 
+/// <summary>
+/// The base class for all status effects in the game.
+/// </summary>
 public abstract class StatusEffect : GUIDScriptableObject
 {
     public const string ASSET_MENU_PATH = "Cards/Status Effects/";
 
     public abstract bool HasPotency { get; }
 
-    public abstract string PotencyName { get; }
+    public virtual string PotencyName => null;
 
-    public abstract string DurationName { get; }
+    public virtual string DurationName => null;
 
     public Sprite Icon => icon;
     public string DisplayName => displayName;
@@ -23,42 +26,85 @@ public abstract class StatusEffect : GUIDScriptableObject
     [SerializeField] private bool isDebuff;
     [SerializeField] private bool potencyIsPercent;
 
-    public virtual void OnApplied(Target user, StatusEffectData data)
+    public Target User { get; set; }
+    public StatusEffectData Data { get; set; }
+
+    /// <summary>
+    /// How strong the <see cref="StatusEffect"/> is.
+    /// </summary>
+    public float Potency
+    {
+        get => Data == null ? 0 : Data.Potency;
+        set
+        {
+            if (Data == null)
+            {
+                return;
+            }
+
+            Data.Potency = value;
+        }
+    }
+
+    /// <summary>
+    /// How long the <see cref="StatusEffect"/> lasts.
+    /// </summary>
+    public int Duration
+    {
+        get => Data == null ? 0 : Data.Duration;
+        set
+        {
+            if (Data == null)
+            {
+                return;
+            }
+
+            Data.Duration = value;
+        }
+    }
+
+    public void Setup(Target target, StatusEffectData data)
+    {
+        User = target;
+        Data = data;
+    }
+
+    public virtual void OnApplied()
     {
         
     }
 
-    public virtual void OnRemoved(Target user, StatusEffectData data)
+    public virtual void OnRemoved()
     {
 
     }
 
-    public virtual void OnTurnStart(Target user, StatusEffectData data)
+    public virtual void OnTurnStart()
     {
 
     }
 
-    public virtual void OnTurnEnd(Target user, StatusEffectData data)
+    public virtual void OnTurnEnd()
     {
 
     }
 
-    public virtual void OnAttack(Target user, StatusEffectData data, Target target, ref float amount)
+    public virtual void OnAttack(Target target, ref float amount)
     {
 
     }
 
-    public virtual void OnHurt(Target user, StatusEffectData data, Target attacker, ref float amount)
+    public virtual void OnHurt(Target attacker, ref float amount)
     {
 
     }
 
-    public virtual void OnHeal(Target user, StatusEffectData data, ref float healing)
+    public virtual void OnHeal(ref float healing)
     {
 
     }
 
-    public virtual void OnDoApplyStatusEffect(Target user, StatusEffectData data, StatusEffect statusEffect, StatusEffectData otherData)
+    public virtual void OnOtherStatusEffectApplied(StatusEffect statusEffect, StatusEffectData otherData)
     {
 
     }

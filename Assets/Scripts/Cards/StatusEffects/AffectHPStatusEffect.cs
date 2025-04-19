@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// <see cref="StatusEffect"/>: Deals/heals X HP every turn for Y turns.
+/// </summary>
+// Script by Ruben
 [CreateAssetMenu(fileName = "Affect HP", menuName = ASSET_MENU_PATH + "Affect HP")]
 public class AffectHPStatusEffect : StatusEffect
 {
@@ -8,27 +12,27 @@ public class AffectHPStatusEffect : StatusEffect
     public override string PotencyName => IsDebuff ? "Damage" : "Healing";
     public override string DurationName => "Turns";
 
-    public override void OnTurnStart(Target target, StatusEffectData data)
+    public override void OnTurnStart()
     {
         if (IsDebuff)
         {
             return;
         }
 
-        target.Heal(data.Potency);
+        User.Heal(Potency);
 
-        data.Duration--;
+        Duration--;
     }
 
-    public override void OnTurnEnd(Target target, StatusEffectData data)
+    public override void OnTurnEnd()
     {
         if (!IsDebuff)
         {
             return;
         }
 
-        target.Hurt(data.Potency);
+        User.Hurt(Potency);
 
-        data.Duration--;
+        Duration--;
     }
 }

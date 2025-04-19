@@ -14,10 +14,5 @@ public class GiveStatusEffect : CardComponent, IUseSingle
     public void Use(Target target)
     {
         target.ApplyStatusEffect(statusEffect.StatusEffect, statusEffect.GetData(Tier));
-
-        if (User == target)
-        {
-
-        }
     }
 }

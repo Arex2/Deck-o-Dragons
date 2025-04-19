@@ -20,13 +20,13 @@ public abstract class UpgradeableNumberPropertyDrawer<T> : UpgradeableBaseProper
 
     public override bool CanStack => true;
 
-    public abstract T AddMethod(T a, T b);
+    protected abstract T AddMethod(T a, T b);
 
-    public abstract T SubtractMethod(T a, T b);
+    protected abstract T SubtractMethod(T a, T b);
 
-    public abstract T MultiplyMethod(T a, T b);
+    protected abstract T MultiplyMethod(T a, T b);
 
-    public abstract T DivideMethod(T a, T b);
+    protected abstract T DivideMethod(T a, T b);
 
     public override void AddMoreMenuOptions(GenericMenu menu, SerializedProperty property)
     {

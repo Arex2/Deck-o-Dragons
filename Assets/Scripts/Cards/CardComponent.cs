@@ -31,11 +31,25 @@ public abstract class CardComponent : ScriptableObject
     /// </summary>
     public Target User => card.User;
 
+    /// <summary>
+    /// Wether or not this <see cref="CardComponent"/> is enabled and therefore does something.
+    /// </summary>
+    public bool Enabled
+    {
+        get => _enabled;
+        set => _enabled = value;
+    }
+
     [HideInInspector]
     [SerializeField] protected Card card;
+    [HideInInspector]
+    [SerializeField] private bool disableOnStart;
+    private bool _enabled;
 
     public void InternalInitialize()
     {
+        _enabled = !disableOnStart;
+
         foreach (MethodInfo methodInfo in GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
             ReplaceDescriptionKeywordDelegate @delegate = null;

@@ -1,6 +1,11 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Class meant to be used as options for how a status effect should be applied to a <see cref="Target"/>. <para/>
+/// Provides Upgradeable fields for the Potency and Duration of the status effect.
+/// </summary>
+// Script by Ruben
 [Serializable]
 public class StatusEffectOptions
 {
