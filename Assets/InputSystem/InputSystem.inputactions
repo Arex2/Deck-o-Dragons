@@ -270,6 +270,17 @@
                 },
                 {
                     "name": "",
+                    "id": "6994f7dd-850c-4562-9222-cae8910e9af3",
+                    "path": "<Mouse>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Contact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "cf8c1ed2-aec4-41a0-865d-2a27d1239b77",
                     "path": "<Touchscreen>/position",
                     "interactions": "",
@@ -281,8 +292,30 @@
                 },
                 {
                     "name": "",
+                    "id": "10c902dc-8324-4533-808e-4cc696530aac",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d25565c4-c0b1-49f4-bba1-b8fe6f242efb",
                     "path": "<Touchscreen>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "60f1039c-1108-4e59-9a44-4df7c9708497",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
