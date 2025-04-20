@@ -26,11 +26,30 @@ public abstract class CardComponent : ScriptableObject
 
     public int Tier => card.Tier;
 
+    /// <summary>
+    /// The current <see cref="Target"/> that's using this <see cref="Card"/>.
+    /// </summary>
+    public Target User => card.User;
+
+    /// <summary>
+    /// Wether or not this <see cref="CardComponent"/> is enabled and therefore does something.
+    /// </summary>
+    public bool Enabled
+    {
+        get => _enabled;
+        set => _enabled = value;
+    }
+
     [HideInInspector]
     [SerializeField] protected Card card;
+    [HideInInspector]
+    [SerializeField] private bool disableOnStart;
+    private bool _enabled;
 
     public void InternalInitialize()
     {
+        _enabled = !disableOnStart;
+
         foreach (MethodInfo methodInfo in GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
             ReplaceDescriptionKeywordDelegate @delegate = null;
@@ -66,7 +85,18 @@ public abstract class CardComponent : ScriptableObject
                     _keywordReplacementDelegates = new();
                 }
 
-                _keywordReplacementDelegates.Add((string.IsNullOrEmpty(attribute.Keyword) ? name : attribute.Keyword).ToLower().Trim(), @delegate);
+                string key = (string.IsNullOrEmpty(attribute.Keyword) ? name : attribute.Keyword).ToLower().Trim();
+
+                if (!_keywordReplacementDelegates.ContainsKey(key))
+                {
+                    _keywordReplacementDelegates.Add(key, @delegate);
+                }
+#if UNITY_EDITOR
+                else
+                {
+                    Debug.LogWarning($"The CardComponent \"{name}\" on {card.name} has multiple Description Keywords called: \"{key}\"", this);
+                }
+#endif
             }
         }
 

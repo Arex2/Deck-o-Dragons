@@ -6,31 +6,39 @@ using UnityEngine;
 /// A <see cref="CardComponent"/> responsible for dealing damage to a <see cref="Target"/>.
 /// </summary>
 // Script by Ruben
+[AddComponentMenu("Card Attack")]
 public class CardAttack : CardComponent, IUseCoroutineMulti
 {
     public override TargetFilter TargetFilter => targetFilter;
     [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Opponent, TargetFilter.FilterMode.Chosen);
 
     [Space]
-    [SerializeField] private UpgradeableFloat damage = new UpgradeableFloat(3, 1);
-    [SerializeField] private UpgradeableFloat attackAmount = new UpgradeableFloat(1);
+    [SerializeField] private UpgradeableFloat damage = new(3, 1);
+    [SerializeField] private UpgradeableInt attackAmount = new(1);
 
     public IEnumerator UseCoroutine(List<Target> targets)
     {
-        int attackAmount = Mathf.RoundToInt(this.attackAmount.GetValue(Tier));
+        int attackAmount = this.attackAmount.GetValue(Tier);
         float damage = this.damage.GetValue(Tier);
+
+        void DoDamage(Target target)
+        {
+            User.DoAttack(target, ref damage);
+
+            target.Hurt(User, damage);
+        }
 
         IEnumerator HurtTarget(Target target)
         {
             if (attackAmount <= 1)
             {
-                target.Hurt(damage);
+                DoDamage(target);
             }
             else
             {
                 for (int i = 0; i < attackAmount; i++)
                 {
-                    target.Hurt(damage);
+                    DoDamage(target);
 
                     yield return new WaitForSeconds(0.1f);
                 }

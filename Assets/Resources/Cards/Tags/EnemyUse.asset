@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: EnemyUse
   m_EditorClassIdentifier: 
   guid: 789701f024d709f41ab3f63be0739412
+  displayName: Enemy Use
