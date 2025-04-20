@@ -1,7 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <see cref="CardComponent"/> that gives a single <see cref="StatusEffect"/> to a <see cref="Target"/>.
+/// </summary>
+// Script by Ruben
+[AddComponentMenu("Status Effects/Give Status Effects")]
 public class GiveStatusEffect : CardComponent, IUseSingle
 {
     public override TargetFilter TargetFilter => targetFilter;
@@ -14,5 +17,17 @@ public class GiveStatusEffect : CardComponent, IUseSingle
     public void Use(Target target)
     {
         target.ApplyStatusEffect(statusEffect.StatusEffect, statusEffect.GetData(Tier));
+    }
+
+    [ReplaceDescriptionKeyword("STATUS_EFFECT_NAME")]
+    private string ReplaceNameKeyword()
+    {
+        return statusEffect.StatusEffect.DisplayName;
+    }
+
+    [ReplaceDescriptionKeyword("STATUS_EFFECT_DESCRIPTION")]
+    private string ReplaceDescriptionKeyword()
+    {
+        return statusEffect.StatusEffect.GetDescription(statusEffect.GetData(Tier));
     }
 }

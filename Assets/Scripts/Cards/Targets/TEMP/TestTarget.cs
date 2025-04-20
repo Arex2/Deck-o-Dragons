@@ -34,7 +34,7 @@ public abstract class TestTarget : Target
 
         foreach (var pair in StatusEffectsData)
         {
-            result += string.Format(_statusEffectsTempFormat, pair.Key.DisplayName, pair.Value.Potency, pair.Value.Duration) + "\n";
+            result += string.Format(_statusEffectsTempFormat, pair.Key.DisplayName, pair.Value.Potency, pair.Value.Duration) + "\n" + pair.Key.GetDescription(pair.Value) + "\n";
         }
 
         statusEffectsTemp.text = result;

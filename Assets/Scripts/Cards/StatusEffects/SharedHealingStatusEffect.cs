@@ -2,22 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// <see cref="StatusEffect"/>: Any status effect you receive is also applied to your opponent.
+/// <see cref="StatusEffect"/>: For the next X turns, all healing received will also be given to your opponent.
 /// </summary>
 // Script by Ruben
-[CreateAssetMenu(fileName = "Mirror Magic", menuName = ASSET_MENU_PATH + "Mirror Magic")]
-public class MirrorMagicStatusEffect : StatusEffect
+[CreateAssetMenu(fileName = "Shared Healing", menuName = ASSET_MENU_PATH + "Shared Healing")]
+public class SharedHealingStatusEffect : StatusEffect
 {
     public override bool HasPotency => false;
 
     public override string DurationName => "Turns";
 
-    public override void OnTurnEnd()
-    {
-        Duration--;
-    }
-
-    public override void OnOtherStatusEffectApplied(StatusEffect statusEffect, StatusEffectData otherData)
+    public override void OnHeal(ref float healing)
     {
         Team team = User.Team;
 
@@ -27,9 +22,14 @@ public class MirrorMagicStatusEffect : StatusEffect
         {
             target.NotifyStatusEffects = false;
 
-            target.ApplyStatusEffect(statusEffect, otherData.Clone());
+            target.Heal(healing);
 
             target.NotifyStatusEffects = true;
         }
+    }
+
+    public override void OnTurnEnd()
+    {
+        Duration--;
     }
 }

@@ -21,6 +21,14 @@ public abstract class Target : MonoBehaviour
 
     [SerializeField] private List<StatusEffect> immuneToStatusEffects;
 
+    public bool NotifyStatusEffects
+    {
+        get => _notifyStatusEffects;
+        set => _notifyStatusEffects = value;
+    }
+
+    private bool _notifyStatusEffects = true;
+
     public Dictionary<StatusEffect, StatusEffectData> StatusEffectsData => _statusEffectsData;
 
     private Dictionary<StatusEffect, StatusEffectData> _statusEffectsData = new();
@@ -47,14 +55,17 @@ public abstract class Target : MonoBehaviour
 
     public virtual void Hurt(Target attacker, float amount)
     {
-        foreach (var pair in _statusEffectsData)
+        if (_notifyStatusEffects)
         {
-            pair.Key.Setup(this, pair.Value);
+            foreach (var pair in _statusEffectsData)
+            {
+                pair.Key.Setup(this, pair.Value);
 
-            pair.Key.OnHurt(attacker, ref amount);
+                pair.Key.OnHurt(attacker, ref amount);
+            }
+
+            RemoveFinishedStatusEffects();
         }
-
-        RemoveFinishedStatusEffects();
 
         Hurt(amount);
     }
@@ -79,14 +90,17 @@ public abstract class Target : MonoBehaviour
 
     public virtual void Heal(float amount)
     {
-        foreach (var pair in _statusEffectsData)
+        if (_notifyStatusEffects)
         {
-            pair.Key.Setup(this, pair.Value);
+            foreach (var pair in _statusEffectsData)
+            {
+                pair.Key.Setup(this, pair.Value);
 
-            pair.Key.OnHeal(ref amount);
+                pair.Key.OnHeal(ref amount);
+            }
+
+            RemoveFinishedStatusEffects();
         }
-
-        RemoveFinishedStatusEffects();
 
         if (amount < 0)
         {
@@ -103,6 +117,7 @@ public abstract class Target : MonoBehaviour
         Debug.Log(name + " has healed " + amount + " HP");
         UpdateHP();
     }
+
 
     protected virtual void UpdateHP()
     {
@@ -157,16 +172,16 @@ public abstract class Target : MonoBehaviour
         ClearStatusEffectsWithPredicate((pair) => pair.Value.Duration <= 0);
     }
 
-    public void ApplyStatusEffect(StatusEffect statusEffect, int potency, int duration, bool invokeOnOtherStatusEffectApplied = true) => ApplyStatusEffect(statusEffect, new(potency, duration), invokeOnOtherStatusEffectApplied);
+    public void ApplyStatusEffect(StatusEffect statusEffect, int potency, int duration) => ApplyStatusEffect(statusEffect, new(potency, duration));
 
-    public void ApplyStatusEffect(StatusEffect statusEffect, StatusEffectData data, bool invokeOnOtherStatusEffectApplied = true)
+    public void ApplyStatusEffect(StatusEffect statusEffect, StatusEffectData data)
     {
         if (immuneToStatusEffects.Contains(statusEffect))
         {
             return;
         }
 
-        if (invokeOnOtherStatusEffectApplied)
+        if (_notifyStatusEffects)
         {
             foreach (var pair in _statusEffectsData)
             {

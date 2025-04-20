@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -46,6 +47,25 @@ public class StatusEffectData
     }
 
     //public Action OnChanged { get; set; }
+    
+    /// <summary>
+    /// Custom generic data for a <see cref="StatusEffect"/>.
+    /// </summary>
+    public object UserData
+    {
+        get => _userData;
+        set
+        {
+            SetupUserData = true;
+            _userData = value;
+        }
+    }
+    private object _userData;
+
+    /// <summary>
+    /// Wether or not <see cref="UserData"/> has been setup properly.
+    /// </summary>
+    public bool SetupUserData { get; private set; } = false;
 
     [SerializeField] private float potency;
     [SerializeField] private int duration;

@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72f319f9e45bd5844ae580e37004855b, type: 3}
-  m_Name: Defense Boost
+  m_Script: {fileID: 11500000, guid: a4e2bcebbe9987342ac04cd5c794d31d, type: 3}
+  m_Name: ReflectDamage
   m_EditorClassIdentifier: 
-  guid: 0e8e29e52b28319468618bca2fa8faa8
+  guid: bcdbf851be3a04044951fdfc9259a8e2
   icon: {fileID: 0}
-  displayName: Defense Boost
-  description: Reduces damage taken by {POTENCY} for the next {DURATION} attacks.
+  displayName: Thorns
+  description: '{POTENCY} of all damage received will be reflected back to the attacker
+    for the next {DURATION} attacks.'
+  hidden: 0
   isDebuff: 0
   potencyIsPercent: 1

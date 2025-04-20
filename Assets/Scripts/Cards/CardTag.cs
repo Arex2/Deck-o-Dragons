@@ -11,9 +11,9 @@ public class CardTag : GUIDScriptableObject
     {
         get
         {
-            if (_cachedDisplayName == null)
+            if (string.IsNullOrEmpty(_cachedDisplayName))
             {
-                _cachedDisplayName = string.IsNullOrEmpty(displayName) ? displayName : name;
+                _cachedDisplayName = string.IsNullOrEmpty(displayName) ? name : displayName;
             }
 
             return _cachedDisplayName;
@@ -22,4 +22,9 @@ public class CardTag : GUIDScriptableObject
     private string _cachedDisplayName;
 
     [SerializeField] private string displayName;
+
+    private void OnEnable()
+    {
+        _cachedDisplayName = null;
+    }
 }

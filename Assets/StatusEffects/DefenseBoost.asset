@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 346cfab777273c94fb0e5959baf6b06b, type: 3}
-  m_Name: Mirror Magic
+  m_Script: {fileID: 11500000, guid: 72f319f9e45bd5844ae580e37004855b, type: 3}
+  m_Name: DefenseBoost
   m_EditorClassIdentifier: 
-  guid: 2d1008ec180491442b85af8a9fd1d5bf
+  guid: 0e8e29e52b28319468618bca2fa8faa8
   icon: {fileID: 0}
-  displayName: Mirror Magic
-  description: Any status effect you receive is also applied to your opponent.
+  displayName: Polished Armor
+  description: Reduces damage taken by {POTENCY} for the next {DURATION} attacks.
+  hidden: 0
   isDebuff: 0
-  potencyIsPercent: 0
+  potencyIsPercent: 1

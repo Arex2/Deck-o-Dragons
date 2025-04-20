@@ -8,16 +8,17 @@ public class TargetTestingScriptTEMPTEMP : MonoBehaviour
     [SerializeField] private Card card;
     [SerializeField] private Card otherCard;
     [SerializeField] private Target user;
+    [SerializeField] private Target user2;
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            Play(card);
+            Play(card, user);
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            Play(otherCard);
+            Play(otherCard, user2 == null ? user : user2);
         }
 
         if (Input.GetKeyDown(KeyCode.K))
@@ -41,7 +42,7 @@ public class TargetTestingScriptTEMPTEMP : MonoBehaviour
         }
     }
 
-    public void Play(Card card)
+    public void Play(Card card, Target user)
     {
         card.Play(user, OnFinishPlayingCard);
     }

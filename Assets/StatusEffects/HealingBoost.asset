@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93cafe56c4931dc44a20588e0a3a75e8, type: 3}
-  m_Name: Weakness
+  m_Script: {fileID: 11500000, guid: cca10a1888596c9428895c94d4fa843d, type: 3}
+  m_Name: HealingBoost
   m_EditorClassIdentifier: 
-  guid: a6396d079149c3b498646612918f47c9
+  guid: 83f1457ec88110a43be64cc19af901c9
   icon: {fileID: 0}
-  displayName: Weakness
-  description: Decreases damage by {POTENCY} for the next {DURATION} attacks.
-  isDebuff: 1
+  displayName: Healing Boost
+  description: Increases all healing by {POTENCY} for the next {DURATION} heals.
+  hidden: 0
+  isDebuff: 0
   potencyIsPercent: 1

@@ -23,9 +23,9 @@ public class Card : GUIDScriptableObject
     {
         get
         {
-            if (_cachedDisplayName == null)
+            if (string.IsNullOrEmpty(_cachedDisplayName))
             {
-                _cachedDisplayName = string.IsNullOrEmpty(displayName) ? displayName : name;
+                _cachedDisplayName = string.IsNullOrEmpty(displayName) ? name : displayName;
             }
 
             return _cachedDisplayName;
@@ -37,7 +37,7 @@ public class Card : GUIDScriptableObject
     {
         get
         {
-            if (_descriptionCache == null)
+            if (string.IsNullOrEmpty(_descriptionCache))
             {
                 UpdateDescription();
             }
@@ -152,6 +152,7 @@ public class Card : GUIDScriptableObject
             cardComponent.InternalInitialize();
         }
 
+        _cachedDisplayName = null;
         _descriptionCache = null;
         //Debug.Log("Description print test for: " + DisplayName + " = " + Description, this);
     }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72f319f9e45bd5844ae580e37004855b, type: 3}
+  m_Name: DefenseReduce
+  m_EditorClassIdentifier: 
+  guid: bad07d26f7a26e24aaab48d170714828
+  icon: {fileID: 0}
+  displayName: Broken Armor
+  description: Increases damage taken by {POTENCY} for the next {DURATION} attacks.
+  hidden: 0
+  isDebuff: 1
+  potencyIsPercent: 1

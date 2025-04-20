@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72f319f9e45bd5844ae580e37004855b, type: 3}
-  m_Name: Defense Reduction
+  m_Script: {fileID: 11500000, guid: 3aa3e92e9b377a940a3532fa9c85b584, type: 3}
+  m_Name: InvertedHealing
   m_EditorClassIdentifier: 
-  guid: bad07d26f7a26e24aaab48d170714828
+  guid: dc8f37826c5de784b95224f53f7cfc6c
   icon: {fileID: 0}
-  displayName: Defense Reduction
-  description: Increases damage taken by {POTENCY} for the next {DURATION} attacks.
+  displayName: Inverted Lifeforce
+  description: All healing will be reversed and will instead hurt you for the next
+    X heals.
+  hidden: 0
   isDebuff: 1
-  potencyIsPercent: 1
+  potencyIsPercent: 0

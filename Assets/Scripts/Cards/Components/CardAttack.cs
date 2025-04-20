@@ -6,6 +6,7 @@ using UnityEngine;
 /// A <see cref="CardComponent"/> responsible for dealing damage to a <see cref="Target"/>.
 /// </summary>
 // Script by Ruben
+[AddComponentMenu("Card Attack")]
 public class CardAttack : CardComponent, IUseCoroutineMulti
 {
     public override TargetFilter TargetFilter => targetFilter;
