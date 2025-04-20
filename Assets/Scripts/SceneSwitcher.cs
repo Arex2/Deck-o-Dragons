@@ -20,13 +20,6 @@ public class SceneSwitcher : MonoBehaviour
         SceneManager.LoadScene(5);
     }
 
-    public void SwitchToEgg()
-    {
-        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByBuildIndex(1))
-            return;
-        SceneManager.LoadScene(1);
-    }
-
     public void SwitchToCardGame()
     {
         if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByBuildIndex(4))

@@ -5,7 +5,6 @@ using UnityEngine;
 /// A <see cref="CardComponent"/> responsible for healing a <see cref="Target"/>.
 /// </summary>
 // Script by Ruben
-[AddComponentMenu("Card Heal")]
 public class CardHeal : CardComponent, IUseSingle
 {
     public override TargetFilter TargetFilter => targetFilter;

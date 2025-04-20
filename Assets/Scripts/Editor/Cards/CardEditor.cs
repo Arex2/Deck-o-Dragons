@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// The custom editor script for <see cref="CardComponent"/>.
@@ -12,21 +13,7 @@ using UnityEditor.Experimental.GraphView;
 public class CardEditor : Editor
 {
     // I love regex
-    private static readonly Regex _componentNameRegex = new Regex(@"^card[s]?(.+)", RegexOptions.IgnoreCase);
-    private static readonly Regex _componentNumberIndexRegex = new Regex(@"(.*) [0-9]+");
-    private static readonly string _componentResetRegexFormat = @"\""{0}\"":[^,]*,";
-
-    private static readonly string[] _removedResetJsonValues = new string[]
-    {
-        "m_Enabled",
-        "m_EditorHideFlags",
-        "m_Name",
-        "m_EditorClassIdentifier",
-        "expandedInEditor",
-        "orderInEditor",
-        "card",
-        "disableOnStart",
-    };
+    private static readonly Regex _componentNameRegex = new Regex("card(.+)", RegexOptions.IgnoreCase);
 
     private CardComponentSearchWindowProvider _searchWindowProvider;
 
@@ -40,8 +27,6 @@ public class CardEditor : Editor
 
     private void OnEnable()
     {
-        _cardComponentsProperty = serializedObject.FindProperty("cardComponents");
-
         _searchWindowProvider = CreateInstance<CardComponentSearchWindowProvider>();
 
         _searchWindowProvider.OnSelectType = (type) =>
@@ -61,47 +46,6 @@ public class CardEditor : Editor
                 newComponent.name = name;
             }
 
-            name = newComponent.name;
-
-            // Ensure the name is unique
-            int arraySize = _cardComponentsProperty.arraySize;
-
-            bool cardWithSameNameExists = false;
-            int numberOfTries = 1;
-
-            do
-            {
-                if (cardWithSameNameExists)
-                {
-                    Match numberIndexMatch = _componentNumberIndexRegex.Match(name);
-
-                    name = (numberIndexMatch.Success ? numberIndexMatch.Result("$1").Trim() : name) + " " + numberOfTries;
-                    newComponent.name = name;
-                    numberOfTries++;
-                }
-
-                bool foundMatch = false;
-
-                for (int i = 0; i < arraySize; i++)
-                {
-                    Object obj = _cardComponentsProperty.GetArrayElementAtIndex(i).objectReferenceValue;
-
-                    if (obj == null)
-                    {
-                        continue;
-                    }
-
-                    if (obj.name == name)
-                    {
-                        foundMatch = true;
-                        break;
-                    }
-                }
-
-                cardWithSameNameExists = foundMatch;
-            }
-            while (cardWithSameNameExists);
-
             AssetDatabase.AddObjectToAsset(newComponent, target);
 
             using (SerializedObject serializedObject = new SerializedObject(newComponent))
@@ -120,6 +64,8 @@ public class CardEditor : Editor
 
             _shouldCacheCardComponents = true;
         };
+
+        _cardComponentsProperty = serializedObject.FindProperty("cardComponents");
 
         CacheCardComponents();
 
@@ -198,36 +144,14 @@ public class CardEditor : Editor
 
             Rect rect = EditorGUILayout.GetControlRect();
 
-            Rect enabledRect = rect;
-
-            enabledRect.x += 22;
-            enabledRect.width = 20;
-
-            SerializedProperty disabledProp = editor.serializedObject.FindProperty("disableOnStart");
-            string toggleName = "CARD_EDITOR:disableOnStart_toggle_" + i;
-
-            Event evt = Event.current;
-
-            if (enabledRect.Contains(evt.mousePosition) && evt.type == EventType.MouseDown && evt.button == 0)
-            {
-                disabledProp.boolValue = !disabledProp.boolValue;
-
-                evt.Use();
-
-                GUI.FocusControl(toggleName);
-            }
-
             expandedProp.boolValue = EditorGUI.BeginFoldoutHeaderGroup(rect, expandedProp.boolValue, foldoutContent, null, (rect) =>
             {
                 OpenCardComponentContextMenu(arrayObj, rect);
             });
             EditorGUILayout.EndFoldoutHeaderGroup();
 
-            GUI.SetNextControlName(toggleName);
-            EditorGUI.Toggle(enabledRect, !disabledProp.boolValue);
-
-            rect.x += 39;
-            rect.width -= 39;
+            rect.x += 20;
+            rect.width -= 40;
 
             bool shouldRename = _pendingRenameObj == arrayObj || _currentRenameObj == arrayObj;
 
@@ -394,22 +318,6 @@ public class CardEditor : Editor
             _pendingRenameObj = cardComponent;
         });
 
-        menu.AddItem(new GUIContent("Delete Component"), false, () =>
-        {
-            _editors.Remove(cardComponent);
-
-            string name = cardComponent.name;
-
-            Undo.DestroyObjectImmediate(cardComponent);
-
-            //AssetDatabase.RemoveObjectFromAsset(target);
-            Undo.SetCurrentGroupName("Deleted " + name + " from " + target.name);
-
-            SaveAsset();
-
-            _shouldCacheCardComponents = true;
-        });
-
         menu.AddSeparator("");
 
         // Swapping orders
@@ -449,36 +357,26 @@ public class CardEditor : Editor
 
         menu.AddSeparator("");
 
-        /*
         menu.AddItem(new GUIContent("Select in inspector"), false, () =>
         {
             Selection.activeObject = cardComponent;
             EditorGUIUtility.PingObject(cardComponent);
         });
-        */
 
-        menu.AddItem(new GUIContent("Edit Script"), false, () =>
+        menu.AddItem(new GUIContent("Delete component"), false, () =>
         {
-            using (SerializedObject obj = new SerializedObject(cardComponent))
-            {
-                EditorUtility.OpenWithDefaultApp(AssetDatabase.GetAssetPath(obj.FindProperty("m_Script").objectReferenceValue));
-            }
-        });
+            _editors.Remove(cardComponent);
 
-        menu.AddItem(new GUIContent("Reset"), false, () =>
-        {
-            Undo.RecordObject(cardComponent, "Reset " + cardComponent.name);
+            string name = cardComponent.name;
 
-            Object defaultInstance = CreateInstance(cardComponent.GetType());
+            Undo.DestroyObjectImmediate(cardComponent);
 
-            string json = EditorJsonUtility.ToJson(defaultInstance);
+            //AssetDatabase.RemoveObjectFromAsset(target);
+            Undo.SetCurrentGroupName("Deleted " + name + " from " + target.name);
 
-            foreach (string removedJsonValue in _removedResetJsonValues)
-            {
-                json = Regex.Replace(json, string.Format(_componentResetRegexFormat, removedJsonValue), "");
-            }
+            SaveAsset();
 
-            EditorJsonUtility.FromJsonOverwrite(json, cardComponent);
+            _shouldCacheCardComponents = true;
         });
 
         if (rect.HasValue)

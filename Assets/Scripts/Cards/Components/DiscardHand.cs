@@ -1,10 +1,7 @@
-using UnityEngine;
-
 /// <summary>
 /// <see cref="CardComponent"/> that will discard the players entire hand on use.
 /// </summary>
 // Script by Ruben
-[AddComponentMenu("Hand/Discard Hand")]
 public class DiscardHand : CardComponent, IUse
 {
     public void Use()

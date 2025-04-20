@@ -4,7 +4,6 @@ using UnityEngine;
 /// <see cref="CardComponent"/> that will change the players mana stat.
 /// </summary>
 // Script by Ruben
-[AddComponentMenu("Modify Mana")]
 public class ModifyMana : CardComponent, IUse
 {
     [SerializeField] private UpgradeableFloat manaAmount = new(1);

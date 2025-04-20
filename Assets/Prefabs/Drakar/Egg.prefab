@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.8, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -73,8 +73,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 920755719, guid: a069f94e8fc87bd42a18fa5617bec68b, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,10 +99,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dragons:
   - {fileID: 7121439608008037001, guid: 60e6f567f22e0564f8edeeaa57e0db33, type: 3}
-  - {fileID: 2889075239259481593, guid: edcac1b3e8b5468439309d637b55858b, type: 3}
   - {fileID: 8632546672829060183, guid: 4c8ce8e8a14936e4982ac204393ee83a, type: 3}
   - {fileID: 312332381619448646, guid: 6c9fb1b4e0593bd4ebdb04149a1373aa, type: 3}
-  crackedSprites:
-  - {fileID: 579575771, guid: f8db8686045b53342a6177f4c78d41a3, type: 3}
-  - {fileID: -314025812, guid: f8db8686045b53342a6177f4c78d41a3, type: 3}
-  - {fileID: 1471289581, guid: f8db8686045b53342a6177f4c78d41a3, type: 3}
+  - {fileID: 2889075239259481593, guid: edcac1b3e8b5468439309d637b55858b, type: 3}

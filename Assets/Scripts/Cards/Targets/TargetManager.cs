@@ -11,21 +11,21 @@ public class TargetManager : Singleton<TargetManager>
     private static readonly Dictionary<Team, Target> _targetLeaderDictionary = new();
     private static bool _dictionariesInvalid = true;
 
-    public static void AddTarget(Target target)
+    public static void AddCardTarget(Target cardTarget)
     {
         // Invalidate dictionary
         _dictionariesInvalid = true;
 
-        AllTargets.Add(target);
+        AllTargets.Add(cardTarget);
         AllTargetsCount++;
     }
 
-    public static bool RemoveTarget(Target target)
+    public static bool RemoveCardTarget(Target cardTarget)
     {
         // Invalidate dictionary
         _dictionariesInvalid = true;
 
-        bool success = AllTargets.Remove(target);
+        bool success = AllTargets.Remove(cardTarget);
 
         if (success)
         {

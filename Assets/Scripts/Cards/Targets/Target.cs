@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -19,28 +17,14 @@ public abstract class Target : MonoBehaviour
 
     [SerializeField] private bool isLeader;
 
-    [SerializeField] private List<StatusEffect> immuneToStatusEffects;
-
-    public bool NotifyStatusEffects
+    private void OnEnable()
     {
-        get => _notifyStatusEffects;
-        set => _notifyStatusEffects = value;
+        TargetManager.AddCardTarget(this);
     }
 
-    private bool _notifyStatusEffects = true;
-
-    public Dictionary<StatusEffect, StatusEffectData> StatusEffectsData => _statusEffectsData;
-
-    private Dictionary<StatusEffect, StatusEffectData> _statusEffectsData = new();
-
-    protected virtual void OnEnable()
+    private void OnDisable()
     {
-        TargetManager.AddTarget(this);
-    }
-
-    protected virtual void OnDisable()
-    {
-        TargetManager.RemoveTarget(this);
+        TargetManager.RemoveCardTarget(this);
     }
 
     protected virtual void Awake()
@@ -53,30 +37,8 @@ public abstract class Target : MonoBehaviour
 
     }
 
-    public virtual void Hurt(Target attacker, float amount)
-    {
-        if (_notifyStatusEffects)
-        {
-            foreach (var pair in _statusEffectsData)
-            {
-                pair.Key.Setup(this, pair.Value);
-
-                pair.Key.OnHurt(attacker, ref amount);
-            }
-
-            RemoveFinishedStatusEffects();
-        }
-
-        Hurt(amount);
-    }
-
     public virtual void Hurt(float amount)
     {
-        if (amount < 0)
-        {
-            amount = 0;
-        }
-
         hp -= amount;
 
         if (hp < 0)
@@ -84,29 +46,12 @@ public abstract class Target : MonoBehaviour
             hp = 0;
         }
 
-        Debug.Log(name + " has taken " + amount + " damage");
+        //Debug.Log(name + " has taken " + amount + " damage");
         UpdateHP();
     }
 
     public virtual void Heal(float amount)
     {
-        if (_notifyStatusEffects)
-        {
-            foreach (var pair in _statusEffectsData)
-            {
-                pair.Key.Setup(this, pair.Value);
-
-                pair.Key.OnHeal(ref amount);
-            }
-
-            RemoveFinishedStatusEffects();
-        }
-
-        if (amount < 0)
-        {
-            amount = 0;
-        }
-
         hp += amount;
 
         if (hp > maxHp)
@@ -114,10 +59,9 @@ public abstract class Target : MonoBehaviour
             hp = maxHp;
         }
 
-        Debug.Log(name + " has healed " + amount + " HP");
+        //Debug.Log(name + " has healed " + amount + " HP");
         UpdateHP();
     }
-
 
     protected virtual void UpdateHP()
     {
@@ -125,161 +69,4 @@ public abstract class Target : MonoBehaviour
     }
 
     public abstract Bounds GetWorldBounds();
-
-    protected virtual void UpdateStatusEffects()
-    {
-
-    }
-
-    public virtual void OnTurnStart()
-    {
-        foreach (var pair in _statusEffectsData)
-        {
-            pair.Key.Setup(this, pair.Value);
-
-            pair.Key.OnTurnStart();
-        }
-
-        RemoveFinishedStatusEffects();
-    }
-
-    public virtual void OnTurnEnd()
-    {
-        foreach (var pair in _statusEffectsData)
-        {
-            pair.Key.Setup(this, pair.Value);
-
-            pair.Key.OnTurnEnd();
-        }
-
-        RemoveFinishedStatusEffects();
-    }
-
-    public virtual void DoAttack(Target target, ref float damage)
-    {
-        foreach (var pair in _statusEffectsData)
-        {
-            pair.Key.Setup(this, pair.Value);
-
-            pair.Key.OnAttack(target, ref damage);
-        }
-
-        RemoveFinishedStatusEffects();
-    }
-
-    private void RemoveFinishedStatusEffects()
-    {
-        ClearStatusEffectsWithPredicate((pair) => pair.Value.Duration <= 0);
-    }
-
-    public void ApplyStatusEffect(StatusEffect statusEffect, int potency, int duration) => ApplyStatusEffect(statusEffect, new(potency, duration));
-
-    public void ApplyStatusEffect(StatusEffect statusEffect, StatusEffectData data)
-    {
-        if (immuneToStatusEffects.Contains(statusEffect))
-        {
-            return;
-        }
-
-        if (_notifyStatusEffects)
-        {
-            foreach (var pair in _statusEffectsData)
-            {
-                pair.Key.Setup(this, pair.Value);
-
-                pair.Key.OnOtherStatusEffectApplied(statusEffect, data);
-            }
-        }
-
-        _statusEffectsData[statusEffect] = data;
-
-        statusEffect.Setup(this, data);
-        statusEffect.OnApplied();
-
-        //data.OnChanged += UpdateStatusEffects;
-
-        RemoveFinishedStatusEffects();
-    }
-
-    public StatusEffectData GetStatusEffectData(StatusEffect statusEffect)
-    {
-        if (!TryGetStatusEffectData(statusEffect, out StatusEffectData data))
-        {
-            return null;
-        }
-
-        return data;
-    }
-
-    public bool TryGetStatusEffectData(StatusEffect statusEffect, out StatusEffectData data) => _statusEffectsData.TryGetValue(statusEffect, out data);
-
-    public bool HasStatusEffect(StatusEffect statusEffect) => _statusEffectsData.ContainsKey(statusEffect);
-
-    public void RemoveStatusEffect(StatusEffect statusEffect)
-    {
-        if (!_statusEffectsData.TryGetValue(statusEffect, out StatusEffectData data))
-        {
-            return;
-        }
-
-        statusEffect.Setup(this, data);
-        statusEffect.OnRemoved();
-
-        //data.OnChanged -= UpdateStatusEffects;
-
-        _statusEffectsData.Remove(statusEffect);
-
-        UpdateStatusEffects();
-    }
-
-    public void ClearAllDebuffs()
-    {
-        ClearStatusEffectsWithPredicate((pair) => pair.Key.IsDebuff);
-    }
-
-    public void ClearAllNonDebuffs()
-    {
-        ClearStatusEffectsWithPredicate((pair) => !pair.Key.IsDebuff);
-    }
-
-    private void ClearStatusEffectsWithPredicate(Func<KeyValuePair<StatusEffect, StatusEffectData>, bool> predicate)
-    {
-        List<StatusEffect> statusEffectsToRemove = new();
-
-        foreach (var pair in _statusEffectsData)
-        {
-            if (predicate.Invoke(pair))
-            {
-                pair.Key.Setup(this, pair.Value);
-
-                pair.Key.OnRemoved();
-                statusEffectsToRemove.Add(pair.Key);
-
-                //pair.Value.OnChanged -= UpdateStatusEffects;
-            }
-        }
-
-        foreach (var statusEffect in statusEffectsToRemove)
-        {
-            _statusEffectsData.Remove(statusEffect);
-        }
-
-        UpdateStatusEffects();
-    }
-
-    public void ClearAllStatusEffects()
-    {
-        foreach (var pair in _statusEffectsData)
-        {
-            pair.Key.Setup(this, pair.Value);
-
-            pair.Key.OnRemoved();
-
-            //pair.Value.OnChanged -= UpdateStatusEffects;
-        }
-
-        _statusEffectsData.Clear();
-
-        UpdateStatusEffects();
-    }
 }

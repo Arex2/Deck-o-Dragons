@@ -6,7 +6,6 @@ using UnityEngine;
 /// A <see cref="CardComponent"/> responsible for dealing damage to a <see cref="Target"/>.
 /// </summary>
 // Script by Ruben
-[AddComponentMenu("Card Attack")]
 public class CardAttack : CardComponent, IUseCoroutineMulti
 {
     public override TargetFilter TargetFilter => targetFilter;
@@ -21,24 +20,17 @@ public class CardAttack : CardComponent, IUseCoroutineMulti
         int attackAmount = Mathf.RoundToInt(this.attackAmount.GetValue(Tier));
         float damage = this.damage.GetValue(Tier);
 
-        void DoDamage(Target target)
-        {
-            User.DoAttack(target, ref damage);
-
-            target.Hurt(User, damage);
-        }
-
         IEnumerator HurtTarget(Target target)
         {
             if (attackAmount <= 1)
             {
-                DoDamage(target);
+                target.Hurt(damage);
             }
             else
             {
                 for (int i = 0; i < attackAmount; i++)
                 {
-                    DoDamage(target);
+                    target.Hurt(damage);
 
                     yield return new WaitForSeconds(0.1f);
                 }
