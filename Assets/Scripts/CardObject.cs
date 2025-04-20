@@ -42,7 +42,7 @@ public class CardObject : MonoBehaviour
 
     private void UpdateTagText()
     {
-        if (card.Tags == null || card.Tags.Count <= 0)
+        if (card.Tags == null || card.Tags.Length <= 0)
             return;
         string tags = "";
         foreach (CardTag tag in card.Tags)
