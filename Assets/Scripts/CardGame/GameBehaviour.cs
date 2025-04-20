@@ -43,7 +43,7 @@ public class GameBehaviour : Target
 
     //ha koppling till CardHand och Controls
     [SerializeField]
-    public Controls controls;
+    public ControlsV2 controls;
     [SerializeField]
     public CardHand cardHand;
 
