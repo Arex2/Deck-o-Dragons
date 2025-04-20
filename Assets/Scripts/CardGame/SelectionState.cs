@@ -6,7 +6,7 @@ using UnityEngine.PlayerLoop;
 
 public class SelectionState : IState
 {
-    protected Controls controls;
+    protected ControlsV2 controls;
     GameBehaviour gameBehaviour;
     public virtual IState Enter(GameBehaviour gameBehaviour)
     {
