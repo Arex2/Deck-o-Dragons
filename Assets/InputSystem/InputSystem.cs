@@ -260,6 +260,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Position1"",
+                    ""type"": ""Value"",
+                    ""id"": ""83441e1f-d8ea-4b41-8622-8eb2ed087f43"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Contact"",
                     ""type"": ""Value"",
                     ""id"": ""a140f1bf-ba41-4334-9522-fb5401f7c476"",
@@ -272,6 +281,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""name"": ""Direction"",
                     ""type"": ""Value"",
                     ""id"": ""68a3a2b8-0d4e-4547-9f98-ed72cb9e29d9"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Direction1"",
+                    ""type"": ""Value"",
+                    ""id"": ""e26f7b8a-25c9-4eab-ad2a-22bfb5a077db"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -314,17 +332,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""10c902dc-8324-4533-808e-4cc696530aac"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Position"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""d25565c4-c0b1-49f4-bba1-b8fe6f242efb"",
                     ""path"": ""<Touchscreen>/delta"",
                     ""interactions"": """",
@@ -336,12 +343,23 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""60f1039c-1108-4e59-9a44-4df7c9708497"",
+                    ""id"": ""bb9b76cf-9036-4869-950b-c83c9e00065a"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Position1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52fa4339-ba33-4c5e-b634-7af050adfba8"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Direction"",
+                    ""action"": ""Direction1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -363,8 +381,10 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         // CardMovement
         m_CardMovement = asset.FindActionMap("CardMovement", throwIfNotFound: true);
         m_CardMovement_Position = m_CardMovement.FindAction("Position", throwIfNotFound: true);
+        m_CardMovement_Position1 = m_CardMovement.FindAction("Position1", throwIfNotFound: true);
         m_CardMovement_Contact = m_CardMovement.FindAction("Contact", throwIfNotFound: true);
         m_CardMovement_Direction = m_CardMovement.FindAction("Direction", throwIfNotFound: true);
+        m_CardMovement_Direction1 = m_CardMovement.FindAction("Direction1", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -529,15 +549,19 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_CardMovement;
     private List<ICardMovementActions> m_CardMovementActionsCallbackInterfaces = new List<ICardMovementActions>();
     private readonly InputAction m_CardMovement_Position;
+    private readonly InputAction m_CardMovement_Position1;
     private readonly InputAction m_CardMovement_Contact;
     private readonly InputAction m_CardMovement_Direction;
+    private readonly InputAction m_CardMovement_Direction1;
     public struct CardMovementActions
     {
         private @InputSystem m_Wrapper;
         public CardMovementActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @Position => m_Wrapper.m_CardMovement_Position;
+        public InputAction @Position1 => m_Wrapper.m_CardMovement_Position1;
         public InputAction @Contact => m_Wrapper.m_CardMovement_Contact;
         public InputAction @Direction => m_Wrapper.m_CardMovement_Direction;
+        public InputAction @Direction1 => m_Wrapper.m_CardMovement_Direction1;
         public InputActionMap Get() { return m_Wrapper.m_CardMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -550,12 +574,18 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Position.started += instance.OnPosition;
             @Position.performed += instance.OnPosition;
             @Position.canceled += instance.OnPosition;
+            @Position1.started += instance.OnPosition1;
+            @Position1.performed += instance.OnPosition1;
+            @Position1.canceled += instance.OnPosition1;
             @Contact.started += instance.OnContact;
             @Contact.performed += instance.OnContact;
             @Contact.canceled += instance.OnContact;
             @Direction.started += instance.OnDirection;
             @Direction.performed += instance.OnDirection;
             @Direction.canceled += instance.OnDirection;
+            @Direction1.started += instance.OnDirection1;
+            @Direction1.performed += instance.OnDirection1;
+            @Direction1.canceled += instance.OnDirection1;
         }
 
         private void UnregisterCallbacks(ICardMovementActions instance)
@@ -563,12 +593,18 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Position.started -= instance.OnPosition;
             @Position.performed -= instance.OnPosition;
             @Position.canceled -= instance.OnPosition;
+            @Position1.started -= instance.OnPosition1;
+            @Position1.performed -= instance.OnPosition1;
+            @Position1.canceled -= instance.OnPosition1;
             @Contact.started -= instance.OnContact;
             @Contact.performed -= instance.OnContact;
             @Contact.canceled -= instance.OnContact;
             @Direction.started -= instance.OnDirection;
             @Direction.performed -= instance.OnDirection;
             @Direction.canceled -= instance.OnDirection;
+            @Direction1.started -= instance.OnDirection1;
+            @Direction1.performed -= instance.OnDirection1;
+            @Direction1.canceled -= instance.OnDirection1;
         }
 
         public void RemoveCallbacks(ICardMovementActions instance)
@@ -600,7 +636,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     public interface ICardMovementActions
     {
         void OnPosition(InputAction.CallbackContext context);
+        void OnPosition1(InputAction.CallbackContext context);
         void OnContact(InputAction.CallbackContext context);
         void OnDirection(InputAction.CallbackContext context);
+        void OnDirection1(InputAction.CallbackContext context);
     }
 }

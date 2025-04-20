@@ -90,7 +90,7 @@ public class CardHand : MonoBehaviour
         //måste lägga till detta på currentPos utifrån first card?
 
         float middlePos = changeX + startPoint;// startPointFloat;//startPoint;// = selectedIndex;
-        Debug.Log("middlePos: " + middlePos);
+        //Debug.Log("middlePos: " + middlePos);
 
         if (cardsInHand.Count == 0)
             return;
@@ -143,14 +143,93 @@ public class CardHand : MonoBehaviour
         }
 
         selected = true;
-        Debug.Log("Selected index: " + selectedIndex);
+        //Debug.Log("Selected index: " + selectedIndex);
     }
 
-        //END
+    public void ContinueMoving(float changeX)
+    {
+        int end = 0;
+        if (cardsInHand.Count == 0)
+            return;
+
+        for (int i = 0; i < Mathf.Abs(Mathf.CeilToInt(changeX)); i++)
+        {
+            #region change index
+
+            selected = false;
+            /*
+            int checkIndex;
+            //change to upp int
+            if (changeX > 0)
+                checkIndex = Mathf.CeilToInt(changeX);
+            else checkIndex = Mathf.RoundToInt(changeX);
+            */
+
+            /*
+            if (startPoint + checkIndex >= cardsInHand.Count)
+                selectedIndex = cardsInHand.Count - 1;
+            else if (startPoint + checkIndex < 0)
+                selectedIndex = 0;
+            else selectedIndex = startPoint + checkIndex;
+            */
+            if (changeX <= 0)
+            {
+                if (selectedIndex - 1 < 0)
+                    return;
+                selectedIndex--;
+            }
+            else
+            {
+                if (selectedIndex + 1 >= cardsInHand.Count)
+                    return;
+                selectedIndex++;
+            }
+
+            //currentChangeX = changeX;
+            #endregion
+
+            #region move cards
+
+            float middlePos =startPoint;
+            middlePos += changeX / 6;
+            if (i +1 >= Mathf.Abs(Mathf.CeilToInt(changeX)))
+                middlePos = selectedIndex;
+
+            float spacingX = cardSpacingX;
+            float spacingY = 0.1f;
+            float firstPos = 0f - spacingX * middlePos;
+
+            for (int j = 0; j < cardsInHand.Count; j++)
+            {
+                float posX = firstPos + j * spacingX;
+                float spaceFromSelected = Mathf.Abs(j - middlePos);
+                float posY = -spacingY * spaceFromSelected;
+                Vector2 newPos = new Vector2(posX, -2.2f + posY);
+                Quaternion rot = Quaternion.AngleAxis((-5f * (j - middlePos)), Vector3.forward);
+                cardsInHand[j].transform.DOMove(newPos, 0.4f);
+                cardsInHand[j].transform.DOLocalRotateQuaternion(rot, 0.2f);
+
+            }
+
+            UpdateCardLayers();
+            #endregion
+            end = i;
+            if (end < Mathf.Abs(Mathf.CeilToInt(changeX)))
+            {
+                Debug.Log("end snap pos: " + end);
+                SnapIntoPosition();
+            }
+
+        }
+
+        //SnapIntoPosition();
+    }
+
+    //END
 
 
 
-        private void Start()
+    private void Start()
     {
         SelectInitialCard();
     }

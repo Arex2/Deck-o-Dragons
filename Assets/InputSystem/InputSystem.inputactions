@@ -238,6 +238,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Position1",
+                    "type": "Value",
+                    "id": "83441e1f-d8ea-4b41-8622-8eb2ed087f43",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Contact",
                     "type": "Value",
                     "id": "a140f1bf-ba41-4334-9522-fb5401f7c476",
@@ -250,6 +259,15 @@
                     "name": "Direction",
                     "type": "Value",
                     "id": "68a3a2b8-0d4e-4547-9f98-ed72cb9e29d9",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Direction1",
+                    "type": "Value",
+                    "id": "e26f7b8a-25c9-4eab-ad2a-22bfb5a077db",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -292,17 +310,6 @@
                 },
                 {
                     "name": "",
-                    "id": "10c902dc-8324-4533-808e-4cc696530aac",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Position",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d25565c4-c0b1-49f4-bba1-b8fe6f242efb",
                     "path": "<Touchscreen>/delta",
                     "interactions": "",
@@ -314,12 +321,23 @@
                 },
                 {
                     "name": "",
-                    "id": "60f1039c-1108-4e59-9a44-4df7c9708497",
+                    "id": "bb9b76cf-9036-4869-950b-c83c9e00065a",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Position1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "52fa4339-ba33-4c5e-b634-7af050adfba8",
                     "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Direction",
+                    "action": "Direction1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
