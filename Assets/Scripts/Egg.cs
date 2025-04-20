@@ -17,6 +17,8 @@ public class Egg : MonoBehaviour
     Vector3 lowPassValue;
 
     [SerializeField] GameObject[] dragons;
+    [SerializeField] private Sprite[] crackedSprites;
+    private SpriteRenderer spriteRenderer;
 
 
     private void OnEnable()
@@ -28,6 +30,7 @@ public class Egg : MonoBehaviour
     {
         //typ default shake värde som alltid är där (mäng acceleration mobil naturligt har)
         lowPassValue = Input.acceleration;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -51,7 +54,10 @@ public class Egg : MonoBehaviour
                 Debug.Log("Shake!");
                 //färgändring representerar sprite ändring
                 //där spriten får större cracks
-                gameObject.GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV();
+                if (shakeCount < crackedSprites.Length)
+                {
+                    spriteRenderer.sprite = crackedSprites[shakeCount];
+                }
                 shakeCount++;
                 time = 0;
             }
@@ -75,7 +81,7 @@ public class Egg : MonoBehaviour
     {
         isHatching = true;
         SpawnDragon();
-        Invoke("DeleteEgg",0.4f);
+        Invoke("DeleteEgg",0.05f);
         //DeleteEgg();
     }
 

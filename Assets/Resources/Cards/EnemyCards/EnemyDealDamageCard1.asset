@@ -48,13 +48,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: EnemyCard1
+  m_Name: EnemyDealDamageCard1
   m_EditorClassIdentifier: 
+  guid: e444ebe4889011c4b8c2265e96304acc
   sprite: {fileID: 21300000, guid: d1a693bd5b2a9834b9ae3d403c01317a, type: 3}
-  displayName: Test Card
-  description: 'Deals {Attack} damage.
-
-    Heals you for {Heal} HP.'
+  displayName: Enemy Damage Card 1
+  description: Deals {Attack} damage.
   cost: 5
   element: 0
   category: 1

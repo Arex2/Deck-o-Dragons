@@ -19,7 +19,7 @@ MonoBehaviour:
     team: 1
     mode: 0
   healing:
-    baseValue: 1
+    baseValue: 2
     stack: 1
     loopBehaviour: 1
     upgrades:
@@ -38,11 +38,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: EnemyCard2
+  m_Name: EnemyHealCard1
   m_EditorClassIdentifier: 
+  guid: cc5a434975884c54ab0673b1e6f8a838
   sprite: {fileID: 21300000, guid: 57fd45e4c3a192c46ad1956cd366b7a1, type: 3}
-  displayName: Test 2
-  description: awdwadw
+  displayName: Enemy Heal Card 1
+  description: Heal the user for X amount
   cost: 5
   element: 0
   category: 2
