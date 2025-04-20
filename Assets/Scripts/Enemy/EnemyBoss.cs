@@ -6,19 +6,28 @@ using UnityEngine;
 
 public class EnemyBoss : Target
 {
-    [SerializeField] private int maxMana;
-    [SerializeField] List<Card> cardsAvailable = new List<Card>();
-    [SerializeField] private TMP_Text healthText;
+    /*
+     * Mana and health variables
+     */
 
-    //Shake object when taking damage
+    
+    [SerializeField] private TMP_Text healthText;
+    [SerializeField] private int maxMana;
+    private int currentMana;
+    private string healthTextFormat;
+
+    [SerializeField] List<Card> cardsAvailable = new List<Card>();
+
+    /*
+     * Shake object when taking damage
+     */
     [SerializeField] private float shakeDuration;
     [SerializeField] private float shakeMagnitude;
     private Vector3 originalPosition;
 
-
-    private int currentMana;
-    private string healthTextFormat;
-    private AudioSource audioSource;
+    /*
+     * Audio
+     */
     [SerializeField] private AudioClip damageTakenSound;
 
     public override Team Team => Team.Enemy;
@@ -26,15 +35,20 @@ public class EnemyBoss : Target
     protected override void Awake()
     {
         base.Awake();
+
+        if (EnemyScalingManager.Instance != null)
+        {
+            maxMana = EnemyScalingManager.Instance.GetScaledMana();
+        }
         healthTextFormat = healthText.text;
         UpdateHP();
         originalPosition = transform.position;
-        audioSource = GetComponent<AudioSource>();
     }
 
     public void StartTurn()
     {
         currentMana = maxMana;
+        print(currentMana);
         PlayCards();
     }
 
@@ -49,22 +63,24 @@ public class EnemyBoss : Target
 
 
             Card currentCard = PickRandomCard();
-            currentCard.Play(this);
-            currentMana -= currentCard.Cost;
+            if (CheckIfPlayable(currentCard))
+            {
+                currentCard.Play(this);
+                currentMana -= currentCard.Cost;
+            }
         }
+
         EndTurn();
     }
+
     private Card PickRandomCard()
     {
-        /*
-         * Should add here to check the mana cost of the cards
-         */
-        int index = Random.Range(0, cardsAvailable.Count);
-            
+        int index = Random.Range(0, cardsAvailable.Count);  
         
         return cardsAvailable[index];
     }
 
+    //Check if the enemy can afford to play a card based on current mana
     private bool CanPlayCard()
     {
         bool canPlay = false;
@@ -78,6 +94,21 @@ public class EnemyBoss : Target
         }
         return canPlay;
     }
+
+    private bool CheckIfPlayable(Card cardToCheck)
+    {
+        bool playCard = true;
+
+        if(cardToCheck.Category == CardCategory.Defense)
+        {
+            if (HP == MaxHP)
+            {
+                playCard = false;
+            }
+        }
+        return playCard;
+    }
+
     private void EndTurn()
     {
         /*
@@ -89,6 +120,7 @@ public class EnemyBoss : Target
     {
         return new Bounds(transform.position, transform.localScale);
     }
+
     protected override void UpdateHP()
     {
         base.UpdateHP();
@@ -99,27 +131,8 @@ public class EnemyBoss : Target
     {
         base.Hurt(amount);
         StartCoroutine(ShakeCoroutine());
-        audioSource.clip = damageTakenSound;
-        audioSource.Play();
+        AudioManager.Instance.PlaySFX(damageTakenSound);
 
-    }
-
-    private IEnumerator ShakeCoroutine()
-    {
-        float elapsed = 0f;
-
-        while (elapsed < shakeDuration)
-        {
-            float offsetX = Random.Range(-1f, 1f) * shakeMagnitude;
-            float offsetY = Random.Range(-1f, 1f) * shakeMagnitude;
-
-            transform.localPosition = originalPosition + new Vector3(offsetX, offsetY, 0);
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.localPosition = originalPosition;
     }
 
     public void DeathEvent()
@@ -141,5 +154,23 @@ public class EnemyBoss : Target
         }
 
         transform.rotation = endRotation;
+    }
+
+    private IEnumerator ShakeCoroutine()
+    {
+        float elapsed = 0f;
+
+        while (elapsed < shakeDuration)
+        {
+            float offsetX = Random.Range(-1f, 1f) * shakeMagnitude;
+            float offsetY = Random.Range(-1f, 1f) * shakeMagnitude;
+
+            transform.localPosition = originalPosition + new Vector3(offsetX, offsetY, 0);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localPosition = originalPosition;
     }
 }

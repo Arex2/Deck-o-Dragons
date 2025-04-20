@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7062343fdaa15e40bf6a1cac3b5179e, type: 3}
+  m_Name: Shield
+  m_EditorClassIdentifier: 
+  guid: b508642a59a84a5499f9c5155fca0590
+  icon: {fileID: 0}
+  displayName: Shield
+  description: Absorbs {POTENCY} damage. Disappears after {DURATION} turns.
+  isDebuff: 0
+  potencyIsPercent: 0
