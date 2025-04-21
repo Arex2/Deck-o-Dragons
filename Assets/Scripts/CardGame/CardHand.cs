@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 
 public class CardHand : MonoBehaviour
@@ -12,8 +13,17 @@ public class CardHand : MonoBehaviour
     [SerializeField]
     private GameBehaviour gameBehaviour;
 
-    int amountToDraw = 6;
+    [SerializeField]
+    private int amountToDraw = 6;
+
+    [SerializeField]
+    private int maxAmountToKeepAfterDiscarding = 3;
+
+    int startSortingOrder;
+
     int selectedIndex;
+
+    float cardsYPos = -2.2f;
 
     /*
     //för att få current pos av cards
@@ -35,16 +45,25 @@ public class CardHand : MonoBehaviour
         startPoint = selectedIndex;
     }
 
+    public List<CardObject> CardsInHand => cardsInHand;
 
-    [SerializeField] GameObject cardPrefab;
+    [SerializeField] CardObject cardPrefab;
     [SerializeField] Card testCard;
     Vector3 cardPlayPosition = new Vector3(0, 0.5f, 0);
-    Vector3 cardPlayErrorPosition = new Vector3(0, 0.5f, 0);
-    List<GameObject> cardsInHand = new List<GameObject>();
-    List<GameObject> cardsSelected = new List<GameObject>();
+    float cardMiniBouncePosition = 0.5f;
+    List<CardObject> cardsInHand = new List<CardObject>();
+    List<CardObject> cardsSelected = new List<CardObject>();
 
-    public GameObject cardBeingPlayed;
+    public CardObject cardBeingPlayed;
     public bool cardIsPlaying;
+
+    [SerializeField]
+    SpriteRenderer overlayBg;
+    [SerializeField]
+    TMP_Text discardStateText;
+    string discardStateTextFormat;
+    public bool choosingCardsToKeepAfterDiscard;
+    List<CardObject> cardsToKeepAfterDiscard = new List<CardObject>();
 
     private bool selected;
 
@@ -53,6 +72,10 @@ public class CardHand : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        discardStateTextFormat = discardStateText.text;
+
+        startSortingOrder = cardPrefab.Canvas.sortingOrder;
     }
 
 
@@ -83,7 +106,7 @@ public class CardHand : MonoBehaviour
         float middlePos = changeX + startPoint;
         //Debug.Log("middlePos: " + middlePos);
 
-        if (cardsInHand.Count == 0)
+        if (cardsInHand.Count <= 0)
             return;
 
         float spacingX = cardSpacingX;
@@ -92,14 +115,23 @@ public class CardHand : MonoBehaviour
 
         for (int i = 0; i < cardsInHand.Count; i++)
         {
+            CardObject cardObj = cardsInHand[i];
+
+            if (cardObj == cardBeingPlayed)
+            {
+                continue;
+            }
+
             float posX = firstPos + i * spacingX;
             float spaceFromSelected = Mathf.Abs(i - middlePos);
             float posY = -spacingY * spaceFromSelected;
-            Vector2 newPos = new Vector2(posX, -2.2f + posY);
+            Vector2 newPos = new Vector2(posX, cardsYPos + posY);
             //Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0, 0, 10f * (i - middlePos)));
             Quaternion rot = Quaternion.AngleAxis((-5f * (i - middlePos)), Vector3.forward);
-            cardsInHand[i].transform.DOMove(newPos, 0.1f); //past time was 0.4
-            cardsInHand[i].transform.DOLocalRotateQuaternion(rot, 0.2f);
+
+            cardObj.transform.DOKill();
+            cardObj.transform.DOMove(newPos, 0.1f); //past time was 0.4
+            cardObj.transform.DOLocalRotateQuaternion(rot, 0.2f);
         }
     }
 
@@ -107,7 +139,7 @@ public class CardHand : MonoBehaviour
     {
         float middlePos = selectedIndex;
 
-        if (cardsInHand.Count == 0)
+        if (cardsInHand.Count <= 0)
             return;
 
         float spacingX = cardSpacingX;
@@ -116,35 +148,39 @@ public class CardHand : MonoBehaviour
 
         for (int i = 0; i < cardsInHand.Count; i++)
         {
+            CardObject cardObj = cardsInHand[i];
+
+            if (cardObj == cardBeingPlayed)
+            {
+                continue;
+            }
+
             float posX = firstPos + i * spacingX;
             float spaceFromSelected = Mathf.Abs(i - middlePos);
             float posY = -spacingY * spaceFromSelected;
-            Vector2 newPos = new Vector2(posX, -2.2f + posY);
+            Vector2 newPos = new Vector2(posX, cardsYPos + posY);
             //Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0, 0, 10f * (i - middlePos)));
             Quaternion rot = Quaternion.AngleAxis((-5f * (i - middlePos)), Vector3.forward);
-            cardsInHand[i].transform.DOMove(newPos, 0.2f); //past time was 0.4
-            cardsInHand[i].transform.DOLocalRotateQuaternion(rot, 0.2f);
+            cardObj.transform.DOKill();
+            cardObj.transform.DOMove(newPos, 0.2f); //past time was 0.4
+            cardObj.transform.DOLocalRotateQuaternion(rot, 0.2f);
         }
 
         selected = true;
         //Debug.Log("Selected index: " + selectedIndex);
     }
 
-
     //END
-
-
 
     private void Start()
     {
         SelectInitialCard();
     }
 
-
     #region MULTI SELECTED CARDS - not fully functional yet.
     public void SelectCard()
     {
-        if (cardsInHand.Count == 0 || cardsSelected.Count == 2)
+        if (cardsInHand.Count <= 0 || cardsSelected.Count >= 2)
             return;
 
         cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 2;
@@ -170,7 +206,7 @@ public class CardHand : MonoBehaviour
     }
     private void UpdateSelectedCardPositions()
     {
-        if (cardsSelected.Count == 0)
+        if (cardsSelected.Count <= 0)
             return;
         float spacingX = 2f;
         float firstPos = 0f - spacingX;
@@ -194,7 +230,10 @@ public class CardHand : MonoBehaviour
     }
     public void PlayCard() 
     {
-        if (cardsInHand.Count == 0)
+        if (cardsInHand.Count <= 0)
+            return;
+
+        if (choosingCardsToKeepAfterDiscard)
             return;
 
         //this method should probably be in the card script instead?
@@ -209,41 +248,50 @@ public class CardHand : MonoBehaviour
         UpdateSelectedIndex();
         UpdateCardPositions();
 
-        if(cardsInHand.Count == 0)
+        /*
+        if(cardsInHand.Count <= 0)
             DrawNewHand();
+        */
     }
     #endregion
+
     public void OldPlayCard()
     {
-        if (cardsInHand.Count == 0)
+        if (cardsInHand.Count <= 0)
             return;
 
-        GameObject card = cardsInHand[selectedIndex];
+        CardObject cardObj = cardsInHand[selectedIndex];
 
-        if (!gameBehaviour.CheckMana(card.GetComponent<CardObject>().GetCost()))
+        cardObj.transform.DOKill();
+
+        if (choosingCardsToKeepAfterDiscard || !gameBehaviour.CheckMana(cardObj.GetCost()))
         {
-            Vector2 oldPos = card.transform.position;
-            card.transform.DOMove(cardPlayErrorPosition, 0.2f);
-            card.transform.DOMove(oldPos, 0.4f);
-            //error sound?
+            if (choosingCardsToKeepAfterDiscard)
+            {
+                UseCardDuringDiscardState(cardObj);
+            }
+            else
+            {
+                //error sound?
+            }
+
+            DoCardMiniBounce(cardObj);
             return;
         }
-
-
-        card.GetComponent<Canvas>().sortingOrder = 2;
-        //card.GetComponent<SpriteRenderer>().sortingOrder = 2; //previously used for old card type
-        card.transform.DOMove(cardPlayPosition, 0.4f);
-        card.GetComponent<CardObject>().Play();
 
         //this method should probably be in the card script instead?
         //card triggering to destroy itself after having played its animation
         //and done it's actions
-        cardBeingPlayed = card;
+        cardBeingPlayed = cardObj;
         cardIsPlaying = true;
-        //Invoke("RemoveCard",0.5f);
 
         cardsInHand.RemoveAt(selectedIndex);
 
+        cardObj.Canvas.sortingOrder = 2;
+        //card.GetComponent<SpriteRenderer>().sortingOrder = 2; //previously used for old card type
+        cardObj.transform.DOMove(cardPlayPosition, 0.4f);
+        cardObj.Play();
+        //Invoke("RemoveCard",0.5f);
 
         UpdateSelectedIndex();
         UpdateCardPositions();
@@ -254,26 +302,62 @@ public class CardHand : MonoBehaviour
         */
     }
 
-    private void RemoveCard()
+    // MAKE EM DO A LIL CUTE BOUNCE
+    private void DoCardMiniBounce(CardObject cardObj)
     {
-        //cardsSelected.RemoveAt(0);
-        cardIsPlaying = false;
-        Destroy(cardBeingPlayed);
+        cardObj.transform.DOKill();
+        cardObj.transform.DOMoveY(cardMiniBouncePosition, 0.2f);
+        cardObj.transform.DOMoveY(cardObj.StartYPos, 0.4f).SetDelay(0.015f);
+    }
+
+    public void RemoveCard(CardObject cardObj)
+    {
+        cardObj.OnCardPressed -= OnCardPressed;
+        Destroy(cardObj.gameObject);
     }
 
     private void UpdateSelectedIndex()
     {
         if(selectedIndex > 0)
-        --selectedIndex;
+            --selectedIndex;
     }
 
-    public GameObject DrawCard() 
+    private void UseCardDuringDiscardState(CardObject cardObj)
     {
+        void UpdateDiscardStateText()
+        {
+            discardStateText.text = string.Format(discardStateTextFormat, cardsToKeepAfterDiscard.Count, maxAmountToKeepAfterDiscarding);
+        }
 
+        if (cardsToKeepAfterDiscard.Contains(cardObj))
+        {
+            cardsToKeepAfterDiscard.Remove(cardObj);
+            cardObj.CheckmarkDisappear();
+
+            UpdateDiscardStateText();
+
+            return;
+        }
+
+        if (cardsToKeepAfterDiscard.Count >= maxAmountToKeepAfterDiscarding)
+            return;
+
+        cardObj.CheckmarkAppear();
+        cardsToKeepAfterDiscard.Add(cardObj);
+
+        UpdateDiscardStateText();
+    }
+
+    public CardObject DrawCard()
+    {
         //check if can draw card
         //instantiate new card
-        GameObject cardObj = Instantiate(cardPrefab);
-        
+        CardObject cardObj = Instantiate(cardPrefab);
+        cardObj.CardHand = this;
+
+        cardObj.StartYPos = cardsYPos;
+        cardObj.OnCardPressed += OnCardPressed;
+
         //SpriteRenderer r = card.GetComponent<SpriteRenderer>();
         //r.sprite = testCard.Sprite;
         //r.color = UnityEngine.Random.ColorHSV();
@@ -288,13 +372,21 @@ public class CardHand : MonoBehaviour
 
     public void DrawCard(Card card)
     {
-        GameObject cardObj = DrawCard();
-        cardObj.GetComponent<CardObject>().SetCard(card);
+        CardObject cardObj = DrawCard();
+
+#if UNITY_EDITOR
+        if (!cardObj.Debugging)
+        {
+#endif
+            cardObj.SetCard(card);
+#if UNITY_EDITOR
+        }
+#endif
     }
 
     public void DrawNewHand() 
     {
-        for(int i = 0; i < amountToDraw; i++)
+        for(int i = cardsInHand.Count; i < amountToDraw; i++)
         {
             DrawCard();
         }
@@ -302,21 +394,45 @@ public class CardHand : MonoBehaviour
 
     public IEnumerator DrawNewHandNew()
     {
-        for (int i = 0; i < amountToDraw; i++)
+        for (int i = cardsInHand.Count; i < amountToDraw; i++)
         {
             DrawCard();
             yield return new WaitForSeconds(0.1f);
         }
     }
 
+    // THIS IS CALLED WHEN THE CARD IS PRESSED ON (NOT SWIPED UP)
+    private void OnCardPressed(CardObject cardObj)
+    {
+        if (cardObj == cardBeingPlayed)
+            return;
+
+        DoCardMiniBounce(cardObj);
+
+        if (choosingCardsToKeepAfterDiscard)
+        {
+            UseCardDuringDiscardState(cardObj);
+            return;
+        }
+    }
+
     public void EmptyHand()
     {
         selectedIndex = 0;
-        for (int i = 0; i < cardsInHand.Count; i++)
+
+        for (int i = cardsInHand.Count - 1; i >= 0; i--)
         {
-            Destroy(cardsInHand[i].gameObject);
+            CardObject cardObj = cardsInHand[i];
+
+            if (cardsToKeepAfterDiscard.Contains(cardObj))
+            {
+                continue;
+            }
+
+            RemoveCard(cardObj);
+
+            cardsInHand.RemoveAt(i);
         }
-        cardsInHand.RemoveRange(0, cardsInHand.Count);
     }
 
     private void SelectInitialCard()
@@ -345,17 +461,23 @@ public class CardHand : MonoBehaviour
 
         for (int i = 0; i < cardsInHand.Count; i++)
         {
+            CardObject cardObj = cardsInHand[i];
+
+            if (cardObj == cardBeingPlayed)
+            {
+                continue;
+            }
+
             float posX = firstPos + i * spacingX;
             float spaceFromSelected = Mathf.Abs(i - middlePos);
             float posY = -spacingY * spaceFromSelected;
-            Vector2 newPos = new Vector2(posX, -2.2f + posY);
+            Vector2 newPos = new Vector2(posX, cardsYPos + posY);
             Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0,0,10f * (i- middlePos)));
             Quaternion rot = Quaternion.AngleAxis((-5f * (i - middlePos)),Vector3.forward);
 
-            cardsInHand[i].transform.DOKill();
-
-            cardsInHand[i].transform.DOMove(newPos, 0.4f);
-            cardsInHand[i].transform.DOLocalRotateQuaternion(rot, 0.2f);
+            cardObj.transform.DOKill();
+            cardObj.transform.DOMove(newPos, 0.4f);
+            cardObj.transform.DOLocalRotateQuaternion(rot, 0.2f);
         }
 
         /*
@@ -413,19 +535,26 @@ public class CardHand : MonoBehaviour
     private void UpdateCardLayers()
     {
         //v�nstra sidan fr�n selected index
-        for(int i = 0; i < selectedIndex; i++)
+        for (int i = 0; i < selectedIndex; i++)
         {
-            cardsInHand[i].GetComponent<Canvas>().sortingOrder = -1 * (selectedIndex - i);
+            cardsInHand[i].Canvas.sortingOrder = -1 * (selectedIndex - i);
             //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (selectedIndex - i);
         }
         //selected index
-        cardsInHand[selectedIndex].GetComponent<Canvas>().sortingOrder = 1;
+        cardsInHand[selectedIndex].Canvas.sortingOrder = 1;
         //cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 1;
         //h�gra sidan fr�n selected index
         for (int i = selectedIndex+1; i < cardsInHand.Count;i++)
         {
-            cardsInHand[i].GetComponent<Canvas>().sortingOrder = -1 * (i -(selectedIndex) +1);
+            cardsInHand[i].Canvas.sortingOrder = -1 * (i -(selectedIndex) + 1);
             //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (i - (selectedIndex) + 1);
+        }
+
+        int offset = startSortingOrder + cardsInHand.Count;
+
+        foreach (CardObject cardObj in cardsInHand)
+        {
+            cardObj.Canvas.sortingOrder += offset;
         }
     }
 
@@ -433,6 +562,7 @@ public class CardHand : MonoBehaviour
     {
         if (!CheckIfCardNextTo(-1))
             return;
+
         --selectedIndex;
         /*
         for(int i = 0; i < cardsInHand.Count-1; i++)
@@ -465,6 +595,44 @@ public class CardHand : MonoBehaviour
         if (selectedIndex + direction >= cardsInHand.Count || selectedIndex + direction < 0)
         { return false; }
         return true;
+    }
+
+    public void OnEnterDiscardState()
+    {
+        choosingCardsToKeepAfterDiscard = true;
+
+        cardsToKeepAfterDiscard.Clear();
+
+        foreach (CardObject cardObj in cardsInHand)
+        {
+            cardObj.CheckmarkDisappear();
+        }
+
+        overlayBg.DOKill();
+        overlayBg.DOFade(0.7f, 0.5f);
+
+        discardStateText.DOKill();
+        discardStateText.DOFade(1, 0.5f);
+
+        discardStateText.text = string.Format(discardStateTextFormat, 0, maxAmountToKeepAfterDiscarding);
+    }
+
+    public void OnExitDiscardState()
+    {
+        choosingCardsToKeepAfterDiscard = false;
+
+        cardsToKeepAfterDiscard.Clear();
+
+        foreach (CardObject cardObj in cardsInHand)
+        {
+            cardObj.CheckmarkDisappear();
+        }
+
+        overlayBg.DOKill();
+        overlayBg.DOFade(0, 0.5f);
+
+        discardStateText.DOKill();
+        discardStateText.DOFade(0, 0.5f);
     }
 
     /*

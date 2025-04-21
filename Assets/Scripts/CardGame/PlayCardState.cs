@@ -17,9 +17,8 @@ public class PlayCardState : IState
 
         Debug.Log("Play card effect");
         //MANA SHOULD BE REMOVED FROM WITHIN THE CARD INSTEAD
-        tempManaCostSave = gameBehaviour.cardHand.cardBeingPlayed.GetComponent<CardObject>().GetCost();
+        tempManaCostSave = gameBehaviour.cardHand.cardBeingPlayed.GetCost();
         gameBehaviour.LoseMana(tempManaCostSave);
-
 
         gameBehaviour.StartCoroutine(Wait()); //sätter temp till true
 
@@ -40,7 +39,7 @@ public class PlayCardState : IState
 
     public virtual IState Execute()
     {
-        if (temp)
+        if (temp && !gameBehaviour.cardHand.cardIsPlaying)
         {
             Debug.Log("Damage enemy");
             //gameBehaviour.EnemyTakeDamage(5);  //DET HÄR HÄNDER VARJE FRAME HELA TIDEN

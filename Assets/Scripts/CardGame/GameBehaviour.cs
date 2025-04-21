@@ -38,6 +38,9 @@ public class GameBehaviour : Target
     //End turn button
     [SerializeField]
     Button endTurnButton;
+    [SerializeField]
+    TMP_Text endTurnButtonText;
+    string endTurnButtonStartText;
 
     //temp canvas text
     [SerializeField]
@@ -67,6 +70,8 @@ public class GameBehaviour : Target
     {
         base.Start();
 
+        endTurnButtonStartText = endTurnButtonText.text;
+
         mana = maxMana;
 
         manaText.text = mana.ToString();
@@ -86,10 +91,24 @@ public class GameBehaviour : Target
     //end turn button
     public void EndCurrentTurn()
     {
+        if (!cardHand.choosingCardsToKeepAfterDiscard)
+        {
+            enemyBoss.StartTurn();
+        }
+
         endTurn = true;
-        enemyBoss.StartTurn();
         //stäng av knapp
         endTurnButton.interactable = false;
+    }
+
+    public void SetEndTurnButtonText(string text)
+    {
+        endTurnButtonText.text = text;
+    }
+
+    public void ResetEndTurnButtonText()
+    {
+        SetEndTurnButtonText(endTurnButtonStartText);
     }
 
     public void NewTurn()
