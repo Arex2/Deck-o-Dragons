@@ -15,6 +15,7 @@ MonoBehaviour:
   expandedInEditor: 1
   orderInEditor: 0
   card: {fileID: 11400000}
+  disableOnStart: 0
   targetFilter:
     team: 0
     mode: 1
@@ -38,6 +39,35 @@ MonoBehaviour:
     downgrades:
     - value: 0
       method: 1
+--- !u!114 &-1223053199875735651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b888421e62510a48adb350e950ed80b, type: 3}
+  m_Name: Heal
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 1
+  card: {fileID: 11400000}
+  disableOnStart: 0
+  targetFilter:
+    team: 1
+    mode: 0
+  healing:
+    baseValue: 2
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 1
+      method: 0
+    downgrades:
+    - value: 1
+      method: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,16 +78,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: EnemyDealDamageCard1
+  m_Name: Test Card
   m_EditorClassIdentifier: 
-  guid: e444ebe4889011c4b8c2265e96304acc
+  guid: 4420287fca5bb59498d4e4f92e41fd6c
   sprite: {fileID: 21300000, guid: d1a693bd5b2a9834b9ae3d403c01317a, type: 3}
-  displayName: Enemy Damage Card 1
-  description: Deals {Attack} damage.
+  displayName: Test Card
+  description: 'Deal {ATTACK} damage.
+
+    Heal {HEAL} HP.'
   cost: 5
-  element: 0
+  element: 1
   category: 1
   rarity: 0
   tags: []
   cardComponents:
   - {fileID: -1860155053858908950}
+  - {fileID: -1223053199875735651}

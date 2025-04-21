@@ -25,7 +25,8 @@ public abstract class TestTarget : Target
 
     protected override void UpdateHP()
     {
-        hpTemp.text = string.Format(_hpTempFormat, hp.ToString());
+        base.UpdateHP();
+        hpTemp.text = string.Format(_hpTempFormat, HP.ToString());
     }
 
     protected override void UpdateStatusEffects()

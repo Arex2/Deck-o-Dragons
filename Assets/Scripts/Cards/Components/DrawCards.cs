@@ -14,10 +14,12 @@ public class DrawCards : CardComponent, IUse
     [SerializeField] private Card[] cardsToDraw;
 
     private Card[] _cards;
+    private int _cardLength;
 
     public override void Initialize()
     {
-        _cards = tag == null ? CardManager.AllCards : CardManager.GetCardsByTag(tag);
+        _cards = tag == null ? CardManager.NonEnemyCards : CardManager.GetCardsByTag(tag);
+        _cardLength = _cards.Length;
     }
 
     public void Use()
@@ -28,7 +30,7 @@ public class DrawCards : CardComponent, IUse
 
         for (int i = 0; i < amount; i++)
         {
-            hand.DrawCard();
+            hand.DrawCard(_cards[Random.Range(0, _cardLength)]);
         }
     }
 

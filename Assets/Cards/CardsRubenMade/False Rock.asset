@@ -15,6 +15,7 @@ MonoBehaviour:
   expandedInEditor: 1
   orderInEditor: 1
   card: {fileID: 11400000}
+  disableOnStart: 0
   manaAmount:
     baseValue: 1
     stack: 1
@@ -40,9 +41,7 @@ MonoBehaviour:
   guid: 7bbdc292d07d7d54e8c7b8194d049ccf
   sprite: {fileID: 21300000, guid: a68559495e78def4b828d32f1e219516, type: 3}
   displayName: False Rock
-  description: 'Draw {CARD_AMOUNT} new cards.
-
-    Gain {MANA} mana.'
+  description: Draw {CARD_AMOUNT} and gain {MANA} mana.
   cost: 0
   element: 8
   category: 4
@@ -66,9 +65,16 @@ MonoBehaviour:
   expandedInEditor: 1
   orderInEditor: 0
   card: {fileID: 11400000}
-  tempAmount:
+  disableOnStart: 0
+  tag: {fileID: 0}
+  amount:
     baseValue: 1
-    stack: 0
-    loopBehaviour: 0
-    upgrades: []
-    downgrades: []
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 0
+      method: 0
+    downgrades:
+    - value: 0
+      method: 1
+  cardsToDraw: []

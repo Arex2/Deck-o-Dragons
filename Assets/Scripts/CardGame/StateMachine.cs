@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 
 public class StateMachine : MonoBehaviour
 {
     [SerializeField]
     GameBehaviour gameBehaviour;
     IState activeState = new SetupState(); //state man bör börja med
+
+    public IState ActiveState => activeState;
 
     void Start()
     {

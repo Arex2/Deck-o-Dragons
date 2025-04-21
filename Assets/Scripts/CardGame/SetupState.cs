@@ -11,6 +11,7 @@ public class SetupState : IState //VET EJ OM MONO BEHÖVS HÄR, ALTERNATIVT HA DEN
         Debug.Log("SETUP!!");
         this.gameBehaviour = gameBehaviour;
         gameBehaviour.NewTurn();
+        Target.TurnStart.Invoke(Team.Player);
         gameBehaviour.UpdateStatusText("New turn");
         return null; 
     }

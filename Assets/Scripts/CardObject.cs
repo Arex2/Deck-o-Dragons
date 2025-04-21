@@ -22,9 +22,14 @@ public class CardObject : MonoBehaviour
     [SerializeField] private Target user;
     [SerializeField] private Card[] cards;
 
+    private bool _setCard;
+
     private void Start()
     {
-        BecomeRandomCard();
+        if (!_setCard)
+        {
+            BecomeRandomCard();
+        }
         //gameObject.GetComponent<SpriteRenderer>().sprite = card.Sprite;
         UpdateCardLook();
     }
@@ -64,7 +69,13 @@ public class CardObject : MonoBehaviour
     private void BecomeRandomCard()
     {
         int i = Random.Range(0, cards.Length);
-        card = cards[i];
+        SetCard(cards[i]);
+    }
+
+    public void SetCard(Card card)
+    {
+        this.card = card;
+        _setCard = true;
     }
 
     public int GetCost()

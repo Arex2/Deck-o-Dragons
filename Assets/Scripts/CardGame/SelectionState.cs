@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.PlayerLoop;
 
 public class SelectionState : IState
 {
@@ -28,8 +27,12 @@ public class SelectionState : IState
     public virtual IState Execute()
     {
         //if endTurn button pressed end turn
-        if(gameBehaviour.EndTurn)
+        if (gameBehaviour.EndTurn)
+        {
+            Target.TurnEnd.Invoke(Team.Player);
+
             return new PlayEnemyState();
+        }
 
         //recieve input and select card
         //kolla om card är kort som ska selecta mer, gå då till selectAdditionalCard state maybe?

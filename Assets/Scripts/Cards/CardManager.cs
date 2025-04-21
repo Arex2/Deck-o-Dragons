@@ -10,10 +10,18 @@ using UnityEngine;
 public class CardManager : Singleton<CardManager>
 {
     public static Card[] AllCards => Instance.allCards;
+    public static Card[] EnemyCards => Instance._enemyCards;
+    public static Card[] NonEnemyCards => Instance._nonEnemyCards;
     public static CardTag[] AllTags => Instance.allTags;
+    public static CardTag EnemyCardTag => Instance.enemyCardTag;
 
     [HideInInspector] [SerializeField] private Card[] allCards;
     [HideInInspector] [SerializeField] private CardTag[] allTags;
+
+    private Card[] _enemyCards;
+    private Card[] _nonEnemyCards;
+
+    [SerializeField] private CardTag enemyCardTag;
 
     private static readonly Dictionary<CardTag, Card[]> _cardsTagDictionary = new();
     private static readonly Dictionary<string, Card> _cardsNameDictionary = new();
@@ -48,6 +56,8 @@ public class CardManager : Singleton<CardManager>
         }
 
         Dictionary<CardTag, List<Card>> temp = new();
+        List<Card> enemyCards = new();
+        List<Card> nonEnemyCards = new();
 
         foreach (Card card in allCards)
         {
@@ -103,7 +113,19 @@ public class CardManager : Singleton<CardManager>
                 Debug.LogWarning($"There are multiple Cards with the GUID \"{card.GUID}\"! How could this happen?");
             }
 #endif
+
+            if (card.HasTag(enemyCardTag))
+            {
+                enemyCards.Add(card);
+            }
+            else
+            {
+                nonEnemyCards.Add(card);
+            }
         }
+
+        _enemyCards = enemyCards.ToArray();
+        _nonEnemyCards = nonEnemyCards.ToArray();
 
         foreach (var pair in temp)
         {

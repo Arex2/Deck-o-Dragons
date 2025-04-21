@@ -260,21 +260,29 @@ public class CardHand : MonoBehaviour
         --selectedIndex;
     }
 
-    public void DrawCard() 
+    public GameObject DrawCard() 
     {
 
         //check if can draw card
         //instantiate new card
-        GameObject card = Instantiate(cardPrefab);
+        GameObject cardObj = Instantiate(cardPrefab);
         
         //SpriteRenderer r = card.GetComponent<SpriteRenderer>();
         //r.sprite = testCard.Sprite;
         //r.color = UnityEngine.Random.ColorHSV();
 
         //add to cardsInHand
-        cardsInHand.Add(card);
+        cardsInHand.Add(cardObj);
         //update positions
         UpdateCardPositions();
+
+        return cardObj;
+    }
+
+    public void DrawCard(Card card)
+    {
+        GameObject cardObj = DrawCard();
+        cardObj.GetComponent<CardObject>().SetCard(card);
     }
 
     public void DrawNewHand() 
@@ -336,6 +344,9 @@ public class CardHand : MonoBehaviour
             Vector2 newPos = new Vector2(posX, -2.2f + posY);
             Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0,0,10f * (i- middlePos)));
             Quaternion rot = Quaternion.AngleAxis((-5f * (i - middlePos)),Vector3.forward);
+
+            cardsInHand[i].transform.DOKill();
+
             cardsInHand[i].transform.DOMove(newPos, 0.4f);
             cardsInHand[i].transform.DOLocalRotateQuaternion(rot, 0.2f);
         }

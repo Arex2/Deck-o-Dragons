@@ -320,7 +320,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1488281714}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &151584344
@@ -1164,7 +1165,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 42
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1517,7 +1518,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
+  m_fontSize: 64.65
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1651,7 +1652,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2470,6 +2471,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83bb0ca44ed9d714eab6606e80b128a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHp: 0
+  isLeader: 0
+  immuneToStatusEffects: []
+  hpTemp: {fileID: 0}
+  statusEffectsTemp: {fileID: 0}
 --- !u!4 &1069940209
 Transform:
   m_ObjectHideFlags: 0
@@ -3030,7 +3036,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.95
+  m_fontSize: 42
   m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3308,6 +3314,68 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1001 &1488281713
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 151584343}
+    m_Modifications:
+    - target: {fileID: 8066709649572848447, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+      propertyPath: m_Name
+      value: TargetEffects
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522382502503052389, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522382502503052389, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522382502503052389, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522382502503052389, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522382502503052389, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522382502503052389, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522382502503052389, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522382502503052389, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522382502503052389, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522382502503052389, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+--- !u!4 &1488281714 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8522382502503052389, guid: 5b40fc0b72727d94485abc48495378a6, type: 3}
+  m_PrefabInstance: {fileID: 1488281713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1564976674 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2377750389797549624, guid: 800ca899b08213c45a0362e97a33a0d9, type: 3}
@@ -3722,10 +3790,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2377750389797549624, guid: 800ca899b08213c45a0362e97a33a0d9, type: 3}
-      propertyPath: damageTakenSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 7d2c97c1852415941b12e4380f80f979, type: 3}
     - target: {fileID: 2991961564897917781, guid: 800ca899b08213c45a0362e97a33a0d9, type: 3}
       propertyPath: m_Name
       value: EnemyBoss
