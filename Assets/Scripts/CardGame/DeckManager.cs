@@ -22,6 +22,16 @@ public class DeckManager : MonoBehaviour
         discardPile.Clear();
     }
 
+    public void AddCardToDeck(Card card)
+    {
+        deck.Add(card);
+    }
+
+    public void RemoveCardFromDeck(Card card)
+    {
+        deck.Remove(card);
+    }
+
     public Card DrawNext()
     {
         if(drawPile.Count == 0)
