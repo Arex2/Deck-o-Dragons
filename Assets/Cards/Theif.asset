@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: Theif
   m_EditorClassIdentifier: 
   guid: c6efc07c042cb7343b361ef4baa35d94
-  sprite: {fileID: 21300000, guid: 50629d0683fa0d842bb27d0ad3720c6c, type: 3}
+  sprite: {fileID: 21300000, guid: 732a5394a728d6047b020cb258262bab, type: 3}
   displayName: Theif
   description: Deal {ATTACK} damage and heal {HEALING}.
   cost: 6
