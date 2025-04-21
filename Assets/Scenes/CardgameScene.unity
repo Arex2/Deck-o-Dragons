@@ -573,6 +573,7 @@ MonoBehaviour:
   gameBehaviour: {fileID: 151584345}
   encounters:
   - {fileID: 2991961564897917781, guid: 800ca899b08213c45a0362e97a33a0d9, type: 3}
+  - {fileID: 2991961564897917781, guid: 800ca899b08213c45a0362e97a33a0d9, type: 3}
   enemySpawnLocation: {fileID: 215398781}
 --- !u!1 &175870449
 GameObject:
