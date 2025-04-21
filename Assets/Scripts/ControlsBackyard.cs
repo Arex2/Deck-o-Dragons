@@ -18,8 +18,8 @@ public class ControlsBackyard : MonoBehaviour
     SceneSwitcher sceneSwitcher;
     [SerializeField]
     Camera camera;
-    float leftEdgeArea = 0.15f;
-    float rightEdgeArea = 0.85f;
+    float leftEdgeArea = 0.20f;
+    float rightEdgeArea = 0.80f;
 
 
     Vector2 mousePos;
@@ -35,14 +35,14 @@ public class ControlsBackyard : MonoBehaviour
         controls.Enable();
 
         #region mouse controls
-        //håller musens position uppdateras
+        //hï¿½ller musens position uppdateras
         controls.CardGame.MousePosition.performed += ctx =>
         {
             UpdateMousePos(ctx.ReadValue<Vector2>());
         };
         //sparar musens start pos
         controls.CardGame.MousePress.started += ctx => { SaveStartingPosMouse(); };
-        //jämför musens position och väljer action
+        //jï¿½mfï¿½r musens position och vï¿½ljer action
         controls.CardGame.MousePress.canceled += ctx => { CompareThisPosToStartingPosMouse(); SwipeAction(ctx); };
         #endregion
 
@@ -118,7 +118,7 @@ public class ControlsBackyard : MonoBehaviour
         if (Mathf.Abs(dragDir.magnitude) < minSwipeSize)
             return;
         SelectAction();
-        //NOLLSTÄLL
+        //NOLLSTï¿½LL
         dragDir = Vector2.zero;
     }
     private void SelectAction()

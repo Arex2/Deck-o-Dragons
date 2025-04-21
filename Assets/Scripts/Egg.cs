@@ -1,11 +1,12 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class Egg : MonoBehaviour
 {
-
     private float timeBetweenShakes = 0.75f; //in seconds
     private float time = 0;
     //three stages of egg cracking
@@ -28,9 +29,12 @@ public class Egg : MonoBehaviour
 
     void Start()
     {
-        //typ default shake värde som alltid är där (mäng acceleration mobil naturligt har)
+        //typ default shake vï¿½rde som alltid ï¿½r dï¿½r (mï¿½ng acceleration mobil naturligt har)
         lowPassValue = Input.acceleration;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        DragonActive.dragonActive = false;
+        DragonActive.index = 0;
+        DragonActive.age = 0;
     }
 
     void Update()
@@ -52,8 +56,8 @@ public class Egg : MonoBehaviour
             if (time >= timeBetweenShakes)
             {
                 Debug.Log("Shake!");
-                //färgändring representerar sprite ändring
-                //där spriten får större cracks
+                //fï¿½rgï¿½ndring representerar sprite ï¿½ndring
+                //dï¿½r spriten fï¿½r stï¿½rre cracks
                 if (shakeCount < crackedSprites.Length)
                 {
                     spriteRenderer.sprite = crackedSprites[shakeCount];
@@ -68,8 +72,8 @@ public class Egg : MonoBehaviour
     private void NewPos()
     {
         Vector3 acceleration = Input.acceleration;
-        //ny position bör vara x * shake direction
-        //bör bara flytta på sig om shake är över en viss punkt
+        //ny position bï¿½r vara x * shake direction
+        //bï¿½r bara flytta pï¿½ sig om shake ï¿½r ï¿½ver en viss punkt
         if(acceleration.magnitude > 1.5f)
         {
             transform.DOMove(acceleration * 0.5f, 0.1f);
@@ -85,12 +89,21 @@ public class Egg : MonoBehaviour
         //DeleteEgg();
     }
 
-    private void SpawnDragon()
+    public void SpawnEgg(GameObject egg)
     {
-        int index = Random.Range(0, dragons.Length);
-        Instantiate(dragons[index], new Vector3(0, 0, 0), Quaternion.identity);
+        Instantiate(egg, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
+    private void SpawnDragon()
+    {
+        int index = 1;  //Random.Range(0, dragons.Length);
+        Instantiate(dragons[index], new Vector3(0, 0, 0), Quaternion.identity);
+        //DragonActive.drPref = dragons[index];
+        DragonActive.index = index;
+        DragonActive.age = 1;
+        DragonActive.dragonActive = true;
+        Debug.Log(DragonActive.age);
+    }
 
     private void DeleteEgg()
     {
