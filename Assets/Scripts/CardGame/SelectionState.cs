@@ -36,7 +36,7 @@ public class SelectionState : IState
 
         //recieve input and select card
         //kolla om card är kort som ska selecta mer, gå då till selectAdditionalCard state maybe?
-        if(gameBehaviour.cardHand.cardIsPlaying && gameBehaviour.cardHand.cardBeingPlayed.affectOtherCards)
+        if(gameBehaviour.cardHand.cardIsPlaying && gameBehaviour.cardHand.cardBeingPlayed.AffectOtherCards)
         {
             return new SelectAdditionalCardState();
         }

@@ -20,6 +20,7 @@ MonoBehaviour:
   element: 2
   category: 0
   rarity: 0
+  copies: 2
   tags: []
   cardComponents:
   - {fileID: 5633059931178854001}

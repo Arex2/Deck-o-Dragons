@@ -20,11 +20,12 @@ public class EncounterManager : MonoBehaviour
     public void InctanceNextEncounter()
     {
         currentEncounterIndex++;
-        if(currentEncounterIndex > encounters.Count)
-        {
-            SceneManager.LoadScene(0);
-        }
 
+        if (currentEncounterIndex >= encounters.Count)
+        {
+            // Card shop scene
+            SceneManager.LoadScene(6);
+        }
         else if(encounters[currentEncounterIndex] != null)
         {
             if(currentEncounterEnemy != null) Destroy(currentEncounterEnemy.gameObject);

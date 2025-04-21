@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3243534003964871026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2661a869bf44484c88ac4dfde045f6d, type: 3}
+  m_Name: GiveStatusEffect
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 1
+  card: {fileID: 11400000}
+  disableOnStart: 0
+  targetFilter:
+    team: 0
+    mode: 0
+  statusEffect:
+    statusEffect: {fileID: 11400000, guid: e4b5740aa5215674499f019b978b484a, type: 2}
+    potency:
+      baseValue: 1
+      stack: 1
+      loopBehaviour: 1
+      upgrades:
+      - value: 0
+        method: 0
+      downgrades:
+      - value: 0
+        method: 1
+    duration:
+      baseValue: 3
+      stack: 1
+      loopBehaviour: 1
+      upgrades:
+      - value: 0
+        method: 0
+      downgrades:
+      - value: 0
+        method: 1
+--- !u!114 &-2268723341786729853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822a222e4a0d9b542865244da1dd501e, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 0
+  card: {fileID: 11400000}
+  disableOnStart: 0
+  targetFilter:
+    team: 0
+    mode: 1
+  damage:
+    baseValue: 1
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 1
+      method: 0
+    downgrades:
+    - value: 1
+      method: 1
+  attackAmount:
+    baseValue: 1
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 0
+      method: 0
+    downgrades:
+    - value: 0
+      method: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
+  m_Name: BoilingBlood
+  m_EditorClassIdentifier: 
+  guid: 73d43c893be9faf4285257e3019521ad
+  sprite: {fileID: 0}
+  displayName: Boiling Blood
+  description: Deal {ATTACK} damage and inflict Bleeding, which deals {POTENCY} damage
+    every turn for {DURATION} turns.
+  cost: 2
+  element: 0
+  category: 0
+  rarity: 0
+  copies: 2
+  tags: []
+  cardComponents:
+  - {fileID: -2268723341786729853}
+  - {fileID: -3243534003964871026}

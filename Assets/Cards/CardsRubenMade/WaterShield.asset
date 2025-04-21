@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
+  m_Name: WaterShield
+  m_EditorClassIdentifier: 
+  guid: af812dbd79929c5488bea420e38b3414
+  sprite: {fileID: 0}
+  displayName: Water Shield
+  description: Gain a temporary shield that absorbs a total of {POTENCY} damage. 
+    Disappears after {DURATION} turns.
+  cost: 5
+  element: 2
+  category: 0
+  rarity: 2
+  copies: 1
+  tags: []
+  cardComponents:
+  - {fileID: 6938824218030841995}
+--- !u!114 &6938824218030841995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2661a869bf44484c88ac4dfde045f6d, type: 3}
+  m_Name: GiveStatusEffect
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 0
+  card: {fileID: 11400000}
+  disableOnStart: 0
+  targetFilter:
+    team: 1
+    mode: 0
+  statusEffect:
+    statusEffect: {fileID: 11400000, guid: b508642a59a84a5499f9c5155fca0590, type: 2}
+    potency:
+      baseValue: 10
+      stack: 1
+      loopBehaviour: 1
+      upgrades:
+      - value: 0
+        method: 0
+      downgrades:
+      - value: 0
+        method: 1
+    duration:
+      baseValue: 2
+      stack: 1
+      loopBehaviour: 1
+      upgrades:
+      - value: 0
+        method: 0
+      downgrades:
+      - value: 0
+        method: 1

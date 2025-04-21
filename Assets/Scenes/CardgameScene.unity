@@ -208,7 +208,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.8
+  m_fontSize: 72
   m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -422,7 +422,6 @@ GameObject:
   - component: {fileID: 151584344}
   - component: {fileID: 151584345}
   - component: {fileID: 151584346}
-  - component: {fileID: 151584347}
   - component: {fileID: 151584348}
   m_Layer: 0
   m_Name: Scripts
@@ -559,27 +558,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &151584347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151584341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cb8acb6c2ae3094dbc7a663527ff5b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deck:
-  - {fileID: 11400000, guid: 9f65d50d3cd838748934cfdcdd670adb, type: 2}
-  - {fileID: 11400000, guid: c6efc07c042cb7343b361ef4baa35d94, type: 2}
-  - {fileID: 11400000, guid: 40eab4164775d014b9740b6f1dfa9bf6, type: 2}
-  - {fileID: 11400000, guid: 9cc527b6d0cc85547b021d492a15161f, type: 2}
-  - {fileID: 11400000, guid: c17ab45f4ed7fd144b6a6e4fdc7f69c0, type: 2}
-  - {fileID: 11400000, guid: 9791da2016067ce4fa914ffcde32e218, type: 2}
-  - {fileID: 11400000, guid: 167dc0185866f954bb1927e715f3b1c4, type: 2}
-  - {fileID: 11400000, guid: a26f2f35270ba2f4a91eb0627dd074ca, type: 2}
 --- !u!114 &151584348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,7 +572,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameBehaviour: {fileID: 151584345}
   encounters:
-  - {fileID: 2991961564897917781, guid: 800ca899b08213c45a0362e97a33a0d9, type: 3}
   - {fileID: 2991961564897917781, guid: 800ca899b08213c45a0362e97a33a0d9, type: 3}
   enemySpawnLocation: {fileID: 215398781}
 --- !u!1 &175870449
@@ -1267,16 +1244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bef702b86945c6f4ca944c0a69f8da94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  affectOtherCards: 1
-  canvas: {fileID: 0}
-  background: {fileID: 0}
-  costBackground: {fileID: 0}
-  cardImage: {fileID: 0}
-  costText: {fileID: 0}
-  checkmark: {fileID: 0}
-  titleText: {fileID: 0}
-  tagsText: {fileID: 0}
-  descriptionText: {fileID: 0}
+  cardVisuals: {fileID: 0}
   user: {fileID: 151584345}
   debugCardsToOnlyDraw: []
   pointerMoveRadius: 0
@@ -1448,7 +1416,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.7
+  m_fontSize: 42
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1861,7 +1829,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
+  m_fontSize: 37.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1995,7 +1963,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.65
+  m_fontSize: 61.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2190,7 +2158,9 @@ GameObject:
   - component: {fileID: 763733422}
   - component: {fileID: 763733421}
   - component: {fileID: 763733419}
+  - component: {fileID: 763733425}
   - component: {fileID: 763733423}
+  - component: {fileID: 763733424}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -2276,8 +2246,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bef702b86945c6f4ca944c0a69f8da94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  affectOtherCards: 0
+  cardVisuals: {fileID: 763733424}
+  user: {fileID: 151584345}
+  debugCardsToOnlyDraw: []
+  pointerMoveRadius: 0.15
+--- !u!114 &763733424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763733418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06bc26501eabe2e49a5695f100b70099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardObject: {fileID: 763733423}
   canvas: {fileID: 763733421}
+  canvasGroup: {fileID: 763733425}
   background: {fileID: 75724340}
   costBackground: {fileID: 342525538}
   cardImage: {fileID: 1124203772}
@@ -2286,9 +2273,18 @@ MonoBehaviour:
   titleText: {fileID: 274366117}
   tagsText: {fileID: 710672631}
   descriptionText: {fileID: 598141037}
-  user: {fileID: 151584345}
-  debugCardsToOnlyDraw: []
-  pointerMoveRadius: 0.15
+--- !u!225 &763733425
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763733418}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &765049136
 GameObject:
   m_ObjectHideFlags: 0
@@ -2857,6 +2853,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83bb0ca44ed9d714eab6606e80b128a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHp: 0
+  isLeader: 0
+  immuneToStatusEffects: []
+  hpTemp: {fileID: 0}
+  statusEffectsTemp: {fileID: 0}
 --- !u!4 &1069940209
 Transform:
   m_ObjectHideFlags: 0
@@ -2982,7 +2983,6 @@ MonoBehaviour:
   maxAmountToKeepAfterDiscarding: 3
   cardPrefab: {fileID: 763733423}
   testCard: {fileID: 11400000, guid: 40eab4164775d014b9740b6f1dfa9bf6, type: 2}
-  deck: {fileID: 151584347}
   cardBeingPlayed: {fileID: 0}
   cardIsPlaying: 0
   overlayBg: {fileID: 214221252}
@@ -3424,7 +3424,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16.05
+  m_fontSize: 42
   m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 1

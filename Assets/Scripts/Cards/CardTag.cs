@@ -4,7 +4,7 @@ using UnityEngine;
 /// Empty <see cref="ScriptableObject"/> used for the purpose of giving cards different ways to be identified in groups.
 /// </summary>
 // Script by Ruben
-[CreateAssetMenu(menuName = "Cards/Create New Card Tag")]
+[CreateAssetMenu(fileName = "CardTag", menuName = "Cards/Create New Card Tag", order = 20)]
 public class CardTag : GUIDScriptableObject
 {
     public string DisplayName
@@ -21,7 +21,10 @@ public class CardTag : GUIDScriptableObject
     }
     private string _cachedDisplayName;
 
+    public bool Hidden => hidden;
+
     [SerializeField] private string displayName;
+    [SerializeField] private bool hidden;
 
     private void OnEnable()
     {

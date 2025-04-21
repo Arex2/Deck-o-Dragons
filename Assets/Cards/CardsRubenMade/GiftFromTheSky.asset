@@ -39,16 +39,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: Gift From the Sky
+  m_Name: GiftFromTheSky
   m_EditorClassIdentifier: 
   guid: 0d6f53dc7d5f61e4c8fd6fcbff74bb2e
   sprite: {fileID: 21300000, guid: 4e3129cc8aa819e4691aff0a0b2f5bc4, type: 3}
   displayName: Gift From the Sky
   description: Draw {CARD_AMOUNT} and heal {HEAL}.
-  cost: 4
+  cost: 5
   element: 0
   category: 4
   rarity: 2
+  copies: 2
   tags: []
   cardComponents:
   - {fileID: 8844600729371645363}
