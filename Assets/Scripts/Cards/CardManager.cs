@@ -117,7 +117,6 @@ public class CardManager : Singleton<CardManager>
             if (card.HasTag(nonDrawableTag))
             {
                 enemyCards.Add(card);
-                Debug.Log("ENEMY CARD: " + card.DisplayName);
             }
             else
             {
