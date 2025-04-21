@@ -208,7 +208,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.25
+  m_fontSize: 28.8
   m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -516,6 +516,7 @@ MonoBehaviour:
   usingMouse: 1
   hand: {fileID: 1137492236}
   camera: {fileID: 1058481261}
+  sceneSwitcher: {fileID: 1178398005}
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1447,7 +1448,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.5
+  m_fontSize: 22.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1860,7 +1861,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.75
+  m_fontSize: 12
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1994,7 +1995,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.35
+  m_fontSize: 19.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2322,6 +2323,7 @@ MonoBehaviour:
   usingMouse: 1
   hand: {fileID: 1137492236}
   camera: {fileID: 1058481261}
+  sceneSwitcher: {fileID: 0}
   curve:
     serializedVersion: 2
     m_Curve:
@@ -2855,11 +2857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83bb0ca44ed9d714eab6606e80b128a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 0
-  isLeader: 0
-  immuneToStatusEffects: []
-  hpTemp: {fileID: 0}
-  statusEffectsTemp: {fileID: 0}
 --- !u!4 &1069940209
 Transform:
   m_ObjectHideFlags: 0
@@ -3427,7 +3424,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.45
+  m_fontSize: 16.05
   m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 1
