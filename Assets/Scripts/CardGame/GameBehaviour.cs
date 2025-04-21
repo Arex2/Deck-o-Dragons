@@ -63,7 +63,7 @@ public class GameBehaviour : Target
 
     //Reference to enemy script
     [SerializeField]
-    public EnemyBoss enemyBoss;
+    public EncounterManager encounterManager;
 
     protected override void Awake()
     {
@@ -86,6 +86,8 @@ public class GameBehaviour : Target
 
         hpSlider.maxValue = MaxHP;
         hpSlider.value = HP;
+
+        encounterManager.InctanceNextEncounter();
     }
 
     //update status text
@@ -104,16 +106,15 @@ public class GameBehaviour : Target
         }
         else EndCurrentTurn();
     }
-
     public void EndCurrentTurn()
     {
         if (!cardHand.choosingCardsToKeepAfterDiscard)
         {
-            enemyBoss.StartTurn();
+            encounterManager.currentEncounterEnemy.StartTurn();
         }
 
         endTurn = true;
-        //stäng av knapp
+        //stï¿½ng av knapp
         endTurnButton.interactable = false;
     }
 
@@ -130,7 +131,7 @@ public class GameBehaviour : Target
     public void NewTurn()
     {
         endTurn = false;
-        //sätt på knapp
+        //sï¿½tt pï¿½ knapp
         endTurnButton.interactable = true;
     }
 
@@ -174,5 +175,13 @@ public class GameBehaviour : Target
         if (cardCost <= mana)
             return true;
         else return false;
+    }
+
+    public void NewEncounter()
+    {
+        HP = MaxHP;
+        mana = maxMana;
+        cardHand.EmptyHand();
+        encounterManager.InctanceNextEncounter();
     }
 }

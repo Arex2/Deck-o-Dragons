@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SetupState : IState //VET EJ OM MONO BEHÖVS HÄR, ALTERNATIVT HA DEN I ISTATE
+public class SetupState : IState //VET EJ OM MONO BEHï¿½VS Hï¿½R, ALTERNATIVT HA DEN I ISTATE
 {
 
     GameBehaviour gameBehaviour;
@@ -41,7 +41,7 @@ public class SetupState : IState //VET EJ OM MONO BEHÖVS HÄR, ALTERNATIVT HA DEN
         Debug.Log("draw new cards");
         //gameBehaviour.cardHand.DrawNewHand();
         gameBehaviour.StartCoroutine(gameBehaviour.cardHand.DrawNewHandNew());
-        return new SelectionState(); //byter till selection State efter det här
+        return new SelectionState(); //byter till selection State efter det hï¿½r
     }
     public virtual IState Exit()
     {
