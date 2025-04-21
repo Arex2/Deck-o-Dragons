@@ -95,7 +95,7 @@ public class Card : GUIDScriptableObject
 
     [Space]
     [SerializeField] private CardTag[] tags;
-    private HashSet<CardTag> _tagsHashSet = new();
+    private HashSet<CardTag> _tagsHashSet = null;
 
     [HideInInspector]
     [SerializeField] private CardComponent[] cardComponents;
@@ -106,11 +106,6 @@ public class Card : GUIDScriptableObject
 
     public void OnLoad()
     {
-        foreach (CardTag tag in tags)
-        {
-            _tagsHashSet.Add(tag);
-        }
-
         _cardComponentTypeDictionary.Clear();
         _cardComponentNameDictionary.Clear();
 
@@ -160,7 +155,20 @@ public class Card : GUIDScriptableObject
     /// <summary>
     /// Returns whether or not this card has the given card <paramref name="tag"/>.
     /// </summary>
-    public bool HasTag(CardTag tag) => _tagsHashSet.Contains(tag);
+    public bool HasTag(CardTag tag)
+    {
+        if (_tagsHashSet == null)
+        {
+            _tagsHashSet = new();
+
+            foreach (CardTag item in tags)
+            {
+                _tagsHashSet.Add(item);
+            }
+        }
+
+        return _tagsHashSet.Contains(tag);
+    }
     
     /// <summary>
     /// Will play this card with the <see cref="Target"/> that's playing the card being the given <paramref name="user"/>. <para/>

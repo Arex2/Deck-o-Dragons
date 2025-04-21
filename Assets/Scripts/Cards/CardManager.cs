@@ -10,10 +10,18 @@ using UnityEngine;
 public class CardManager : Singleton<CardManager>
 {
     public static Card[] AllCards => Instance.allCards;
+    public static Card[] NonDrawableCards => Instance._nonDrawableCards;
+    public static Card[] DrawableCards => Instance._drawableCards;
     public static CardTag[] AllTags => Instance.allTags;
+    public static CardTag NonDrawableTag => Instance.nonDrawableTag;
 
     [HideInInspector] [SerializeField] private Card[] allCards;
     [HideInInspector] [SerializeField] private CardTag[] allTags;
+
+    private Card[] _nonDrawableCards;
+    private Card[] _drawableCards;
+
+    [SerializeField] private CardTag nonDrawableTag;
 
     private static readonly Dictionary<CardTag, Card[]> _cardsTagDictionary = new();
     private static readonly Dictionary<string, Card> _cardsNameDictionary = new();
@@ -48,6 +56,8 @@ public class CardManager : Singleton<CardManager>
         }
 
         Dictionary<CardTag, List<Card>> temp = new();
+        List<Card> enemyCards = new();
+        List<Card> nonEnemyCards = new();
 
         foreach (Card card in allCards)
         {
@@ -103,7 +113,20 @@ public class CardManager : Singleton<CardManager>
                 Debug.LogWarning($"There are multiple Cards with the GUID \"{card.GUID}\"! How could this happen?");
             }
 #endif
+
+            if (card.HasTag(nonDrawableTag))
+            {
+                enemyCards.Add(card);
+                Debug.Log("ENEMY CARD: " + card.DisplayName);
+            }
+            else
+            {
+                nonEnemyCards.Add(card);
+            }
         }
+
+        _nonDrawableCards = enemyCards.ToArray();
+        _drawableCards = nonEnemyCards.ToArray();
 
         foreach (var pair in temp)
         {

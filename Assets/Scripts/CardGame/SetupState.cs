@@ -25,7 +25,18 @@ public class SetupState : IState //VET EJ OM MONO BEHÖVS HÄR, ALTERNATIVT HA DEN
     {
         Debug.Log("reset mana");
         gameBehaviour.ResetMana();
+        if (gameBehaviour.cardHand.CardsInHand.Count > 0)
+        {
+            return new DiscardState();
+        }
+
+        gameBehaviour.NewTurn();
+        gameBehaviour.ResetEndTurnButtonText();
+
+        Target.TurnStart.Invoke(Team.Player);
+
         Debug.Log("discard old cards");
+        gameBehaviour.cardHand.cardBeingPlayed = null;
         gameBehaviour.cardHand.EmptyHand();
         Debug.Log("draw new cards");
         //gameBehaviour.cardHand.DrawNewHand();

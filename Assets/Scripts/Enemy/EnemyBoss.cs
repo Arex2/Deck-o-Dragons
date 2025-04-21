@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class EnemyBoss : Target
@@ -124,15 +123,17 @@ public class EnemyBoss : Target
     protected override void UpdateHP()
     {
         base.UpdateHP();
-         healthText.text = string.Format(healthTextFormat, hp.ToString());
+         healthText.text = string.Format(healthTextFormat, HP.ToString());
     }
 
     public override void Hurt(float amount)
     {
         base.Hurt(amount);
         StartCoroutine(ShakeCoroutine());
-        AudioManager.Instance.PlaySFX(damageTakenSound);
-
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(damageTakenSound);
+        }
     }
 
     public void DeathEvent()

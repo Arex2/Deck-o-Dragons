@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3980041350234233680
+--- !u!114 &-1860155053858908950
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15,18 +15,19 @@ MonoBehaviour:
   expandedInEditor: 1
   orderInEditor: 0
   card: {fileID: 11400000}
+  disableOnStart: 0
   targetFilter:
     team: 0
     mode: 1
   damage:
-    baseValue: 4
+    baseValue: 3
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 2
+    - value: 1
       method: 0
     downgrades:
-    - value: 2
+    - value: 1
       method: 1
   attackAmount:
     baseValue: 1
@@ -38,6 +39,35 @@ MonoBehaviour:
     downgrades:
     - value: 0
       method: 1
+--- !u!114 &-1223053199875735651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b888421e62510a48adb350e950ed80b, type: 3}
+  m_Name: Heal
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 1
+  card: {fileID: 11400000}
+  disableOnStart: 0
+  targetFilter:
+    team: 1
+    mode: 0
+  healing:
+    baseValue: 2
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 1
+      method: 0
+    downgrades:
+    - value: 1
+      method: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,17 +78,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: Claw Swipe
+  m_Name: Test Card
   m_EditorClassIdentifier: 
-  guid: 9cc527b6d0cc85547b021d492a15161f
-  sprite: {fileID: 21300000, guid: bcb8108de08fabe479c173020599c76c, type: 3}
-  displayName: Claw Swipe
-  description: 'Deal {DAMAGE} damage '
-  cost: 3
-  element: 0
+  guid: 4420287fca5bb59498d4e4f92e41fd6c
+  sprite: {fileID: 21300000, guid: d1a693bd5b2a9834b9ae3d403c01317a, type: 3}
+  displayName: Test Card
+  description: 'Deal {ATTACK} damage.
+
+    Heal {HEAL} HP.'
+  cost: 5
+  element: 1
   category: 1
   rarity: 0
   tags:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
   cardComponents:
-  - {fileID: -3980041350234233680}
+  - {fileID: -1860155053858908950}
+  - {fileID: -1223053199875735651}

@@ -11,24 +11,43 @@ public class DrawCards : CardComponent, IUse
     [SerializeField] private UpgradeableInt amount = new(1);
 
     [Space]
-    [SerializeField] private Card[] cardsToDraw;
+    [SerializeField] private Card[] cardsToAlwaysDraw;
 
     private Card[] _cards;
+    private int _cardLength;
+
+    private CardHand _cardHand;
 
     public override void Initialize()
     {
-        _cards = tag == null ? CardManager.AllCards : CardManager.GetCardsByTag(tag);
+        _cards = tag == null ? CardManager.DrawableCards : CardManager.GetCardsByTag(tag);
+        _cardLength = _cards.Length;
     }
 
     public void Use()
     {
-        CardHand hand = FindObjectOfType<CardHand>();
+        if (_cardHand == null)
+        {
+            _cardHand = CardHand.Instance;
+
+            if (_cardHand == null)
+            {
+                Debug.LogWarning($"There is no {nameof(CardHand)} in the scene!");
+                return;
+            }
+        }
 
         int amount = this.amount.GetValue(Tier);
 
         for (int i = 0; i < amount; i++)
         {
-            hand.DrawCard();
+            int randomIndex = Random.Range(0, _cardLength);
+            _cardHand.DrawCard(_cards[randomIndex]);
+        }
+
+        foreach (Card card in cardsToAlwaysDraw)
+        {
+            _cardHand.DrawCard(card);
         }
     }
 

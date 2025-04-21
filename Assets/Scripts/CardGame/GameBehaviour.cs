@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GameBehaviour : Target
 {
+    public static GameBehaviour Instance { get; private set; }
+
     #region stuff for Target class
     public override Team Team => Team.Player;
     public override Bounds GetWorldBounds()
@@ -13,7 +15,6 @@ public class GameBehaviour : Target
         return new Bounds(transform.position, transform.localScale);
     }
     #endregion
-
 
     private bool endTurn;
 
@@ -24,22 +25,9 @@ public class GameBehaviour : Target
     //OBS MaxHP and HP is instead used from Target superclass
     private int mana;
     private int maxMana = 8;
-    private int hpNew;
-    private int maxHpNew = 10;
-
-    public int HpNew
-    { get { return hpNew; } }
     
-
     public int Mana 
     { get { return mana; } }
-
-
-    //temp enemy stats
-    private int enemyHp = 20;
-    public int EnemyHp
-    { get { return enemyHp; } }
-
 
     //ha koppling till CardHand och Controls
     [SerializeField]
@@ -50,6 +38,9 @@ public class GameBehaviour : Target
     //End turn button
     [SerializeField]
     Button endTurnButton;
+    [SerializeField]
+    TMP_Text endTurnButtonText;
+    string endTurnButtonStartText;
 
     //temp canvas text
     [SerializeField]
@@ -68,10 +59,19 @@ public class GameBehaviour : Target
     [SerializeField]
     public EnemyBoss enemyBoss;
 
-    // Start is called before the first frame update
-    void Start()
+    protected override void Awake()
     {
-        hpNew = maxHpNew;
+        Instance = this;
+
+        base.Awake();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        endTurnButtonStartText = endTurnButtonText.text;
+
         mana = maxMana;
 
         manaText.text = mana.ToString();
@@ -80,20 +80,6 @@ public class GameBehaviour : Target
 
         hpSlider.maxValue = MaxHP;
         hpSlider.value = HP;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    //temp enemy take damage method
-    public void EnemyTakeDamage(int count)
-    {
-        Debug.Log("enemy dmg take: " + count);
-        enemyHp -= count;
-        //enemyHealthText.text = enemyHp.ToString();
     }
 
     //update status text
@@ -105,11 +91,24 @@ public class GameBehaviour : Target
     //end turn button
     public void EndCurrentTurn()
     {
+        if (!cardHand.choosingCardsToKeepAfterDiscard)
+        {
+            enemyBoss.StartTurn();
+        }
+
         endTurn = true;
-        enemyBoss.StartTurn();
         //stäng av knapp
         endTurnButton.interactable = false;
+    }
 
+    public void SetEndTurnButtonText(string text)
+    {
+        endTurnButtonText.text = text;
+    }
+
+    public void ResetEndTurnButtonText()
+    {
+        SetEndTurnButtonText(endTurnButtonStartText);
     }
 
     public void NewTurn()
@@ -119,36 +118,32 @@ public class GameBehaviour : Target
         endTurnButton.interactable = true;
     }
 
-    public void LoseHp(int count)
+    protected override void UpdateHP()
     {
-        hpNew -= count;
-        hpSlider.value = hpNew;
-        playerHealthText.text = hpNew.ToString();
-    }
-
-    public override void Hurt(float amount)
-    {
-        base.Hurt(amount);
         hpSlider.value = HP;
         playerHealthText.text = HP.ToString();
     }
 
-    public override void Heal(float amount)
+    public void GainMana(int count)
     {
-        base.Heal(amount);
-        hpSlider.value = HP;
-        playerHealthText.text = HP.ToString();
+        mana += count;
+        UpdateMana();
     }
 
     public void LoseMana(int count)
     {
         mana -= count;
-        manaText.text = mana.ToString();
+        UpdateMana();
     }
 
     public void ResetMana()
     {
         mana = maxMana;
+        UpdateMana();
+    }
+
+    public void UpdateMana()
+    {
         manaText.text = mana.ToString();
     }
 

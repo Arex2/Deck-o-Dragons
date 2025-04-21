@@ -12,11 +12,9 @@ public class PlayEnemyState : IState
         Debug.Log("ENEMY TURN!!");
         this.gameBehaviour = gameBehaviour;
         gameBehaviour.UpdateStatusText("Enemy Turn");
-
+        Target.TurnStart.Invoke(Team.Enemy);
 
         //play card effect
-
-
         gameBehaviour.StartCoroutine(Wait()); //sätter temp till true
 
         return null;
@@ -55,7 +53,11 @@ public class PlayEnemyState : IState
                 Debug.Log("RETURN GAME LOST " + gameBehaviour.HP);
                 return new BattleOverState();
             }
-            else return new SetupState();
+            else
+            {
+                Target.TurnEnd.Invoke(Team.Enemy);
+                return new SetupState();
+            }
         }
         else return null;
     }

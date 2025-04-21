@@ -3,28 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
+using Random = UnityEngine.Random;
+using UnityEngine.EventSystems;
+using DG.Tweening;
 
-public class CardObject : MonoBehaviour
+public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler
 {
+    public Canvas Canvas => canvas;
+
+    public Image Checkmark => checkmark;
+
+    public float StartYPos { get; set; }
+
+    public CardHand CardHand { get; set; }
+
+    [SerializeField] private Canvas canvas;
+    [Space]
+
     //Card components
     [SerializeField] private Image background;
     [SerializeField] private Image costBackground;
     [SerializeField] private Image cardImage;
     [SerializeField] private TMP_Text costText;
+    [SerializeField] private Image checkmark;
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text tagsText;
     [SerializeField] private TMP_Text descriptionText;
 
-
-
-
+    [Space]
     [SerializeField] private Card card;
     [SerializeField] private Target user;
-    [SerializeField] private Card[] cards;
+#if UNITY_EDITOR
+    // FOR DEBUGGING
+    [SerializeField] private Card[] debugCardsToOnlyDraw;
+    public bool Debugging => debugCardsToOnlyDraw != null && debugCardsToOnlyDraw.Length > 0;
+#endif
+
+    [Space]
+    [SerializeField] private float pointerMoveRadius = 0.15f;
+
+    public Action<CardObject> OnCardPressed { get; set; }
+
+    private bool _setCard;
+    private bool _selected;
 
     private void Start()
     {
-        BecomeRandomCard();
+        if (!_setCard)
+        {
+            BecomeRandomCard();
+        }
         //gameObject.GetComponent<SpriteRenderer>().sprite = card.Sprite;
         UpdateCardLook();
     }
@@ -43,7 +72,11 @@ public class CardObject : MonoBehaviour
     private void UpdateTagText()
     {
         if (card.Tags == null || card.Tags.Length <= 0)
+        {
+            tagsText.text = "";
             return;
+        }
+
         string tags = "";
         foreach (CardTag tag in card.Tags)
         {
@@ -63,8 +96,23 @@ public class CardObject : MonoBehaviour
 
     private void BecomeRandomCard()
     {
-        int i = Random.Range(0, cards.Length);
-        card = cards[i];
+#if UNITY_EDITOR
+        if (Debugging)
+        {
+            int debugI = Random.Range(0, debugCardsToOnlyDraw.Length);
+            SetCard(debugCardsToOnlyDraw[debugI]);
+            return;
+        }
+#endif
+
+        int i = Random.Range(0, CardManager.DrawableCards.Length);
+        SetCard(CardManager.DrawableCards[i]);
+    }
+
+    public void SetCard(Card card)
+    {
+        this.card = card;
+        _setCard = true;
     }
 
     public int GetCost()
@@ -89,7 +137,51 @@ public class CardObject : MonoBehaviour
     IEnumerator DeleteItself()
     {
         yield return new WaitForSeconds(1);
-        Destroy(gameObject);
+        CardHand.cardIsPlaying = false;
+        CardHand.cardBeingPlayed = null;
+        CardHand.RemoveCard(this);
+
+        Debug.Log("Me rmove");
     }
 
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        _selected = true;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (_selected)
+        {
+            OnCardPressed?.Invoke(this);
+        }
+
+        _selected = false;
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        if (!_selected)
+            return;
+
+
+        float dist = Vector2.Distance(eventData.pointerPressRaycast.worldPosition, eventData.pointerCurrentRaycast.worldPosition);
+
+        if (dist < pointerMoveRadius)
+            return;
+
+        _selected = false;
+    }
+
+    public void CheckmarkAppear()
+    {
+        checkmark.DOKill();
+        checkmark.DOFade(1, 0.1f);
+    }
+
+    public void CheckmarkDisappear()
+    {
+        checkmark.DOKill();
+        checkmark.DOFade(0, 0.1f);
+    }
 }

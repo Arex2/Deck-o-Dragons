@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: Rejuvenating Waters
+  m_Name: Mana Fountain
   m_EditorClassIdentifier: 
-  guid: 40eab4164775d014b9740b6f1dfa9bf6
-  sprite: {fileID: 21300000, guid: 5305e466c6c792147aab77af03ee38d4, type: 3}
-  displayName: Rejuvenating Waters
-  description: Heal {HEALING}
-  cost: 6
+  guid: a26f2f35270ba2f4a91eb0627dd074ca
+  sprite: {fileID: 21300000, guid: e3d5f7ef454ec3348bb809831a29a40a, type: 3}
+  displayName: Mana Fountain
+  description: Gain {MANA} mana.
+  cost: 0
   element: 2
-  category: 0
+  category: 4
   rarity: 0
   tags: []
   cardComponents:
-  - {fileID: 5633059931178854001}
---- !u!114 &5633059931178854001
+  - {fileID: 5836405054029271532}
+--- !u!114 &5836405054029271532
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32,22 +32,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b888421e62510a48adb350e950ed80b, type: 3}
-  m_Name: Heal
+  m_Script: {fileID: 11500000, guid: 0300cc77e48abb3469ed2a5014895409, type: 3}
+  m_Name: ModifyMana
   m_EditorClassIdentifier: 
   expandedInEditor: 1
   orderInEditor: 0
   card: {fileID: 11400000}
-  targetFilter:
-    team: 1
-    mode: 0
-  healing:
-    baseValue: 8
+  disableOnStart: 0
+  manaAmount:
+    baseValue: 2
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 2
+    - value: 0
       method: 0
     downgrades:
-    - value: 2
+    - value: 0
       method: 1
