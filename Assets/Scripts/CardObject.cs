@@ -10,6 +10,18 @@ using DG.Tweening;
 
 public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler
 {
+    public bool affectOtherCards = false;
+
+    //bör vara i card component??? och bör kallas på när kort spelas
+    //eller possibly ba gör så att card targets blir korten?
+    private void AffectOtherCards()
+    {
+        foreach (CardObject cardObj in CardHand.CardsToAffect)
+        {
+            //do effect
+        }
+    }
+
     public Canvas Canvas => canvas;
 
     public Image Checkmark => checkmark;
@@ -71,6 +83,8 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     private void UpdateTagText()
     {
+        tagsText.text = "";
+        //Debug.LogWarning("Tags amount: " + card.Tags.Length);
         if (card.Tags == null || card.Tags.Length <= 0)
         {
             tagsText.text = "";
