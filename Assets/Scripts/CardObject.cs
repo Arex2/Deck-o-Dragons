@@ -10,6 +10,18 @@ using DG.Tweening;
 
 public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler
 {
+    public bool affectOtherCards = false;
+
+    //bör vara i card component??? och bör kallas på när kort spelas
+    //eller possibly ba gör så att card targets blir korten?
+    private void AffectOtherCards()
+    {
+        foreach (CardObject cardObj in CardHand.CardsToAffect)
+        {
+            //do effect
+        }
+    }
+
     public Canvas Canvas => canvas;
 
     public Image Checkmark => checkmark;

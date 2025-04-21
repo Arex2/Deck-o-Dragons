@@ -21,6 +21,12 @@ public class GameBehaviour : Target
     public bool EndTurn
     { get { return endTurn; } }
 
+    private bool cardsSelected;
+    public bool CardSelected
+    { get { return cardsSelected; }
+        set { cardsSelected = value; }
+    }
+
     //player stats, should maybe be moved? or script renamed
     //OBS MaxHP and HP is instead used from Target superclass
     private int mana;
@@ -89,6 +95,16 @@ public class GameBehaviour : Target
     }
 
     //end turn button
+    public void ButtonPress()
+    {
+        if(cardHand.choosingCardsToAffect)
+        {
+            endTurnButton.interactable = false;
+            cardsSelected = true;
+        }
+        else EndCurrentTurn();
+    }
+
     public void EndCurrentTurn()
     {
         if (!cardHand.choosingCardsToKeepAfterDiscard)
