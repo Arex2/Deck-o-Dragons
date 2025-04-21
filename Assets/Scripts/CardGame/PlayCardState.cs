@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayCardState : IState
 {
-    bool temp = false; //ANVÄNDS FÖR ATT KÄNNA NÄR WAITTIME ÄR DONE
+    bool temp = false; //ANVï¿½NDS Fï¿½R ATT Kï¿½NNA Nï¿½R WAITTIME ï¿½R DONE
 
-    int tempManaCostSave; //ANVÄNDS FÖR ATT TEMPORÄRT SPARA MANA COSTNADEN FOR NOW
+    int tempManaCostSave; //ANVï¿½NDS Fï¿½R ATT TEMPORï¿½RT SPARA MANA COSTNADEN FOR NOW
 
     GameBehaviour gameBehaviour;
     public virtual IState Enter(GameBehaviour gameBehaviour)
@@ -20,7 +20,7 @@ public class PlayCardState : IState
         tempManaCostSave = gameBehaviour.cardHand.cardBeingPlayed.GetCost();
         gameBehaviour.LoseMana(tempManaCostSave);
 
-        gameBehaviour.StartCoroutine(Wait()); //sätter temp till true
+        gameBehaviour.StartCoroutine(Wait()); //sï¿½tter temp till true
 
         return null;
     }
@@ -42,7 +42,7 @@ public class PlayCardState : IState
         if (temp && !gameBehaviour.cardHand.cardIsPlaying)
         {
             Debug.Log("Damage enemy");
-            //gameBehaviour.EnemyTakeDamage(5);  //DET HÄR HÄNDER VARJE FRAME HELA TIDEN
+            //gameBehaviour.EnemyTakeDamage(5);  //DET Hï¿½R Hï¿½NDER VARJE FRAME HELA TIDEN
 
             //when played effect is done // could possibly be a cooldown timer have timer in gameBehaviour and return? would that work?
             //check enemy hp,
@@ -50,13 +50,13 @@ public class PlayCardState : IState
             //else return selectionState
 
 
-            if (gameBehaviour.enemyBoss.HP > 0)
+            if (gameBehaviour.encounterManager.currentEncounterEnemy.HP > 0)
             {
                 return new SelectionState();
             }
             else
             {
-                gameBehaviour.enemyBoss.DeathEvent();
+                gameBehaviour.encounterManager.currentEncounterEnemy.DeathEvent();
                 Debug.Log("Enemy death");
                 return new BattleOverState();
             }
