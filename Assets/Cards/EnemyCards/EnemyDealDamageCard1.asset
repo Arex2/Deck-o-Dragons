@@ -61,5 +61,6 @@ MonoBehaviour:
   rarity: 0
   tags:
   - {fileID: 11400000, guid: 789701f024d709f41ab3f63be0739412, type: 2}
+  - {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
   cardComponents:
   - {fileID: -1860155053858908950}

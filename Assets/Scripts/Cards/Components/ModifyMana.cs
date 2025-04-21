@@ -7,12 +7,33 @@ using UnityEngine;
 [AddComponentMenu("Modify Mana")]
 public class ModifyMana : CardComponent, IUse
 {
-    [SerializeField] private UpgradeableFloat manaAmount = new(1);
+    [SerializeField] private UpgradeableInt manaAmount = new(1);
+
+    private GameBehaviour _gameBehaviour;
 
     public void Use()
     {
-        // TODO: THIS IS SUPER TEMPORARY AND WE SHOULD PROBABLY HAVE A BETTER MANA SYSTEM
-        FindObjectOfType<GameBehaviour>().LoseMana(-Mathf.RoundToInt(manaAmount.GetValue(Tier)));
+        if (_gameBehaviour == null)
+        {
+            _gameBehaviour = GameBehaviour.Instance;
+
+            if (_gameBehaviour == null)
+            {
+                Debug.LogWarning($"There is no {nameof(GameBehaviour)} in the scene!");
+                return;
+            }
+        }
+
+        int value = manaAmount.GetValue(Tier);
+
+        if (value > 0)
+        {
+            _gameBehaviour.GainMana(value);
+        }
+        else if (value < 0)
+        {
+            _gameBehaviour.LoseMana(value);
+        }
     }
 
     [ReplaceDescriptionKeyword]

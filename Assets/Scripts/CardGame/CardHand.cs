@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class CardHand : MonoBehaviour
 {
+    public static CardHand Instance { get; private set; }
+
     [SerializeField]
     private GameBehaviour gameBehaviour;
 
@@ -47,6 +49,11 @@ public class CardHand : MonoBehaviour
     private bool selected;
 
     private float cardSpacingX = 1.7f;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
 
     //NEW STUFF FOR CONTROLSV2

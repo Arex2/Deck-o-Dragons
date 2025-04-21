@@ -20,7 +20,8 @@ MonoBehaviour:
   element: 2
   category: 4
   rarity: 0
-  tags: []
+  tags:
+  - {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
   cardComponents:
   - {fileID: 4250661183866793492}
   - {fileID: 4436496413160806555}
@@ -67,4 +68,4 @@ MonoBehaviour:
     downgrades:
     - value: 0
       method: 1
-  cardsToDraw: []
+  cardsToAlwaysDraw: []

@@ -81,7 +81,7 @@ MonoBehaviour:
   disableOnStart: 0
   tag: {fileID: 0}
   amount:
-    baseValue: 4
+    baseValue: 3
     stack: 1
     loopBehaviour: 1
     upgrades:
@@ -90,4 +90,4 @@ MonoBehaviour:
     downgrades:
     - value: 0
       method: 1
-  cardsToDraw: []
+  cardsToAlwaysDraw: []

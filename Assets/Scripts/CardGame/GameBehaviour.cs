@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GameBehaviour : Target
 {
+    public static GameBehaviour Instance { get; private set; }
+
     #region stuff for Target class
     public override Team Team => Team.Player;
     public override Bounds GetWorldBounds()
@@ -53,6 +55,13 @@ public class GameBehaviour : Target
     //Reference to enemy script
     [SerializeField]
     public EnemyBoss enemyBoss;
+
+    protected override void Awake()
+    {
+        Instance = this;
+
+        base.Awake();
+    }
 
     protected override void Start()
     {

@@ -77,4 +77,4 @@ MonoBehaviour:
     downgrades:
     - value: 0
       method: 1
-  cardsToDraw: []
+  cardsToAlwaysDraw: []

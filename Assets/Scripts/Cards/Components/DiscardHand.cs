@@ -7,11 +7,21 @@ using UnityEngine;
 [AddComponentMenu("Hand/Discard Hand")]
 public class DiscardHand : CardComponent, IUse
 {
+    private CardHand _cardHand;
+
     public void Use()
     {
-        // TODO: This is a temporary solution for emptying the card hand
-        CardHand hand = FindObjectOfType<CardHand>();
+        if (_cardHand == null)
+        {
+            _cardHand = CardHand.Instance;
 
-        hand.EmptyHand();
+            if (_cardHand == null)
+            {
+                Debug.LogWarning($"There is no {nameof(CardHand)} in the scene!");
+                return;
+            }
+        }
+
+        _cardHand.EmptyHand();
     }
 }

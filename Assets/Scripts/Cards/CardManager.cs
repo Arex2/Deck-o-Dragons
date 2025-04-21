@@ -10,18 +10,18 @@ using UnityEngine;
 public class CardManager : Singleton<CardManager>
 {
     public static Card[] AllCards => Instance.allCards;
-    public static Card[] EnemyCards => Instance._enemyCards;
-    public static Card[] NonEnemyCards => Instance._nonEnemyCards;
+    public static Card[] NonDrawableCards => Instance._nonDrawableCards;
+    public static Card[] DrawableCards => Instance._drawableCards;
     public static CardTag[] AllTags => Instance.allTags;
-    public static CardTag EnemyCardTag => Instance.enemyCardTag;
+    public static CardTag NonDrawableTag => Instance.nonDrawableTag;
 
     [HideInInspector] [SerializeField] private Card[] allCards;
     [HideInInspector] [SerializeField] private CardTag[] allTags;
 
-    private Card[] _enemyCards;
-    private Card[] _nonEnemyCards;
+    private Card[] _nonDrawableCards;
+    private Card[] _drawableCards;
 
-    [SerializeField] private CardTag enemyCardTag;
+    [SerializeField] private CardTag nonDrawableTag;
 
     private static readonly Dictionary<CardTag, Card[]> _cardsTagDictionary = new();
     private static readonly Dictionary<string, Card> _cardsNameDictionary = new();
@@ -114,9 +114,10 @@ public class CardManager : Singleton<CardManager>
             }
 #endif
 
-            if (card.HasTag(enemyCardTag))
+            if (card.HasTag(nonDrawableTag))
             {
                 enemyCards.Add(card);
+                Debug.Log("ENEMY CARD: " + card.DisplayName);
             }
             else
             {
@@ -124,8 +125,8 @@ public class CardManager : Singleton<CardManager>
             }
         }
 
-        _enemyCards = enemyCards.ToArray();
-        _nonEnemyCards = nonEnemyCards.ToArray();
+        _nonDrawableCards = enemyCards.ToArray();
+        _drawableCards = nonEnemyCards.ToArray();
 
         foreach (var pair in temp)
         {

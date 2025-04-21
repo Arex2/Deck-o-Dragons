@@ -65,5 +65,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c6efc07c042cb7343b361ef4baa35d94, type: 2}
   allTags:
   - {fileID: 11400000, guid: 789701f024d709f41ab3f63be0739412, type: 2}
+  - {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
   - {fileID: 11400000, guid: bab0385fc0dd83a42b30d4747a766495, type: 2}
-  enemyCardTag: {fileID: 11400000, guid: 789701f024d709f41ab3f63be0739412, type: 2}
+  nonDrawableTag: {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}

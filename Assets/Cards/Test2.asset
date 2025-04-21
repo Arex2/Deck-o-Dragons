@@ -59,6 +59,7 @@ MonoBehaviour:
   element: 0
   category: 0
   rarity: 0
-  tags: []
+  tags:
+  - {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
   cardComponents:
   - {fileID: -6176342591211957828}
