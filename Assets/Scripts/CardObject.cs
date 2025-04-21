@@ -47,6 +47,8 @@ public class CardObject : MonoBehaviour
 
     private void UpdateTagText()
     {
+        tagsText.text = "";
+        //Debug.LogWarning("Tags amount: " + card.Tags.Length);
         if (card.Tags == null || card.Tags.Length <= 0)
             return;
         string tags = "";
