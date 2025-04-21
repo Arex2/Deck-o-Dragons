@@ -41,7 +41,7 @@ public class EnemyBoss : Target
         }
         healthTextFormat = healthText.text;
         UpdateHP();
-        originalPosition = transform.position;
+        originalPosition = transform.localPosition;
     }
 
     public void StartTurn()

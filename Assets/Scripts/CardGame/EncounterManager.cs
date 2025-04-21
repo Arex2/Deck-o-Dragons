@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EncounterManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class EncounterManager : MonoBehaviour
     [SerializeField] private List<GameObject> encounters;
     [SerializeField] private Transform enemySpawnLocation;
     public int currentEncounterIndex { get; private set; } = -1;
-    public GameObject currentEncounterEnemy { get; private set; }
+    public EnemyBoss currentEncounterEnemy { get; private set; }
 
     void Start()
     {
@@ -21,14 +22,15 @@ public class EncounterManager : MonoBehaviour
         currentEncounterIndex++;
         if(currentEncounterIndex > encounters.Count)
         {
-            // You are winner!!!
-            return;
+            SceneManager.LoadScene(0);
         }
 
-        if(encounters[currentEncounterIndex] != null)
+        else if(encounters[currentEncounterIndex] != null)
         {
-            Destroy(currentEncounterEnemy);
-            Instantiate(encounters[currentEncounterIndex], enemySpawnLocation);
+            if(currentEncounterEnemy != null) Destroy(currentEncounterEnemy.gameObject);
+            var temp = Instantiate(encounters[currentEncounterIndex], enemySpawnLocation);
+            currentEncounterEnemy = temp.GetComponent<EnemyBoss>();
+            print(currentEncounterEnemy.ToString());
             //Restart Game Logic
         }
         else

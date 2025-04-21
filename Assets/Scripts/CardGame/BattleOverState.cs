@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.Interactions;
+
 
 public class BattleOverState : IState
 {
-    bool temp = false; //ANVÄNDS FÖR ATT KÄNNA NÄR WAITTIME ÄR DONE
+    bool temp = false; //ANVï¿½NDS Fï¿½R ATT Kï¿½NNA Nï¿½R WAITTIME ï¿½R DONE
 
     GameBehaviour gameBehaviour;
     public virtual IState Enter(GameBehaviour gameBehaviour)
@@ -15,7 +16,7 @@ public class BattleOverState : IState
         //gameBehaviour.NewTurn();
         gameBehaviour.UpdateStatusText("BATTLE OVER");
 
-        gameBehaviour.StartCoroutine(Wait()); //sätter temp till true
+        gameBehaviour.StartCoroutine(Wait()); //sï¿½tter temp till true
 
         return null;
     }
@@ -37,8 +38,9 @@ public class BattleOverState : IState
     {
         if (temp)
         {
-            //byt scene
-            SceneManager.LoadScene(0);
+            Debug.Log("New Encounter");
+            gameBehaviour.NewEncounter();
+            return new SetupState();
         }
         return null;
     }
