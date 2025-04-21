@@ -114,14 +114,36 @@ public class Card : GUIDScriptableObject
 
         foreach (CardComponent cardComponent in cardComponents)
         {
-            Type type = cardComponent.GetType();
-
-            if (!temp.ContainsKey(type))
+            void AddType(Type type)
             {
-                temp.Add(type, new());
+                if (!temp.ContainsKey(type))
+                {
+                    temp.Add(type, new());
+                }
+
+                temp[type].Add(cardComponent);
             }
 
-            temp[type].Add(cardComponent);
+            void AddInterfaces(Type type)
+            {
+                foreach (Type interfaceType in type.GetInterfaces())
+                {
+                    AddType(interfaceType);
+                }
+            }
+
+            Type type = cardComponent.GetType();
+
+            AddType(type);
+            AddInterfaces(type);
+
+            while (type.BaseType != null && type.BaseType != typeof(ScriptableObject))
+            {
+                type = type.BaseType;
+
+                AddType(type);
+                AddInterfaces(type);
+            }
 
             string name = cardComponent.name.Trim().ToLower();
 
@@ -315,11 +337,27 @@ public class Card : GUIDScriptableObject
                 targets = doSingleTarget ? singleTarget : multiTargets;
             }
 
+            IUse use = cardComponent as IUse;
+            IUseCoroutine useCoroutine = cardComponent as IUseCoroutine;
             IUseMulti useMulti = cardComponent as IUseMulti;
             IUseSingle useSingle = cardComponent as IUseSingle;
             IUseCoroutineMulti useCoroutineMulti = cardComponent as IUseCoroutineMulti;
             IUseCoroutineSingle useCoroutineSingle = cardComponent as IUseCoroutineSingle;
-            IUse use = cardComponent as IUse;
+
+            if (use != null)
+            {
+                use.Use();
+            }
+
+            if (useCoroutine != null)
+            {
+                IEnumerator enumerator = useCoroutine.UseCoroutine();
+
+                if (enumerator != null)
+                {
+                    yield return enumerator;
+                }
+            }
 
             if (useMulti != null)
             {
@@ -362,11 +400,6 @@ public class Card : GUIDScriptableObject
                         yield return enumerator;
                     }
                 }
-            }
-
-            if (use != null)
-            {
-                use.Use();
             }
         }
 
