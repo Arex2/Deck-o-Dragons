@@ -13,6 +13,7 @@ public class DragonActive : MonoBehaviour
     [SerializeField] public GameObject[] adultDragons;
     //public static GameObject drPref;
     public static bool dragonActive;
+    public static bool doCheck;
     public static int index;
     public static int age;
 
@@ -45,50 +46,78 @@ public class DragonActive : MonoBehaviour
             Destroy(gameObject);
         }*/
 
+        doCheck = true;
+
         DontDestroyOnLoad(this);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 1)
+        /*if (SceneManager.GetActiveScene().buildIndex == 1)
         {
+            Debug.Log("Buildindex är 1");
+
             if (!DragonActive.dragonActive)
             {
                 Instantiate(egg, new Vector3(0, 0, 0), Quaternion.identity);
                 //Egg.SpawnEgg(egg);
+                Debug.Log("ägg borde finnas");
             }
-        }
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            if (DragonActive.dragonActive)
+            else if(DragonActive.dragonActive)
             {
+                Debug.Log("drake finns");
                 SpawnDragons();
-                Debug.Log(age);
+            }
+        }*/
+    }
+
+    // Update is called once per frame
+    void LateUpdate()
+    {
+        /*if (dragonActive == false)
+        {
+            DrActInstance = null;
+        }*/
+
+        if(doCheck)
+        {
+            if(SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                CheckForEggOrDragon();
+                doCheck = false;
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CheckForEggOrDragon()
     {
-        if (dragonActive == false)
+        Debug.Log("Buildindex är 1");
+
+        if(!dragonActive)
         {
-            DrActInstance = null;
+            Instantiate(egg, new Vector3(0, 0, 0), Quaternion.identity);
+            //Egg.SpawnEgg(egg);
+            Debug.Log("ägg borde finnas");
+        }
+        else if(dragonActive)
+        {
+            Debug.Log("drake finns");
+            SpawnDragons();
         }
     }
 
     public void SpawnDragons()
     {
-        if (DragonActive.age == 1)
+        if (age == 1)
         {
             Instantiate(babyDragons[index], new Vector3(0, 0, 0), Quaternion.identity);
         }
-        else if (DragonActive.age == 2)
+        else if (age == 2)
         {
             Instantiate(teenDragons[index], new Vector3(0, 0, 0), Quaternion.identity);
         }
-        else if (DragonActive.age == 3)
+        else if (age == 3)
         {
             Instantiate(adultDragons[index], new Vector3(0, 0, 0), Quaternion.identity);
         }

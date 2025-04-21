@@ -25,6 +25,7 @@ public class SceneSwitcher : MonoBehaviour
         if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByBuildIndex(1))
             return;
         SceneManager.LoadScene(1);
+        DragonActive.doCheck = true;
     }
 
     public void SwitchToCardGame()

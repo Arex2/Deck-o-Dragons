@@ -39,19 +39,16 @@ public class DragonController : MonoBehaviour
         {
             Instantiate(dragonActive.teenDragons[DragonActive.index], new Vector3(0, 0, 0), Quaternion.identity);
             DragonActive.age++;
-            Debug.Log(DragonActive.age);
         }
         else if (DragonActive.age == 2)
         {
             Instantiate(dragonActive.adultDragons[DragonActive.index], new Vector3(0, 0, 0), Quaternion.identity);
             DragonActive.age++;
-            Debug.Log(DragonActive.age);
         }
         else if (DragonActive.age == 3)
         {
             Instantiate(dragonActive.egg, new Vector3(0, 0, 0), Quaternion.identity);
             DragonActive.age = 0;
-            Debug.Log(DragonActive.age);
         }
         else
         {

@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Egg : MonoBehaviour
 {
+    DragonActive dragonActive;
     private float timeBetweenShakes = 0.75f; //in seconds
     private float time = 0;
     //three stages of egg cracking
@@ -17,10 +18,14 @@ public class Egg : MonoBehaviour
     float shakeTreshold = 2.0f * 2.0f;
     Vector3 lowPassValue;
 
-    [SerializeField] GameObject[] dragons;
+    //[SerializeField] GameObject[] dragons;
     [SerializeField] private Sprite[] crackedSprites;
     private SpriteRenderer spriteRenderer;
 
+    private void Awake()
+    {
+        dragonActive = GameObject.Find("DragonActive").GetComponent<DragonActive>();
+    }
 
     private void OnEnable()
     {
@@ -96,13 +101,12 @@ public class Egg : MonoBehaviour
 
     private void SpawnDragon()
     {
-        int index = 1;  //Random.Range(0, dragons.Length);
-        Instantiate(dragons[index], new Vector3(0, 0, 0), Quaternion.identity);
+        int index = 1; //Random.Range(0, dragonActive.babyDragons.Length);
+        Instantiate(dragonActive.babyDragons[index], new Vector3(0, 0, 0), Quaternion.identity);
         //DragonActive.drPref = dragons[index];
         DragonActive.index = index;
         DragonActive.age = 1;
         DragonActive.dragonActive = true;
-        Debug.Log(DragonActive.age);
     }
 
     private void DeleteEgg()
