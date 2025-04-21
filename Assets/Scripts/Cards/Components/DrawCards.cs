@@ -41,7 +41,8 @@ public class DrawCards : CardComponent, IUse
 
         for (int i = 0; i < amount; i++)
         {
-            _cardHand.DrawCard(_cards[Random.Range(0, _cardLength)]);
+            int randomIndex = Random.Range(0, _cardLength);
+            _cardHand.DrawCard(_cards[randomIndex]);
         }
 
         foreach (Card card in cardsToAlwaysDraw)

@@ -20,8 +20,7 @@ MonoBehaviour:
   element: 2
   category: 4
   rarity: 0
-  tags:
-  - {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
+  tags: []
   cardComponents:
   - {fileID: 4250661183866793492}
   - {fileID: 4436496413160806555}
