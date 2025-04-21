@@ -208,7 +208,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 46
+  m_fontSize: 26.15
   m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -422,6 +422,7 @@ GameObject:
   - component: {fileID: 151584344}
   - component: {fileID: 151584345}
   - component: {fileID: 151584346}
+  - component: {fileID: 151584347}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -556,6 +557,27 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &151584347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151584341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb8acb6c2ae3094dbc7a663527ff5b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deck:
+  - {fileID: 11400000, guid: 9f65d50d3cd838748934cfdcdd670adb, type: 2}
+  - {fileID: 11400000, guid: c6efc07c042cb7343b361ef4baa35d94, type: 2}
+  - {fileID: 11400000, guid: 40eab4164775d014b9740b6f1dfa9bf6, type: 2}
+  - {fileID: 11400000, guid: 9cc527b6d0cc85547b021d492a15161f, type: 2}
+  - {fileID: 11400000, guid: c17ab45f4ed7fd144b6a6e4fdc7f69c0, type: 2}
+  - {fileID: 11400000, guid: 9791da2016067ce4fa914ffcde32e218, type: 2}
+  - {fileID: 11400000, guid: 167dc0185866f954bb1927e715f3b1c4, type: 2}
+  - {fileID: 11400000, guid: a26f2f35270ba2f4a91eb0627dd074ca, type: 2}
 --- !u!1 &175870449
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,7 +1227,6 @@ MonoBehaviour:
   titleText: {fileID: 0}
   tagsText: {fileID: 0}
   descriptionText: {fileID: 0}
-  card: {fileID: 11400000, guid: 4420287fca5bb59498d4e4f92e41fd6c, type: 2}
   user: {fileID: 151584345}
   debugCardsToOnlyDraw: []
   pointerMoveRadius: 0
@@ -1377,7 +1398,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 20.6
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1790,7 +1811,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.1
+  m_fontSize: 12
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1924,7 +1945,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.6
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2215,7 +2236,6 @@ MonoBehaviour:
   titleText: {fileID: 274366117}
   tagsText: {fileID: 710672631}
   descriptionText: {fileID: 598141037}
-  card: {fileID: 11400000, guid: 4420287fca5bb59498d4e4f92e41fd6c, type: 2}
   user: {fileID: 151584345}
   debugCardsToOnlyDraw: []
   pointerMoveRadius: 0.15
@@ -2786,6 +2806,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83bb0ca44ed9d714eab6606e80b128a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHp: 0
+  isLeader: 0
+  immuneToStatusEffects: []
+  hpTemp: {fileID: 0}
+  statusEffectsTemp: {fileID: 0}
 --- !u!4 &1069940209
 Transform:
   m_ObjectHideFlags: 0
@@ -2911,6 +2936,7 @@ MonoBehaviour:
   maxAmountToKeepAfterDiscarding: 3
   cardPrefab: {fileID: 763733423}
   testCard: {fileID: 11400000, guid: 40eab4164775d014b9740b6f1dfa9bf6, type: 2}
+  deck: {fileID: 151584347}
   cardBeingPlayed: {fileID: 0}
   cardIsPlaying: 0
   overlayBg: {fileID: 214221252}
@@ -3352,7 +3378,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.25
+  m_fontSize: 14.55
   m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 1

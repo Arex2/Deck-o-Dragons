@@ -9,8 +9,14 @@ public class DeckManager : MonoBehaviour
     public Stack<Card> drawPile;
     public LinkedList<Card> discardPile;
 
+    void Start()
+    {
+        InitializeDeck(new Card[]{});
+        ResetDeck();
+    }
     public void InitializeDeck(Card[] startingDeck)
     {
+        discardPile = new LinkedList<Card>();
         deck.AddRange(startingDeck);
     }
 
@@ -32,6 +38,11 @@ public class DeckManager : MonoBehaviour
         deck.Remove(card);
     }
 
+    public bool CanDrawNext()
+    {
+        return !(drawPile.Count == 0 && discardPile.Count == 0);
+    }
+
     public Card DrawNext()
     {
         if(drawPile.Count == 0)
@@ -44,7 +55,7 @@ public class DeckManager : MonoBehaviour
 
     public void Discard(Card card)
     {
-        discardPile.AddLast(card);
+        discardPile.AddLast(value: card);
     }
     public void InsertInDrawRandom(Card card)
     {
@@ -63,7 +74,7 @@ public class DeckManager : MonoBehaviour
 
     private void ReshuffleDeckFromDiscard()
     {
-        List<Card> tempCardList = new List<Card>(drawPile);
+        List<Card> tempCardList = new List<Card>( discardPile);
         ShuffleDrawFromList(tempCardList);
         discardPile.Clear();
     }

@@ -49,6 +49,7 @@ public class CardHand : MonoBehaviour
 
     [SerializeField] CardObject cardPrefab;
     [SerializeField] Card testCard;
+    [SerializeField] DeckManager deck;
     Vector3 cardPlayPosition = new Vector3(0, 0.5f, 0);
     float cardMiniBouncePosition = 0.5f;
     List<CardObject> cardsInHand = new List<CardObject>();
@@ -333,6 +334,7 @@ public class CardHand : MonoBehaviour
     public void RemoveCard(CardObject cardObj)
     {
         cardObj.OnCardPressed -= OnCardPressed;
+        deck.Discard(cardObj.card);
         Destroy(cardObj.gameObject);
     }
 
@@ -371,8 +373,10 @@ public class CardHand : MonoBehaviour
     public CardObject DrawCard()
     {
         //check if can draw card
+        if(!deck.CanDrawNext()) return null;
         //instantiate new card
         CardObject cardObj = Instantiate(cardPrefab);
+        cardObj.Initialize(deck.DrawNext());
         cardObj.CardHand = this;
 
         cardObj.StartYPos = cardsYPos;

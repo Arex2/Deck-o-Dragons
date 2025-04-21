@@ -12,8 +12,8 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 {
     public bool affectOtherCards = false;
 
-    //bör vara i card component??? och bör kallas på när kort spelas
-    //eller possibly ba gör så att card targets blir korten?
+    //bï¿½r vara i card component??? och bï¿½r kallas pï¿½ nï¿½r kort spelas
+    //eller possibly ba gï¿½r sï¿½ att card targets blir korten?
     private void AffectOtherCards()
     {
         foreach (CardObject cardObj in CardHand.CardsToAffect)
@@ -44,7 +44,6 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     [SerializeField] private TMP_Text descriptionText;
 
     [Space]
-    [SerializeField] private Card card;
     [SerializeField] private Target user;
 #if UNITY_EDITOR
     // FOR DEBUGGING
@@ -57,8 +56,16 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public Action<CardObject> OnCardPressed { get; set; }
 
+    public Card card { get; private set; }
+
     private bool _setCard;
     private bool _selected;
+
+    public void Initialize(Card card)
+    {
+        SetCard(card);
+        UpdateCardLook();
+    }
 
     private void Start()
     {
@@ -71,8 +78,8 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     }
     private void UpdateCardLook()
     {
-        //ändra background sprite till rätt background depending on tier
-        //ändra costBackground till rätt färg depending on cost type
+        //ï¿½ndra background sprite till rï¿½tt background depending on tier
+        //ï¿½ndra costBackground till rï¿½tt fï¿½rg depending on cost type
         costBackground.color = Color.blue;
         cardImage.sprite = card.Sprite;
         costText.text = card.Cost.ToString();
