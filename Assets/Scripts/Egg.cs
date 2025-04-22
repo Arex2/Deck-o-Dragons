@@ -46,6 +46,8 @@ public class Egg : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.K))
+            Hatch();
 
         Vector3 acceleration = Input.acceleration;
         Vector3 deltaAcceleration = acceleration - lowPassValue;
