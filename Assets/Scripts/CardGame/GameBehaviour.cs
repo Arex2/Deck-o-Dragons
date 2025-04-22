@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameBehaviour : Target
 {
@@ -157,6 +158,13 @@ public class GameBehaviour : Target
     {
         mana = maxMana;
         UpdateMana();
+    }
+
+    public void SwitchToEggScene()
+    {
+        SceneManager.LoadScene(1);
+        //viktig
+        DragonActive.doCheck = true;
     }
 
     public void UpdateMana()
