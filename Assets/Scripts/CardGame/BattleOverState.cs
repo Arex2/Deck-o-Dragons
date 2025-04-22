@@ -38,6 +38,12 @@ public class BattleOverState : IState
     {
         if (temp)
         {
+            if(gameBehaviour.HP <= 0)
+            {
+                //end game
+                //åk tillbaka till ägg scenen
+                return null;
+            }
             Debug.Log("New Encounter");
             gameBehaviour.NewEncounter();
             return new SetupState();
