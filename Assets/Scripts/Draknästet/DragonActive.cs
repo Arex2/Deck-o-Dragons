@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +12,9 @@ public class DragonActive : MonoBehaviour
     [SerializeField] public GameObject[] babyDragons;
     [SerializeField] public GameObject[] teenDragons;
     [SerializeField] public GameObject[] adultDragons;
+    //public static TMP_Text dragonName;
     //public static GameObject drPref;
+    public static string dragonName;
     public static bool dragonActive;
     public static bool doCheck;
     public static int index;
@@ -96,12 +99,14 @@ public class DragonActive : MonoBehaviour
 
         if(!dragonActive)
         {
-            Instantiate(egg, new Vector3(0, 0, 0), Quaternion.identity);
+            Instantiate(egg, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+            //TextInputManager.dragonName.text = "";
             //Egg.SpawnEgg(egg);
             Debug.Log("ägg borde finnas");
         }
         else if(dragonActive)
         {
+            //Instantiate(TextInputManager.dragonName, new UnityEngine.Vector3(0, 1000, 0), UnityEngine.Quaternion.identity);
             Debug.Log("drake finns");
             SpawnDragons();
         }
@@ -111,15 +116,15 @@ public class DragonActive : MonoBehaviour
     {
         if (age == 1)
         {
-            Instantiate(babyDragons[index], new Vector3(0, 0, 0), Quaternion.identity);
+            Instantiate(babyDragons[index], new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
         }
         else if (age == 2)
         {
-            Instantiate(teenDragons[index], new Vector3(0, 0, 0), Quaternion.identity);
+            Instantiate(teenDragons[index], new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
         }
         else if (age == 3)
         {
-            Instantiate(adultDragons[index], new Vector3(0, 0, 0), Quaternion.identity);
+            Instantiate(adultDragons[index], new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
         }
     }
 }

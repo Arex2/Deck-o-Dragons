@@ -42,6 +42,7 @@ public class BattleOverState : IState
             {
                 //end game
                 //åk tillbaka till ägg scenen
+                gameBehaviour.SwitchToEggScene();
                 return null;
             }
             Debug.Log("New Encounter");

@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Egg : MonoBehaviour
 {
+    TextInputManager inputMan;
     DragonActive dragonActive;
     private float timeBetweenShakes = 0.75f; //in seconds
     private float time = 0;
@@ -40,6 +41,7 @@ public class Egg : MonoBehaviour
         DragonActive.dragonActive = false;
         DragonActive.index = 0;
         DragonActive.age = 0;
+        inputMan = GameObject.Find("TextInputManager").GetComponent<TextInputManager>();
     }
 
     void Update()
@@ -89,8 +91,12 @@ public class Egg : MonoBehaviour
     private void Hatch()
     {
         isHatching = true;
+
+        //TextInputManager.SpawnKeyboard();
+
         SpawnDragon();
         Invoke("DeleteEgg",0.05f);
+        inputMan.SpawnKeyboard();
         //DeleteEgg();
     }
 
