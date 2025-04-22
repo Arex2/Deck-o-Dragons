@@ -52,13 +52,14 @@ MonoBehaviour:
   m_Name: Magma breath
   m_EditorClassIdentifier: 
   guid: c17ab45f4ed7fd144b6a6e4fdc7f69c0
-  sprite: {fileID: 21300000, guid: 95487d3d99fc0d24eb341b046d584677, type: 3}
+  sprite: {fileID: 21300000, guid: 7a8bd0b88ffa24044be4ef323c96da4b, type: 3}
   displayName: Magma Breath
   description: Deal {ATTACK} damage.
   cost: 3
   element: 1
   category: 1
   rarity: 1
+  copies: 2
   tags: []
   cardComponents:
   - {fileID: -692344988407194979}

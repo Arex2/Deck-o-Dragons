@@ -49,7 +49,7 @@ public class CardHand : MonoBehaviour
 
     [SerializeField] CardObject cardPrefab;
     [SerializeField] Card testCard;
-    [SerializeField] DeckManager deck;
+    DeckManager deck;
     Vector3 cardPlayPosition = new Vector3(0, 0.5f, 0);
     float cardMiniBouncePosition = 0.5f;
     List<CardObject> cardsInHand = new List<CardObject>();
@@ -182,6 +182,8 @@ public class CardHand : MonoBehaviour
 
     private void Start()
     {
+        deck = DeckManager.Instance;
+
         SelectInitialCard();
     }
 
@@ -295,14 +297,14 @@ public class CardHand : MonoBehaviour
 
         cardsInHand.RemoveAt(selectedIndex);
 
-        cardObj.Canvas.sortingOrder = 2;
+        cardObj.Canvas.sortingOrder = startSortingOrder + cardsInHand.Count + 10;
         //card.GetComponent<SpriteRenderer>().sortingOrder = 2; //previously used for old card type
         cardObj.transform.DOMove(cardPlayPosition, 0.4f);
 
         UpdateSelectedIndex();
         UpdateCardPositions();
 
-        if (cardObj.affectOtherCards)
+        if (cardObj.AffectOtherCards)
         {
             return;
         }
@@ -333,8 +335,9 @@ public class CardHand : MonoBehaviour
 
     public void RemoveCard(CardObject cardObj)
     {
+        deck.Discard(cardObj.Card);
+
         cardObj.OnCardPressed -= OnCardPressed;
-        deck.Discard(cardObj.card);
         Destroy(cardObj.gameObject);
     }
 
@@ -373,7 +376,8 @@ public class CardHand : MonoBehaviour
     public CardObject DrawCard()
     {
         //check if can draw card
-        if(!deck.CanDrawNext()) return null;
+        //if(!deck.CanDrawNext()) return null;
+
         //instantiate new card
         CardObject cardObj = Instantiate(cardPrefab);
         cardObj.Initialize(deck.DrawNext());

@@ -6,10 +6,11 @@ using UnityEngine.UI;
 using System;
 using Random = UnityEngine.Random;
 using UnityEngine.EventSystems;
-using DG.Tweening;
 
 public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler
 {
+    public bool AffectOtherCards => Card != null && Card.HasCardComponent<IAffectOtherCards>();
+    /*
     public bool affectOtherCards = false;
 
     //b�r vara i card component??? och b�r kallas p� n�r kort spelas
@@ -21,32 +22,29 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
             //do effect
         }
     }
+    */
 
-    public Canvas Canvas => canvas;
+    /// <summary>
+    /// Level of the <see cref="card"/>.
+    /// </summary>
+    public int Tier { get; set; } = 0;
 
-    public Image Checkmark => checkmark;
+    public int CostOffset { get; set; }
 
     public float StartYPos { get; set; }
 
     public CardHand CardHand { get; set; }
+    public Canvas Canvas => cardVisuals.Canvas;
+    public CardVisuals CardVisuals => cardVisuals;
 
-    [SerializeField] private Canvas canvas;
-    [Space]
-
-    //Card components
-    [SerializeField] private Image background;
-    [SerializeField] private Image costBackground;
-    [SerializeField] private Image cardImage;
-    [SerializeField] private TMP_Text costText;
-    [SerializeField] private Image checkmark;
-    [SerializeField] private TMP_Text titleText;
-    [SerializeField] private TMP_Text tagsText;
-    [SerializeField] private TMP_Text descriptionText;
+    [CacheComponent]
+    [SerializeField] private CardVisuals cardVisuals;
 
     [Space]
     [SerializeField] private Target user;
 #if UNITY_EDITOR
     // FOR DEBUGGING
+    [Space]
     [SerializeField] private Card[] debugCardsToOnlyDraw;
     public bool Debugging => debugCardsToOnlyDraw != null && debugCardsToOnlyDraw.Length > 0;
 #endif
@@ -56,7 +54,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public Action<CardObject> OnCardPressed { get; set; }
 
-    public Card card { get; private set; }
+    public Card Card { get; private set; }
 
     private bool _setCard;
     private bool _selected;
@@ -76,43 +74,16 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         //gameObject.GetComponent<SpriteRenderer>().sprite = card.Sprite;
         UpdateCardLook();
     }
-    private void UpdateCardLook()
-    {
-        //�ndra background sprite till r�tt background depending on tier
-        //�ndra costBackground till r�tt f�rg depending on cost type
-        costBackground.color = Color.blue;
-        cardImage.sprite = card.Sprite;
-        costText.text = card.Cost.ToString();
-        titleText.text = card.DisplayName.ToString();
-        UpdateTagText();
-        descriptionText.text = card.Description; //.Description returnar inget rn
-    }
 
-    private void UpdateTagText()
+    public void UpdateCardLook()
     {
-        tagsText.text = "";
-        //Debug.LogWarning("Tags amount: " + card.Tags.Length);
-        if (card.Tags == null || card.Tags.Length <= 0)
-        {
-            tagsText.text = "";
-            return;
-        }
-
-        string tags = "";
-        foreach (CardTag tag in card.Tags)
-        {
-            if (tag == null)
-                continue;
-            tags += tag.name;
-            tags += " ";
-        }
-        tagsText.text = tags;
+        cardVisuals.UpdateCardLook();
     }
 
     //Method to update mana cost text when mana affecting cards have been played
     public void UpdateCostLook()
     {
-        costText.text = card.Cost.ToString();
+        cardVisuals.UpdateCostLook();
     }
 
     private void BecomeRandomCard()
@@ -132,18 +103,19 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void SetCard(Card card)
     {
-        this.card = card;
+        Card = card;
+        cardVisuals.Card = card;
         _setCard = true;
     }
 
     public int GetCost()
     {
-        return card.Cost;
+        return Mathf.Max(Card.Cost + CostOffset, 0);
     }
 
     public void Play()
     {
-        card.Play(user, OnFinishPlayingCard);
+        Card.Play(user, Tier, OnFinishPlayingCard);
     }
 
     private void OnFinishPlayingCard()
@@ -196,13 +168,11 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void CheckmarkAppear()
     {
-        checkmark.DOKill();
-        checkmark.DOFade(1, 0.1f);
+        cardVisuals.CheckmarkAppear();
     }
 
     public void CheckmarkDisappear()
     {
-        checkmark.DOKill();
-        checkmark.DOFade(0, 0.1f);
+        cardVisuals.CheckmarkDisappear();
     }
 }

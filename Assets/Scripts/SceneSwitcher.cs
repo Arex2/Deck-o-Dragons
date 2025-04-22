@@ -39,6 +39,8 @@ public class SceneSwitcher : MonoBehaviour
     public void PlayGame()
     {
         SceneManager.LoadScene(4);
+
+        DeckManager.Instance.InitializeDeck(DeckManager.Instance.DefaultStarterDeck);
     }
 
     public void QuitGame()

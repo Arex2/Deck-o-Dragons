@@ -52,13 +52,14 @@ MonoBehaviour:
   m_Name: Primal Flury
   m_EditorClassIdentifier: 
   guid: 391dd47343e7986488677edfff97eb51
-  sprite: {fileID: 21300000, guid: ca6af70b07b094642943c33a59381792, type: 3}
+  sprite: {fileID: 21300000, guid: 50629d0683fa0d842bb27d0ad3720c6c, type: 3}
   displayName: Primal Flury
   description: Deal {ATTACK} damage.
   cost: 5
   element: 0
   category: 1
   rarity: 0
+  copies: 2
   tags: []
   cardComponents:
   - {fileID: -3435640499591242949}

@@ -25,6 +25,9 @@ public class ControlsV2 : MonoBehaviour
     [SerializeField]
     Camera camera;
 
+    [SerializeField]
+    SceneSwitcher sceneSwitcher;
+
     private Vector2 startContactPoint;
     private Vector2 latestEdgeContactPoint;
     private Vector2 currentContactPoint;
@@ -38,6 +41,9 @@ public class ControlsV2 : MonoBehaviour
     private float scrollStrength = 0.5f;
     private float minSwipeSize = 1f; //limit for movement being registered
     private float minReleasePower = 20f; //limit for movement being added to a release
+
+    float leftEdgeArea = 0.15f;
+    float rightEdgeArea = 0.85f;
 
     private bool firstContact = true;
     private bool swipingHorizontal;
@@ -230,13 +236,23 @@ public class ControlsV2 : MonoBehaviour
         //check if direction is horizontal
         if (swipingHorizontal)
         {
-            //card hand move cards
-            float change;
-            change = camera.ViewportToWorldPoint(startContactPoint).x - camera.ViewportToWorldPoint(currentContactPoint).x;
-            change -= camera.ViewportToWorldPoint(new Vector3(0.5f, 0, 0)).x;
-            change *= scrollStrength;
-            //Debug.Log("Change = " + change);
-            hand.ShiftCards(change);
+            //check start position for card drag or scene switch
+
+            if (startContactPoint.x < leftEdgeArea)
+            {
+                //Debug.Log("Switch scene RIGHT");
+                //sceneSwitcher.SwitchToEgg();
+            }
+            else if (startContactPoint.x > rightEdgeArea)
+            {
+                //Debug.Log("Switch scene LEFT");
+                //sceneSwitcher.SwitchScene(+1);
+                // sceneSwitcher.SwitchToCardGame();
+            }
+            else MoveCards();
+
+
+
         }
     }
 
@@ -261,22 +277,58 @@ public class ControlsV2 : MonoBehaviour
         }
         else
         {
-            //cards stay still
-            if (dragDir.magnitude < minReleasePower)
+            
+            //check start position for card drag or scene switch
+
+            if (startContactPoint.x < leftEdgeArea)
             {
-                hand.SnapIntoPosition();
-                firstContact = true;
-                swipeAxisRegistered = false;
-                return;
+                if(dragDir.magnitude > minSwipeSize)
+                {
+                    Debug.Log("Switch scene RIGHT");
+                    sceneSwitcher.SwitchToEgg();
+                }
             }
-            //cards get added movement
-            additionalMoveVelocity = CalculateSpeedToMoveWith();
-            addReleaseMovement = true;
+            else if (startContactPoint.x > rightEdgeArea)
+            {
+                if (dragDir.magnitude > minSwipeSize)
+                {
+                    Debug.Log("Switch scene LEFT");
+                    //sceneSwitcher.SwitchScene(+1);
+                    // sceneSwitcher.SwitchToCardGame();
+                    //sceneSwitcher.SwitchToGarden();
+                }
+            }
+            else
+            {
+                //cards stay still
+                if (dragDir.magnitude < minReleasePower)
+                {
+                    hand.SnapIntoPosition();
+                    firstContact = true;
+                    swipeAxisRegistered = false;
+                    return;
+                }
+                //cards get added movement
+                additionalMoveVelocity = CalculateSpeedToMoveWith();
+                addReleaseMovement = true;
+            }
+
         }
 
         firstContact = true;
         swipeAxisRegistered = false;
         //Debug.Log("swipe axis now set to = false");
+    }
+
+    private void MoveCards()
+    {
+        //card hand move cards
+        float change;
+        change = camera.ViewportToWorldPoint(startContactPoint).x - camera.ViewportToWorldPoint(currentContactPoint).x;
+        change -= camera.ViewportToWorldPoint(new Vector3(0.5f, 0, 0)).x;
+        change *= scrollStrength;
+        //Debug.Log("Change = " + change);
+        hand.ShiftCards(change);
     }
 
     //method calculates how far to scroll after contact release

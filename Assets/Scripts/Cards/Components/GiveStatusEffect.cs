@@ -30,4 +30,16 @@ public class GiveStatusEffect : CardComponent, IUseSingle
     {
         return statusEffect.StatusEffect.GetDescription(statusEffect.GetData(Tier));
     }
+
+    [ReplaceDescriptionKeyword("DURATION")]
+    private string ReplaceDurationKeyword()
+    {
+        return statusEffect.GetDuration(Tier).ToString();
+    }
+
+    [ReplaceDescriptionKeyword("POTENCY")]
+    private string ReplacePotencyKeyword()
+    {
+        return StatusEffect.GetPotencyString(statusEffect.GetPotency(Tier), statusEffect.StatusEffect.PotencyIsPercent);
+    }
 }

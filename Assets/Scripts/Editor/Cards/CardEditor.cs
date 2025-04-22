@@ -342,11 +342,18 @@ public class CardEditor : Editor
                 case "description":
                     EditorGUILayout.LabelField(iterator.displayName);
 
-                    iterator.stringValue = EditorGUILayout.TextArea(iterator.stringValue, GUILayout.Height(60));
+                    GUIStyle style = new GUIStyle(EditorStyles.textArea);
+                    style.clipping = TextClipping.Overflow;
+
+                    iterator.stringValue = EditorGUILayout.TextArea(iterator.stringValue, style, GUILayout.Height(60));
                     continue;
 
                 case "sprite":
-                    iterator.objectReferenceValue = EditorGUILayout.ObjectField(new GUIContent(iterator.displayName), iterator.objectReferenceValue, typeof(Sprite), false, GUILayout.Height(64));
+                    Rect rect = EditorGUILayout.GetControlRect(GUILayout.Height(64));
+
+                    GUIContent label = EditorGUI.BeginProperty(rect, new GUIContent(iterator.displayName), iterator);
+                    iterator.objectReferenceValue = EditorGUI.ObjectField(rect, label, iterator.objectReferenceValue, typeof(Sprite), false);
+                    EditorGUI.EndProperty();
                     continue;
             }
 

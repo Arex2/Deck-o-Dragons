@@ -81,6 +81,8 @@ public class Card : GUIDScriptableObject
     /// </summary>
     public Target User { get; private set; }
 
+    public int Copies => copies;
+
     [SerializeField] private Sprite sprite;
 
     [Space]
@@ -92,6 +94,7 @@ public class Card : GUIDScriptableObject
     [SerializeField] private Element element;
     [SerializeField] private CardCategory category;
     [SerializeField] private CardRarity rarity;
+    [SerializeField] private int copies = 1;
 
     [Space]
     [SerializeField] private CardTag[] tags;
@@ -181,12 +184,7 @@ public class Card : GUIDScriptableObject
     {
         if (_tagsHashSet == null)
         {
-            _tagsHashSet = new();
-
-            foreach (CardTag item in tags)
-            {
-                _tagsHashSet.Add(item);
-            }
+            _tagsHashSet = new(tags);
         }
 
         return _tagsHashSet.Contains(tag);
@@ -196,17 +194,19 @@ public class Card : GUIDScriptableObject
     /// Will play this card with the <see cref="Target"/> that's playing the card being the given <paramref name="user"/>. <para/>
     /// <paramref name="onFinish"/> is invoked when this card has finished playing.
     /// </summary>
-    public void Play(Target user, Action onFinish = null)
+    public void Play(Target user, int tier, Action onFinish = null)
     {
         if (PlayingACard)
         {
             return;
         }
 
-        _coroutine = CardManager.StartStaticCoroutine(PlayCoroutine(user, onFinish));
+        _coroutine = CardManager.StartStaticCoroutine(PlayCoroutine(user, tier, onFinish));
     }
 
-    public IEnumerator PlayCoroutine(Target user, Action onFinish = null)
+    public void Play(Target user, Action onFinish = null) => Play(user, 0, onFinish);
+
+    public IEnumerator PlayCoroutine(Target user, int tier, Action onFinish = null)
     {
         // Break if we are already playing a Card
         if (PlayingACard)
@@ -217,6 +217,8 @@ public class Card : GUIDScriptableObject
         PlayingACard = true;
 
         User = user;
+
+        Tier = tier;
 
         // Setup team variables
         Team ownTeam = user.Team;

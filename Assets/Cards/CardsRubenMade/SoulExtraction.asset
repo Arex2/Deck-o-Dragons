@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: Soul Extract
+  m_Name: SoulExtraction
   m_EditorClassIdentifier: 
   guid: eb7b3378b0ea55147993e5c08d2b3012
-  sprite: {fileID: 21300000, guid: 4ee2ab8e2bf94ca4aaf0f7323abbf732, type: 3}
-  displayName: Soul Extract
+  sprite: {fileID: 21300000, guid: 25d0b0cbb8dc2f646bd777e1e55020bf, type: 3}
+  displayName: Soul Extraction
   description: Take {ATTACK} damage and gain {MANA} mana.
   cost: 0
   element: 0
   category: 4
   rarity: 0
+  copies: 2
   tags: []
   cardComponents:
   - {fileID: 7144947775711830294}
