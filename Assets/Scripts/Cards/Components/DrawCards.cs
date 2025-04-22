@@ -13,16 +13,8 @@ public class DrawCards : CardComponent, IUse
     [Space]
     [SerializeField] private Card[] cardsToAlwaysDraw;
 
-    private Card[] _cards;
-    private int _cardLength;
-
     private CardHand _cardHand;
-
-    public override void Initialize()
-    {
-        _cards = tag == null ? CardManager.DrawableCards : CardManager.GetCardsByTag(tag);
-        _cardLength = _cards.Length;
-    }
+    private DeckManager _deckManager;
 
     public void Use()
     {
@@ -37,12 +29,31 @@ public class DrawCards : CardComponent, IUse
             }
         }
 
+        if (_deckManager == null)
+        {
+            _deckManager = DeckManager.Instance;
+        }
+
         int amount = this.amount.GetValue(Tier);
 
-        for (int i = 0; i < amount; i++)
+        if (amount > 0)
         {
-            int randomIndex = Random.Range(0, _cardLength);
-            _cardHand.DrawCard(_cards[randomIndex]);
+            for (int i = 0; i < amount; i++)
+            {
+                if (!_deckManager.CanDrawNext())
+                {
+                    break;
+                }
+
+                Card card = tag != null ? _deckManager.DrawNextWithTag(tag) : _deckManager.DrawNext();
+
+                if (card == null)
+                {
+                    continue;
+                }
+
+                _cardHand.DrawCard(card);
+            }
         }
 
         foreach (Card card in cardsToAlwaysDraw)

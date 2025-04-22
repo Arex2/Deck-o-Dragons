@@ -373,18 +373,29 @@ public class CardHand : MonoBehaviour
         UpdateDiscardStateText();
     }
 
-    public CardObject DrawCard()
+    public CardObject DrawCard() => DrawCard(deck.DrawNext());
+
+    public CardObject DrawCard(Card card)
     {
         //check if can draw card
         //if(!deck.CanDrawNext()) return null;
 
         //instantiate new card
         CardObject cardObj = Instantiate(cardPrefab);
-        cardObj.Initialize(deck.DrawNext());
+
         cardObj.CardHand = this;
 
         cardObj.StartYPos = cardsYPos;
         cardObj.OnCardPressed += OnCardPressed;
+
+#if UNITY_EDITOR
+        if (!cardObj.Debugging)
+        {
+#endif
+            cardObj.Initialize(card);
+#if UNITY_EDITOR
+        }
+#endif
 
         //SpriteRenderer r = card.GetComponent<SpriteRenderer>();
         //r.sprite = testCard.Sprite;
@@ -398,6 +409,7 @@ public class CardHand : MonoBehaviour
         return cardObj;
     }
 
+    /*
     public void DrawCard(Card card)
     {
         CardObject cardObj = DrawCard();
@@ -406,16 +418,22 @@ public class CardHand : MonoBehaviour
         if (!cardObj.Debugging)
         {
 #endif
-            cardObj.SetCard(card);
+            cardObj.Initialize(card);
 #if UNITY_EDITOR
         }
 #endif
     }
+    */
 
     public void DrawNewHand() 
     {
         for(int i = cardsInHand.Count; i < amountToDraw; i++)
         {
+            if (!deck.CanDrawNext())
+            {
+                return;
+            }
+
             DrawCard();
         }
     }
@@ -424,6 +442,11 @@ public class CardHand : MonoBehaviour
     {
         for (int i = cardsInHand.Count; i < amountToDraw; i++)
         {
+            if (!deck.CanDrawNext())
+            {
+                yield break;
+            }
+
             DrawCard();
             yield return new WaitForSeconds(0.1f);
         }

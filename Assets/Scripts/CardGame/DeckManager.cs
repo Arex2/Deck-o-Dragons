@@ -73,6 +73,61 @@ public class DeckManager : Singleton<DeckManager>
         return drawPile.Pop();
     }
 
+    public Card DrawNextWithTag(CardTag tag)
+    {
+        int count = drawPile.Count;
+
+        if (count <= 0)
+        {
+            ReshuffleDeck();
+        }
+
+        Stack<Card> tempPile = new Stack<Card>();
+
+        Card card = null;
+        int tries = 0;
+
+        bool hasTag = false;
+
+        do
+        {
+            if (card != null)
+            {
+                tempPile.Push(card);
+            }
+
+            card = drawPile.Pop();
+
+            tries++;
+
+            hasTag = card.HasTag(tag);
+        }
+        while (!hasTag && tries <= count);
+
+        void ReaddCardsToDeck()
+        {
+            foreach (Card card in tempPile)
+            {
+                drawPile.Push(card);
+            }
+        }
+
+        if (hasTag)
+        {
+            ReaddCardsToDeck();
+            return card;
+        }
+
+        if (card != null)
+        {
+            tempPile.Push(card);
+        }
+
+        ReaddCardsToDeck();
+
+        return null;
+    }
+
     public void Discard(Card card)
     {
         discardPile.AddLast(value: card);
@@ -99,7 +154,7 @@ public class DeckManager : Singleton<DeckManager>
 
     private void ReshuffleDeck()
     {
-        List<Card> tempCardList = new List<Card>(deck);
+        List<Card> tempCardList = new List<Card>(discardPile);
         ShuffleDrawFromList(tempCardList);
         discardPile.Clear();
     }
