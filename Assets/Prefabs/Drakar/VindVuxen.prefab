@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 65f69540c6eb3f94c9a793f0a9b8bb71, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.88
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 65f69540c6eb3f94c9a793f0a9b8bb71, type: 3}
       propertyPath: m_LocalPosition.z
@@ -69,10 +69,10 @@ PrefabInstance:
       addedObject: {fileID: 2629596201137695515}
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 65f69540c6eb3f94c9a793f0a9b8bb71, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -7984719131106536113}
+      addedObject: {fileID: 3943889767153312983}
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 65f69540c6eb3f94c9a793f0a9b8bb71, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3943889767153312983}
+      addedObject: {fileID: 2241152495854321852}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 65f69540c6eb3f94c9a793f0a9b8bb71, type: 3}
 --- !u!1 &2595061520434460493 stripped
 GameObject:
@@ -100,20 +100,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-7984719131106536113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2595061520434460493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0efe51b2ff13e43b3c4bae16454a5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drakPrefab: {fileID: 1257647025133526901, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
-  drakStart: {x: 0, y: 0}
 --- !u!70 &3943889767153312983
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -149,3 +135,17 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 1}
   m_Direction: 0
+--- !u!114 &2241152495854321852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2595061520434460493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea0e13415f2691847804eafdb8d7e059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextStage: {fileID: 1257647025133526901, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
+  age: 4

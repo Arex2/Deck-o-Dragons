@@ -65,10 +65,10 @@ PrefabInstance:
       addedObject: {fileID: 1883100612701346711}
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 192ad459dae84b14587eafcb9c29e9bf, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -949864164743702511}
+      addedObject: {fileID: -8041895413944166273}
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 192ad459dae84b14587eafcb9c29e9bf, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -8041895413944166273}
+      addedObject: {fileID: 7861435217258748837}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 192ad459dae84b14587eafcb9c29e9bf, type: 3}
 --- !u!1 &8031349126307963307 stripped
 GameObject:
@@ -96,20 +96,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-949864164743702511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8031349126307963307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0efe51b2ff13e43b3c4bae16454a5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drakPrefab: {fileID: 2595061520434460493, guid: abd350f30a92e814481f1e4fde630040, type: 3}
-  drakStart: {x: 0, y: 0}
 --- !u!70 &-8041895413944166273
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -145,3 +131,17 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 1}
   m_Direction: 0
+--- !u!114 &7861435217258748837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8031349126307963307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea0e13415f2691847804eafdb8d7e059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextStage: {fileID: 2595061520434460493, guid: abd350f30a92e814481f1e4fde630040, type: 3}
+  age: 3

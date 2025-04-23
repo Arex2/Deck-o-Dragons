@@ -116,15 +116,16 @@ public class DragonActive : MonoBehaviour
     {
         if (age == 1)
         {
-            Instantiate(babyDragons[index], new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+            Instantiate(babyDragons[index], new UnityEngine.Vector3(0, -3, 0), UnityEngine.Quaternion.identity);
         }
         else if (age == 2)
         {
-            Instantiate(teenDragons[index], new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+            Instantiate(teenDragons[index], new UnityEngine.Vector3(0, -3, 0), UnityEngine.Quaternion.identity);
         }
         else if (age == 3)
         {
-            Instantiate(adultDragons[index], new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+            Instantiate(adultDragons[index], new UnityEngine.Vector3(0, -4, 0), UnityEngine.Quaternion.identity);
         }
     }
+
 }
