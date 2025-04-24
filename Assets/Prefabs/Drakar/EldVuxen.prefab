@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -8653719598885068355, guid: 11c19d4d0fce7a147aa5b07429d2426a, type: 3}
+      propertyPath: m_TagString
+      value: Adult
+      objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 11c19d4d0fce7a147aa5b07429d2426a, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.2

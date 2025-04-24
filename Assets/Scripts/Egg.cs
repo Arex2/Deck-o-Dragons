@@ -106,6 +106,40 @@ public class Egg : MonoBehaviour
     {
         Instantiate(egg, new Vector3(0, 0, 0), Quaternion.identity);
     }
+    private void OnMouseDown()
+    {
+        if (!isHatching && shakeCount >= 3)
+        {
+            Hatch();
+        }
+        else
+        {
+            // Optional: tap counts as a shake if you want faster interaction
+            Debug.Log("Egg tapped!");
+            ShakeByTap();
+        }
+    }
+    private void ShakeByTap()
+    {
+        time += timeBetweenShakes; // instantly "fills" the shake timer
+
+        if (time >= timeBetweenShakes)
+        {
+            if (shakeCount < crackedSprites.Length)
+            {
+                spriteRenderer.sprite = crackedSprites[shakeCount];
+            }
+
+            shakeCount++;
+            time = 0;
+
+            if (shakeCount >= 3)
+            {
+                Hatch();
+            }
+        }
+    }
+
 
     private void SpawnDragon()
     {

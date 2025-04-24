@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VattenVuxenKropp
       objectReference: {fileID: 0}
+    - target: {fileID: -8653719598885068355, guid: 417cdda3b26fb8e4cab0042fdcc11308, type: 3}
+      propertyPath: m_TagString
+      value: Adult
+      objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 417cdda3b26fb8e4cab0042fdcc11308, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.1

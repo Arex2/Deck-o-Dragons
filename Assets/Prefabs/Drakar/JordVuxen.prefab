@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: JordVuxenKropp
       objectReference: {fileID: 0}
+    - target: {fileID: -8653719598885068355, guid: cec9f483fe47ac84da2d4f1f68f0dd1e, type: 3}
+      propertyPath: m_TagString
+      value: Adult
+      objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: cec9f483fe47ac84da2d4f1f68f0dd1e, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.2
