@@ -285,7 +285,7 @@ public class ControlsV2 : MonoBehaviour
                 if(dragDir.magnitude > minSwipeSize)
                 {
                     Debug.Log("Switch scene RIGHT");
-                    sceneSwitcher.SwitchToEgg();
+                    //sceneSwitcher.SwitchToEgg();
                 }
             }
             else if (startContactPoint.x > rightEdgeArea)
@@ -335,17 +335,24 @@ public class ControlsV2 : MonoBehaviour
     private float CalculateSpeedToMoveWith()
     {
         //length of swipe
-        float distance =  currentContactPoint.x - latestEdgeContactPoint.x;
+        float distance = latestEdgeContactPoint.x - currentContactPoint.x;// camera.ViewportToWorldPoint(latestEdgeContactPoint).x - camera.ViewportToWorldPoint(currentContactPoint).x;// latestEdgeContactPoint.x - currentContactPoint.x;
 
         //speed of swipe
         float time = Time.time - latestEdgeContactTime;
 
-        //float velocity = distance / time;  //(dragDir.magnitude/100);// (speed/100); //desto kortare tid desto längre
+        float velocity = distance / time;  //(dragDir.magnitude/100);// (speed/100); //desto kortare tid desto längre
 
+
+
+        //y = 1 / x
+        Debug.Log("velocity: " + velocity);
         float moveAdditional = distance / time;
         moveAdditional *= 0.5f;
-        float velocity = camera.ViewportToWorldPoint(startContactPoint).x - (camera.ViewportToWorldPoint(currentContactPoint).x + moveAdditional);
+        //float velocity = camera.ViewportToWorldPoint(startContactPoint).x - (camera.ViewportToWorldPoint(currentContactPoint).x + moveAdditional);
 
-        return velocity;
+        float change = startContactPoint.x - currentContactPoint.x + velocity;// camera.ViewportToWorldPoint(startContactPoint).x - (camera.ViewportToWorldPoint(currentContactPoint).x - velocity);
+        change = Mathf.Round(change);
+        Debug.Log("velocity: " + velocity + "  change:  " + change + "  .");
+        return change;
     }
 }

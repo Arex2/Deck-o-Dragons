@@ -459,11 +459,24 @@ public class CardHand : MonoBehaviour
             return;
 
         DoCardMiniBounce(cardObj);
-
+        MoveCardToCenter(cardObj);
         if (choosingCardsToKeepAfterDiscard)
         {
             UseCardDuringDiscardState(cardObj);
             return;
+        }
+    }
+
+    private void MoveCardToCenter(CardObject cardObj)
+    {
+        //move to center this card
+        for (int i = 0; i < cardsInHand.Count; i++)
+        {
+            if (cardsInHand[i] == cardObj)
+            {
+                selectedIndex = i;
+                UpdateCardPositions();
+            }
         }
     }
 
@@ -529,58 +542,59 @@ public class CardHand : MonoBehaviour
             cardObj.transform.DOKill();
             cardObj.transform.DOMove(newPos, 0.4f);
             cardObj.transform.DOLocalRotateQuaternion(rot, 0.2f);
+
         }
 
-        /*
-        //l�gg ut kort till v�nster om selected card
-        for(int i = 0; i < selectedIndex; i++)
-        {
-            float posX = firstPos - i * spacing;
-            Vector2 newPos = new Vector2(posX, -2f);
-            cardsInHand[i].transform.DOMove(newPos, 0.4f);
-        }
-        for(int i = 0; i < 1; i++)
-        {
-            //L�gg ut selected card
-            float posX = 0;
-            Vector2 newPos = new Vector2(posX, -2f);
-            cardsInHand[selectedIndex].transform.DOMove(newPos, 0.4f);
-        }
-        //l�gg ut kort till h�ger om selected card
-        for (int i = selectedIndex; i < cardsInHand.Count; i++)
-        {
-            float posX = firstPos + i * spacing;
-            Vector2 newPos = new Vector2(posX, -2f);
-            cardsInHand[i].transform.DOMove(newPos, 0.4f);
-        }
-        */
+            /*
+            //l�gg ut kort till v�nster om selected card
+            for(int i = 0; i < selectedIndex; i++)
+            {
+                float posX = firstPos - i * spacing;
+                Vector2 newPos = new Vector2(posX, -2f);
+                cardsInHand[i].transform.DOMove(newPos, 0.4f);
+            }
+            for(int i = 0; i < 1; i++)
+            {
+                //L�gg ut selected card
+                float posX = 0;
+                Vector2 newPos = new Vector2(posX, -2f);
+                cardsInHand[selectedIndex].transform.DOMove(newPos, 0.4f);
+            }
+            //l�gg ut kort till h�ger om selected card
+            for (int i = selectedIndex; i < cardsInHand.Count; i++)
+            {
+                float posX = firstPos + i * spacing;
+                Vector2 newPos = new Vector2(posX, -2f);
+                cardsInHand[i].transform.DOMove(newPos, 0.4f);
+            }
+            */
 
 
-        /*
-        for (int i = 0;i < cardsInHand.Count;i++)
-        {
-            
-            float posX; 
-            float centerPos = 0f;
-            if(i==0)
+            /*
+            for (int i = 0;i < cardsInHand.Count;i++)
             {
-                posX = 0;
+
+                float posX; 
+                float centerPos = 0f;
+                if(i==0)
+                {
+                    posX = 0;
+                }
+                else if(i%2 ==0)
+                {
+                    posX = centerPos + i * spacing;
+                }
+                else
+                {
+                    posX = centerPos - i * spacing;
+                }
+
+                float posX = firstPos + i * spacing;
+                Vector2 newPos = new Vector2(posX,-2f);
+                cardsInHand[i].transform.DOMove(newPos, 0.4f);
             }
-            else if(i%2 ==0)
-            {
-                posX = centerPos + i * spacing;
-            }
-            else
-            {
-                posX = centerPos - i * spacing;
-            }
-            
-            float posX = firstPos + i * spacing;
-            Vector2 newPos = new Vector2(posX,-2f);
-            cardsInHand[i].transform.DOMove(newPos, 0.4f);
-        }
-        */
-        UpdateCardLayers();
+            */
+            UpdateCardLayers();
     }
 
     private void UpdateCardLayers()
