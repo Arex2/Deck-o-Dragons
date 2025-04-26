@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Adult
+  - Child
+  - Teen
   layers:
   - Default
   - TransparentFX

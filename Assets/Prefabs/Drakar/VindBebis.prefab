@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &469929599056884915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903366053087615824}
+  m_Layer: 0
+  m_Name: Anchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &903366053087615824
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469929599056884915}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.27, y: 5.96, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1379591093230949190}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8901476349094295616
 GameObject:
   m_ObjectHideFlags: 0
@@ -47,13 +78,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -8653719598885068355, guid: 9282b0414f1c7af449032ee82327de64, type: 3}
+      propertyPath: m_TagString
+      value: Child
+      objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 9282b0414f1c7af449032ee82327de64, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.07407546
+      value: -0.14899111
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 9282b0414f1c7af449032ee82327de64, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.3847334
+      value: -3.7546628
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 9282b0414f1c7af449032ee82327de64, type: 3}
       propertyPath: m_LocalPosition.z
@@ -93,6 +128,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -7552582706839291426, guid: 9282b0414f1c7af449032ee82327de64, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1570564064441447153}
+    - targetCorrespondingSourceObject: {fileID: -7552582706839291426, guid: 9282b0414f1c7af449032ee82327de64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 903366053087615824}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 9282b0414f1c7af449032ee82327de64, type: 3}
       insertIndex: -1
@@ -178,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextStage: {fileID: 8031349126307963307, guid: 2abbaebefee0dd245a7654924de43ce1, type: 3}
-  spawnPoint: {fileID: 1570564064441447153}
+  age: 1
 --- !u!4 &1379591093230949190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7552582706839291426, guid: 9282b0414f1c7af449032ee82327de64, type: 3}
