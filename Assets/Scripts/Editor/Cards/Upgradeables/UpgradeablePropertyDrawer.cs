@@ -15,7 +15,7 @@ public class UpgradeablePropertyDrawer : UpgradeableBasePropertyDrawer<object>
         EditorGUI.PropertyField(rect, prop, label);
     }
 
-    public override void DrawTier(Rect rect, SerializedProperty property, GUIContent label, bool isDowngrade, ref object result)
+    public override void DrawLevel(Rect rect, SerializedProperty property, GUIContent label, bool isDowngrade, ref object result)
     {
         label = EditorGUI.BeginProperty(rect, label, property);
 
@@ -35,9 +35,9 @@ public class UpgradeablePropertyDrawer : UpgradeableBasePropertyDrawer<object>
         return propertyType == typeof(Upgradeable<>).Name;
     }
 
-    public override bool MatchesTier(string propertyType)
+    public override bool MatchesLevel(string propertyType)
     {
-        return propertyType == "Tier";
+        return propertyType == "Level";
     }
 
     public override void AddMoreMenuOptions(GenericMenu menu, SerializedProperty property)
@@ -50,8 +50,18 @@ public class UpgradeablePropertyDrawer : UpgradeableBasePropertyDrawer<object>
         return EditorGUI.GetPropertyHeight(prop);
     }
 
-    public override float GetTierHeight(SerializedProperty prop)
+    public override float GetLevelHeight(SerializedProperty prop)
     {
         return GetPropHeight(prop.FindPropertyRelative("value"));
+    }
+
+    protected override void DrawExtraGUI(Rect position, SerializedProperty property)
+    {
+
+    }
+
+    protected override float GetExtraGUIHeight()
+    {
+        return 0;
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 /// Also used by the general purpose <see cref="Upgradeable{T}"/> class.
 /// </summary>
 // Script by Ruben
-public abstract class UpgradeableBase<T, Tier>
+public abstract class UpgradeableBase<T, Level>
 {
     public abstract bool CanStack { get; }
 
@@ -15,8 +15,8 @@ public abstract class UpgradeableBase<T, Tier>
     [SerializeField] protected bool stack = true;
     [SerializeField] protected LoopBehaviour loopBehaviour = LoopBehaviour.RepeatLast;
 
-    [SerializeField] protected Tier[] upgrades;
-    [SerializeField] protected Tier[] downgrades;
+    [SerializeField] protected Level[] upgrades;
+    [SerializeField] protected Level[] downgrades;
 
     public int UpgradeAmount
     {
@@ -46,25 +46,25 @@ public abstract class UpgradeableBase<T, Tier>
     }
     private int? _downgradesLength;
 
-    public T this[int tier] => GetValue(tier);
+    public T this[int level] => GetValue(level);
 
-    public T GetValue(int tier)
+    public T GetValue(int level)
     {
-        if (tier == 0)
+        if (level == 0)
         {
-            return baseValue;
+            return ModifyGetValueResult(baseValue);
         }
 
-        bool isDowngrade = tier < 0;
+        bool isDowngrade = level < 0;
 
         if (isDowngrade)
         {
-            tier = Mathf.Abs(tier);
+            level = Mathf.Abs(level);
         }
 
-        tier -= 1;
+        level -= 1;
 
-        Tier[] array = isDowngrade ? downgrades : upgrades;
+        Level[] array = isDowngrade ? downgrades : upgrades;
         int length = isDowngrade ? DowngradeAmount : UpgradeAmount;
 
         if (!stack || !CanStack)
@@ -72,24 +72,24 @@ public abstract class UpgradeableBase<T, Tier>
             switch (loopBehaviour)
             {
                 default:
-                    tier = Mathf.Clamp(tier, 0, length - 1);
+                    level = Mathf.Clamp(level, 0, length - 1);
                     break;
 
                 case LoopBehaviour.Reset:
-                    tier %= length;
+                    level %= length;
                     break;
             }
 
-            return GetTierValue(array[tier], baseValue);
+            return ModifyGetValueResult(GetLevelValue(array[level], baseValue));
         }
 
         T result = baseValue;
 
-        int limit = tier;
+        int limit = level;
 
         if (loopBehaviour == LoopBehaviour.Clamp)
         {
-            limit = Mathf.Min(tier, length - 1);
+            limit = Mathf.Min(level, length - 1);
         }
 
         for (int i = 0; i <= limit; i++)
@@ -110,25 +110,27 @@ public abstract class UpgradeableBase<T, Tier>
                 }
             }
 
-            result = GetTierValue(array[index], result);
+            result = GetLevelValue(array[index], result);
         }
 
-        return result;
+        return ModifyGetValueResult(result);
     }
 
-    protected abstract T GetTierValue(Tier tier, T currentValue);
+    public virtual T ModifyGetValueResult(T result) => result;
 
-    public string ToString(int tier)
+    protected abstract T GetLevelValue(Level level, T currentValue);
+
+    public string ToString(int level)
     {
-        return GetValue(tier).ToString();
+        return GetValue(level).ToString();
     }
 
-    public UpgradeableBase(T baseValue, int upgradeAmount, int downgradeAmount, Func<int, Tier> forEachUpgrade, Func<int, Tier> forEachDowngrade)
+    public UpgradeableBase(T baseValue, int upgradeAmount, int downgradeAmount, Func<int, Level> forEachUpgrade, Func<int, Level> forEachDowngrade)
     {
         this.baseValue = baseValue;
         stack = CanStack;
 
-        upgrades = new Tier[upgradeAmount];
+        upgrades = new Level[upgradeAmount];
         if (forEachUpgrade != null)
         {
             for (int i = 0; i < upgradeAmount; i++)
@@ -137,7 +139,7 @@ public abstract class UpgradeableBase<T, Tier>
             }
         }
 
-        downgrades = new Tier[upgradeAmount];
+        downgrades = new Level[upgradeAmount];
         if (forEachDowngrade != null)
         {
             for (int i = 0; i < upgradeAmount; i++)

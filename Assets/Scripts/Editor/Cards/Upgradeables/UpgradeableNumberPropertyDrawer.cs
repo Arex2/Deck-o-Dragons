@@ -51,7 +51,7 @@ public abstract class UpgradeableNumberPropertyDrawer<T> : UpgradeableBaseProper
         }
     }
 
-    public override void DrawTier(Rect rect, SerializedProperty property, GUIContent label, bool isDowngrade, ref T result)
+    public override void DrawLevel(Rect rect, SerializedProperty property, GUIContent label, bool isDowngrade, ref T result)
     {
         label = EditorGUI.BeginProperty(rect, label, property);
 
@@ -157,8 +157,40 @@ public abstract class UpgradeableNumberPropertyDrawer<T> : UpgradeableBaseProper
         EditorGUI.EndProperty();
     }
 
-    public override bool MatchesTier(string propertyType)
+    protected override void DrawExtraGUI(Rect position, SerializedProperty property)
     {
-        return propertyType == "NumberTier";
+        if (!showExtraProperties)
+        {
+            return;
+        }
+
+        Rect rect = position;
+        rect.height = EditorGUIUtility.singleLineHeight;
+
+        SerializedProperty minLimitProp = property.FindPropertyRelative("minLimit");
+
+        EditorGUI.PropertyField(rect, minLimitProp);
+
+        rect.y += rect.height;
+        rect.y += EditorGUIUtility.standardVerticalSpacing;
+
+        SerializedProperty maxLimitProp = property.FindPropertyRelative("maxLimit");
+
+        EditorGUI.PropertyField(rect, maxLimitProp);
+    }
+
+    protected override float GetExtraGUIHeight()
+    {
+        if (!showExtraProperties)
+        {
+            return 0;
+        }
+
+        return EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing;
+    }
+
+    public override bool MatchesLevel(string propertyType)
+    {
+        return propertyType == "NumberLevel";
     }
 }

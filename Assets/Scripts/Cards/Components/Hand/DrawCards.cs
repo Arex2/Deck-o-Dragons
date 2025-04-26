@@ -34,7 +34,7 @@ public class DrawCards : CardComponent, IUse
             _deckManager = DeckManager.Instance;
         }
 
-        int amount = this.amount.GetValue(Tier);
+        int amount = this.amount.GetValue(Level);
 
         if (amount > 0)
         {
@@ -66,7 +66,7 @@ public class DrawCards : CardComponent, IUse
     [ReplaceDescriptionKeyword("CARD_AMOUNT")]
     private string ReplaceAmountKeyword()
     {
-        return amount.ToString(Tier);
+        return amount.ToString(Level);
     }
 
     [ReplaceDescriptionKeyword("CARD_POOL")]

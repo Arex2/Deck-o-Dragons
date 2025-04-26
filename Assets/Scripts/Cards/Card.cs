@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.Video;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -13,7 +14,11 @@ using Random = UnityEngine.Random;
 [CreateAssetMenu(menuName = "Cards/Create New Card")]
 public class Card : GUIDScriptableObject
 {
-    public static bool PlayingACard { get; private set; } = false;
+    public CardComponent CurrentComponent { get; private set; }
+
+    public bool WaitingForCardsToAffect { get; private set; }
+
+    public List<CardObject> CardsToAffect { get; private set; } = new();
 
     private static readonly Regex _descriptionKeywordRegex = new Regex(@"\{[\w\s\:]+\}", RegexOptions.IgnoreCase);
 
@@ -33,21 +38,6 @@ public class Card : GUIDScriptableObject
     }
     private string _cachedDisplayName;
 
-    public string Description
-    {
-        get
-        {
-            if (string.IsNullOrEmpty(_descriptionCache))
-            {
-                UpdateDescription();
-            }
-
-            return _descriptionCache;
-        }
-    }
-    private string _descriptionCache = null;
-
-    // TODO: Make cost modifiable by card components
     public int Cost => cost;
     public Element Element => element;
     public CardCategory Category => category;
@@ -58,21 +48,15 @@ public class Card : GUIDScriptableObject
     /// Negative numbers are for downgrades and positive numbers are for upgrades. <para/>
     /// 0 means no upgrade or downgrades and is the base level of the card.
     /// </summary>
-    public int Tier
+    public int Level
     {
-        get => _tier;
-        set
-        {
-            if (_tier == value)
-            {
-                return;
-            }
-
-            _tier = value;
-            _descriptionCache = null;
-        }
+        get => _level;
     }
-    private int _tier = 0;
+    private int _level = 0;
+
+    public bool CanChangeLevel => canChangeLevel;
+    public Optional<int> MinLevel => minLevel;
+    public Optional<int> MaxLevel => maxLevel;
 
     public CardTag[] Tags => tags;
 
@@ -82,6 +66,8 @@ public class Card : GUIDScriptableObject
     public Target User { get; private set; }
 
     public int Copies => copies;
+
+    private CardData _cardData;
 
     [SerializeField] private Sprite sprite;
 
@@ -96,6 +82,10 @@ public class Card : GUIDScriptableObject
     [SerializeField] private CardRarity rarity;
     [SerializeField] private int copies = 1;
 
+    [SerializeField] private bool canChangeLevel = false;
+    [SerializeField] private Optional<int> minLevel;
+    [SerializeField] private Optional<int> maxLevel;
+
     [Space]
     [SerializeField] private CardTag[] tags;
     private HashSet<CardTag> _tagsHashSet = null;
@@ -104,8 +94,6 @@ public class Card : GUIDScriptableObject
     [SerializeField] private CardComponent[] cardComponents;
     private Dictionary<Type, CardComponent[]> _cardComponentTypeDictionary = new();
     private Dictionary<string, CardComponent> _cardComponentNameDictionary = new();
-
-    private Coroutine _coroutine;
 
     public void OnLoad()
     {
@@ -173,7 +161,7 @@ public class Card : GUIDScriptableObject
         }
 
         _cachedDisplayName = null;
-        _descriptionCache = null;
+        //_descriptionCache = null;
         //Debug.Log("Description print test for: " + DisplayName + " = " + Description, this);
     }
 
@@ -189,36 +177,34 @@ public class Card : GUIDScriptableObject
 
         return _tagsHashSet.Contains(tag);
     }
-    
+
+    public IEnumerator Play(Target user, Action onFinish = null) => Play(user, new(), 0, onFinish);
+
+    public IEnumerator Play(Target user, int level, Action onFinish = null) => Play(user, new(), level, onFinish);
+
+    public IEnumerator Play(Target user, CardData cardData, Action onFinish = null) => Play(user, cardData, 0, onFinish);
+
+    public IEnumerator Play(Target user, CardData cardData, int level, Action onFinish = null)
+    {
+        _cardData = cardData;
+
+        foreach (CardComponent cardComponent in cardComponents)
+        {
+            cardComponent.OnBeforePlayed();
+        }
+
+        return PlayCoroutine(user, level, onFinish);
+    }
+
     /// <summary>
     /// Will play this card with the <see cref="Target"/> that's playing the card being the given <paramref name="user"/>. <para/>
     /// <paramref name="onFinish"/> is invoked when this card has finished playing.
     /// </summary>
-    public void Play(Target user, int tier, Action onFinish = null)
+    private IEnumerator PlayCoroutine(Target user, int level, Action onFinish = null)
     {
-        if (PlayingACard)
-        {
-            return;
-        }
-
-        _coroutine = CardManager.StartStaticCoroutine(PlayCoroutine(user, tier, onFinish));
-    }
-
-    public void Play(Target user, Action onFinish = null) => Play(user, 0, onFinish);
-
-    public IEnumerator PlayCoroutine(Target user, int tier, Action onFinish = null)
-    {
-        // Break if we are already playing a Card
-        if (PlayingACard)
-        {
-            yield break;
-        }
-
-        PlayingACard = true;
-
         User = user;
 
-        Tier = tier;
+        _level = level;
 
         // Setup team variables
         Team ownTeam = user.Team;
@@ -251,6 +237,27 @@ public class Card : GUIDScriptableObject
             if (!cardComponent.Enabled)
             {
                 continue;
+            }
+
+            CurrentComponent = cardComponent;
+
+            IAffectOtherCards affectOtherCards = cardComponent as IAffectOtherCards;
+
+            if (affectOtherCards != null)
+            {
+                CardsToAffect.Clear();
+                WaitingForCardsToAffect = true;
+
+                yield return new WaitUntil(() => !WaitingForCardsToAffect);
+
+                IEnumerator enumerator = affectOtherCards.OnCardsSelected(CardsToAffect);
+
+                if (enumerator != null)
+                {
+                    yield return enumerator;
+                }
+
+                CardsToAffect.Clear();
             }
 
             TargetFilter targetFilter = cardComponent.TargetFilter;
@@ -405,18 +412,53 @@ public class Card : GUIDScriptableObject
             }
         }
 
+        CurrentComponent = null;
+
+        foreach (CardComponent cardComponent in cardComponents)
+        {
+            cardComponent.OnAfterPlayed();
+        }
+
         onFinish?.Invoke();
 
         User = null;
-        PlayingACard = false;
     }
 
-    /// <summary>
-    /// Updates the description of this card to match with any current changes applied to its CardComponents.
-    /// </summary>
-    public void UpdateDescription()
+    public void FinishedSettingCardsToAffect()
     {
-        _descriptionCache = 
+        if (!WaitingForCardsToAffect)
+        {
+            return;
+        }
+
+        WaitingForCardsToAffect = false;
+    }
+
+    #region Card Data Stuff
+    public void SetCardData<T>(string key, T value) => _cardData.SetCardData(key, value);
+
+    public T GetCardData<T>(string key) => _cardData.GetCardData<T>(key);
+
+    public T GetCardData<T>(string key, T defaultValue) => _cardData.GetCardData(key, defaultValue);
+
+    public bool HasCardData<T>(string key) => _cardData.HasCardData<T>(key);
+
+    public bool TryGetCardData<T>(string key, out T value) => _cardData.TryGetCardData(key, out value);
+
+    public bool TryGetCardData<T>(string key, out T value, T defaultValue) => _cardData.TryGetCardData(key, out value, defaultValue);
+    #endregion
+
+    #region Description Stuff
+    /// <summary>
+    /// Returns a description for this card that's modified to match the given <paramref name="level"/>.
+    /// </summary>
+    public string GetDescription(int level = 0, CardData data = new())
+    {
+        _level = level;
+        _cardData = data;
+
+        //_descriptionCache = 
+        return
             _descriptionKeywordRegex.IsMatch(description) ? 
             _descriptionKeywordRegex.Replace(description, DescriptionKeywordEvaluator)
             :
@@ -467,6 +509,7 @@ public class Card : GUIDScriptableObject
 
         return match.Value;
     }
+    #endregion
 
     #region GetCardComponent Methods
     public T GetCardComponent<T>() where T : CardComponent

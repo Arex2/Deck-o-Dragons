@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 /// <summary>
 /// A <see cref="float"/> that has upgrades and downgrades.
@@ -24,12 +25,39 @@ public class UpgradeableFloat : UpgradeableNumber<float>
 
     protected override float DivideMethod(float a, float b)
     {
+        if (b == 0)
+        {
+            Debug.LogWarning("Diving by zero!");
+            return 0;
+        }
+
         return a / b;
     }
 
-    public UpgradeableFloat(float baseValue, float tierValue, Method method = default, int upgradeAmount = 1, int downgradeAmount = 1)
+    public override float ModifyGetValueResult(float result)
+    {
+        bool minLimitEnabled = minLimit.Enabled;
+        bool maxLimitEnabled = maxLimit.Enabled;
+
+        if (minLimitEnabled && maxLimitEnabled)
+        {
+            result = Mathf.Clamp(result, minLimit.Value, maxLimit.Value);
+        }
+        else if (minLimitEnabled && !maxLimitEnabled)
+        {
+            result = Mathf.Max(result, minLimit.Value);
+        }
+        else if (!minLimitEnabled && maxLimitEnabled)
+        {
+            result = Mathf.Min(result, maxLimit.Value);
+        }
+
+        return result;
+    }
+
+    public UpgradeableFloat(float baseValue, float levelValue, Method method = default, int upgradeAmount = 1, int downgradeAmount = 1)
         :
-        base(baseValue, tierValue, method, upgradeAmount, downgradeAmount)
+        base(baseValue, levelValue, method, upgradeAmount, downgradeAmount)
     {
 
     }

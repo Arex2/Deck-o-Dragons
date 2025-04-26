@@ -16,7 +16,7 @@ public class GiveStatusEffect : CardComponent, IUseSingle
 
     public void Use(Target target)
     {
-        target.ApplyStatusEffect(statusEffect.StatusEffect, statusEffect.GetData(Tier));
+        target.ApplyStatusEffect(statusEffect.StatusEffect, statusEffect.GetData(Level));
     }
 
     [ReplaceDescriptionKeyword("STATUS_EFFECT_NAME")]
@@ -28,18 +28,18 @@ public class GiveStatusEffect : CardComponent, IUseSingle
     [ReplaceDescriptionKeyword("STATUS_EFFECT_DESCRIPTION")]
     private string ReplaceDescriptionKeyword()
     {
-        return statusEffect.StatusEffect.GetDescription(statusEffect.GetData(Tier));
+        return statusEffect.StatusEffect.GetDescription(statusEffect.GetData(Level));
     }
 
     [ReplaceDescriptionKeyword("DURATION")]
     private string ReplaceDurationKeyword()
     {
-        return statusEffect.GetDuration(Tier).ToString();
+        return statusEffect.GetDuration(Level).ToString();
     }
 
     [ReplaceDescriptionKeyword("POTENCY")]
     private string ReplacePotencyKeyword()
     {
-        return StatusEffect.GetPotencyString(statusEffect.GetPotency(Tier), statusEffect.StatusEffect.PotencyIsPercent);
+        return StatusEffect.GetPotencyString(statusEffect.GetPotency(Level), statusEffect.StatusEffect.PotencyIsPercent);
     }
 }

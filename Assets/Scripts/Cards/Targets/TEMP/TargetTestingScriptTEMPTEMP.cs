@@ -44,7 +44,7 @@ public class TargetTestingScriptTEMPTEMP : MonoBehaviour
 
     public void Play(Card card, Target user)
     {
-        card.Play(user, OnFinishPlayingCard);
+        StartCoroutine(card.Play(user, OnFinishPlayingCard));
     }
 
     private void OnFinishPlayingCard()

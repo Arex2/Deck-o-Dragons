@@ -19,9 +19,16 @@ MonoBehaviour:
     damage to your next attack.
   cost: 6
   element: 0
-  category: 0
+  category: 1
   rarity: 2
   copies: 1
+  canChangeLevel: 0
+  minLevel:
+    Enabled: 0
+    Value: 0
+  maxLevel:
+    Enabled: 0
+    Value: 0
   tags: []
   cardComponents:
   - {fileID: 6838582294445352149}
@@ -56,6 +63,12 @@ MonoBehaviour:
       downgrades:
       - value: 0
         method: 1
+      minLimit:
+        Enabled: 0
+        Value: 0
+      maxLimit:
+        Enabled: 0
+        Value: 0
     duration:
       baseValue: 3
       stack: 1
@@ -66,3 +79,9 @@ MonoBehaviour:
       downgrades:
       - value: 0
         method: 1
+      minLimit:
+        Enabled: 0
+        Value: 0
+      maxLimit:
+        Enabled: 0
+        Value: 0

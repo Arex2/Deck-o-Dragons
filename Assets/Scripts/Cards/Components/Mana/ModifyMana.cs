@@ -24,7 +24,7 @@ public class ModifyMana : CardComponent, IUse
             }
         }
 
-        int value = manaAmount.GetValue(Tier);
+        int value = manaAmount.GetValue(Level);
 
         if (value > 0)
         {
@@ -40,6 +40,6 @@ public class ModifyMana : CardComponent, IUse
     [ReplaceDescriptionKeyword("MANA")]
     private string ReplaceManaKeyword()
     {
-        return manaAmount.ToString(Tier);
+        return manaAmount.ToString(Level);
     }
 }

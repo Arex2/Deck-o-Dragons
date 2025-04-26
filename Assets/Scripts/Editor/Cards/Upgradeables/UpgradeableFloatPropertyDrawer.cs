@@ -48,7 +48,7 @@ public class UpgradeableFloatPropertyDrawer : UpgradeableNumberPropertyDrawer<fl
         return EditorGUIUtility.singleLineHeight;
     }
 
-    public override float GetTierHeight(SerializedProperty prop)
+    public override float GetLevelHeight(SerializedProperty prop)
     {
         return GetPropHeight(prop);
     }

@@ -11,10 +11,10 @@ public class DiscardState : IState
     {
         Debug.Log("DISCARDING CARDS AND CHOOSING WHICH TO KEEP");
         this.gameBehaviour = gameBehaviour;
-        this.controls = gameBehaviour.controls;
-        gameBehaviour.NewTurn();
-        gameBehaviour.SetEndTurnButtonText("Done");
-        gameBehaviour.cardHand.OnEnterDiscardState();
+        controls = gameBehaviour.controls;
+        gameBehaviour.EnableButton();
+        gameBehaviour.SetButtonText("Done");
+        gameBehaviour.cardHand.OnStartSelectingCards(CardHand.SelectionState.Discard);
         gameBehaviour.UpdateStatusText("DISCARDING CARDS");
 
         controls.controls.Enable();
@@ -29,11 +29,8 @@ public class DiscardState : IState
 
     public virtual IState Execute()
     {
-        if (gameBehaviour.EndTurn)
+        if (gameBehaviour.ButtonPressed)
         {
-            gameBehaviour.NewTurn();
-
-            gameBehaviour.cardHand.cardBeingPlayed = null;
             gameBehaviour.cardHand.EmptyHand();
 
             return new SelectionState();
@@ -46,10 +43,11 @@ public class DiscardState : IState
     {
         Target.TurnStart.Invoke(Team.Player);
 
-        gameBehaviour.ResetEndTurnButtonText();
+        gameBehaviour.EnableButton();
+        gameBehaviour.ResetButtonText();
 
-        gameBehaviour.StartCoroutine(gameBehaviour.cardHand.DrawNewHandNew());
-        gameBehaviour.cardHand.OnExitDiscardState();
+        gameBehaviour.StartCoroutine(gameBehaviour.cardHand.DrawNewHand());
+        gameBehaviour.cardHand.OnExitSelectingCards();
 
         controls.controls.Disable();
         return null;

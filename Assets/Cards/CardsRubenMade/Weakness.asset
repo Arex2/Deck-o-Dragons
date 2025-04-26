@@ -18,9 +18,16 @@ MonoBehaviour:
   description: Reduce your opponents damage by {POTENCY} for {DURATION} turns.
   cost: 4
   element: 0
-  category: 0
+  category: 2
   rarity: 0
   copies: 2
+  canChangeLevel: 1
+  minLevel:
+    Enabled: 1
+    Value: -2
+  maxLevel:
+    Enabled: 0
+    Value: 0
   tags: []
   cardComponents:
   - {fileID: 6697530210805275080}
@@ -50,11 +57,17 @@ MonoBehaviour:
       stack: 1
       loopBehaviour: 1
       upgrades:
-      - value: 0
+      - value: 0.1
         method: 0
       downgrades:
-      - value: 0
+      - value: 0.1
         method: 1
+      minLimit:
+        Enabled: 1
+        Value: 0
+      maxLimit:
+        Enabled: 1
+        Value: 1
     duration:
       baseValue: 3
       stack: 1
@@ -65,3 +78,9 @@ MonoBehaviour:
       downgrades:
       - value: 0
         method: 1
+      minLimit:
+        Enabled: 0
+        Value: 0
+      maxLimit:
+        Enabled: 0
+        Value: 0

@@ -15,13 +15,13 @@ public class CardHeal : CardComponent, IUseSingle
 
     public void Use(Target target)
     {
-        target.Heal(healing.GetValue(Tier));
+        target.Heal(healing.GetValue(Level));
     }
 
     [ReplaceDescriptionKeyword]
     [ReplaceDescriptionKeyword("HEALING")]
     private string ReplaceDescriptionKeyword()
     {
-        return healing.ToString(Tier);
+        return healing.ToString(Level);
     }
 }

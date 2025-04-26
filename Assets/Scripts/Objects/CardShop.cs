@@ -260,7 +260,7 @@ public class CardShop : MonoBehaviour
 
             cardTagsText.text = CardVisuals.GetTagsString(card);
 
-            cardDescriptionText.text = card.Description;
+            cardDescriptionText.text = card.GetDescription(0);
 
             cardCostText.text = string.Format(_cardCostFormat, card.Cost);
         }

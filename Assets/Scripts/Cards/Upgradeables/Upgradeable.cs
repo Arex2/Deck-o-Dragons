@@ -6,16 +6,16 @@ using UnityEngine;
 /// </summary>
 // Script by Ruben
 [Serializable]
-public class Upgradeable<T> : UpgradeableBase<T, Upgradeable<T>.Tier>
+public class Upgradeable<T> : UpgradeableBase<T, Upgradeable<T>.Level>
 {
     public override bool CanStack => false;
 
-    protected override T GetTierValue(Tier tier, T currentValue)
+    protected override T GetLevelValue(Level level, T currentValue)
     {
-        return tier.GetValue(currentValue);
+        return level.GetValue(currentValue);
     }
 
-    public Upgradeable(T baseValue, int upgradeAmount, int downgradeAmount, Func<int, Tier> forEachUpgrade, Func<int, Tier> forEachDowngrade) : base(baseValue, upgradeAmount, downgradeAmount, forEachUpgrade, forEachDowngrade)
+    public Upgradeable(T baseValue, int upgradeAmount, int downgradeAmount, Func<int, Level> forEachUpgrade, Func<int, Level> forEachDowngrade) : base(baseValue, upgradeAmount, downgradeAmount, forEachUpgrade, forEachDowngrade)
     {
     }
 
@@ -24,11 +24,11 @@ public class Upgradeable<T> : UpgradeableBase<T, Upgradeable<T>.Tier>
     }
 
     [Serializable]
-    public class Tier
+    public class Level
     {
         [SerializeField] private T value;
 
-        public Tier(T value)
+        public Level(T value)
         {
             this.value = value;
         }
