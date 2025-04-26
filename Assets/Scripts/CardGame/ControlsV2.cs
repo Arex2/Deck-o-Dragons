@@ -236,23 +236,7 @@ public class ControlsV2 : MonoBehaviour
         //check if direction is horizontal
         if (swipingHorizontal)
         {
-            //check start position for card drag or scene switch
-
-            if (startContactPoint.x < leftEdgeArea)
-            {
-                //Debug.Log("Switch scene RIGHT");
-                //sceneSwitcher.SwitchToEgg();
-            }
-            else if (startContactPoint.x > rightEdgeArea)
-            {
-                //Debug.Log("Switch scene LEFT");
-                //sceneSwitcher.SwitchScene(+1);
-                // sceneSwitcher.SwitchToCardGame();
-            }
-            else MoveCards();
-
-
-
+             MoveCards();
         }
     }
 
@@ -277,9 +261,22 @@ public class ControlsV2 : MonoBehaviour
         }
         else
         {
-            
-            //check start position for card drag or scene switch
 
+            //cards stay still
+            if (dragDir.magnitude < minReleasePower)
+            {
+                hand.SnapIntoPosition();
+                firstContact = true;
+                swipeAxisRegistered = false;
+                return;
+            }
+            //cards get added movement
+            additionalMoveVelocity = CalculateSpeedToMoveWith();
+            addReleaseMovement = true;
+
+            #region old sceneswitch
+            /*
+            //check start position for card drag or scene switch
             if (startContactPoint.x < leftEdgeArea)
             {
                 if(dragDir.magnitude > minSwipeSize)
@@ -312,6 +309,8 @@ public class ControlsV2 : MonoBehaviour
                 additionalMoveVelocity = CalculateSpeedToMoveWith();
                 addReleaseMovement = true;
             }
+            */
+            #endregion
 
         }
 
