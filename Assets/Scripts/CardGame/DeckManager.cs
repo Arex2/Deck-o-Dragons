@@ -10,9 +10,9 @@ public class DeckManager : Singleton<DeckManager>
 
     [SerializeField] private CardDeck defaultStarterDeck;
 
-    private List<Card> deck;
-    private Stack<Card> drawPile;
-    private LinkedList<Card> discardPile;
+    public List<Card> deck {get; private set;}
+    public Stack<Card> drawPile { get; private set; }
+    public LinkedList<Card> discardPile { get; private set; }
 
     protected override void Awake()
     {

@@ -5,6 +5,8 @@ using UnityEngine;
 public class DragonManager : MonoBehaviour
 {
     public static DragonManager Instance { get; private set; }
+
+    public Dragon dragon;
     
     void Awake()
     {
