@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;  // Import this for UI Button functionality
+using UnityEngine.UI;  
 using System.Collections;
 
 public class BallBouncer : MonoBehaviour
@@ -20,18 +20,17 @@ public class BallBouncer : MonoBehaviour
     private float timer = 0f;
     private int bounceCount = 0;
 
-    private float ballLifetime = 6f;  // Increase the lifetime to 6 seconds for a longer bounce
+    private float ballLifetime = 6f;  
 
-    public Button bounceButton;  // Reference to the UI Button
+    public Button bounceButton; 
 
     void Start()
     {
         StartCoroutine(WaitForCharacterInstantiation());
 
-        // Set up the button click event
         if (bounceButton != null)
         {
-            bounceButton.onClick.AddListener(StartBouncing);  // When button is clicked, it will start bouncing
+            bounceButton.onClick.AddListener(StartBouncing);  
         }
     }
 
@@ -46,30 +45,17 @@ public class BallBouncer : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            // Update ball position
             float ballY = ballAnchor.position.y + Mathf.Sin(timer * bounceSpeed) * ballBounceHeight;
             ballInstance.transform.position = new Vector3(ballAnchor.position.x, ballY, ballAnchor.position.z);
 
-            // Update character position
+
             float charY = Mathf.Sin(timer * bounceSpeed + bounceDelay) * characterBounceHeight;
             float targetY = bounceRootBaseLocalPos.y + charY;
             targetY = Mathf.Clamp(targetY, bounceRootBaseLocalPos.y - characterBounceHeight, bounceRootBaseLocalPos.y + characterBounceHeight);
 
             activeCharacter.localPosition = new Vector3(activeCharacter.localPosition.x, targetY, activeCharacter.localPosition.z);
 
-            // Debugging log for character position
-            Debug.Log($"[Debug] Character Position: {activeCharacter.localPosition}");
 
-            // Debugging log for Animator state and root motion
-            Animator animator = activeCharacter.GetComponent<Animator>();
-            if (animator != null)
-            {
-                AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-                Debug.Log($"Current Animator State: {stateInfo.IsName("Idle")}");
-                Debug.Log($"Animator Apply Root Motion: {animator.applyRootMotion}");
-            }
-
-            // Debugging log for bouncing cycle
             if (Mathf.Abs(Mathf.Sin(timer * bounceSpeed)) < 0.01f)
             {
                 bounceCount++;
@@ -81,7 +67,6 @@ public class BallBouncer : MonoBehaviour
                 }
             }
 
-            // Destroy ball after 6 seconds (or the desired time)
             if (timer >= ballLifetime)
             {
                 DestroyBallInstance();
@@ -121,11 +106,10 @@ public class BallBouncer : MonoBehaviour
         ballInstance = Instantiate(ballPrefab, ballAnchor.position, Quaternion.identity);
         ballInstance.SetActive(false);
 
-        // Disable root motion on the Animator to prevent it from overriding position changes
         Animator animator = activeCharacter.GetComponent<Animator>();
         if (animator != null)
         {
-            animator.applyRootMotion = false;  // Force it off
+            animator.applyRootMotion = false;  
         }
     }
 
@@ -181,13 +165,13 @@ public class BallBouncer : MonoBehaviour
         }
     }
 
-    // Function to destroy the ball after 6 seconds (adjust ball lifetime)
+
     private void DestroyBallInstance()
     {
         if (ballInstance != null)
         {
             Destroy(ballInstance);
-            ballInstance = null;  // Set ballInstance to null to prevent future references to the destroyed object
+            ballInstance = null;  
         }
     }
 }

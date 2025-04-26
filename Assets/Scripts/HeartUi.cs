@@ -10,7 +10,7 @@ public class HeartUI : MonoBehaviour
 
     void Start()
     {
-        SetHealth(2);
+        SetHealth(3);
         UpdateHearts();
     }
 
