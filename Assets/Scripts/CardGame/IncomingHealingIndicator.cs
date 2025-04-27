@@ -21,7 +21,8 @@ public class IncomingHealingIndicator : MonoBehaviour
 
     public void ShowIncomingHealing(float currentHP, float incomingHealing)
     {
-        healingSlider.value = CalculateHealingToSlider(incomingHealing, currentHP);
+        Debug.Log("incoming healing: " + incomingHealing);
+        healingSlider.value = CalculateHealingToSlider(currentHP, incomingHealing);
     }
 
     public void hide()
@@ -29,9 +30,10 @@ public class IncomingHealingIndicator : MonoBehaviour
         healingSlider.value = 0;
     }
 
-    private float CalculateHealingToSlider(float healing, float hp)
+    private float CalculateHealingToSlider(float hp, float healing)
     {
         //damage to make  /  current hp  =  slider value
-        return hp + healing;
+        Debug.Log("healing: " + healing + "  currentHp: " + hp);
+        return (hp + healing) /10;
     }
 }

@@ -352,7 +352,7 @@ public class ControlsV2 : MonoBehaviour
         //return velocity;
         float change = startContactPoint.x - currentContactPoint.x + velocity;// camera.ViewportToWorldPoint(startContactPoint).x - (camera.ViewportToWorldPoint(currentContactPoint).x - velocity);
         change = Mathf.Round(change);
-        Debug.Log("velocity: " + velocity + "  change:  " + change + "  .");
+        //Debug.Log("velocity: " + velocity + "  change:  " + change + "  .");
         return change;
     }
 }

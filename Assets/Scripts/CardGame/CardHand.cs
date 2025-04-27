@@ -54,15 +54,14 @@ public class CardHand : MonoBehaviour
         get { return currentIndex; }
         set 
         {
-            //här updatera indicators
-            //om current index är ett heltal
-            if (currentIndex % 1 == 0)// && value != currentIndex)
+            float previous = currentIndex;
+            currentIndex = value;
+
+            if (currentIndex != previous)
             {
-                Debug.Log("-----New selected card-----  indx:  " + currentIndex);
-                //gameBehaviour.indicatorManager.UpdateIndicators(gameBehaviour.HP,UnityEngine.Random.Range(1,5),1);
+                OnSelectedIndexChanged();
             }
 
-            currentIndex = value;
         }
     }
 
@@ -148,12 +147,20 @@ public class CardHand : MonoBehaviour
 
     private void Update()
     {
+
+
         if (oldScreenSize.x == Screen.width && oldScreenSize.y == Screen.height)
         {
             return;
         }
 
+
+
+
+
+
         OnChangeResolution();
+
     }
 
     private void OnChangeResolution()
@@ -162,6 +169,19 @@ public class CardHand : MonoBehaviour
         screenRightXPos = camera.ViewportToWorldPoint(new Vector2(1, 0)).x;
 
         oldScreenSize = new Vector2Int(Screen.width, Screen.height);
+    }
+
+    private void OnSelectedIndexChanged()
+    {
+        //här updatera indicators
+        //om current index är ett heltal
+        if (cardsInHand.Count > 0 && currentIndex % 1 == 0)
+        {
+            if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
+            {
+                gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
+            }
+        }
     }
 
 
