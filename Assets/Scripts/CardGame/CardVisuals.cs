@@ -54,17 +54,17 @@ public class CardVisuals : MonoBehaviour
     [SerializeField] private Image checkmark;
     [SerializeField] private TMP_Text disabledText;
 
-    private void Awake()
+    private void LateUpdate()
+    {
+        dissolveForEffects.DissolveAmount = dissolve.DissolveAmount;
+    }
+
+    public void RandomizeDissolve()
     {
         dissolve.Rotation = Random.Range(0, 360f);
 
         dissolveForEffects.RotationRadians = dissolve.RotationRadians;
         dissolveForEffects.Scale = dissolve.Scale;
-    }
-
-    private void LateUpdate()
-    {
-        dissolveForEffects.DissolveAmount = dissolve.DissolveAmount;
     }
 
     public void UpdateCardLook()

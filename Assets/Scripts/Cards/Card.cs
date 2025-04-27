@@ -190,7 +190,7 @@ public class Card : GUIDScriptableObject
 
         foreach (CardComponent cardComponent in cardComponents)
         {
-            cardComponent.OnBeforePlayed();
+            cardComponent.OnBeforeCardPlayed();
         }
 
         return PlayCoroutine(user, level, onFinish);
@@ -206,32 +206,6 @@ public class Card : GUIDScriptableObject
 
         _level = level;
 
-        // Setup team variables
-        Team ownTeam = user.Team;
-        Team opponentTeam = ownTeam.GetOpponentTeam();
-
-        // Local method for getting a random team
-        Team GetRandomTeam() => Random.Range(0, 2) == 0 ? ownTeam : opponentTeam;
-
-        // Local method for getting all of the targets in a given team
-        // Also gives an out value for the amount of targets
-        // If no team is given (its nullable) then ALL targets will be used
-        List<Target> GetTargets(Team? team, out int count)
-        {
-            if (team.HasValue)
-            {
-                return TargetManager.GetTargets(team.Value, out count);
-            }
-
-            count = TargetManager.AllTargetsCount;
-            return TargetManager.AllTargets;
-        }
-
-        List<Target> multiTargets = null;
-        List<Target> singleTarget = new() { null };
-        int count;
-        bool doSingleTarget;
-
         foreach (CardComponent cardComponent in cardComponents)
         {
             if (!cardComponent.Enabled)
@@ -241,6 +215,7 @@ public class Card : GUIDScriptableObject
 
             CurrentComponent = cardComponent;
 
+            // Account for and execute IAffectOtherCards
             IAffectOtherCards affectOtherCards = cardComponent as IAffectOtherCards;
 
             if (affectOtherCards != null)
@@ -260,155 +235,38 @@ public class Card : GUIDScriptableObject
                 CardsToAffect.Clear();
             }
 
+            // Get targets using the target filter
             TargetFilter targetFilter = cardComponent.TargetFilter;
 
             List<Target> targets = null;
 
             if (targetFilter != null)
             {
-                Team? team;
+                IEnumerator enumerator = TargetManager.GetTargetsWithFilterCoroutine(user.Team, targetFilter, true);
 
-                // Determine target
-                switch (targetFilter.Team)
+                while (enumerator.MoveNext())
                 {
-                    case TargetFilter.FilterTeam.Opponent:
-                        team = opponentTeam;
-                        break;
+                    object current = enumerator.Current;
 
-                    case TargetFilter.FilterTeam.Own:
-                        team = ownTeam;
-                        break;
-
-                    case TargetFilter.FilterTeam.Chosen:
-                        yield return TargetSelector.SelectTeam();
-
-                        team = TargetSelector.TeamResult;
-                        break;
-
-                    // Chaos
-                    case TargetFilter.FilterTeam.Random:
-                        team = GetRandomTeam();
-                        break;
-
-                    // Default behaviour (also the behaviour if "TargetFilter.FilterTeam.All" is selected)
-                    default:
-                        team = null;
-                        break;
-                }
-
-                switch (targetFilter.Mode)
-                {
-                    case TargetFilter.FilterMode.Leader:
-
-                        // Failsafe
-                        if (!team.HasValue)
-                        {
-                            // Select a random team
-                            team = GetRandomTeam();
-                        }
-
-                        singleTarget[0] = TargetManager.GetLeader(team.Value);
-                        doSingleTarget = true;
-                        break;
-
-                    case TargetFilter.FilterMode.Chosen:
-                        List<Target> list = GetTargets(team, out count);
-
-                        if (count <= 1)
-                        {
-                            singleTarget[0] = list[0];
-                        }
-                        else
-                        {
-                            yield return TargetSelector.SelectTarget(list, count);
-
-                            singleTarget[0] = TargetSelector.TargetResult;
-                        }
-
-                        doSingleTarget = true;
-                        break;
-
-                    // Chaos
-                    case TargetFilter.FilterMode.Random:
-                        list = GetTargets(team, out count);
-
-                        singleTarget[0] = list[Random.Range(0, count)];
-                        doSingleTarget = true;
-                        break;
-
-                    // Default behaviour (also the behaviour if "TargetFilter.FilterMode.All" is selected)
-                    default:
-                        doSingleTarget = false;
-                        multiTargets = GetTargets(team, out count);
-                        break;
-                }
-
-                targets = doSingleTarget ? singleTarget : multiTargets;
-            }
-
-            IUse use = cardComponent as IUse;
-            IUseCoroutine useCoroutine = cardComponent as IUseCoroutine;
-            IUseMulti useMulti = cardComponent as IUseMulti;
-            IUseSingle useSingle = cardComponent as IUseSingle;
-            IUseCoroutineMulti useCoroutineMulti = cardComponent as IUseCoroutineMulti;
-            IUseCoroutineSingle useCoroutineSingle = cardComponent as IUseCoroutineSingle;
-
-            if (use != null)
-            {
-                use.Use();
-            }
-
-            if (useCoroutine != null)
-            {
-                IEnumerator enumerator = useCoroutine.UseCoroutine();
-
-                if (enumerator != null)
-                {
-                    yield return enumerator;
-                }
-            }
-
-            if (useMulti != null)
-            {
-                useMulti.Use(targets);
-            }
-
-            if (useSingle != null)
-            {
-                if (targets != null)
-                {
-                    foreach (Target target in targets)
+                    if (current is List<Target>)
                     {
-                        useSingle.Use(target);
+                        targets = (List<Target>)current;
+                    }
+                    else
+                    {
+                        yield return current;
                     }
                 }
-                else
-                {
-                    useSingle.Use(null);
-                }
             }
 
-            if (useCoroutineMulti != null)
+            // Play the card component
+            cardComponent.Play(targets);
+
+            IEnumerator playCoroutine = cardComponent.PlayCoroutine(targets);
+
+            if (playCoroutine != null)
             {
-                IEnumerator enumerator = useCoroutineMulti.UseCoroutine(targets);
-
-                if (enumerator != null)
-                {
-                    yield return enumerator;
-                }
-            }
-
-            if (useCoroutineSingle != null)
-            {
-                foreach (Target target in targets)
-                {
-                    IEnumerator enumerator = useCoroutineSingle.UseCoroutine(target);
-
-                    if (enumerator != null)
-                    {
-                        yield return enumerator;
-                    }
-                }
+                yield return playCoroutine;
             }
         }
 
@@ -416,7 +274,7 @@ public class Card : GUIDScriptableObject
 
         foreach (CardComponent cardComponent in cardComponents)
         {
-            cardComponent.OnAfterPlayed();
+            cardComponent.OnAfterCardPlayed();
         }
 
         onFinish?.Invoke();

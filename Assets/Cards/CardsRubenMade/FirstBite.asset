@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: Tackle
+  m_Name: FirstBite
   m_EditorClassIdentifier: 
   guid: cdb42eeca89d95442a4a627eb6d583f5
   sprite: {fileID: 0}
-  displayName: Tackle
+  displayName: First Bite
   description: Deal {ATTACK} damage.
   cost: 1
   element: 0

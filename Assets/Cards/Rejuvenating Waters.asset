@@ -21,6 +21,13 @@ MonoBehaviour:
   category: 0
   rarity: 0
   copies: 2
+  canChangeLevel: 0
+  minLevel:
+    Enabled: 0
+    Value: 0
+  maxLevel:
+    Enabled: 0
+    Value: 0
   tags: []
   cardComponents:
   - {fileID: 5633059931178854001}
@@ -53,3 +60,9 @@ MonoBehaviour:
     downgrades:
     - value: 2
       method: 1
+    minLimit:
+      Enabled: 0
+      Value: 0
+    maxLimit:
+      Enabled: 0
+      Value: 0
