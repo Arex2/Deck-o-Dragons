@@ -206,32 +206,6 @@ public class Card : GUIDScriptableObject
 
         _level = level;
 
-        // Setup team variables
-        Team ownTeam = user.Team;
-        Team opponentTeam = ownTeam.GetOpponentTeam();
-
-        // Local method for getting a random team
-        Team GetRandomTeam() => Random.Range(0, 2) == 0 ? ownTeam : opponentTeam;
-
-        // Local method for getting all of the targets in a given team
-        // Also gives an out value for the amount of targets
-        // If no team is given (its nullable) then ALL targets will be used
-        List<Target> GetTargets(Team? team, out int count)
-        {
-            if (team.HasValue)
-            {
-                return TargetManager.GetTargets(team.Value, out count);
-            }
-
-            count = TargetManager.AllTargetsCount;
-            return TargetManager.AllTargets;
-        }
-
-        List<Target> multiTargets = null;
-        List<Target> singleTarget = new() { null };
-        int count;
-        bool doSingleTarget;
-
         foreach (CardComponent cardComponent in cardComponents)
         {
             if (!cardComponent.Enabled)
@@ -266,84 +240,21 @@ public class Card : GUIDScriptableObject
 
             if (targetFilter != null)
             {
-                Team? team;
+                IEnumerator enumerator = TargetManager.GetTargetsWithFilterCoroutine(user.Team, targetFilter, true);
 
-                // Determine target
-                switch (targetFilter.Team)
+                while (enumerator.MoveNext())
                 {
-                    case TargetFilter.FilterTeam.Opponent:
-                        team = opponentTeam;
-                        break;
+                    object current = enumerator.Current;
 
-                    case TargetFilter.FilterTeam.Own:
-                        team = ownTeam;
-                        break;
-
-                    case TargetFilter.FilterTeam.Chosen:
-                        yield return TargetSelector.SelectTeam();
-
-                        team = TargetSelector.TeamResult;
-                        break;
-
-                    // Chaos
-                    case TargetFilter.FilterTeam.Random:
-                        team = GetRandomTeam();
-                        break;
-
-                    // Default behaviour (also the behaviour if "TargetFilter.FilterTeam.All" is selected)
-                    default:
-                        team = null;
-                        break;
+                    if (current is List<Target>)
+                    {
+                        targets = (List<Target>)current;
+                    }
+                    else
+                    {
+                        yield return current;
+                    }
                 }
-
-                switch (targetFilter.Mode)
-                {
-                    case TargetFilter.FilterMode.Leader:
-
-                        // Failsafe
-                        if (!team.HasValue)
-                        {
-                            // Select a random team
-                            team = GetRandomTeam();
-                        }
-
-                        singleTarget[0] = TargetManager.GetLeader(team.Value);
-                        doSingleTarget = true;
-                        break;
-
-                    case TargetFilter.FilterMode.Chosen:
-                        List<Target> list = GetTargets(team, out count);
-
-                        if (count <= 1)
-                        {
-                            singleTarget[0] = list[0];
-                        }
-                        else
-                        {
-                            yield return TargetSelector.SelectTarget(list, count);
-
-                            singleTarget[0] = TargetSelector.TargetResult;
-                        }
-
-                        doSingleTarget = true;
-                        break;
-
-                    // Chaos
-                    case TargetFilter.FilterMode.Random:
-                        list = GetTargets(team, out count);
-
-                        singleTarget[0] = list[Random.Range(0, count)];
-                        doSingleTarget = true;
-                        break;
-
-                    // Default behaviour (also the behaviour if "TargetFilter.FilterMode.All" is selected)
-                    default:
-                        doSingleTarget = false;
-                        multiTargets = GetTargets(team, out count);
-                        break;
-                }
-
-                targets = doSingleTarget ? singleTarget : multiTargets;
             }
 
             IUse use = cardComponent as IUse;

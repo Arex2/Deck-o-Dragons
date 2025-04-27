@@ -36,6 +36,15 @@ public class SceneSwitcher : MonoBehaviour
         SceneManager.LoadScene(4);
     }
 
+    public void SwitchToBattleSelection()
+    {
+        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByBuildIndex(7))
+            return;
+        SceneManager.LoadScene("BattleSelection", LoadSceneMode.Additive);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("BattleSelection"));
+        
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene(4);

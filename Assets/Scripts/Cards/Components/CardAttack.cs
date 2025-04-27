@@ -9,12 +9,33 @@ using UnityEngine;
 [AddComponentMenu("Card Attack")]
 public class CardAttack : CardComponent, IUseCoroutineMulti
 {
+    /// <summary>
+    /// The total damage this Component will deal to a <see cref="Target"/>. <para/>
+    /// Takes into account <see cref="Damage"/>, <see cref="DamageMultiplier"/> and <see cref="AttackAmount"/>.
+    /// </summary>
+    public float TotalDamage => Damage * DamageMultiplier * (float)AttackAmount;
+
+    /// <summary>
+    /// The name of the key used to set the <see cref="DamageMultiplier"/> in the <see cref="CardData"/>.
+    /// </summary>
     public const string DAMAGE_MULTIPLIER_KEY_NAME = "DAMAGE_MULTIPLIER";
 
+    /// <summary>
+    /// All damage is multiplied by this value.
+    /// </summary>
     public float DamageMultiplier => GetCardData<float>(DAMAGE_MULTIPLIER_KEY_NAME, 1);
 
-    public override TargetFilter TargetFilter => targetFilter;
+    /// <summary>
+    /// How much damage a single attack will deal, does not account for <see cref="DamageMultiplier"/> or <see cref="AttackAmount"/>.
+    /// </summary>
+    public float Damage => damage[Level];
 
+    /// <summary>
+    /// How many attacks this will do.
+    /// </summary>
+    public int AttackAmount => attackAmount[Level];
+
+    public override TargetFilter TargetFilter => targetFilter;
     [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Opponent, TargetFilter.FilterMode.Chosen);
 
     [Space]
@@ -23,8 +44,8 @@ public class CardAttack : CardComponent, IUseCoroutineMulti
 
     public IEnumerator UseCoroutine(List<Target> targets)
     {
-        int attackAmount = this.attackAmount[Level];
-        float damage = this.damage[Level] * DamageMultiplier;
+        float damage = Damage * DamageMultiplier;
+        int attackAmount = AttackAmount;
 
         void DoDamage(Target target)
         {
@@ -85,7 +106,7 @@ public class CardAttack : CardComponent, IUseCoroutineMulti
     [ReplaceDescriptionKeyword("DAMAGE")]
     private string ReplaceDamageKeyword()
     {
-        return Mathf.Round(damage.GetValue(Level) * DamageMultiplier).ToString();
+        return Mathf.Round(Damage * DamageMultiplier).ToString();
     }
 
     [ReplaceDescriptionKeyword("AMOUNT")]
