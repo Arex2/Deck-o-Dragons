@@ -338,17 +338,21 @@ public class ControlsV2 : MonoBehaviour
     private float CalculateSpeedToMoveWith()
     {
         //length of swipe
-        float distance =  currentContactPoint.x - latestEdgeContactPoint.x;
+        float distance = latestEdgeContactPoint.x - currentContactPoint.x;//currentContactPoint.x - latestEdgeContactPoint.x;
 
         //speed of swipe
         float time = Time.time - latestEdgeContactTime;
 
-        //float velocity = distance / time;  //(dragDir.magnitude/100);// (speed/100); //desto kortare tid desto längre
+        float velocity = distance / time;  //(dragDir.magnitude/100);// (speed/100); //desto kortare tid desto längre
 
-        float moveAdditional = distance / time;
-        moveAdditional *= 0.5f;
-        float velocity = camera.ViewportToWorldPoint(startContactPoint).x - (camera.ViewportToWorldPoint(currentContactPoint).x + moveAdditional);
+        //float moveAdditional = distance / time;
+        //moveAdditional *= 0.5f;
+        //float velocity = camera.ViewportToWorldPoint(startContactPoint).x - (camera.ViewportToWorldPoint(currentContactPoint).x + moveAdditional);
 
-        return velocity;
+        //return velocity;
+        float change = startContactPoint.x - currentContactPoint.x + velocity;// camera.ViewportToWorldPoint(startContactPoint).x - (camera.ViewportToWorldPoint(currentContactPoint).x - velocity);
+        change = Mathf.Round(change);
+        Debug.Log("velocity: " + velocity + "  change:  " + change + "  .");
+        return change;
     }
 }

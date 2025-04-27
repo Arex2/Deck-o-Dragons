@@ -467,6 +467,19 @@ public class CardHand : MonoBehaviour
     }
     */
 
+    private void MoveCardToCenter(CardObject cardObj)
+    {
+        //move to center this card
+        for(int i = 0; i < cardsInHand.Count; i++)
+        {
+            if (cardsInHand[i] == cardObj)
+            {
+                currentIndex = i;
+                UpdateCardPositions();
+            }
+        }
+    }
+
     // MAKE EM DO A LIL CUTE BOUNCE
     private void DoCardMiniBounce(CardObject cardObj)
     {
@@ -725,6 +738,8 @@ public class CardHand : MonoBehaviour
         */
 
         DoCardMiniBounce(cardObj);
+
+        MoveCardToCenter(cardObj);
 
         if (SelectingCards)
         {
