@@ -170,8 +170,9 @@ public class BallBouncer : MonoBehaviour
     {
         if (ballInstance != null)
         {
-            Destroy(ballInstance);
-            ballInstance = null;  
+            ballInstance.SetActive(false);
+            ballInstance.transform.position = ballAnchor.position;
         }
     }
+
 }
