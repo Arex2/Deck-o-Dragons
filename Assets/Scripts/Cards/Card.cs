@@ -36,6 +36,7 @@ public class Card : GUIDScriptableObject
             return _cachedDisplayName;
         }
     }
+    [NonSerialized]
     private string _cachedDisplayName;
 
     public int Cost => cost;
@@ -95,8 +96,23 @@ public class Card : GUIDScriptableObject
     private Dictionary<Type, CardComponent[]> _cardComponentTypeDictionary = new();
     private Dictionary<string, CardComponent> _cardComponentNameDictionary = new();
 
+    [NonSerialized]
+    private bool _cachedCardComponentDictionaries = false;
+
     public void OnLoad()
     {
+        TryCacheCardComponentDicitonaries();
+    }
+
+    private void TryCacheCardComponentDicitonaries()
+    {
+        if (_cachedCardComponentDictionaries)
+        {
+            return;
+        }
+
+        _cachedCardComponentDictionaries = true;
+
         _cardComponentTypeDictionary.Clear();
         _cardComponentNameDictionary.Clear();
 
@@ -159,10 +175,6 @@ public class Card : GUIDScriptableObject
         {
             cardComponent.InternalInitialize();
         }
-
-        _cachedDisplayName = null;
-        //_descriptionCache = null;
-        //Debug.Log("Description print test for: " + DisplayName + " = " + Description, this);
     }
 
     /// <summary>
@@ -372,12 +384,19 @@ public class Card : GUIDScriptableObject
     #region GetCardComponent Methods
     public T GetCardComponent<T>() where T : CardComponent
     {
-        return GetCardComponents<T>()[0];
+        return GetCardComponent(typeof(T)) as T;
     }
 
     public CardComponent GetCardComponent(Type type)
     {
-        return GetCardComponents(type)[0];
+        CardComponent[] cardComponents = GetCardComponents(type);
+
+        if (cardComponents == null)
+        {
+            return null;
+        }
+
+        return cardComponents[0];
     }
 
     public CardComponent GetCardComponent(string name, bool formatName = false)
@@ -392,11 +411,25 @@ public class Card : GUIDScriptableObject
 
     public T[] GetCardComponents<T>() where T : CardComponent
     {
-        return GetCardComponents(typeof(T)) as T[];
+        CardComponent[] cardComponents = GetCardComponents(typeof(T));
+
+        if (cardComponents == null)
+        {
+            return null;
+        }
+
+        return cardComponents as T[];
     }
 
     public CardComponent[] GetCardComponents(Type type)
     {
+        TryCacheCardComponentDicitonaries();
+
+        if (!_cardComponentTypeDictionary.ContainsKey(type))
+        {
+            return null;
+        }
+
         return _cardComponentTypeDictionary[type];
     }
 
@@ -407,6 +440,8 @@ public class Card : GUIDScriptableObject
 
     public bool TryGetCardComponent(string name, out CardComponent cardComponent, bool formatName = false)
     {
+        TryCacheCardComponentDicitonaries();
+
         if (formatName)
         {
             name = name.ToLower().Trim();
@@ -438,6 +473,8 @@ public class Card : GUIDScriptableObject
 
     public bool TryGetCardComponents(Type type, out CardComponent[] cardComponents)
     {
+        TryCacheCardComponentDicitonaries();
+
         return _cardComponentTypeDictionary.TryGetValue(type, out cardComponents);
     }
 
@@ -448,11 +485,15 @@ public class Card : GUIDScriptableObject
 
     public bool HasCardComponent(Type type)
     {
+        TryCacheCardComponentDicitonaries();
+
         return _cardComponentTypeDictionary.ContainsKey(type);
     }
 
     public bool HasCardComponent(string name, bool formatName = false)
     {
+        TryCacheCardComponentDicitonaries();
+
         if (formatName)
         {
             name = name.ToLower().Trim();
