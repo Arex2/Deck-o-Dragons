@@ -49,6 +49,23 @@ public class CardHand : MonoBehaviour
 
     int currentIndex;
 
+    private int CurrentIndex
+    {
+        get { return currentIndex; }
+        set 
+        {
+            //här updatera indicators
+            //om current index är ett heltal
+            if (currentIndex % 1 == 0)// && value != currentIndex)
+            {
+                Debug.Log("-----New selected card-----  indx:  " + currentIndex);
+                //gameBehaviour.indicatorManager.UpdateIndicators(gameBehaviour.HP,UnityEngine.Random.Range(1,5),1);
+            }
+
+            currentIndex = value;
+        }
+    }
+
     float cardsYPos = -2.2f;
 
     /*
@@ -68,7 +85,7 @@ public class CardHand : MonoBehaviour
     private int startPoint;
     public void SetStart()
     {
-        startPoint = currentIndex;
+        startPoint = CurrentIndex;
     }
 
     public bool DoDiscardState => cardsInHand.Count > 0;
@@ -160,10 +177,10 @@ public class CardHand : MonoBehaviour
         else checkIndex = Mathf.RoundToInt(changeX);
 
         if (startPoint + checkIndex >= cardsInHand.Count)
-            currentIndex = cardsInHand.Count-1;
+            CurrentIndex = cardsInHand.Count-1;
         else if (startPoint + checkIndex < 0)
-            currentIndex = 0;
-        else currentIndex = startPoint + checkIndex;
+            CurrentIndex = 0;
+        else CurrentIndex = startPoint + checkIndex;
 
         UpdatePositions(changeX);
         UpdateCardLayers();
@@ -213,7 +230,7 @@ public class CardHand : MonoBehaviour
         if (cardsInHand.Count <= 0)
             return;
 
-        TweenCardPositions(currentIndex, 0.2f, 0.2f, 0.2f);
+        TweenCardPositions(CurrentIndex, 0.2f, 0.2f, 0.2f);
 
         /*
         float spacingX = cardSpacingX;
@@ -398,10 +415,10 @@ public class CardHand : MonoBehaviour
     public void UseCurrentCard()
     {
         int count = cardsInHand.Count;
-        if (count <= 0 || currentIndex < 0 || currentIndex >= count)
+        if (count <= 0 || CurrentIndex < 0 || CurrentIndex >= count)
             return;
 
-        CardObject cardObj = cardsInHand[currentIndex];
+        CardObject cardObj = cardsInHand[CurrentIndex];
 
         if (SelectingCards)
         {
@@ -426,7 +443,7 @@ public class CardHand : MonoBehaviour
         CardBeingPlayed = cardObj;
         IsPlayingCard = true;
 
-        cardsInHand.RemoveAt(currentIndex);
+        cardsInHand.RemoveAt(CurrentIndex);
 
         cardObj.Canvas.sortingOrder = startSortingOrder + count + 10;
         cardObj.CardVisuals.CanvasGroup.blocksRaycasts = false;
@@ -474,7 +491,7 @@ public class CardHand : MonoBehaviour
         {
             if (cardsInHand[i] == cardObj)
             {
-                currentIndex = i;
+                CurrentIndex = i;
                 UpdateCardPositions();
             }
         }
@@ -504,8 +521,8 @@ public class CardHand : MonoBehaviour
 
     private void UpdateCurrentIndex()
     {
-        if(currentIndex > 0)
-            --currentIndex;
+        if(CurrentIndex > 0)
+            --CurrentIndex;
     }
 
     private void UseCardDuringSelection(CardObject cardObj)
@@ -633,7 +650,7 @@ public class CardHand : MonoBehaviour
         int count = cardsInHand.Count;
         int index;
 
-        CardObject selectedCard = count > 0 ? cardsInHand[currentIndex] : null;
+        CardObject selectedCard = count > 0 ? cardsInHand[CurrentIndex] : null;
         
         // Stolen from: https://stackoverflow.com/questions/12172162/how-to-insert-item-into-list-in-order
         if (count <= 0 || CardSorter.Instance.Compare(cardsInHand[count - 1], cardObj) <= 0)
@@ -656,9 +673,9 @@ public class CardHand : MonoBehaviour
             cardsInHand.Insert(index, cardObj);
         }
 
-        if (updateCurrentIndex && selectedCard != null && cardsInHand[currentIndex] != selectedCard)
+        if (updateCurrentIndex && selectedCard != null && cardsInHand[CurrentIndex] != selectedCard)
         {
-            currentIndex++;
+            CurrentIndex++;
         }
 
         UpdateCardPositions();
@@ -688,7 +705,7 @@ public class CardHand : MonoBehaviour
 
         if (count <= 0)
         {
-            currentIndex = 0;
+            CurrentIndex = 0;
         }
 
         // Draw cards in sorted order
@@ -750,7 +767,7 @@ public class CardHand : MonoBehaviour
 
     public void EmptyHand()
     {
-        currentIndex = 0;
+        CurrentIndex = 0;
 
         for (int i = cardsInHand.Count - 1; i >= 0; i--)
         {
@@ -778,15 +795,15 @@ public class CardHand : MonoBehaviour
     {
         //selected index = Middle position of cards in hand. If middle is below 1, set to 1
         if ((cardsInHand.Count / 2) < 1)
-            currentIndex = 0;
+            CurrentIndex = 0;
         else
-            currentIndex = Mathf.RoundToInt(cardsInHand.Count / 2);
+            CurrentIndex = Mathf.RoundToInt(cardsInHand.Count / 2);
     }
 
     private void UpdateCardPositions()
     {
         //this is method called from Controls wihout parameters
-        UpdateCardPositions(currentIndex);
+        UpdateCardPositions(CurrentIndex);
     }
 
     private void UpdateCardPositions(float changeX) 
@@ -880,18 +897,18 @@ public class CardHand : MonoBehaviour
     private void UpdateCardLayers()
     {
         //v�nstra sidan fr�n selected index
-        for (int i = 0; i < currentIndex; i++)
+        for (int i = 0; i < CurrentIndex; i++)
         {
-            cardsInHand[i].Canvas.sortingOrder = -1 * (currentIndex - i);
+            cardsInHand[i].Canvas.sortingOrder = -1 * (CurrentIndex - i);
             //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (selectedIndex - i);
         }
         //selected index
-        cardsInHand[currentIndex].Canvas.sortingOrder = 1;
+        cardsInHand[CurrentIndex].Canvas.sortingOrder = 1;
         //cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 1;
         //h�gra sidan fr�n selected index
-        for (int i = currentIndex+1; i < cardsInHand.Count;i++)
+        for (int i = CurrentIndex+1; i < cardsInHand.Count;i++)
         {
-            cardsInHand[i].Canvas.sortingOrder = -1 * (i -(currentIndex) + 1);
+            cardsInHand[i].Canvas.sortingOrder = -1 * (i -(CurrentIndex) + 1);
             //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (i - (selectedIndex) + 1);
         }
 
@@ -908,7 +925,7 @@ public class CardHand : MonoBehaviour
         if (!CheckIfCardNextTo(-1))
             return;
 
-        --currentIndex;
+        --CurrentIndex;
         /*
         for(int i = 0; i < cardsInHand.Count-1; i++)
         {
@@ -924,7 +941,7 @@ public class CardHand : MonoBehaviour
         if (!CheckIfCardNextTo(+1))
             return;
 
-        ++currentIndex;
+        ++CurrentIndex;
         /*
         for (int i = 0; i < cardsInHand.Count - 1; i++)
         {
@@ -938,7 +955,7 @@ public class CardHand : MonoBehaviour
 
     private bool CheckIfCardNextTo(int direction)
     {
-        if (currentIndex + direction >= cardsInHand.Count || currentIndex + direction < 0)
+        if (CurrentIndex + direction >= cardsInHand.Count || CurrentIndex + direction < 0)
         { return false; }
         return true;
     }

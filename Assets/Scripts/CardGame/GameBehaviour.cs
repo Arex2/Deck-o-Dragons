@@ -60,6 +60,12 @@ public class GameBehaviour : Target
     [SerializeField]
     private Slider hpSlider;
 
+    [SerializeField]
+    public IndicatorManager indicatorManager;
+
+    [SerializeField]
+    private ScreenShake screenShake;
+
     //Reference to enemy script
     [SerializeField]
     public EncounterManager encounterManager;
@@ -148,8 +154,29 @@ public class GameBehaviour : Target
 
     protected override void UpdateHP()
     {
-        hpSlider.value = HP;
+        if (hpSlider.value > HP)
+        {
+            screenShake.StartShake();
+        }
+        hpSlider.value = HP; 
+        //StartCoroutine(UpdateHealthBar());
         playerHealthText.text = HP.ToString();
+        indicatorManager.ClearIndicators();
+    }
+
+    //Verkade som att det redan var någon incrimental effekt på slidern/hpBaren
+    private IEnumerator UpdateHealthBar()
+    {
+        float duration = 1f;
+        float elapsedTime = 0f;
+        float startHealth = hpSlider.value;
+
+        while(elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            hpSlider.value = Mathf.Lerp(startHealth, HP, elapsedTime);
+        }
+        yield return null;
     }
 
     public void GainMana(int count)

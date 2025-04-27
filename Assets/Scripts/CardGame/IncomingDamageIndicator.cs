@@ -19,7 +19,7 @@ public class IncomingDamageIndicator : MonoBehaviour
         ShowIncomingDamage(incomingDMG, hpSlider.value *10);
     }
 
-    public void ShowIncomingDamage(float incomingDamage, float currentHP)
+    public void ShowIncomingDamage(float currentHP, float incomingDamage)
     {
         damageSlider.value = CalculateDamageToSlider(incomingDamage, currentHP);
     }

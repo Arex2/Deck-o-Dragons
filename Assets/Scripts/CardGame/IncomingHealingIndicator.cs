@@ -19,7 +19,7 @@ public class IncomingHealingIndicator : MonoBehaviour
         ShowIncomingHealing(incomingHealing / 10, hpSlider.value);
     }
 
-    public void ShowIncomingHealing(float incomingHealing, float currentHP)
+    public void ShowIncomingHealing(float currentHP, float incomingHealing)
     {
         healingSlider.value = CalculateHealingToSlider(incomingHealing, currentHP);
     }
