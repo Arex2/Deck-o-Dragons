@@ -23,8 +23,16 @@ public class EncounterManager : MonoBehaviour
 
         if (currentEncounterIndex >= encounters.Count)
         {
+            //Increase Progression
+            if(ProgressManager.Instance != null)
+            {
+                ProgressManager.Instance.IncreaseLevel();
+                EnemyScalingManager.Instance.AdvanceScaling();
+            }
+
             // Card shop scene
             SceneManager.LoadScene(6);
+
         }
         else if(encounters[currentEncounterIndex] != null)
         {
