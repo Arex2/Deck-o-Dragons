@@ -190,7 +190,7 @@ public class Card : GUIDScriptableObject
 
         foreach (CardComponent cardComponent in cardComponents)
         {
-            cardComponent.OnBeforePlayed();
+            cardComponent.OnBeforeCardPlayed();
         }
 
         return PlayCoroutine(user, level, onFinish);
@@ -215,6 +215,7 @@ public class Card : GUIDScriptableObject
 
             CurrentComponent = cardComponent;
 
+            // Account for and execute IAffectOtherCards
             IAffectOtherCards affectOtherCards = cardComponent as IAffectOtherCards;
 
             if (affectOtherCards != null)
@@ -234,6 +235,7 @@ public class Card : GUIDScriptableObject
                 CardsToAffect.Clear();
             }
 
+            // Get targets using the target filter
             TargetFilter targetFilter = cardComponent.TargetFilter;
 
             List<Target> targets = null;
@@ -257,69 +259,14 @@ public class Card : GUIDScriptableObject
                 }
             }
 
-            IUse use = cardComponent as IUse;
-            IUseCoroutine useCoroutine = cardComponent as IUseCoroutine;
-            IUseMulti useMulti = cardComponent as IUseMulti;
-            IUseSingle useSingle = cardComponent as IUseSingle;
-            IUseCoroutineMulti useCoroutineMulti = cardComponent as IUseCoroutineMulti;
-            IUseCoroutineSingle useCoroutineSingle = cardComponent as IUseCoroutineSingle;
+            // Play the card component
+            cardComponent.Play(targets);
 
-            if (use != null)
+            IEnumerator playCoroutine = cardComponent.PlayCoroutine(targets);
+
+            if (playCoroutine != null)
             {
-                use.Use();
-            }
-
-            if (useCoroutine != null)
-            {
-                IEnumerator enumerator = useCoroutine.UseCoroutine();
-
-                if (enumerator != null)
-                {
-                    yield return enumerator;
-                }
-            }
-
-            if (useMulti != null)
-            {
-                useMulti.Use(targets);
-            }
-
-            if (useSingle != null)
-            {
-                if (targets != null)
-                {
-                    foreach (Target target in targets)
-                    {
-                        useSingle.Use(target);
-                    }
-                }
-                else
-                {
-                    useSingle.Use(null);
-                }
-            }
-
-            if (useCoroutineMulti != null)
-            {
-                IEnumerator enumerator = useCoroutineMulti.UseCoroutine(targets);
-
-                if (enumerator != null)
-                {
-                    yield return enumerator;
-                }
-            }
-
-            if (useCoroutineSingle != null)
-            {
-                foreach (Target target in targets)
-                {
-                    IEnumerator enumerator = useCoroutineSingle.UseCoroutine(target);
-
-                    if (enumerator != null)
-                    {
-                        yield return enumerator;
-                    }
-                }
+                yield return playCoroutine;
             }
         }
 
@@ -327,7 +274,7 @@ public class Card : GUIDScriptableObject
 
         foreach (CardComponent cardComponent in cardComponents)
         {
-            cardComponent.OnAfterPlayed();
+            cardComponent.OnAfterCardPlayed();
         }
 
         onFinish?.Invoke();

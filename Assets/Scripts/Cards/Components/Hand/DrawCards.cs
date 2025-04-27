@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -5,7 +6,7 @@ using UnityEngine;
 /// </summary>
 // Script by Ruben
 [AddComponentMenu("Hand/Draw Cards")]
-public class DrawCards : CardComponent, IUse
+public class DrawCards : CardComponent
 {
     [SerializeField] private CardTag tag;
     [SerializeField] private UpgradeableInt amount = new(1);
@@ -16,7 +17,7 @@ public class DrawCards : CardComponent, IUse
     private CardHand _cardHand;
     private DeckManager _deckManager;
 
-    public void Use()
+    public override void Play(List<Target> targets)
     {
         if (_cardHand == null)
         {

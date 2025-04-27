@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 // Script by Ruben
 [AddComponentMenu("Card Attack")]
-public class CardAttack : CardComponent, IUseCoroutineMulti
+public class CardAttack : CardComponent
 {
     /// <summary>
     /// The total damage this Component will deal to a <see cref="Target"/>. <para/>
@@ -42,7 +42,12 @@ public class CardAttack : CardComponent, IUseCoroutineMulti
     [SerializeField] private UpgradeableFloat damage = new(3, 1);
     [SerializeField] private UpgradeableInt attackAmount = new(1);
 
-    public IEnumerator UseCoroutine(List<Target> targets)
+    public override void Play(List<Target> targets)
+    {
+
+    }
+
+    public override IEnumerator PlayCoroutine(List<Target> targets)
     {
         float damage = Damage * DamageMultiplier;
         int attackAmount = AttackAmount;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -108,12 +109,19 @@ public abstract class CardComponent : ScriptableObject
 
     }
 
-    public virtual void OnBeforePlayed()
+    public virtual void OnBeforeCardPlayed()
     {
 
     }
 
-    public virtual void OnAfterPlayed()
+    public abstract void Play(List<Target> targets);
+
+    public virtual IEnumerator PlayCoroutine(List<Target> targets)
+    {
+        yield return null;
+    }
+
+    public virtual void OnAfterCardPlayed()
     {
 
     }

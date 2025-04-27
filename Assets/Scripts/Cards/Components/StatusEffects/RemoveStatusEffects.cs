@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -5,7 +6,7 @@ using UnityEngine;
 /// </summary>
 // Script by Ruben
 [AddComponentMenu("Status Effects/Remove Status Effects")]
-public class RemoveStatusEffects : CardComponent, IUseSingle
+public class RemoveStatusEffects : CardComponent
 {
     public override TargetFilter TargetFilter => targetFilter;
 
@@ -18,7 +19,16 @@ public class RemoveStatusEffects : CardComponent, IUseSingle
     [SerializeField] private bool removeAllDebuffs;
     [SerializeField] private bool removeAllNonDebuffs;
 
-    public void Use(Target target)
+
+    public override void Play(List<Target> targets)
+    {
+        foreach (Target target in targets)
+        {
+            ClearEffects(target);
+        }
+    }
+
+    private void ClearEffects(Target target)
     {
         if (removeAllDebuffs && removeAllNonDebuffs)
         {
