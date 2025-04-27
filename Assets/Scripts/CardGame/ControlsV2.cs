@@ -23,7 +23,11 @@ public class ControlsV2 : MonoBehaviour
     CardHand hand;
 
     [SerializeField]
+#if UNITY_EDITOR // This gets rid of an annoying warning in console
+    new
+#endif
     Camera camera;
+
 
     [SerializeField]
     SceneSwitcher sceneSwitcher;
@@ -255,7 +259,7 @@ public class ControlsV2 : MonoBehaviour
                 else
                 {
                     Debug.Log("PlayCard");
-                    hand.OldPlayCard();
+                    hand.UseCurrentCard();
                 }
             }
         }
