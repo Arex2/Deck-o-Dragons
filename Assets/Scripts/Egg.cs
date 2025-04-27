@@ -19,6 +19,8 @@ public class Egg : MonoBehaviour
     float shakeTreshold = 2.0f * 2.0f;
     Vector3 lowPassValue;
 
+    ScreenShake screenShake;
+
     //[SerializeField] GameObject[] dragons;
     [SerializeField] private Sprite[] crackedSprites;
     private SpriteRenderer spriteRenderer;
@@ -42,6 +44,7 @@ public class Egg : MonoBehaviour
         DragonActive.index = 0;
         DragonActive.age = 0;
         inputMan = GameObject.Find("TextInputManager").GetComponent<TextInputManager>();
+        screenShake = GameObject.Find("Main Camera").GetComponent<ScreenShake>();
     }
 
     void Update()
@@ -119,6 +122,8 @@ public class Egg : MonoBehaviour
 
             //shake
             shakeCount++;
+            //screenshake
+            screenShake.StartShake();
             //reset tapCurrent
             tapCurrent = 0;
         }
@@ -192,6 +197,8 @@ public class Egg : MonoBehaviour
 
     public void SpawnEgg(GameObject egg)
     {
+        //screenshake
+        screenShake.StartShake();
         Instantiate(egg, new Vector3(0, 0, 0), Quaternion.identity);
     }
 

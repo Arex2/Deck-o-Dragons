@@ -6,7 +6,7 @@ public class ScreenShake : MonoBehaviour
 {
     public bool start = false;
     public AnimationCurve curve;
-    float duration = 0.5f;
+    public float duration = 0.5f;
 
     void Update()
     {
