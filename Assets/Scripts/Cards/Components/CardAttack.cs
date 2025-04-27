@@ -9,7 +9,12 @@ using UnityEngine;
 [AddComponentMenu("Card Attack")]
 public class CardAttack : CardComponent, IUseCoroutineMulti
 {
+    public const string DAMAGE_MULTIPLIER_KEY_NAME = "DAMAGE_MULTIPLIER";
+
+    public float DamageMultiplier => GetCardData<float>(DAMAGE_MULTIPLIER_KEY_NAME, 1);
+
     public override TargetFilter TargetFilter => targetFilter;
+
     [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Opponent, TargetFilter.FilterMode.Chosen);
 
     [Space]
@@ -18,8 +23,8 @@ public class CardAttack : CardComponent, IUseCoroutineMulti
 
     public IEnumerator UseCoroutine(List<Target> targets)
     {
-        int attackAmount = this.attackAmount.GetValue(Tier);
-        float damage = this.damage.GetValue(Tier);
+        int attackAmount = this.attackAmount[Level];
+        float damage = this.damage[Level] * DamageMultiplier;
 
         void DoDamage(Target target)
         {
@@ -66,26 +71,27 @@ public class CardAttack : CardComponent, IUseCoroutineMulti
     [ReplaceDescriptionKeyword]
     private string ReplaceMainKeyword()
     {
-        float value = attackAmount.GetValue(Tier);
+        float value = attackAmount.GetValue(Level);
+        string result = ReplaceDamageKeyword();
 
         if (value != 1)
         {
-            return damage.ToString(Tier) + "x" + value.ToString();
+            result += "x" + value.ToString();
         }
 
-        return damage.ToString(Tier);
+        return result;
     }
 
     [ReplaceDescriptionKeyword("DAMAGE")]
     private string ReplaceDamageKeyword()
     {
-        return damage.ToString(Tier);
+        return Mathf.Round(damage.GetValue(Level) * DamageMultiplier).ToString();
     }
 
     [ReplaceDescriptionKeyword("AMOUNT")]
     private string ReplaceAttackAmountKeyword()
     {
-        return attackAmount.ToString(Tier);
+        return attackAmount.ToString(Level);
     }
     #endregion
 }

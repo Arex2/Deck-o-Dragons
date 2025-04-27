@@ -143,16 +143,6 @@ public class CardManager : Singleton<CardManager>
         }
     }
 
-    public static Coroutine StartStaticCoroutine(IEnumerator method)
-    {
-        return Instance.StartCoroutine(method);
-    }
-
-    public static void StopStaticCoroutine(Coroutine coroutine)
-    {
-        Instance.StopCoroutine(coroutine);
-    }
-
     /// <summary>
     /// Returns an array of <see cref="Card"/>s that have the attached <paramref name="tag"/>.
     /// </summary>

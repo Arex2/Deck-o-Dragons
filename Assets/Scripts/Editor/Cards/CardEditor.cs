@@ -325,6 +325,7 @@ public class CardEditor : Editor
         SerializedProperty iterator = serializedObject.GetIterator();
 
         bool enterChildren = true;
+        Rect rect;
 
         while (iterator.NextVisible(enterChildren))
         {
@@ -349,11 +350,60 @@ public class CardEditor : Editor
                     continue;
 
                 case "sprite":
-                    Rect rect = EditorGUILayout.GetControlRect(GUILayout.Height(64));
+                    rect = EditorGUILayout.GetControlRect(GUILayout.Height(64));
 
                     GUIContent label = EditorGUI.BeginProperty(rect, new GUIContent(iterator.displayName), iterator);
                     iterator.objectReferenceValue = EditorGUI.ObjectField(rect, label, iterator.objectReferenceValue, typeof(Sprite), false);
                     EditorGUI.EndProperty();
+                    continue;
+
+                case "canChangeLevel":
+                    EditorGUILayout.Space();
+
+                    rect = EditorGUILayout.GetControlRect();
+
+                    Rect prefixRect = CustomEditorUtility.GetPrefixRect(rect);
+                    Rect remainer = rect;
+                    remainer.xMin += prefixRect.width;
+
+                    EditorGUI.BeginProperty(rect, GUIContent.none, iterator);
+                    EditorGUI.PropertyField(rect, iterator, new GUIContent("Upgrades/Downgrades"));
+
+                    iterator.isExpanded = EditorGUI.BeginFoldoutHeaderGroup(prefixRect, iterator.isExpanded, GUIContent.none, EditorStyles.foldout);
+                    EditorGUI.EndFoldoutHeaderGroup();
+
+                    EditorGUI.EndProperty();
+
+                    if (iterator.isExpanded)
+                    {
+                        using (new EditorGUI.DisabledScope(!iterator.boolValue))
+                        {
+                            EditorGUI.indentLevel++;
+
+                            Rect bgRect = rect;
+
+                            bgRect.yMin = EditorGUILayout.GetControlRect(GUILayout.Height(0)).y;
+
+                            EditorGUILayout.Space(CustomEditorUtility.SPACING / 2);
+
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("minLevel"));
+                            EditorGUILayout.PropertyField(serializedObject.FindProperty("maxLevel"));
+
+                            EditorGUILayout.Space(CustomEditorUtility.SPACING / 2);
+
+                            bgRect.yMax = EditorGUILayout.GetControlRect(GUILayout.Height(0)).y;
+
+                            CustomEditorUtility.DrawBGBox(bgRect);
+
+                            EditorGUI.indentLevel--;
+                        }
+                    }
+
+                    continue;
+
+                // Don't draw these
+                case "minLevel":
+                case "maxLevel":
                     continue;
             }
 

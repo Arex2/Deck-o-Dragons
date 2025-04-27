@@ -24,7 +24,7 @@ public abstract class CardComponent : ScriptableObject
 
     public virtual TargetFilter TargetFilter => null;
 
-    public int Tier => card.Tier;
+    public int Level => card.Level;
 
     /// <summary>
     /// The current <see cref="Target"/> that's using this <see cref="Card"/>.
@@ -108,6 +108,16 @@ public abstract class CardComponent : ScriptableObject
 
     }
 
+    public virtual void OnBeforePlayed()
+    {
+
+    }
+
+    public virtual void OnAfterPlayed()
+    {
+
+    }
+
     public bool ShouldReplaceDescriptionKeywords() => _keywordReplacementDelegates != null;
 
     public string ReplaceDescriptionKeyword(string keyword)
@@ -119,6 +129,20 @@ public abstract class CardComponent : ScriptableObject
 
         return @delegate.Invoke();
     }
+
+    #region Card Data Stuff
+    public void SetCardData<T>(string key, T value) => card.SetCardData(key, value);
+
+    public T GetCardData<T>(string key) => card.GetCardData<T>(key);
+
+    public T GetCardData<T>(string key, T defaultValue) => card.GetCardData(key, defaultValue);
+
+    public bool HasCardData<T>(string key) => card.HasCardData<T>(key);
+
+    public bool TryGetCardData<T>(string key, out T value) => card.TryGetCardData(key, out value);
+
+    public bool TryGetCardData<T>(string key, out T value, T defaultValue) => card.TryGetCardData(key, out value, defaultValue);
+    #endregion
 
     #region GetCardComponent Methods
     public T GetCardComponent<T>() where T : CardComponent => card.GetCardComponent<T>();

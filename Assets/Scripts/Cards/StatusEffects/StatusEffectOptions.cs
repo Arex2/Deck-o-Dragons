@@ -10,9 +10,9 @@ using UnityEngine;
 public class StatusEffectOptions
 {
     public StatusEffect StatusEffect => statusEffect;
-    public StatusEffectData GetData(int tier) => new StatusEffectData(GetPotency(tier), GetDuration(tier));
-    public float GetPotency(int tier) => potency[tier];
-    public int GetDuration(int tier) => duration[tier];
+    public StatusEffectData GetData(int level) => new StatusEffectData(GetPotency(level), GetDuration(level));
+    public float GetPotency(int level) => potency[level];
+    public int GetDuration(int level) => duration[level];
 
     [SerializeField] private StatusEffect statusEffect;
     [SerializeField] private UpgradeableFloat potency = new(0f, 0f);

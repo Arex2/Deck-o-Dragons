@@ -29,6 +29,9 @@ public class Controls : MonoBehaviour
     [SerializeField]
     SceneSwitcher sceneSwitcher;
     [SerializeField]
+#if UNITY_EDITOR // This gets rid of an annoying warning in console
+    new
+#endif
     Camera camera;
     float leftEdgeArea = 0.20f;
     float rightEdgeArea = 0.80f;
@@ -156,7 +159,7 @@ public class Controls : MonoBehaviour
         {
             case Direction.Up:
                 //Debug.Log("Play card");
-                hand.OldPlayCard();
+                hand.UseCurrentCard();
                 break;
             case Direction.Down:
                 //hand.DrawCard();
