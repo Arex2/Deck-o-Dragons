@@ -29,6 +29,12 @@ MonoBehaviour:
     downgrades:
     - value: 1
       method: 1
+    minLimit:
+      Enabled: 0
+      Value: 0
+    maxLimit:
+      Enabled: 0
+      Value: 0
   attackAmount:
     baseValue: 1
     stack: 1
@@ -39,6 +45,12 @@ MonoBehaviour:
     downgrades:
     - value: 0
       method: 1
+    minLimit:
+      Enabled: 0
+      Value: 0
+    maxLimit:
+      Enabled: 0
+      Value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,17 +61,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: Theif
+  m_Name: Leech
   m_EditorClassIdentifier: 
   guid: c6efc07c042cb7343b361ef4baa35d94
   sprite: {fileID: 21300000, guid: 732a5394a728d6047b020cb258262bab, type: 3}
-  displayName: Theif
+  displayName: Leech
   description: Deal {ATTACK} damage and heal {HEALING}.
   cost: 6
   element: 0
   category: 0
   rarity: 0
   copies: 2
+  canChangeLevel: 0
+  minLevel:
+    Enabled: 0
+    Value: 0
+  maxLevel:
+    Enabled: 0
+    Value: 0
   tags: []
   cardComponents:
   - {fileID: -2281033176482474571}
@@ -93,3 +112,9 @@ MonoBehaviour:
     downgrades:
     - value: 1
       method: 1
+    minLimit:
+      Enabled: 0
+      Value: 0
+    maxLimit:
+      Enabled: 0
+      Value: 0

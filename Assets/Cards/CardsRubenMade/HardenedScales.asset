@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: DragonVitamins
+  m_Name: HardenedScales
   m_EditorClassIdentifier: 
   guid: e3ae0944914a0584fb54faae81077112
   sprite: {fileID: 0}
-  displayName: Dragon Vitamins
+  displayName: Hardened Scales
   description: You take {POTENCY} less damage for the next {DURATION} attacks.
   cost: 3
   element: 0

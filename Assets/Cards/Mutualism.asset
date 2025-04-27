@@ -29,6 +29,12 @@ MonoBehaviour:
     downgrades:
     - value: 0
       method: 1
+    minLimit:
+      Enabled: 0
+      Value: 0
+    maxLimit:
+      Enabled: 0
+      Value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,6 +56,13 @@ MonoBehaviour:
   category: 4
   rarity: 1
   copies: 2
+  canChangeLevel: 0
+  minLevel:
+    Enabled: 0
+    Value: 0
+  maxLevel:
+    Enabled: 0
+    Value: 0
   tags: []
   cardComponents:
   - {fileID: -6312520684244580643}
