@@ -63,11 +63,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: Rust
+  m_Name: SeepingVenom
   m_EditorClassIdentifier: 
   guid: d61b0f20ad161914a8459df688c76e24
   sprite: {fileID: 0}
-  displayName: Rust
+  displayName: Seeping Venom
   description: Increases the damage your opponent takes by {POTENCY} for {DURATION}
     attacks.
   cost: 4
