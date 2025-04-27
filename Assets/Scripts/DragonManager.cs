@@ -6,7 +6,7 @@ public class DragonManager : MonoBehaviour
 {
     public static DragonManager Instance { get; private set; }
 
-    public Dragon dragon;
+    public Dragon Dragon {get; private set;}
     
     void Awake()
     {
@@ -19,5 +19,10 @@ public class DragonManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SetDragon(Dragon dragon)
+    {
+        this.Dragon = dragon;
     }
 }

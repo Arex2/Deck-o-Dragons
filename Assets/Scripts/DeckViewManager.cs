@@ -7,11 +7,11 @@ public class DeckViewManager : MonoBehaviour
     [SerializeField] private List<CardViewInctance> cards;
     [SerializeField] private List<Card> testDeck;
 
-    int currentPage = 0;
+    int currentPage = 1;
 
     private void Start()
     {
-        TurnPage(1);
+        TurnPage(0);
     }
     public void TurnPage(int amount) 
     {
