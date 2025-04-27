@@ -23,9 +23,6 @@ public class ControlsV2 : MonoBehaviour
     CardHand hand;
 
     [SerializeField]
-#if UNITY_EDITOR // This gets rid of an annoying warning in console
-    new
-#endif
     Camera camera;
 
     [SerializeField]
@@ -241,12 +238,12 @@ public class ControlsV2 : MonoBehaviour
         {
             //check start position for card drag or scene switch
 
-            if (startContactPoint.x < leftEdgeArea && sceneSwitcher.gameObject.activeInHierarchy)
+            if (startContactPoint.x < leftEdgeArea)
             {
                 //Debug.Log("Switch scene RIGHT");
                 //sceneSwitcher.SwitchToEgg();
             }
-            else if (startContactPoint.x > rightEdgeArea && sceneSwitcher.gameObject.activeInHierarchy)
+            else if (startContactPoint.x > rightEdgeArea)
             {
                 //Debug.Log("Switch scene LEFT");
                 //sceneSwitcher.SwitchScene(+1);
@@ -274,7 +271,7 @@ public class ControlsV2 : MonoBehaviour
                 else
                 {
                     Debug.Log("PlayCard");
-                    hand.UseCurrentCard();
+                    hand.OldPlayCard();
                 }
             }
         }
@@ -285,7 +282,7 @@ public class ControlsV2 : MonoBehaviour
 
             if (startContactPoint.x < leftEdgeArea)
             {
-                if(dragDir.magnitude > minSwipeSize && sceneSwitcher.gameObject.activeInHierarchy)
+                if(dragDir.magnitude > minSwipeSize)
                 {
                     Debug.Log("Switch scene RIGHT");
                     sceneSwitcher.SwitchToEgg();
@@ -293,7 +290,7 @@ public class ControlsV2 : MonoBehaviour
             }
             else if (startContactPoint.x > rightEdgeArea)
             {
-                if (dragDir.magnitude > minSwipeSize && sceneSwitcher.gameObject.activeInHierarchy)
+                if (dragDir.magnitude > minSwipeSize)
                 {
                     Debug.Log("Switch scene LEFT");
                     //sceneSwitcher.SwitchScene(+1);
