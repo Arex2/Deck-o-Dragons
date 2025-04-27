@@ -102,6 +102,7 @@ MonoBehaviour:
   - {fileID: 579575771, guid: f8db8686045b53342a6177f4c78d41a3, type: 3}
   - {fileID: -314025812, guid: f8db8686045b53342a6177f4c78d41a3, type: 3}
   - {fileID: 1471289581, guid: f8db8686045b53342a6177f4c78d41a3, type: 3}
+  eggInPieces: {fileID: 2056032895475215179, guid: e792c09988b8ef74bb6f71b9e0b1d583, type: 3}
 --- !u!61 &-762217286064236674
 BoxCollider2D:
   m_ObjectHideFlags: 0

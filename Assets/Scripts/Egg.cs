@@ -49,11 +49,18 @@ public class Egg : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
             Hatch();
 
+
+        tapCurrent -= Time.deltaTime;
+        if (tapCurrent < 0) tapCurrent = 0;
+        //Debug.Log("tapCurrent: " + tapCurrent);
+
+
         Vector3 acceleration = Input.acceleration;
         Vector3 deltaAcceleration = acceleration - lowPassValue;
         if(!isHatching && shakeCount == 3)
         {
-            Hatch();
+            //Hatch();
+            StartCoroutine(WaitForHatch());
         } //only check this if shakeCounter != 3
         else if (!isHatching && deltaAcceleration.sqrMagnitude > shakeTreshold)
         {
@@ -77,6 +84,68 @@ public class Egg : MonoBehaviour
         }
 
     }
+
+    private void OnMouseDown()
+    {
+        if (!isHatching && shakeCount >= 3)
+        {
+            //Hatch();
+            StartCoroutine(WaitForHatch());
+        }
+        else
+        {
+            // Optional: tap counts as a shake if you want faster interaction
+            Debug.Log("Egg tapped!");
+            //ShakeByTap();
+            TapToOpen();
+        }
+    }
+
+    float tapThreshhold = 1f;
+    float tapCurrent;
+    private void TapToOpen()
+    {
+        //varje tap ökar tapCurrent;
+        tapCurrent += 0.5f;
+        //med tid sänks tapCurrent (i update)
+        //om tapCurrent når över tapThreshold räknas det som 1 shake
+        if(tapCurrent >= tapThreshhold)
+        {
+            //change sprite
+            if (shakeCount < crackedSprites.Length)
+            {
+                spriteRenderer.sprite = crackedSprites[shakeCount];
+            }
+
+            //shake
+            shakeCount++;
+            //reset tapCurrent
+            tapCurrent = 0;
+        }
+    }
+
+    #region old tap shake
+    private void ShakeByTap()
+    {
+        time += timeBetweenShakes; // instantly "fills" the shake timer
+
+        if (time >= timeBetweenShakes)
+        {
+            if (shakeCount < crackedSprites.Length)
+            {
+                spriteRenderer.sprite = crackedSprites[shakeCount];
+            }
+
+            shakeCount++;
+            time = 0;
+
+            if (shakeCount >= 3)
+            {
+                Hatch();
+            }
+        }
+    }
+    #endregion
 
     private void NewPos()
     {
@@ -102,44 +171,29 @@ public class Egg : MonoBehaviour
         //DeleteEgg();
     }
 
+    private IEnumerator WaitForHatch()
+    {
+        isHatching = true;
+        yield return new WaitForSeconds(0.3f);
+        Hatch();
+
+    }
+    [SerializeField]
+    GameObject eggInPieces;
+    private void BreakOpenShell()
+    {
+        //spawna shellfragments på samma plats som ägget
+        //lägg till fart på dessa fragments (i relation till hur mobilen hålls?)
+        //och när de är utanför skärmen radera dem
+
+        GameObject obj = Instantiate(eggInPieces);
+        obj.transform.position = Vector3.zero;
+    }
+
     public void SpawnEgg(GameObject egg)
     {
         Instantiate(egg, new Vector3(0, 0, 0), Quaternion.identity);
     }
-    private void OnMouseDown()
-    {
-        if (!isHatching && shakeCount >= 3)
-        {
-            Hatch();
-        }
-        else
-        {
-            // Optional: tap counts as a shake if you want faster interaction
-            Debug.Log("Egg tapped!");
-            ShakeByTap();
-        }
-    }
-    private void ShakeByTap()
-    {
-        time += timeBetweenShakes; // instantly "fills" the shake timer
-
-        if (time >= timeBetweenShakes)
-        {
-            if (shakeCount < crackedSprites.Length)
-            {
-                spriteRenderer.sprite = crackedSprites[shakeCount];
-            }
-
-            shakeCount++;
-            time = 0;
-
-            if (shakeCount >= 3)
-            {
-                Hatch();
-            }
-        }
-    }
-
 
     private void SpawnDragon()
     {
@@ -153,6 +207,7 @@ public class Egg : MonoBehaviour
 
     private void DeleteEgg()
     {
+        BreakOpenShell();
         Destroy(gameObject);
     }
 
