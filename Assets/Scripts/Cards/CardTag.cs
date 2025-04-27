@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -19,15 +20,11 @@ public class CardTag : GUIDScriptableObject
             return _cachedDisplayName;
         }
     }
+    [NonSerialized]
     private string _cachedDisplayName;
 
     public bool Hidden => hidden;
 
     [SerializeField] private string displayName;
     [SerializeField] private bool hidden;
-
-    private void OnEnable()
-    {
-        _cachedDisplayName = null;
-    }
 }

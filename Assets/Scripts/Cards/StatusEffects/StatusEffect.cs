@@ -35,10 +35,12 @@ public abstract class StatusEffect : GUIDScriptableObject
             return _cachedDisplayName;
         }
     }
+    [NonSerialized]
     private string _cachedDisplayName;
     public bool IsDebuff => isDebuff;
     public bool PotencyIsPercent => ForcedPotencyIsPercent.HasValue ? ForcedPotencyIsPercent.Value : potencyIsPercent;
 
+    [NonSerialized]
     private string _descriptionFormat = null;
 
     [SerializeField] private Sprite icon;
@@ -107,12 +109,6 @@ public abstract class StatusEffect : GUIDScriptableObject
     /// Wether or not <see cref="UserData"/> has been setup properly.
     /// </summary>
     public bool SetupUserData => Data == null ? false : Data.SetupUserData;
-
-    private void OnEnable()
-    {
-        _cachedDisplayName = null;
-        _descriptionFormat = null;
-    }
 
     public string GetDescription(StatusEffectData data)
     {

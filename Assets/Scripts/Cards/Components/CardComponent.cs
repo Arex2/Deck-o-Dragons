@@ -45,6 +45,7 @@ public abstract class CardComponent : ScriptableObject
     [SerializeField] protected Card card;
     [HideInInspector]
     [SerializeField] private bool disableOnStart;
+    [NonSerialized]
     private bool _enabled;
 
     public void InternalInitialize()
