@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class GameBehaviour : Target
 {
@@ -17,24 +19,17 @@ public class GameBehaviour : Target
     }
     #endregion
 
-    private bool endTurn;
-
-    public bool EndTurn
-    { get { return endTurn; } }
-
-    private bool cardsSelected;
-    public bool CardSelected
-    { get { return cardsSelected; }
-        set { cardsSelected = value; }
-    }
+    public bool ButtonPressed => buttonPressed;
+    private bool buttonPressed;
+    public bool CancelButtonPressed => cancelButtonPressed;
+    private bool cancelButtonPressed;
 
     //player stats, should maybe be moved? or script renamed
     //OBS MaxHP and HP is instead used from Target superclass
     private int mana;
     private int maxMana = 8;
-    
-    public int Mana 
-    { get { return mana; } }
+
+    public int Mana => mana;
 
     //ha koppling till CardHand och Controls
     [SerializeField]
@@ -43,13 +38,16 @@ public class GameBehaviour : Target
     public CardHand cardHand;
 
     //End turn button
+    [Space]
     [SerializeField]
-    Button endTurnButton;
+    Button button;
+    CanvasGroup buttonCanvasGroup;
     [SerializeField]
-    TMP_Text endTurnButtonText;
-    string endTurnButtonStartText;
+    TMP_Text buttonText;
+    string buttonDefaultText;
 
     //temp canvas text
+    [Space]
     [SerializeField]
     private TMP_Text statusText;
     [SerializeField]
@@ -70,6 +68,11 @@ public class GameBehaviour : Target
     {
         Instance = this;
 
+        buttonCanvasGroup = button.GetComponentInChildren<CanvasGroup>(true);
+
+        buttonCanvasGroup.alpha = 0;
+        buttonCanvasGroup.blocksRaycasts = false;
+
         base.Awake();
     }
 
@@ -77,7 +80,7 @@ public class GameBehaviour : Target
     {
         base.Start();
 
-        endTurnButtonStartText = endTurnButtonText.text;
+        buttonDefaultText = buttonText.text;
 
         mana = maxMana;
 
@@ -100,40 +103,47 @@ public class GameBehaviour : Target
     //end turn button
     public void ButtonPress()
     {
-        if(cardHand.choosingCardsToAffect)
-        {
-            endTurnButton.interactable = false;
-            cardsSelected = true;
-        }
-        else EndCurrentTurn();
-    }
-    public void EndCurrentTurn()
-    {
-        if (!cardHand.choosingCardsToKeepAfterDiscard)
+        if (!cardHand.SelectingCards)
         {
             encounterManager.currentEncounterEnemy.StartTurn();
         }
 
-        endTurn = true;
-        //st�ng av knapp
-        endTurnButton.interactable = false;
+        buttonPressed = true;
     }
 
-    public void SetEndTurnButtonText(string text)
+    public void SetButtonText(string text)
     {
-        endTurnButtonText.text = text;
+        if (buttonText.text == text)
+        {
+            return;
+        }
+
+        buttonText.text = text;
     }
 
-    public void ResetEndTurnButtonText()
+    public void ResetButtonText()
     {
-        SetEndTurnButtonText(endTurnButtonStartText);
+        SetButtonText(buttonDefaultText);
     }
 
-    public void NewTurn()
+    public void EnableButton()
     {
-        endTurn = false;
-        //s�tt p� knapp
-        endTurnButton.interactable = true;
+        buttonPressed = false;
+
+        buttonCanvasGroup.blocksRaycasts = true;
+
+        buttonCanvasGroup.DOKill();
+        buttonCanvasGroup.DOFade(1, 0.25f);
+    }
+
+    public void DisableButton()
+    {
+        buttonPressed = false;
+
+        buttonCanvasGroup.blocksRaycasts = false;
+
+        buttonCanvasGroup.DOKill();
+        buttonCanvasGroup.DOFade(0, 0.25f);
     }
 
     protected override void UpdateHP()
@@ -160,16 +170,16 @@ public class GameBehaviour : Target
         UpdateMana();
     }
 
+    public void UpdateMana()
+    {
+        manaText.text = mana.ToString();
+    }
+
     public void SwitchToEggScene()
     {
         SceneManager.LoadScene(1);
         //viktig
         DragonActive.doCheck = true;
-    }
-
-    public void UpdateMana()
-    {
-        manaText.text = mana.ToString();
     }
 
     /// <summary>

@@ -19,9 +19,16 @@ MonoBehaviour:
     Disappears after {DURATION} turns.
   cost: 5
   element: 2
-  category: 0
+  category: 2
   rarity: 2
   copies: 1
+  canChangeLevel: 1
+  minLevel:
+    Enabled: 1
+    Value: -3
+  maxLevel:
+    Enabled: 0
+    Value: 0
   tags: []
   cardComponents:
   - {fileID: 6938824218030841995}
@@ -47,15 +54,25 @@ MonoBehaviour:
   statusEffect:
     statusEffect: {fileID: 11400000, guid: b508642a59a84a5499f9c5155fca0590, type: 2}
     potency:
-      baseValue: 10
+      baseValue: 15
       stack: 1
       loopBehaviour: 1
       upgrades:
-      - value: 0
+      - value: 5
         method: 0
       downgrades:
-      - value: 0
+      - value: 5
         method: 1
+      - value: 5
+        method: 1
+      - value: 4
+        method: 1
+      minLimit:
+        Enabled: 0
+        Value: 0
+      maxLimit:
+        Enabled: 0
+        Value: 0
     duration:
       baseValue: 2
       stack: 1
@@ -63,6 +80,14 @@ MonoBehaviour:
       upgrades:
       - value: 0
         method: 0
+      - value: 1
+        method: 0
       downgrades:
       - value: 0
         method: 1
+      minLimit:
+        Enabled: 0
+        Value: 0
+      maxLimit:
+        Enabled: 0
+        Value: 0

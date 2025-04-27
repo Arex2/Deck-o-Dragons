@@ -21,11 +21,15 @@ MonoBehaviour:
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 0
+    - value: 1
       method: 0
-    downgrades:
-    - value: 0
-      method: 1
+    downgrades: []
+    minLimit:
+      Enabled: 0
+      Value: 0
+    maxLimit:
+      Enabled: 0
+      Value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,10 +47,17 @@ MonoBehaviour:
   displayName: False Rock
   description: Draw {CARD_AMOUNT} and gain {MANA} mana.
   cost: 0
-  element: 8
+  element: 4
   category: 4
   rarity: 0
   copies: 3
+  canChangeLevel: 1
+  minLevel:
+    Enabled: 1
+    Value: -1
+  maxLevel:
+    Enabled: 0
+    Value: 0
   tags: []
   cardComponents:
   - {fileID: 621024053006483382}
@@ -73,9 +84,15 @@ MonoBehaviour:
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 0
+    - value: 1
       method: 0
     downgrades:
-    - value: 0
+    - value: 1
       method: 1
+    minLimit:
+      Enabled: 1
+      Value: 0
+    maxLimit:
+      Enabled: 0
+      Value: 0
   cardsToAlwaysDraw: []

@@ -23,7 +23,11 @@ public class ControlsV2 : MonoBehaviour
     CardHand hand;
 
     [SerializeField]
+#if UNITY_EDITOR // This gets rid of an annoying warning in console
+    new
+#endif
     Camera camera;
+
 
     [SerializeField]
     SceneSwitcher sceneSwitcher;
@@ -236,23 +240,7 @@ public class ControlsV2 : MonoBehaviour
         //check if direction is horizontal
         if (swipingHorizontal)
         {
-            //check start position for card drag or scene switch
-
-            if (startContactPoint.x < leftEdgeArea)
-            {
-                //Debug.Log("Switch scene RIGHT");
-                //sceneSwitcher.SwitchToEgg();
-            }
-            else if (startContactPoint.x > rightEdgeArea)
-            {
-                //Debug.Log("Switch scene LEFT");
-                //sceneSwitcher.SwitchScene(+1);
-                // sceneSwitcher.SwitchToCardGame();
-            }
-            else MoveCards();
-
-
-
+             MoveCards();
         }
     }
 
@@ -271,15 +259,28 @@ public class ControlsV2 : MonoBehaviour
                 else
                 {
                     Debug.Log("PlayCard");
-                    hand.OldPlayCard();
+                    hand.UseCurrentCard();
                 }
             }
         }
         else
         {
-            
-            //check start position for card drag or scene switch
 
+            //cards stay still
+            if (dragDir.magnitude < minReleasePower)
+            {
+                hand.SnapIntoPosition();
+                firstContact = true;
+                swipeAxisRegistered = false;
+                return;
+            }
+            //cards get added movement
+            additionalMoveVelocity = CalculateSpeedToMoveWith();
+            addReleaseMovement = true;
+
+            #region old sceneswitch
+            /*
+            //check start position for card drag or scene switch
             if (startContactPoint.x < leftEdgeArea)
             {
                 if(dragDir.magnitude > minSwipeSize)
@@ -312,6 +313,8 @@ public class ControlsV2 : MonoBehaviour
                 additionalMoveVelocity = CalculateSpeedToMoveWith();
                 addReleaseMovement = true;
             }
+            */
+            #endregion
 
         }
 
@@ -335,17 +338,21 @@ public class ControlsV2 : MonoBehaviour
     private float CalculateSpeedToMoveWith()
     {
         //length of swipe
-        float distance =  currentContactPoint.x - latestEdgeContactPoint.x;
+        float distance = latestEdgeContactPoint.x - currentContactPoint.x;//currentContactPoint.x - latestEdgeContactPoint.x;
 
         //speed of swipe
         float time = Time.time - latestEdgeContactTime;
 
-        //float velocity = distance / time;  //(dragDir.magnitude/100);// (speed/100); //desto kortare tid desto längre
+        float velocity = distance / time;  //(dragDir.magnitude/100);// (speed/100); //desto kortare tid desto längre
 
-        float moveAdditional = distance / time;
-        moveAdditional *= 0.5f;
-        float velocity = camera.ViewportToWorldPoint(startContactPoint).x - (camera.ViewportToWorldPoint(currentContactPoint).x + moveAdditional);
+        //float moveAdditional = distance / time;
+        //moveAdditional *= 0.5f;
+        //float velocity = camera.ViewportToWorldPoint(startContactPoint).x - (camera.ViewportToWorldPoint(currentContactPoint).x + moveAdditional);
 
-        return velocity;
+        //return velocity;
+        float change = startContactPoint.x - currentContactPoint.x + velocity;// camera.ViewportToWorldPoint(startContactPoint).x - (camera.ViewportToWorldPoint(currentContactPoint).x - velocity);
+        change = Mathf.Round(change);
+        Debug.Log("velocity: " + velocity + "  change:  " + change + "  .");
+        return change;
     }
 }

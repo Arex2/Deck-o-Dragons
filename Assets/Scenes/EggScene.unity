@@ -965,6 +965,7 @@ GameObject:
   - component: {fileID: 739077454}
   - component: {fileID: 739077455}
   - component: {fileID: 739077456}
+  - component: {fileID: 739077457}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -1030,6 +1031,24 @@ MonoBehaviour:
   - {fileID: 658802068}
   fullHeartSprite: {fileID: 21300000, guid: 243cce109fc402148a83c3bad53d1b0a, type: 3}
   emptyHeartSprite: {fileID: 21300000, guid: bc975d04dd842e840a01f1a945a5b5ca, type: 3}
+--- !u!114 &739077457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739077451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b73fd100685846499d10427afff89cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ballPrefab: {fileID: 6225153324364347449, guid: ddce2d372ccd1bd4eb04ef60d040d8eb, type: 3}
+  ballBounceHeight: 1
+  characterBounceHeight: 0.2
+  bounceSpeed: 5
+  bounceDelay: 0.2
+  bounceButton: {fileID: 810453345}
 --- !u!1 &810453343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,15 +1077,15 @@ RectTransform:
   m_GameObject: {fileID: 810453343}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1272841836}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 30, y: 30}
-  m_SizeDelta: {x: 130, y: 100}
+  m_AnchoredPosition: {x: 70.78, y: 39.1}
+  m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &810453345
 MonoBehaviour:
@@ -1132,7 +1151,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6d8a304eb5b0509468670a519814db3a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aa8cb09b6932a4b45b456d11143d2bdf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2621,7 +2640,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 10.79, y: 335.61}
+  m_AnchoredPosition: {x: 10.789978, y: 335.61}
   m_SizeDelta: {x: 88.42999, y: 96.2}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1838282680

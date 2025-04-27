@@ -25,6 +25,12 @@ public class UpgradeableIntPropertyDrawer : UpgradeableNumberPropertyDrawer<int>
 
     protected override int DivideMethod(int a, int b)
     {
+        if (b == 0)
+        {
+            Debug.LogWarning("Diving by zero!");
+            return 0;
+        }
+
         return a / b;
     }
 
@@ -48,7 +54,7 @@ public class UpgradeableIntPropertyDrawer : UpgradeableNumberPropertyDrawer<int>
         return EditorGUIUtility.singleLineHeight;
     }
 
-    public override float GetTierHeight(SerializedProperty prop)
+    public override float GetLevelHeight(SerializedProperty prop)
     {
         return GetPropHeight(prop);
     }

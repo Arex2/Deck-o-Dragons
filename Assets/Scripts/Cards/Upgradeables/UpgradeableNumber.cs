@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 // Script by Ruben
 [Serializable]
-public abstract class UpgradeableNumber<T> : UpgradeableBase<T, UpgradeableNumber<T>.NumberTier>
+public abstract class UpgradeableNumber<T> : UpgradeableBase<T, UpgradeableNumber<T>.NumberLevel>
 {
     public override bool CanStack => true;
 
@@ -19,16 +19,19 @@ public abstract class UpgradeableNumber<T> : UpgradeableBase<T, UpgradeableNumbe
 
     protected abstract T DivideMethod(T a, T b);
 
-    protected override T GetTierValue(NumberTier tier, T currentValue)
+    [SerializeField] protected Optional<T> minLimit;
+    [SerializeField] protected Optional<T> maxLimit;
+
+    protected override T GetLevelValue(NumberLevel level, T currentValue)
     {
-        return tier.GetValue(this, currentValue);
+        return level.GetValue(this, currentValue);
     }
 
-    public UpgradeableNumber(T baseValue, T tierValue, Method method = default, int upgradeAmount = 1, int downgradeAmount = 1)
+    public UpgradeableNumber(T baseValue, T levelValue, Method method = default, int upgradeAmount = 1, int downgradeAmount = 1)
         :
         base(baseValue, upgradeAmount, downgradeAmount,
-            (index) => new NumberTier(tierValue, method),
-            (index) => new NumberTier(tierValue, method == Method.Add ? Method.Subtract : method))
+            (index) => new NumberLevel(levelValue, method),
+            (index) => new NumberLevel(levelValue, method == Method.Add ? Method.Subtract : method))
     {
 
     }
@@ -50,7 +53,7 @@ public abstract class UpgradeableNumber<T> : UpgradeableBase<T, UpgradeableNumbe
     }
 
     [Serializable]
-    public class NumberTier
+    public class NumberLevel
     {
         [SerializeField] private T value;
         [SerializeField] private Method method;
@@ -77,13 +80,13 @@ public abstract class UpgradeableNumber<T> : UpgradeableBase<T, UpgradeableNumbe
             }
         }
 
-        public NumberTier(T value, Method method)
+        public NumberLevel(T value, Method method)
         {
             this.value = value;
             this.method = method;
         }
 
-        public NumberTier(T value) : this(value, default)
+        public NumberLevel(T value) : this(value, default)
         {
 
         }

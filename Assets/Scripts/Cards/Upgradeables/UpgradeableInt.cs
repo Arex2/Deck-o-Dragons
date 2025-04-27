@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 /// <summary>
 /// An <see cref="int"/> that has upgrades and downgrades.
@@ -27,9 +28,30 @@ public class UpgradeableInt : UpgradeableNumber<int>
         return a / b;
     }
 
-    public UpgradeableInt(int baseValue, int tierValue, Method method = default, int upgradeAmount = 1, int downgradeAmount = 1)
+    public override int ModifyGetValueResult(int result)
+    {
+        bool minLimitEnabled = minLimit.Enabled;
+        bool maxLimitEnabled = maxLimit.Enabled;
+
+        if (minLimitEnabled && maxLimitEnabled)
+        {
+            result = Mathf.Clamp(result, minLimit.Value, maxLimit.Value);
+        }
+        else if (minLimitEnabled && !maxLimitEnabled)
+        {
+            result = Mathf.Max(result, minLimit.Value);
+        }
+        else if (!minLimitEnabled && maxLimitEnabled)
+        {
+            result = Mathf.Min(result, maxLimit.Value);
+        }
+
+        return result;
+    }
+
+    public UpgradeableInt(int baseValue, int levelValue, Method method = default, int upgradeAmount = 1, int downgradeAmount = 1)
         :
-        base(baseValue, tierValue, method, upgradeAmount, downgradeAmount)
+        base(baseValue, levelValue, method, upgradeAmount, downgradeAmount)
     {
 
     }

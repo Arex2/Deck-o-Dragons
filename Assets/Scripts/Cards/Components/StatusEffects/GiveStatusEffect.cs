@@ -1,0 +1,45 @@
+using UnityEngine;
+
+/// <summary>
+/// <see cref="CardComponent"/> that gives a single <see cref="StatusEffect"/> to a <see cref="Target"/>.
+/// </summary>
+// Script by Ruben
+[AddComponentMenu("Status Effects/Give Status Effects")]
+public class GiveStatusEffect : CardComponent, IUseSingle
+{
+    public override TargetFilter TargetFilter => targetFilter;
+
+    [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Opponent, TargetFilter.FilterMode.Leader);
+
+    [Space]
+    [SerializeField] private StatusEffectOptions statusEffect;
+
+    public void Use(Target target)
+    {
+        target.ApplyStatusEffect(statusEffect.StatusEffect, statusEffect.GetData(Level));
+    }
+
+    [ReplaceDescriptionKeyword("STATUS_EFFECT_NAME")]
+    private string ReplaceNameKeyword()
+    {
+        return statusEffect.StatusEffect.DisplayName;
+    }
+
+    [ReplaceDescriptionKeyword("STATUS_EFFECT_DESCRIPTION")]
+    private string ReplaceDescriptionKeyword()
+    {
+        return statusEffect.StatusEffect.GetDescription(statusEffect.GetData(Level));
+    }
+
+    [ReplaceDescriptionKeyword("DURATION")]
+    private string ReplaceDurationKeyword()
+    {
+        return statusEffect.GetDuration(Level).ToString();
+    }
+
+    [ReplaceDescriptionKeyword("POTENCY")]
+    private string ReplacePotencyKeyword()
+    {
+        return StatusEffect.GetPotencyString(statusEffect.GetPotency(Level), statusEffect.StatusEffect.PotencyIsPercent);
+    }
+}

@@ -10,8 +10,8 @@ using UnityEditor;
 // Script by Ruben
 public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 {
-    private const string STACK_LOOP_SESSION_STATE_NAME = "ShowStackAndLoopState";
-    private static bool _showStackAndLoopState => SessionState.GetBool(STACK_LOOP_SESSION_STATE_NAME, false);
+    private const string SHOW_EXTRA_PROPERTIES_NAME = "ShowExtraUpgradeableProperties";
+    protected static bool showExtraProperties => SessionState.GetBool(SHOW_EXTRA_PROPERTIES_NAME, false);
 
     private static readonly FieldInfo _genericMenuItemsField = typeof(GenericMenu).GetField("m_MenuItems", BindingFlags.NonPublic | BindingFlags.Instance);
     private static readonly Type _genericMenuItemType = typeof(GenericMenu).GetNestedType("MenuItem", BindingFlags.NonPublic);
@@ -34,13 +34,13 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
     public abstract bool CanStack { get; }
 
     public abstract bool MatchesThisClass(string propertyType);
-    public abstract bool MatchesTier(string propertyType);
+    public abstract bool MatchesLevel(string propertyType);
 
     public abstract T GetPropValue(SerializedProperty prop);
 
     public abstract float GetPropHeight(SerializedProperty prop);
 
-    public abstract float GetTierHeight(SerializedProperty prop);
+    public abstract float GetLevelHeight(SerializedProperty prop);
 
     public abstract void DrawProp(Rect rect, SerializedProperty prop, GUIContent label);
 
@@ -113,7 +113,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
         SerializedProperty stackProp = property.FindPropertyRelative("stack");
 
-        if (_showStackAndLoopState)
+        if (showExtraProperties)
         {
             if (CanStack)
             {
@@ -149,7 +149,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
             for (int i = upgradesArraySize - 1; i >= 0; i--)
             {
-                rect.height = GetTierHeight(upgradesProp.GetArrayElementAtIndex(i));
+                rect.height = GetLevelHeight(upgradesProp.GetArrayElementAtIndex(i));
 
                 rects[i] = rect;
 
@@ -163,7 +163,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
                     result = GetPropValue(baseProp);
                 }
 
-                DrawTier(rects[i], upgradesProp.GetArrayElementAtIndex(i), new GUIContent("Upgrade " + (i + 1)), false, ref result);
+                DrawLevel(rects[i], upgradesProp.GetArrayElementAtIndex(i), new GUIContent("Upgrade " + (i + 1)), false, ref result);
             }
         }
         else
@@ -221,9 +221,9 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
                 SerializedProperty arrayElement = downgradesProp.GetArrayElementAtIndex(i);
 
-                rect.height = GetTierHeight(arrayElement);
+                rect.height = GetLevelHeight(arrayElement);
 
-                DrawTier(rect, arrayElement, new GUIContent("Downgrade " + (i + 1)), true, ref result);
+                DrawLevel(rect, arrayElement, new GUIContent("Downgrade " + (i + 1)), true, ref result);
 
                 NextHeight();
             }
@@ -246,8 +246,23 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
             NextHeight();
         }
 
+        float extraGUIHeight = GetExtraGUIHeight();
+
+        if (extraGUIHeight > 0)
+        {
+            rect.y += CustomEditorUtility.SPACING;
+
+            rect.height = extraGUIHeight;
+
+            DrawExtraGUI(rect, property);
+        }
+
         EditorGUI.indentLevel--;
     }
+
+    protected abstract void DrawExtraGUI(Rect position, SerializedProperty property);
+
+    protected abstract float GetExtraGUIHeight();
 
     private void OnPropertyContextMenu(GenericMenu menu, SerializedProperty property)
     {
@@ -263,7 +278,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
             AddStackAndLoopOptions(menu);
             return;
         }
-        else if (MatchesTier(property.type))
+        else if (MatchesLevel(property.type))
         {
             lastDotIndex = property.propertyPath.LastIndexOf('.');
 
@@ -283,7 +298,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
             bool isDowngrade = fixedPath.Substring(fixedPath.LastIndexOf('.') + 1).Trim() == "downgrades";
 
-            string tierType = isDowngrade ? "Downgrade" : "Upgrade";
+            string levelType = isDowngrade ? "Downgrade" : "Upgrade";
 
             Action<object> callback = (obj) =>
             {
@@ -291,11 +306,11 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
                 if (content.text.StartsWith("Duplicate"))
                 {
-                    content.text = "Duplicate " + tierType;
+                    content.text = "Duplicate " + levelType;
                 }
                 else if (content.text.StartsWith("Delete"))
                 {
-                    content.text = "Delete " + tierType;
+                    content.text = "Delete " + levelType;
                 }
             };
 
@@ -411,18 +426,17 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
     private static void AddStackAndLoopOptions(GenericMenu menu)
     {
-        bool currentShowStackAndLoopState = _showStackAndLoopState;
+        bool showExtraProperties = UpgradeableBasePropertyDrawer<T>.showExtraProperties;
 
-        menu.AddItem(new GUIContent("Show Stack and Loop options"), currentShowStackAndLoopState, () =>
+        menu.AddItem(new GUIContent("Show Extra Properties"), showExtraProperties, () =>
         {
-            SessionState.SetBool(STACK_LOOP_SESSION_STATE_NAME, !currentShowStackAndLoopState);
+            SessionState.SetBool(SHOW_EXTRA_PROPERTIES_NAME, !showExtraProperties);
         });
     }
 
     public abstract void AddMoreMenuOptions(GenericMenu menu, SerializedProperty property);
 
-
-    public abstract void DrawTier(Rect rect, SerializedProperty property, GUIContent label, bool isDowngrade, ref T result);
+    public abstract void DrawLevel(Rect rect, SerializedProperty property, GUIContent label, bool isDowngrade, ref T result);
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
@@ -437,7 +451,15 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
             height += CustomEditorUtility.SPACING * 4;
 
-            if (_showStackAndLoopState)
+            float extraGUIHeight = GetExtraGUIHeight();
+
+            if (extraGUIHeight > 0)
+            {
+                height += CustomEditorUtility.SPACING;
+                height += extraGUIHeight;
+            }
+
+            if (showExtraProperties)
             {
                 height += CustomEditorUtility.SPACING;
             }
@@ -455,7 +477,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
             {
                 for (int i = upgradesArraySize - 1; i >= 0; i--)
                 {
-                    height += GetTierHeight(upgradesProp.GetArrayElementAtIndex(i));
+                    height += GetLevelHeight(upgradesProp.GetArrayElementAtIndex(i));
                 }
             }
 
@@ -470,11 +492,11 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
             {
                 for (int i = 0; i < downgradesArraySize; i++)
                 {
-                    height += GetTierHeight(downgradesProp.GetArrayElementAtIndex(i));
+                    height += GetLevelHeight(downgradesProp.GetArrayElementAtIndex(i));
                 }
             }
 
-            if (_showStackAndLoopState)
+            if (showExtraProperties)
             {
                 count += CanStack ? 2 : 1;
             }
