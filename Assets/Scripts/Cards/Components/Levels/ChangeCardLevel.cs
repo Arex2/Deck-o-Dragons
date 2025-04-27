@@ -65,6 +65,11 @@ public class ChangeCardLevel : CardComponent, IAffectOtherCards
         return CardFilterResult.Success();
     }
 
+    public override void Play(List<Target> targets)
+    {
+
+    }
+
     //[ReplaceDescriptionKeyword]
 
 }

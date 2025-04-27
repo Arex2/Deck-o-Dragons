@@ -108,6 +108,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public void Initialize(Card card)
     {
         SetCard(card);
+        cardVisuals.RandomizeDissolve();
         UpdateCardLook();
 
         DOTween.To(() => _amountInHand, (value) => _amountInHand = value, 1, 0.5f).SetEase(Ease.OutSine);

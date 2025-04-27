@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -5,13 +6,14 @@ using UnityEngine;
 /// </summary>
 // Script by Ruben
 [AddComponentMenu("Modify Mana")]
-public class ModifyMana : CardComponent, IUse
+public class ModifyMana : CardComponent
 {
     [SerializeField] private UpgradeableInt manaAmount = new(1);
 
     private GameBehaviour _gameBehaviour;
+    
 
-    public void Use()
+    public override void Play(List<Target> targets)
     {
         if (_gameBehaviour == null)
         {

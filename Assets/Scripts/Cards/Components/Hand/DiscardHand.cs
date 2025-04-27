@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -5,11 +6,11 @@ using UnityEngine;
 /// </summary>
 // Script by Ruben
 [AddComponentMenu("Hand/Discard Hand")]
-public class DiscardHand : CardComponent, IUse
+public class DiscardHand : CardComponent
 {
     private CardHand _cardHand;
 
-    public void Use()
+    public override void Play(List<Target> targets)
     {
         if (_cardHand == null)
         {

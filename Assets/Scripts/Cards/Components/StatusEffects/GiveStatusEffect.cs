@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -5,7 +6,7 @@ using UnityEngine;
 /// </summary>
 // Script by Ruben
 [AddComponentMenu("Status Effects/Give Status Effects")]
-public class GiveStatusEffect : CardComponent, IUseSingle
+public class GiveStatusEffect : CardComponent
 {
     public override TargetFilter TargetFilter => targetFilter;
 
@@ -14,9 +15,13 @@ public class GiveStatusEffect : CardComponent, IUseSingle
     [Space]
     [SerializeField] private StatusEffectOptions statusEffect;
 
-    public void Use(Target target)
+
+    public override void Play(List<Target> targets)
     {
-        target.ApplyStatusEffect(statusEffect.StatusEffect, statusEffect.GetData(Level));
+        foreach (Target target in targets)
+        {
+            target.ApplyStatusEffect(statusEffect.StatusEffect, statusEffect.GetData(Level));
+        }
     }
 
     [ReplaceDescriptionKeyword("STATUS_EFFECT_NAME")]

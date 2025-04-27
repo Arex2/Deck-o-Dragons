@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -5,7 +6,7 @@ using UnityEngine;
 /// </summary>
 // Script by Ruben
 [AddComponentMenu("Card Heal")]
-public class CardHeal : CardComponent, IUseSingle
+public class CardHeal : CardComponent
 {
     /// <summary>
     /// The total healing this Component will give to a <see cref="Target"/>. <para/>
@@ -34,9 +35,12 @@ public class CardHeal : CardComponent, IUseSingle
     [Space]
     [SerializeField] private UpgradeableFloat healing = new(2);
 
-    public void Use(Target target)
+    public override void Play(List<Target> targets)
     {
-        target.Heal(Healing);
+        foreach (Target target in targets)
+        {
+            target.Heal(Healing);
+        }
     }
 
     [ReplaceDescriptionKeyword]
