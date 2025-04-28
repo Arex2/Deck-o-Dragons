@@ -82,7 +82,7 @@ public class EggSceneControls : MonoBehaviour
                 if (startPos2 > rightEdgeArea)
                 {
                     Debug.Log("Swipe left from right edge � switching to Card Game");
-                    sceneSwitcher.SwitchToCardGame();
+                   // sceneSwitcher.SwitchToCardGame();
                 }
                 break;
 

@@ -44,6 +44,7 @@ public class CardShop : MonoBehaviour
 
     [Space]
     [SerializeField] private int exitScene;
+    [SerializeField] private SceneSwitcher sceneSwitcher;
 
     public CardShopButton Selected { get; private set; }
 
@@ -268,6 +269,6 @@ public class CardShop : MonoBehaviour
 
     public void Exit()
     {
-        SceneManager.LoadScene(exitScene);
+        sceneSwitcher.LoadEgg(6);
     }
 }

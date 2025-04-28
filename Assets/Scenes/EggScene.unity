@@ -966,6 +966,7 @@ GameObject:
   - component: {fileID: 739077455}
   - component: {fileID: 739077456}
   - component: {fileID: 739077457}
+  - component: {fileID: 739077458}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -1049,6 +1050,19 @@ MonoBehaviour:
   bounceSpeed: 5
   bounceDelay: 0.2
   bounceButton: {fileID: 810453345}
+--- !u!114 &739077458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739077451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a937eecbb3da9274b8eed8527630505a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dragonEvolutionManager: {fileID: 1361992597}
 --- !u!1 &810453343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,7 +1302,7 @@ GameObject:
   - component: {fileID: 951376782}
   - component: {fileID: 951376781}
   m_Layer: 5
-  m_Name: SwitchScene
+  m_Name: BattleButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2159,7 +2173,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Evolve
+  m_text: 'Battle
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
