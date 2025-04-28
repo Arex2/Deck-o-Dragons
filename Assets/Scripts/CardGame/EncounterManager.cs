@@ -37,10 +37,14 @@ public class EncounterManager : MonoBehaviour
                 SceneManager.UnloadSceneAsync(4);
                 SceneManager.LoadScene(6, LoadSceneMode.Additive);
             }
+            else
+            {
+                // Card shop scene
+                SceneManager.LoadScene(6);
+            }
 
 
-            // Card shop scene
-            SceneManager.LoadScene(6);
+           
 
         }
         else if(encounters[currentEncounterIndex] != null)
