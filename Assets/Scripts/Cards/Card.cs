@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -138,10 +139,21 @@ public class Card : GUIDScriptableObject
             TagData tagData = tags[i];
             CardTag tag = tagData.Tag;
 
+            if (tag == null)
+            {
+                continue;
+            }
+
             _tagsArray[i] = tag;
             _tagsDicitonary.Add(tag, tag.HasPotency ? tagData.Potency : 0f);
         }
     }
+
+    private static readonly MethodInfo _createListMethod = typeof(Card).GetMethod(nameof(CreateListMethod), BindingFlags.Static | BindingFlags.NonPublic);
+    private static List<T> CreateListMethod<T>() => new();
+
+    private static readonly MethodInfo _createArrayMethod = typeof(Card).GetMethod(nameof(CreateArrayMethod), BindingFlags.Static | BindingFlags.NonPublic);
+    private static CardComponent[] CreateArrayMethod<T>(List<T> list) => list.ToArray() as CardComponent[];
 
     private void TryCacheCardComponents()
     {
@@ -156,7 +168,7 @@ public class Card : GUIDScriptableObject
         _cardComponentNameDictionary.Clear();
 
         // Forgive me for doing this... Whatever this is...
-        Dictionary<Type, List<CardComponent>> temp = new();
+        Dictionary<Type, IList> temp = new();
 
         foreach (CardComponent cardComponent in cardComponents)
         {
@@ -164,10 +176,12 @@ public class Card : GUIDScriptableObject
             {
                 if (!temp.ContainsKey(type))
                 {
-                    temp.Add(type, new());
+                    temp.Add(type, _createListMethod.MakeGenericMethod(type).Invoke(this, null) as IList);
                 }
 
                 temp[type].Add(cardComponent);
+
+                Debug.Log("ADDED " + type.Name + " | " + cardComponent.name);
             }
 
             void AddInterfaces(Type type)
@@ -207,7 +221,10 @@ public class Card : GUIDScriptableObject
 
         foreach (var pair in temp)
         {
-            _cardComponentTypeDictionary.Add(pair.Key, pair.Value.ToArray());
+            Type type = pair.Key;
+            CardComponent[] array = _createArrayMethod.MakeGenericMethod(type).Invoke(null, new object[] { pair.Value }) as CardComponent[];
+
+            _cardComponentTypeDictionary.Add(type, array);
         }
 
         foreach (CardComponent cardComponent in cardComponents)

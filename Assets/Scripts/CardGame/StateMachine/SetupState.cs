@@ -24,18 +24,10 @@ public class SetupState : IState //VET EJ OM MONO BEH�VS H�R, ALTERNATIVT HA
         Debug.Log("reset mana");
         gameBehaviour.ResetMana();
 
-        if (gameBehaviour.cardHand.DoDiscardState)
-        {
-            return new DiscardState();
-        }
-
         Target.TurnStart.Invoke(Team.Player);
 
-        Debug.Log("discard old cards");
-        gameBehaviour.cardHand.EmptyHand();
-        Debug.Log("draw new cards");
-        //gameBehaviour.cardHand.DrawNewHand();
         gameBehaviour.StartCoroutine(gameBehaviour.cardHand.DrawNewHand());
+
         return new SelectionState(); //byter till selection State efter det h�r
     }
     public virtual IState Exit()

@@ -17,4 +17,4 @@ MonoBehaviour:
   description: Can't miss. Will always deal full damage and bypass any  defense boosts
     or damage reduction.
   hidden: 0
-  hasPotency: 1
+  hasPotency: 0
