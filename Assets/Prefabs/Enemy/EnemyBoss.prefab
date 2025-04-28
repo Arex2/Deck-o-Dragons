@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e62578b9c3993642b6280949c95a522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 1
+  maxHp: 20
   isLeader: 1
   immuneToStatusEffects: []
   healthText: {fileID: 8271646347377200835}
