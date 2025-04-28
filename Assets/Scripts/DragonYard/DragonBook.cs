@@ -12,6 +12,11 @@ public class DragonBook : MonoBehaviour
     [SerializeField] private GameObject AskForDragonCloseButton;
     [SerializeField] private GameObject DragonLimit;
     private static List<string> dragonsInBackyard = new List<string>();
+    /*private static List<int> pagesInBook = new List<int>();
+
+    public static List<string> dragonNamesInBook = new List<string>();
+    public static List<int> dragonTypesInBook = new List<int>();*/
+
     public static string dragonName;
     private int limit = 4;
 
