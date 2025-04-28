@@ -28,10 +28,12 @@ public class EncounterManager : MonoBehaviour
             {
                 ProgressManager.Instance.IncreaseLevel();
                 EnemyScalingManager.Instance.AdvanceScaling();
+                ActivationManager.Instance.SetWonLastEncounter(true);
             }
 
             // Card shop scene
-            SceneManager.LoadScene(6);
+            SceneManager.UnloadSceneAsync(4);
+            SceneManager.LoadScene(6, LoadSceneMode.Additive);
 
         }
         else if(encounters[currentEncounterIndex] != null)
