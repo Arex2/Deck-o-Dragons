@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System.Net;
 
 public class CardVisuals : MonoBehaviour
 {
@@ -81,7 +82,7 @@ public class CardVisuals : MonoBehaviour
     {
         //�ndra background sprite till r�tt background depending on level
         //�ndra costBackground till r�tt f�rg depending on cost type
-        costBackground.color = Color.blue;
+        //costBackground.color = Color.blue;
         cardImage.sprite = Card.Sprite;
 
         titleText.text = Card.DisplayName.ToString();
@@ -97,8 +98,7 @@ public class CardVisuals : MonoBehaviour
                 titleText.text += $" ({cardObject.Level})";
             }
         }
-
-        UpdateCostLook();
+        UpdateCostWhole();
         UpdateTagText();
 
         if (cardObject == null)
@@ -111,7 +111,54 @@ public class CardVisuals : MonoBehaviour
         }
     }
 
-    public void UpdateCostLook()
+    //makes card look like you CAN NOT play it
+    public void UpdateCardUnavailableLook()
+    {
+        costBackground.color = Color.gray;
+    }
+    //makes card look like you CAN play it
+    public void UpdateCardAvailableLook()
+    {
+        UpdateCostWhole();
+    }
+
+    private void UpdateCostWhole()
+    {
+        if (Card.Cost > 0 || Card.GetCardComponents<CardAttack>() == null)
+        {
+            //MANA
+            costBackground.color = Color.blue;
+            UpdateCostText();
+            return;
+        }
+
+        float totalSelfDamage = 0;
+
+        foreach (CardAttack attack in Card.GetCardComponents<CardAttack>())
+        {
+            if (attack.TargetFilter.Team == TargetFilter.FilterTeam.Own)
+            {
+                totalSelfDamage += attack.TotalDamage;
+            }
+        }
+
+        if(totalSelfDamage > 0)
+        {
+            //HP
+            Debug.LogWarning("THis card uses hp to play");
+            costBackground.color = Color.red;
+            costText.text = totalSelfDamage.ToString();
+        }
+        else
+        {
+            //MANA
+            Debug.Log("THis card uses MANA to play");
+            costBackground.color = Color.blue;
+            UpdateCostText();
+        }
+    }
+
+    public void UpdateCostText()
     {
         costText.text = (cardObject == null ? Card.Cost : cardObject.GetCost()).ToString();
     }
