@@ -115,7 +115,7 @@ public abstract class Target : MonoBehaviour
 
     }
 
-    public virtual void Hurt(Target attacker, float amount)
+    public virtual void Hurt(Target attacker, AttackData attackData)
     {
         if (!Dead && _notifyStatusEffects)
         {
@@ -123,28 +123,30 @@ public abstract class Target : MonoBehaviour
             {
                 pair.Key.Setup(this, pair.Value);
 
-                pair.Key.OnHurt(attacker, ref amount);
+                pair.Key.OnHurt(attacker, attackData);
             }
 
             RemoveFinishedStatusEffects();
         }
 
-        Hurt(amount);
+        Hurt(attackData);
     }
 
-    public virtual void Hurt(float amount)
+    public virtual void Hurt(AttackData attackData)
     {
         if (Dead)
         {
             return;
         }
 
-        if (amount < 0)
+        if (attackData > 0)
         {
-            amount = 0;
+            HP -= attackData;
         }
-
-        HP -= amount;
+        else
+        {
+            // Miss!
+        }
 
         if (hp <= 0)
         {
@@ -161,7 +163,7 @@ public abstract class Target : MonoBehaviour
         //Debug.Log(name + " has taken " + amount + " damage");
     }
 
-    public virtual void Heal(float amount)
+    public virtual void Heal(HealData healData)
     {
         if (Dead)
         {
@@ -174,18 +176,16 @@ public abstract class Target : MonoBehaviour
             {
                 pair.Key.Setup(this, pair.Value);
 
-                pair.Key.OnHeal(ref amount);
+                pair.Key.OnHeal(healData);
             }
 
             RemoveFinishedStatusEffects();
         }
 
-        if (amount < 0)
+        if (healData > 0)
         {
-            amount = 0;
+            HP += healData;
         }
-
-        HP += amount;
 
         foreach (ITargetCallbacks callbacks in _targetCallbacks)
         {
@@ -268,13 +268,13 @@ public abstract class Target : MonoBehaviour
         RemoveFinishedStatusEffects();
     }
 
-    public virtual void DoAttack(Target target, ref float damage)
+    public virtual void DoAttack(Target target, AttackData attackData)
     {
         foreach (var pair in _statusEffectsData)
         {
             pair.Key.Setup(this, pair.Value);
 
-            pair.Key.OnAttack(target, ref damage);
+            pair.Key.OnAttack(target, attackData);
         }
 
         RemoveFinishedStatusEffects();

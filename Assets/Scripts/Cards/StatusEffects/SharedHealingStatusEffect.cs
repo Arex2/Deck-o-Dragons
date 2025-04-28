@@ -12,7 +12,7 @@ public class SharedHealingStatusEffect : StatusEffect
 
     public override string DurationName => "Turns";
 
-    public override void OnHeal(ref float healing)
+    public override void OnHeal(HealData healData)
     {
         Team team = User.Team;
 
@@ -22,7 +22,7 @@ public class SharedHealingStatusEffect : StatusEffect
         {
             target.NotifyStatusEffects = false;
 
-            target.Heal(healing);
+            target.Heal(healData);
 
             target.NotifyStatusEffects = true;
         }

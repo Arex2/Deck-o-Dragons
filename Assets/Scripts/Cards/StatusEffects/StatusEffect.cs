@@ -143,16 +143,25 @@ public abstract class StatusEffect : GUIDScriptableObject
     {
         if (potencyIsPercent)
         {
-            int count = BitConverter.GetBytes(decimal.GetBits((decimal)potency)[3])[2];
-            string format = "P";
+            string format;
 
-            if (count > 2)
+            if (potency % 1 == 0)
             {
-                format += count - 2;
+                format = "P0";
             }
             else
             {
-                format += "0";
+                int count = BitConverter.GetBytes(decimal.GetBits((decimal)potency)[3])[2];
+                format = "P";
+
+                if (count > 2)
+                {
+                    format += count - 2;
+                }
+                else
+                {
+                    format += "0";
+                }
             }
 
             return potency.ToString(format, CultureInfo.InvariantCulture);
@@ -194,17 +203,17 @@ public abstract class StatusEffect : GUIDScriptableObject
 
     }
 
-    public virtual void OnAttack(Target target, ref float amount)
+    public virtual void OnAttack(Target target, AttackData attackData)
     {
 
     }
 
-    public virtual void OnHurt(Target attacker, ref float amount)
+    public virtual void OnHurt(Target attacker, AttackData attackData)
     {
 
     }
 
-    public virtual void OnHeal(ref float healing)
+    public virtual void OnHeal(HealData healData)
     {
 
     }

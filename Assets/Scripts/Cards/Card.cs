@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.Video;
 using Random = UnityEngine.Random;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// The main card class that every single card uses. <para/>
@@ -59,7 +62,15 @@ public class Card : GUIDScriptableObject
     public Optional<int> MinLevel => minLevel;
     public Optional<int> MaxLevel => maxLevel;
 
-    public CardTag[] Tags => tags;
+    public CardTag[] Tags
+    {
+        get
+        {
+            TryCacheCardTags();
+
+            return _tagsArray;
+        }
+    }
 
     /// <summary>
     /// The current <see cref="Target"/> that's using this <see cref="Card"/>.
@@ -88,8 +99,9 @@ public class Card : GUIDScriptableObject
     [SerializeField] private Optional<int> maxLevel;
 
     [Space]
-    [SerializeField] private CardTag[] tags;
-    private HashSet<CardTag> _tagsHashSet = null;
+    [SerializeField] private TagData[] tags;
+    private Dictionary<CardTag, float> _tagsDicitonary;
+    private CardTag[] _tagsArray;
 
     [HideInInspector]
     [SerializeField] private CardComponent[] cardComponents;
@@ -97,21 +109,48 @@ public class Card : GUIDScriptableObject
     private Dictionary<string, CardComponent> _cardComponentNameDictionary = new();
 
     [NonSerialized]
-    private bool _cachedCardComponentDictionaries = false;
+    private bool _cachedCardComponents = false;
+    [NonSerialized]
+    private bool _cachedCardTags = false;
 
     public void OnLoad()
     {
-        TryCacheCardComponentDicitonaries();
+        TryCacheCardTags();
+        TryCacheCardComponents();
     }
 
-    private void TryCacheCardComponentDicitonaries()
+    private void TryCacheCardTags()
     {
-        if (_cachedCardComponentDictionaries)
+        if (_cachedCardTags)
         {
             return;
         }
 
-        _cachedCardComponentDictionaries = true;
+        _cachedCardTags = true;
+
+        int length = tags.Length;
+        _tagsArray = new CardTag[length];
+
+        _tagsDicitonary = new();
+
+        for (int i = 0; i < length; i++)
+        {
+            TagData tagData = tags[i];
+            CardTag tag = tagData.Tag;
+
+            _tagsArray[i] = tag;
+            _tagsDicitonary.Add(tag, tag.HasPotency ? tagData.Potency : 0f);
+        }
+    }
+
+    private void TryCacheCardComponents()
+    {
+        if (_cachedCardComponents)
+        {
+            return;
+        }
+
+        _cachedCardComponents = true;
 
         _cardComponentTypeDictionary.Clear();
         _cardComponentNameDictionary.Clear();
@@ -182,12 +221,19 @@ public class Card : GUIDScriptableObject
     /// </summary>
     public bool HasTag(CardTag tag)
     {
-        if (_tagsHashSet == null)
+        TryCacheCardTags();
+
+        return _tagsDicitonary.ContainsKey(tag);
+    }
+
+    public float GetTagPotency(CardTag tag)
+    {
+        if (!HasTag(tag))
         {
-            _tagsHashSet = new(tags);
+            return 0;
         }
 
-        return _tagsHashSet.Contains(tag);
+        return _tagsDicitonary[tag];
     }
 
     public IEnumerator Play(Target user, Action onFinish = null) => Play(user, new(), 0, onFinish);
@@ -303,6 +349,42 @@ public class Card : GUIDScriptableObject
 
         WaitingForCardsToAffect = false;
     }
+
+    [Serializable]
+    private class TagData
+    {
+        public CardTag Tag => tag;
+        public float Potency => potency;
+
+        [SerializeField] private CardTag tag;
+        [SerializeField] private float potency;
+    }
+
+#if UNITY_EDITOR
+    [CustomPropertyDrawer(typeof(TagData))]
+    private class TagDataPropertyDrawer : PropertyDrawer
+    {
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            SerializedProperty tagProp = property.FindPropertyRelative("tag");
+            SerializedProperty potencyProp = property.FindPropertyRelative("potency");
+
+            CardTag obj = tagProp.objectReferenceValue as CardTag;
+
+            Rect potencyRect = position;
+            potencyRect.xMin = potencyRect.xMax - 80;
+
+            position.xMax -= potencyRect.width + 8;
+
+            using (new EditorGUI.DisabledScope(obj == null || !obj.HasPotency))
+            {
+                EditorGUI.PropertyField(potencyRect, potencyProp, GUIContent.none);
+            }
+
+            EditorGUI.PropertyField(position, tagProp, GUIContent.none);
+        }
+    }
+#endif
 
     #region Card Data Stuff
     public void SetCardData<T>(string key, T value) => _cardData.SetCardData(key, value);
@@ -423,7 +505,7 @@ public class Card : GUIDScriptableObject
 
     public CardComponent[] GetCardComponents(Type type)
     {
-        TryCacheCardComponentDicitonaries();
+        TryCacheCardComponents();
 
         if (!_cardComponentTypeDictionary.ContainsKey(type))
         {
@@ -440,7 +522,7 @@ public class Card : GUIDScriptableObject
 
     public bool TryGetCardComponent(string name, out CardComponent cardComponent, bool formatName = false)
     {
-        TryCacheCardComponentDicitonaries();
+        TryCacheCardComponents();
 
         if (formatName)
         {
@@ -473,7 +555,7 @@ public class Card : GUIDScriptableObject
 
     public bool TryGetCardComponents(Type type, out CardComponent[] cardComponents)
     {
-        TryCacheCardComponentDicitonaries();
+        TryCacheCardComponents();
 
         return _cardComponentTypeDictionary.TryGetValue(type, out cardComponents);
     }
@@ -485,14 +567,14 @@ public class Card : GUIDScriptableObject
 
     public bool HasCardComponent(Type type)
     {
-        TryCacheCardComponentDicitonaries();
+        TryCacheCardComponents();
 
         return _cardComponentTypeDictionary.ContainsKey(type);
     }
 
     public bool HasCardComponent(string name, bool formatName = false)
     {
-        TryCacheCardComponentDicitonaries();
+        TryCacheCardComponents();
 
         if (formatName)
         {

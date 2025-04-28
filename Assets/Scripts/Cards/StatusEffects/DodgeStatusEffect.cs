@@ -15,11 +15,11 @@ public class DodgeStatusEffect : StatusEffect
 
     public override string DurationName => "Attacks";
 
-    public override void OnHurt(Target attacker, ref float amount)
+    public override void OnHurt(Target attacker, AttackData attackData)
     {
         if (Random.value <= Potency)
         {
-            amount = 0;
+            attackData.Negate("Dodged!");
         }
 
         Duration--;

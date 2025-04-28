@@ -13,18 +13,18 @@ public class AbsorbStatusEffect : StatusEffect
 
     public override string DurationName => "Turns";
 
-    public override void OnHurt(Target attacker, ref float amount)
+    public override void OnHurt(Target attacker, AttackData attackData)
     {
-        if (amount > Potency)
+        if (attackData > Potency)
         {
-            amount -= Potency;
+            attackData -= Potency;
 
             Potency = 0;
         }
-        else if (amount <= Potency)
+        else if (attackData <= Potency)
         {
-            Potency -= amount;
-            amount = 0;
+            Potency -= attackData;
+            attackData.Negate("Absorbed");
         }
 
         if (Potency <= 0)

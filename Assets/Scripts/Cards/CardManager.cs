@@ -14,14 +14,16 @@ public class CardManager : Singleton<CardManager>
     public static Card[] DrawableCards => Instance._drawableCards;
     public static CardTag[] AllTags => Instance.allTags;
     public static CardTag NonDrawableTag => Instance.nonDrawableTag;
+    public static CardTag[] BullseyeTags => Instance.bullseyeTags;
 
     [HideInInspector] [SerializeField] private Card[] allCards;
     [HideInInspector] [SerializeField] private CardTag[] allTags;
 
     private Card[] _nonDrawableCards;
     private Card[] _drawableCards;
-
+    
     [SerializeField] private CardTag nonDrawableTag;
+    [SerializeField] private CardTag[] bullseyeTags;
 
     private static readonly Dictionary<CardTag, Card[]> _cardsTagDictionary = new();
     private static readonly Dictionary<string, Card> _cardsNameDictionary = new();
