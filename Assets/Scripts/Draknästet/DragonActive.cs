@@ -26,7 +26,7 @@ public class DragonActive : MonoBehaviour
     public static bool doCheck;
     public static int index; //element
     public static int age;
-    public static int evolutionProcess;
+    public static int evolutionProcess; //sliderprogress
 
     void Awake()
     {
