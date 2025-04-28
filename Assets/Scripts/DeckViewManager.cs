@@ -13,22 +13,33 @@ public class DeckViewManager : MonoBehaviour
     {
         TurnPage(0);
     }
-    public void TurnPage(int amount) 
-    {
-        if (testDeck.Count < (currentPage + 1) * 6) return;
 
+    public void NextPage()
+    {
+        if (DeckManager.Instance.deck.Count < (currentPage + 1) * 6) return;
+        else TurnPage(1);
+
+    }
+
+    public void PreviusPage()
+    {
+        if ((currentPage - 1) * 6 < 0) return;
+        else TurnPage(-1);
+    }
+    private void TurnPage(int amount) 
+    {
         currentPage += amount;
 
         for (int i = 0; i < cards.Count; i++)
         {
-            if (testDeck[i + ((currentPage - 1) * 6)] == null)
+            if (DeckManager.Instance.deck[i + ((currentPage - 1) * 6)] == null)
             {
                 cards[i].gameObject.SetActive(false);
             }
             else
             {
                 cards[i].gameObject.SetActive(true);
-                cards[i].setNewCard(testDeck[i + ((currentPage - 1) * 6)]);
+                cards[i].setNewCard(DeckManager.Instance.deck[i + ((currentPage - 1) * 6)]);
             }
                 
         }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemyBoss : Target
 {
@@ -44,6 +45,16 @@ public class EnemyBoss : Target
         originalPosition = transform.localPosition;
     }
 
+    public override void OnTurnStart()
+    {
+        base.OnTurnStart();
+
+        if (!Dead)
+        {
+            StartTurn();
+        }
+    }
+
     public void StartTurn()
     {
         currentMana = maxMana;
@@ -62,10 +73,12 @@ public class EnemyBoss : Target
 
 
             Card currentCard = PickRandomCard();
+
             if (CheckIfPlayable(currentCard))
             {
-                currentCard.Play(this);
                 currentMana -= currentCard.Cost;
+
+                StartCoroutine(currentCard.Play(this));
             }
         }
 
@@ -136,8 +149,10 @@ public class EnemyBoss : Target
         }
     }
 
-    public void DeathEvent()
+    public override void OnDeath()
     {
+        base.OnDeath();
+
         StartCoroutine(RotateOverTime(Quaternion.Euler(0, 0, 90), 0.3f));
     }
 

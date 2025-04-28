@@ -56,11 +56,21 @@ public class CardVisuals : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (dissolveForEffects == null || dissolve == null)
+        {
+            return;
+        }
+
         dissolveForEffects.DissolveAmount = dissolve.DissolveAmount;
     }
 
     public void RandomizeDissolve()
     {
+        if (dissolveForEffects == null || dissolve == null)
+        {
+            return;
+        }
+        
         dissolve.Rotation = Random.Range(0, 360f);
 
         dissolveForEffects.RotationRadians = dissolve.RotationRadians;

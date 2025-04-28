@@ -53,6 +53,13 @@ public class SceneSwitcher : MonoBehaviour
         
     }
 
+    public void SwitchToDeckViewer()
+    {
+        if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByBuildIndex(3))
+            return;
+        SceneManager.LoadScene(3);
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene(4);
