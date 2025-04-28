@@ -31,9 +31,16 @@ public class EncounterManager : MonoBehaviour
                 ActivationManager.Instance.SetWonLastEncounter(true);
             }
 
+            if (ActivationManager.Instance != null)
+            {
+                ActivationManager.Instance.SetWonLastEncounter(true);
+                SceneManager.UnloadSceneAsync(4);
+                SceneManager.LoadScene(6, LoadSceneMode.Additive);
+            }
+
+
             // Card shop scene
-            SceneManager.UnloadSceneAsync(4);
-            SceneManager.LoadScene(6, LoadSceneMode.Additive);
+            SceneManager.LoadScene(6);
 
         }
         else if(encounters[currentEncounterIndex] != null)
