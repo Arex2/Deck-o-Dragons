@@ -10,8 +10,8 @@ public class BattleButtonManager : MonoBehaviour
     private int currentLevel;
     void Start()
     {
-        //currentLevel = ProgressManager.Instance.GetCurrentLevel();
-        currentLevel = 3;
+        currentLevel = ProgressManager.Instance.GetCurrentLevel();
+        //currentLevel = 3;
         test();
     }
     private void test()
