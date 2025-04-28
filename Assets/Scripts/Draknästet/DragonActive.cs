@@ -24,7 +24,7 @@ public class DragonActive : MonoBehaviour
     public static string dragonName;
     public static bool isDragonActive; //används i Egg & TextInputManager
     public static bool doCheck;
-    public static int index;
+    public static int index; //element
     public static int age;
     public static int evolutionProcess;
 
