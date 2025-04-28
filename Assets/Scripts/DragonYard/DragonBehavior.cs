@@ -16,79 +16,7 @@ public class DragonBehavior : MonoBehaviour
     private float moveMaxTimer = 12f;
     private float moveMinTimer = 5f;
     private float moveTimer;
-
-
-
-    /*[SerializeField] private Transform transformToAffect;
-    [SerializeField] private SquashStretchAxis axisToAffect = SquashStretchAxis.Y;
-    [SerializeField, Range(0, 1f)] private float animationDuration = 0.25f;
-    [SerializeField] private bool canBeOverwritten;
-
-    //[Flags]
-    public enum SquashStretchAxis
-    {
-        None = 0,
-        X = 1,
-        Y = 2,
-        Z = 3
-    }
-
-    [SerializeField] private float initialScale = 1f;
-    [SerializeField] private float maximumScale = 1.3f;
-    [SerializeField] private bool resetToInitialScaleAfterAnimation = true;
-
-    [SerializeField]
-    private AnimationCurve squashAndStretchCurve = new AnimationCurve
-    (
-        new Keyframe(8f, 0f),
-        new Keyframe(0.5f, 1f),
-        new Keyframe(1f, 0f)
-    );
-
-    [SerializeField] private bool looping;
-    [SerializeField] private float loopingDelay = 0.5f;
-
-    private Coroutine squashAndStretchCoroutine;
-    private WaitForSeconds loopingDelayWaitForSeconds;
-    private Vector3 initialScaleVector;
-
-    private bool affectX => (axisToAffect & SquashStretchAxis.X) != 0;
-    private bool affectY => (axisToAffect & SquashStretchAxis.Y) != 0;
-    private bool affectZ => (axisToAffect & SquashStretchAxis.Z) != 0;
-
-
-
-    private void Awake()
-    {
-        if(transformToAffect == null)
-        {
-            transformToAffect = transform;
-
-            initialScaleVector = transformToAffect.localScale;
-            loopingDelayWaitForSeconds = new WaitForSeconds(loopingDelay);
-        }
-    }
-
-    private void CheckForAndStartCoroutine()
-    {
-        if(axisToAffect == SquashStretchAxis.None)
-        {
-            Debug.Log("No axis to affect", gameObject);
-            return;
-        }
-
-        if(squashAndStretchCoroutine != null)
-        {
-            StopCoroutine(squashAndStretchCoroutine);
-            if (resetToInitialScaleAfterAnimation)
-            {
-                transform.localScale = initialScaleVector;
-            }
-        }
-
-        squashAndStretchCoroutine = StartCoroutine(SquashAndStretchEffect());
-    }*/
-
+    public float horizontalValue;
 
     void Start()
     {
@@ -110,9 +38,9 @@ public class DragonBehavior : MonoBehaviour
         //Debug.Log("Dragon: " + transform.position);
         //Debug.Log("Target: " + currentTarget.transform.position);
 
-        //if (transform.position == currentTarget.transform.position)
+        horizontalValue = transform.position.x;
 
-        if(moveTimer <= 0)
+        if (moveTimer <= 0)
         {
             float waitTimer = Random.Range(2f, 5f);
             Invoke("CreateNewTimer", waitTimer);
@@ -129,6 +57,23 @@ public class DragonBehavior : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, currentTargetPosition, moveSpeed * Time.deltaTime);
             moveTimer -= Time.deltaTime;
         }
+    }
+
+    private void LateUpdate()
+    {
+        if (transform.position.x < horizontalValue)
+        {
+            FlipSprite(false);
+        }
+        if (transform.position.x > horizontalValue)
+        {
+            FlipSprite(true);
+        }
+    }
+
+    private void FlipSprite(bool direction)
+    {
+        srend.flipX = direction;
     }
 
     private void CreateNewTimer()
