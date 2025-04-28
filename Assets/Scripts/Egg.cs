@@ -23,6 +23,7 @@ public class Egg : MonoBehaviour
 
     //[SerializeField] GameObject[] dragons;
     [SerializeField] private Sprite[] crackedSprites;
+    [SerializeField] GameObject eggInPieces;
     private SpriteRenderer spriteRenderer;
 
     private void Awake()
@@ -40,9 +41,11 @@ public class Egg : MonoBehaviour
         //typ default shake v�rde som alltid �r d�r (m�ng acceleration mobil naturligt har)
         lowPassValue = Input.acceleration;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        DragonActive.dragonActive = false;
+        DragonActive.isDragonActive = false;
+        DragonActive.statusText.text = "";
         DragonActive.index = 0;
         DragonActive.age = 0;
+        DragonActive.evolutionProcess = 0;
         inputMan = GameObject.Find("TextInputManager").GetComponent<TextInputManager>();
         screenShake = GameObject.Find("Main Camera").GetComponent<ScreenShake>();
     }
@@ -85,7 +88,6 @@ public class Egg : MonoBehaviour
                 time = 0;
             }
         }
-
     }
 
     private void OnMouseDown()
@@ -106,6 +108,7 @@ public class Egg : MonoBehaviour
 
     float tapThreshhold = 1f;
     float tapCurrent;
+
     private void TapToOpen()
     {
         //varje tap ökar tapCurrent;
@@ -181,10 +184,8 @@ public class Egg : MonoBehaviour
         isHatching = true;
         yield return new WaitForSeconds(0.3f);
         Hatch();
-
     }
-    [SerializeField]
-    GameObject eggInPieces;
+
     private void BreakOpenShell()
     {
         //spawna shellfragments på samma plats som ägget
@@ -206,10 +207,11 @@ public class Egg : MonoBehaviour
     {
         int index = UnityEngine.Random.Range(0, dragonActive.babyDragons.Length);
         Instantiate(dragonActive.babyDragons[index], new Vector3(0, -3, 0), Quaternion.identity);
+        Debug.Log("Drakens index:" + index);
         //DragonActive.drPref = dragons[index];
         DragonActive.index = index;
         DragonActive.age = 1;
-        DragonActive.dragonActive = true;
+        DragonActive.isDragonActive = true;
     }
 
     private void DeleteEgg()
@@ -217,5 +219,4 @@ public class Egg : MonoBehaviour
         BreakOpenShell();
         Destroy(gameObject);
     }
-
 }

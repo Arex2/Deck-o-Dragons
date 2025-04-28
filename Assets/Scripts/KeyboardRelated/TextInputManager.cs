@@ -25,7 +25,7 @@ public class TextInputManager : MonoBehaviour
 
     private void Update()
     {
-        if (!DragonActive.dragonActive)
+        if (!DragonActive.isDragonActive)
         {
             dragonName.text = "";
         }
@@ -35,18 +35,18 @@ public class TextInputManager : MonoBehaviour
     {
         keyboardObject.SetActive(true);
     }
+
     private void SpawnName()
     {
-        if (!DragonActive.dragonActive)
+        if (!DragonActive.isDragonActive)
         {
             dragonName.text = "";
         }
-        else if (DragonActive.dragonActive)
+        else if (DragonActive.isDragonActive)
         {
             dragonName.text = DragonActive.dragonName;
         }
     }
-
 
     private void KeyPressedCallback(char key)
     {

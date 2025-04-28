@@ -45,7 +45,7 @@ public class DragonBehavior : MonoBehaviour
 
         //if (transform.position == currentTarget.transform.position)
         if (transform.position == currentTargetPosition)
-            {
+        {
             CreateNewTarget();
         }
 

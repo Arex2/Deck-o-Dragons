@@ -18,10 +18,10 @@ public class DragonEvolutionManager : MonoBehaviour
 
         currentDragon = FindObjectOfType<Dragon>();
 
-        if (keyboard != null)
+        /*if (keyboard != null)
         {
             keyboard.onEnterPressed += OnDragonNameConfirmed;
-        }
+        }*/
     }
 
     public void SetCurrentDragon(Dragon newDragon)
@@ -33,7 +33,6 @@ public class DragonEvolutionManager : MonoBehaviour
         statusText.text = "";
         statusText.gameObject.SetActive(false);
     }
-
 
     public void StepProgress()
     {

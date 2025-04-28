@@ -115,6 +115,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 3716de9de44435e43b12511cb527f74a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3442310023944000092}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 3716de9de44435e43b12511cb527f74a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2170070115349080049}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 3716de9de44435e43b12511cb527f74a, type: 3}
 --- !u!4 &3072526044502518838 stripped
 Transform:
@@ -189,10 +192,24 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4209695755134186581}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea0e13415f2691847804eafdb8d7e059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nextStage: {fileID: 1903477011240583290, guid: b7a705e4d51437a49b5a61539a88b4bd, type: 3}
   age: 3
+--- !u!114 &2170070115349080049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4209695755134186581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0efe51b2ff13e43b3c4bae16454a5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drakPrefab: {fileID: 0}
+  drakStart: {x: 0, y: 0}
