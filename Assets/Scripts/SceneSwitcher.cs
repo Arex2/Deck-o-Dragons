@@ -29,18 +29,13 @@ public class SceneSwitcher : MonoBehaviour
         DragonActive.doCheck = true;
     }
 
-    public void LoadEgg(int currentScene)
-    {
-        SceneManager.UnloadSceneAsync(currentScene);
-        ActivationManager.Instance.ActivateAllObjects();
-    }
+
     public void SwitchToCardGame(int currentScene)
     {
         if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByBuildIndex(4))
             return;
-       
-        SceneManager.LoadScene(4, LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync(currentScene);
+
+        SceneManager.LoadScene(4);
 
     }
 
@@ -48,8 +43,7 @@ public class SceneSwitcher : MonoBehaviour
     {
         if (SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex) == SceneManager.GetSceneByBuildIndex(7))
             return;
-        SceneManager.LoadScene("BattleSelection", LoadSceneMode.Additive);
-        ActivationManager.Instance.DeactivateAllObjects();
+        SceneManager.LoadScene(7);
         
     }
 
