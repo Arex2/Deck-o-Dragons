@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/DeckScene.unity
-    guid: 7c190c69f38152047ba5efadae8a54e1
+    path: Assets/Scenes/DeckViewer.unity
+    guid: f74f7f5e30884224297342216a19fae8
   - enabled: 1
     path: Assets/Scenes/CardgameScene.unity
     guid: da4305056c0b2de44a35d515687195f8
