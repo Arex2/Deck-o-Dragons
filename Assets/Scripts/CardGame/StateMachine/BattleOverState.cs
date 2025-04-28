@@ -38,6 +38,7 @@ public class BattleOverState : IState
     {
         if (temp)
         {
+            /*
             if(gameBehaviour.HP <= 0)
             {
                 //end game
@@ -47,12 +48,49 @@ public class BattleOverState : IState
             }
             Debug.Log("New Encounter");
             gameBehaviour.NewEncounter();
-            return new SetupState();
+            */
+
+            // Card shop scene
+            UnityEngine.SceneManagement.SceneManager.LoadScene(6);
         }
         return null;
     }
     public virtual IState Exit()
     {
+        return null;
+    }
+
+    public static BattleOverState BattleOverCheck()
+    {
+        HashSet<Team> aliveTeams = new();
+
+        foreach (Target target in TargetManager.AllTargets)
+        {
+            if (target.Dead)
+            {
+                continue;
+            }
+
+            Team team = target.Team;
+
+            if (aliveTeams.Contains(team))
+            {
+                continue;
+            }
+
+            aliveTeams.Add(team);
+        }
+
+        foreach (Team team in Teams.AllTeams)
+        {
+            if (aliveTeams.Contains(team))
+            {
+                continue;
+            }
+
+            return new BattleOverState();
+        }
+
         return null;
     }
 }

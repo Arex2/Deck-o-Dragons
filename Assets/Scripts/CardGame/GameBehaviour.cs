@@ -67,8 +67,10 @@ public class GameBehaviour : Target
     private ScreenShake screenShake;
 
     //Reference to enemy script
+    /*
     [SerializeField]
     public EncounterManager encounterManager;
+    */
 
     protected override void Awake()
     {
@@ -97,7 +99,7 @@ public class GameBehaviour : Target
         hpSlider.maxValue = MaxHP;
         hpSlider.value = HP;
 
-        encounterManager.InctanceNextEncounter();
+        //encounterManager.InctanceNextEncounter();
     }
 
     //update status text
@@ -109,10 +111,12 @@ public class GameBehaviour : Target
     //end turn button
     public void ButtonPress()
     {
+        /*
         if (!cardHand.SelectingCards)
         {
             encounterManager.currentEncounterEnemy.StartTurn();
         }
+        */
 
         buttonPressed = true;
     }
@@ -222,6 +226,7 @@ public class GameBehaviour : Target
         else return false;
     }
 
+    /*
     public void NewEncounter()
     {
         HP = MaxHP;
@@ -229,4 +234,5 @@ public class GameBehaviour : Target
         cardHand.EmptyHand();
         encounterManager.InctanceNextEncounter();
     }
+    */
 }
