@@ -7,17 +7,12 @@ public class DrawLine : MonoBehaviour
 {
     [SerializeField]
     LineRenderer lineRenderer;
-    [SerializeField]
-    Camera cam;
-    [SerializeField]
-    Button obj1;
-    [SerializeField]
-    Button obj2;
 
-    List<Vector3> positions;
+    List<Vector3> positions = new List<Vector3>();
+
     private void Start()
     {
-        positions = new List<Vector3>(); 
+        //positions = new List<Vector3>(); 
     }
 
     private void DrawLineBetweenPoints(Vector3 startPoint, Vector3 endPoint)
@@ -37,6 +32,7 @@ public class DrawLine : MonoBehaviour
     private void AddPosition(Vector3 pos)
     {
         ++lineRenderer.positionCount;
+        //Debug.Log("positions: " + positions);
         positions.Add(pos);
         Draw();
     }
