@@ -152,9 +152,9 @@ public class EnemyBoss : Target
          healthText.text = string.Format(healthTextFormat, HP.ToString());
     }
 
-    public override void Hurt(float amount)
+    public override void Hurt(AttackData attackData)
     {
-        base.Hurt(amount);
+        base.Hurt(attackData);
         StartCoroutine(ShakeCoroutine());
         if (AudioManager.Instance != null)
         {

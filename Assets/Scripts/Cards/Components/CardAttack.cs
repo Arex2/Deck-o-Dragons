@@ -52,11 +52,24 @@ public class CardAttack : CardComponent
         float damage = Damage * DamageMultiplier;
         int attackAmount = AttackAmount;
 
+        bool bullseye = false;
+
+        foreach (CardTag tag in CardManager.BullseyeTags)
+        {
+            if (card.HasTag(tag))
+            {
+                bullseye = true;
+                break;
+            }
+        }
+
         void DoDamage(Target target)
         {
-            User.DoAttack(target, ref damage);
+            AttackData data = new(damage, bullseye);
 
-            target.Hurt(User, damage);
+            User.DoAttack(target, data);
+
+            target.Hurt(User, data);
         }
 
         IEnumerator HurtTarget(Target target)

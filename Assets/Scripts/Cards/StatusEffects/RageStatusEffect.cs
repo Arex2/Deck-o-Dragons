@@ -14,9 +14,9 @@ public class RageStatusEffect : StatusEffect
     public override string PotencyName => "DMG per hit";
     public override string DurationName => "Turns";
 
-    public override void OnHurt(Target attacker, ref float amount)
+    public override void OnHurt(Target attacker, AttackData attackData)
     {
-        if (amount <= 0)
+        if (attackData <= 0)
         {
             return;
         }
@@ -32,7 +32,7 @@ public class RageStatusEffect : StatusEffect
         UserData = count + 1;
     }
 
-    public override void OnAttack(Target target, ref float amount)
+    public override void OnAttack(Target target, AttackData attackData)
     {
         Remove();
 
@@ -41,7 +41,7 @@ public class RageStatusEffect : StatusEffect
             return;
         }
 
-        amount += (int)UserData;
+        attackData += (int)UserData;
     }
 
     public override void OnTurnEnd()

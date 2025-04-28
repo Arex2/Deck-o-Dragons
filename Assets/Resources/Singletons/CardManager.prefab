@@ -79,3 +79,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bab0385fc0dd83a42b30d4747a766495, type: 2}
   - {fileID: 11400000, guid: 8e83fbed3e191eb46ae0916ba15c98a5, type: 2}
   nonDrawableTag: {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
+  bullseyeTags:
+  - {fileID: 11400000, guid: 7a64935662935214796f0f6d78b32650, type: 2}

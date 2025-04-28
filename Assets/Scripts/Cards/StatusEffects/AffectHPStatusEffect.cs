@@ -19,7 +19,7 @@ public class AffectHPStatusEffect : StatusEffect
             return;
         }
 
-        User.Heal(Potency);
+        User.Heal(new(Potency));
 
         Duration--;
     }
@@ -31,7 +31,7 @@ public class AffectHPStatusEffect : StatusEffect
             return;
         }
 
-        User.Hurt(Potency);
+        User.Hurt(new(Potency));
 
         Duration--;
     }

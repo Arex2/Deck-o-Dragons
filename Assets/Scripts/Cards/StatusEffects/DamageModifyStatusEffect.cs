@@ -13,17 +13,20 @@ public class DamageModifyStatusEffect : StatusEffect
 
     public override string DurationName => "Attacks";
 
-    public override void OnAttack(Target target, ref float amount)
+    public override void OnAttack(Target target, AttackData attackData)
     {
         float potency = Potency * (IsDebuff ? -1f : 1f);
 
-        if (PotencyIsPercent)
+        if (!attackData.Bullseye || !IsDebuff)
         {
-            amount *= 1 + potency;
-        }
-        else
-        {
-            amount += potency;
+            if (PotencyIsPercent)
+            {
+                attackData *= 1 + potency;
+            }
+            else
+            {
+                attackData += potency;
+            }
         }
 
         Duration--;

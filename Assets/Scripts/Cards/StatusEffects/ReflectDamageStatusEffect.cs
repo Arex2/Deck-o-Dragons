@@ -15,16 +15,16 @@ public class ReflectDamageStatusEffect : StatusEffect
 
     public override string DurationName => "Attacks";
 
-    public override void OnHurt(Target attacker, ref float amount)
+    public override void OnHurt(Target attacker, AttackData attackData)
     {
-        if (amount < 0)
+        if (attackData < 0)
         {
             return;
         }
 
         attacker.NotifyStatusEffects = false;
 
-        attacker.Hurt(amount * Potency);
+        attacker.Hurt(attackData * Potency);
 
         attacker.NotifyStatusEffects = true;
 
