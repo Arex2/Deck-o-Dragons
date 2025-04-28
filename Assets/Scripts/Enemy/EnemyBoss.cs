@@ -30,6 +30,9 @@ public class EnemyBoss : Target
      */
     [SerializeField] private AudioClip damageTakenSound;
 
+    [SerializeField] private List<Sprite> enemySprites;
+    private SpriteRenderer spriteRenderer;
+
     public override Team Team => Team.Enemy;
 
     protected override void Awake()
@@ -43,6 +46,16 @@ public class EnemyBoss : Target
         healthTextFormat = healthText.text;
         UpdateHP();
         originalPosition = transform.localPosition;
+         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (ProgressManager.Instance != null)
+        {
+           
+            if (enemySprites.Count - 1 > ProgressManager.Instance.GetCurrentLevel())
+            {
+                spriteRenderer.sprite = enemySprites[ProgressManager.Instance.GetCurrentLevel()];
+            }
+        }
     }
 
     public override void OnTurnStart()
@@ -152,7 +165,7 @@ public class EnemyBoss : Target
     public override void OnDeath()
     {
         base.OnDeath();
-
+        ProgressManager.Instance.IncreaseLevel();
         StartCoroutine(RotateOverTime(Quaternion.Euler(0, 0, 90), 0.3f));
     }
 
