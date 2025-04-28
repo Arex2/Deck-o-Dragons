@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayCardState : IState
 {
@@ -36,16 +37,15 @@ public class PlayCardState : IState
             //if enemy hp <= 0 return gameWon
             //else return selectionState
 
+            BattleOverState battleOver = BattleOverState.BattleOverCheck();
 
-            if (gameBehaviour.encounterManager.currentEncounterEnemy.HP > 0)
+            if (battleOver != null)
             {
-                return new SelectionState();
+                return new BattleOverState();
             }
             else
             {
-                gameBehaviour.encounterManager.currentEncounterEnemy.DeathEvent();
-                Debug.Log("Enemy death");
-                return new BattleOverState();
+                return new SelectionState();
             }
         }
         else if (cardHand.CardBeingPlayed != null && cardHand.CardBeingPlayed.WaitingForCardsToAffect)
