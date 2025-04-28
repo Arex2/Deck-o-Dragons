@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class SquashAndStretch : MonoBehaviour
 {
     [SerializeField] private Transform transformToAffect;
     [SerializeField] private SquashStretchAxis axisToAffect = SquashStretchAxis.Y;

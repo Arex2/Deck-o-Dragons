@@ -25,6 +25,7 @@ public class Egg : MonoBehaviour
     [SerializeField] private Sprite[] crackedSprites;
     [SerializeField] GameObject eggInPieces;
     private SpriteRenderer spriteRenderer;
+    private SquashAndStretch squashAndStretch;
 
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class Egg : MonoBehaviour
         DragonActive.evolutionProcess = 0;
         inputMan = GameObject.Find("TextInputManager").GetComponent<TextInputManager>();
         screenShake = GameObject.Find("Main Camera").GetComponent<ScreenShake>();
+        squashAndStretch = gameObject.GetComponent<SquashAndStretch>();
     }
 
     void Update()
@@ -111,6 +113,10 @@ public class Egg : MonoBehaviour
 
     private void TapToOpen()
     {
+        //tap feedback effect
+        squashAndStretch.PlaySquashAndStretch();
+
+
         //varje tap ökar tapCurrent;
         tapCurrent += 0.5f;
         //med tid sänks tapCurrent (i update)
