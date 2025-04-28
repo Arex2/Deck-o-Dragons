@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField, Range(0, 1f)] private float animationDuration = 0.25f;
     [SerializeField] private bool canBeOverwritten;
 
-    //[Flags]
+    [Flags]
     public enum SquashStretchAxis
     {
         None = 0,
@@ -21,6 +22,8 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] private float initialScale = 1f;
     [SerializeField] private float maximumScale = 1.3f;
     [SerializeField] private bool resetToInitialScaleAfterAnimation = true;
+    [SerializeField] private bool reverseAnimationCurveAfterPlaying;
+    private bool isReversed;
 
     [SerializeField]
     private AnimationCurve squashAndStretchCurve = new AnimationCurve(
@@ -90,6 +93,11 @@ public class NewBehaviourScript : MonoBehaviour
     {
         do
         {
+            if(reverseAnimationCurveAfterPlaying)
+            {
+                isReversed = !isReversed;
+            }
+
             float elapsedTime = 0;
             Vector3 originalScale = initialScaleVector;
             Vector3 modifiedScale = originalScale;
@@ -98,7 +106,18 @@ public class NewBehaviourScript : MonoBehaviour
             {
                 elapsedTime += Time.deltaTime;
 
-                float curvePosition = elapsedTime / animationDuration;
+                float curvePosition;
+
+                if(isReversed)
+                {
+                    curvePosition = 1 - (elapsedTime / animationDuration);
+                }
+                else
+                {
+                    curvePosition = elapsedTime / animationDuration;
+                }
+
+                //float curvePosition = elapsedTime / animationDuration;
                 float curveValue = squashAndStretchCurve.Evaluate(curvePosition);
                 float remappedValue = initialScale + (curveValue * (maximumScale - initialScale));
 
@@ -107,8 +126,53 @@ public class NewBehaviourScript : MonoBehaviour
                 {
                     remappedValue = minimumThreshold;
                 }
+
+                if(affectX)
+                {
+                    modifiedScale.x = originalScale.x * remappedValue;
+                }
+                else
+                {
+                    modifiedScale.x = originalScale.x / remappedValue;
+                }
+
+                if (affectY)
+                {
+                    modifiedScale.y = originalScale.y * remappedValue;
+                }
+                else
+                {
+                    modifiedScale.y = originalScale.y / remappedValue;
+                }
+
+                if (affectZ)
+                {
+                    modifiedScale.z = originalScale.z * remappedValue;
+                }
+                else
+                {
+                    modifiedScale.z = originalScale.z / remappedValue;
+                }
+
+                transformToAffect.localScale = modifiedScale;
+                yield return null;
+            }
+
+            if(resetToInitialScaleAfterAnimation)
+            {
+                transformToAffect.localScale = originalScale;
+            }
+
+            if (looping)
+            {
+                yield return loopingDelayWaitForSeconds;
             }
 
         } while (looping);
+    }
+
+    public void SetLooping(bool shouldLoop)
+    {
+        looping = shouldLoop;
     }
 }
