@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PopupPrompt : MonoBehaviour
+public class TutorialPrompt : MonoBehaviour
 {
     [SerializeField]
     GameObject popup;
@@ -15,7 +15,7 @@ public class PopupPrompt : MonoBehaviour
 
     //game object to center on?
 
-    public PopupPrompt(string text)
+    public TutorialPrompt(string text)
     {
         ChangeText(text);
     }
