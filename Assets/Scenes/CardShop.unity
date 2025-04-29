@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &87163039
 RectTransform:
   m_ObjectHideFlags: 0
@@ -689,7 +689,7 @@ MonoBehaviour:
   - {fileID: 502671173}
   - {fileID: 655966147}
   - {fileID: 826357017}
-  countPerRow: 2
+  countPerRow: 3
   cardsToTake: 3
   amountOfRerolls: 1
   rerollButton: {fileID: 274281286}

@@ -207,12 +207,6 @@ public class CardShop : MonoBehaviour
 
         _cardsRemaining--;
 
-        //Johannes was here and fucked things up
-        if (_cardsRemaining <= 0)
-        {
-            sceneSwitcher.SwitchToEgg();
-        }
-
         addButton.interactable = _cardsRemaining > 0;
 
         _deckManager.AddCardToDeck(card, card.Copies);
