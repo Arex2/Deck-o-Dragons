@@ -5,11 +5,6 @@ using UnityEngine;
 public class CardViewInctance : MonoBehaviour
 {
     public CardVisuals cardVisuals;
-
-    private void Start()
-    {
-        cardVisuals = GetComponent<CardVisuals>();
-    }
     public void setNewCard(Card card)
     {
         cardVisuals.Card = card;

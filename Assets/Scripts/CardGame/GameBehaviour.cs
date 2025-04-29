@@ -206,6 +206,11 @@ public class GameBehaviour : Target
         manaText.text = mana.ToString();
     }
 
+    public void CheckCardAvailability()
+    {
+        cardHand.CheckCardAvailability();
+    }
+
     public void SwitchToEggScene()
     {
         SceneManager.LoadScene(1);

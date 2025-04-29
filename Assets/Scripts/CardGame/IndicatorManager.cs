@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IndicatorManager : MonoBehaviour
 {
@@ -8,32 +9,45 @@ public class IndicatorManager : MonoBehaviour
     IncomingDamageIndicator indicatorDMG;
     [SerializeField]
     IncomingHealingIndicator indicatorHEAL;
+    [SerializeField]
+    IncomingDamageIndicator enemyIndicatorDMG;
+    [SerializeField]
+    IncomingHealingIndicator enemyIndicatorHEAL;
 
     [SerializeField]
     GameBehaviour healthSlider;
+    [SerializeField]
+    Slider enemyHealthSlider;
 
     float dmgToPlayer = 0;
     float dmgToEnemy = 0;
     float healToPlayer = 0;
     float healToEnemy = 0;
 
-    public void UpdateIndicators(float currentHP, float incomingDMG, float incomingHEAL)
+
+    public void UpdateIndicators(Card c)
     {
         ClearIndicators();
+        ReadCard(c);
+        Debug.Log("Damage to player:  " + dmgToPlayer + "  Heal to player: " + healToPlayer + "   health slider hp: " + healthSlider.HP);
+        Debug.Log("Damage to enemy:  " + dmgToEnemy + "  Heal to enemy: " + healToEnemy + "   health slider hp: " + healthSlider.HP);
+        UpdateIndicatorsPlayer(healthSlider.HP, dmgToPlayer, healToPlayer);
+        //UpdateIndicatorsEnemy(enemyHealthSlider.value, dmgToEnemy, healToEnemy);
+    }
 
-        //ALTERNATIVT skicka med kort och kolla incomingDMG och incomingHEAL här
+    public void UpdateIndicatorsPlayer(float currentHP, float incomingDMG, float incomingHEAL)
+    {
         indicatorDMG.ShowIncomingDamage(currentHP,incomingDMG);
-        Debug.Log("inc heal: "+ incomingHEAL);
         indicatorHEAL.ShowIncomingHealing(currentHP,incomingHEAL);
     }
-    public void UpdateIndicators(Card c) //this doesn't even happen
+    public void UpdateIndicatorsEnemy(float currentHP, float incomingDMG, float incomingHEAL)
     {
-        float dmg = CalculateDamageToPlayer(c);
-        Debug.Log("Damage to player:  " + dmgToPlayer + "  Heal to player: " + healToPlayer + "   health slider hp: " + healthSlider.HP);
+        //behöver få enemy healthbar oavsätt vilken enemy
 
-        UpdateIndicators(healthSlider.HP, dmgToPlayer, healToPlayer);
-
+        //indicatorDMG.ShowIncomingDamage(currentHP, incomingDMG);
+        //indicatorHEAL.ShowIncomingHealing(currentHP, incomingHEAL);
     }
+
 
     public void ClearIndicators()
     {
@@ -48,12 +62,17 @@ public class IndicatorManager : MonoBehaviour
         indicatorHEAL.hide();
     }
 
-
-    private float CalculateDamageToPlayer(Card c)
+    //Methods read damage and healing values from the card,
+    //and assigns this to variables
+    private void ReadCard(Card c)
     {
+        ReadHealing(c);
+        ReadDamage(c);
+    }
 
-
-        if (c == null) return dmgToPlayer;
+    private void ReadDamage(Card c)
+    {
+        if (c == null) return;
 
         /*
         //RUBENS KOD:
@@ -98,70 +117,61 @@ public class IndicatorManager : MonoBehaviour
         }
         */
 
-        if(c.GetCardComponent<CardAttack>() != null)
+        if (c.GetCardComponent<CardAttack>() != null)
         {
-            Debug.Log("Attacking card : total dmg " + c.GetCardComponent<CardAttack>().TotalDamage);
-            //c.GetCardComponent<CardAttack>().TargetFilter
-            List<Target> targets = TargetManager.GetTargetsWithFilter(Team.Player, c.GetCardComponent<CardAttack>().TargetFilter);
-            foreach(Target t in targets)
+
+            foreach(CardAttack attack in c.GetCardComponents<CardAttack>())
             {
-                Debug.Log("t :" + t);
-                if(t.Team == Team.Player) //vet inte om det här behövs ens
+
+                //mot båda
+                if(attack.TargetFilter.Team == TargetFilter.FilterTeam.All)
                 {
-                    //updatera player sliders
-                    dmgToPlayer = c.GetCardComponent<CardAttack>().TotalDamage;
+                    dmgToPlayer += attack.TotalDamage;
+                    dmgToEnemy = attack.TotalDamage;
                 }
-                
-                if(t.Team == Team.Enemy)
+
+                //mot player
+                if (attack.TargetFilter.Team == TargetFilter.FilterTeam.Own)
                 {
-                    //updatera enemy sliders
-                    dmgToEnemy = c.GetCardComponent<CardAttack>().TotalDamage;
+                    dmgToPlayer += attack.TotalDamage;
+                }
+                //mot enemy
+                if(attack.TargetFilter.Team == TargetFilter.FilterTeam.Opponent)
+                {
+                    dmgToEnemy = attack.TotalDamage;
                 }
             }
         }
 
-        if (c.GetCardComponent<CardHeal>() != null)
-        {
-            Debug.Log("Healing card : total dmg " + c.GetCardComponent<CardHeal>().TotalHealing);
-            //c.GetCardComponent<CardAttack>().TargetFilter
-            List<Target> targets = TargetManager.GetTargetsWithFilter(Team.Player, c.GetCardComponent<CardHeal>().TargetFilter);
-            foreach (Target t in targets)
-            {
-                Debug.Log(t);
-                if (t.Team == Team.Player) //vet inte om det här behövs ens
-                {
-                    //updatera player sliders
-                    healToPlayer = c.GetCardComponent<CardHeal>().TotalHealing;
-                    Debug.Log("Healing card heal to Player =" + healToPlayer);
-                }
-                
-                if( t.Team == Team.Enemy)
-                {
-                    //updatera enemy sliders
-                    healToEnemy = c.GetCardComponent<CardHeal>().TotalHealing;
-                    Debug.Log("Healing card heal to Player =" + healToEnemy);
-                }
-            }
-        }
-
-        /*
-        foreach (CardAttack attack in c.GetCardComponents<CardAttack>())
-        {
-            List<Target> targets = TargetManager.GetTargetsWithFilter(Team.Player, attack.TargetFilter);
-        }
-        
-        if (c.GetCardComponent<CardHeal>() != null)
-        {
-            Debug.Log("Healing card : total heal " + c.GetCardComponent<CardHeal>().TotalHealing);
-        }
-        */
-
-        return dmgToPlayer;
     }
 
-    private float CalculateHealingToPlayer()
+    private void ReadHealing(Card c)
     {
-        return 0;
+        if (c == null) return;
+
+        if (c.GetCardComponent<CardHeal>() != null)
+        {
+
+            foreach (CardHeal heal in c.GetCardComponents<CardHeal>())
+            {
+                if(heal.TargetFilter.Team == TargetFilter.FilterTeam.All)
+                {
+                    healToPlayer += heal.TotalHealing;
+                    healToEnemy += heal.TotalHealing;
+                }
+
+                if (heal.TargetFilter.Team == TargetFilter.FilterTeam.Own)
+                {
+                    healToPlayer += heal.TotalHealing;
+                }
+
+                if (heal.TargetFilter.Team == TargetFilter.FilterTeam.Opponent)
+                {
+                    healToEnemy += heal.TotalHealing;
+                }
+            }
+        }
+
     }
 
 }

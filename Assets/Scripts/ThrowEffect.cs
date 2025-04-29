@@ -1,61 +1,109 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.EventSystems;
+using System.Collections;  // We need to include this for coroutines
 
-public class ThrowEffect : MonoBehaviour
+public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    public GameObject poofPrefab;
-    public GameObject meatballPrefab;
-    public Transform poofSpawnPoint;
+    public GameObject targetObject;  // The target UI element to check collision with
+    public AudioClip collisionSound; // Audio clip to play on collision
+    private AudioSource audioSource; // AudioSource for playing sound
+    private Animator meatballAnimator;  // Animator for the meatball (to play animation)
+    private RectTransform rectTransform;
+    private Canvas canvas;
+    private Vector3 initialPosition;  // Store the initial position of the draggable object in local canvas space
+    private CanvasGroup canvasGroup;  // Optional: Can be used to manage raycasting or opacity during drag
 
-    private Vector3 originalSpawnPosition;
+    
 
-    public Rigidbody2D rb;
-
-    private CanvasGroup canvasGroup;
-
-    void Start()
+    private void Awake()
     {
-        originalSpawnPosition = transform.position;
-        canvasGroup = GetComponentInParent<CanvasGroup>();
+        rectTransform = GetComponent<RectTransform>();
+        canvas = GetComponentInParent<Canvas>();
+        canvasGroup = GetComponent<CanvasGroup>();
+
+        // Store the initial local position relative to the canvas
+        initialPosition = rectTransform.localPosition;
+        audioSource = GetComponent<AudioSource>();
+        meatballAnimator = GetComponent<Animator>();
+    }
+    
+
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (canvasGroup != null)
+        {
+            canvasGroup.blocksRaycasts = false;
+        }
     }
 
-    public void SpawnPoof()
+    public void OnDrag(PointerEventData eventData)
     {
+        rectTransform.position = Input.mousePosition;
+    }
 
-        GameObject poof = Instantiate(poofPrefab, poofSpawnPoint.position, Quaternion.identity);
-
-
-        ParticleSystem ps = poof.GetComponent<ParticleSystem>();
-
-        if (ps != null)
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (canvasGroup != null)
         {
-
-            Destroy(poof, ps.main.duration);
+            canvasGroup.blocksRaycasts = true;
         }
 
-        StartCoroutine(ResetMeatballAfterDelay(0.15f));
-    }
-
-    private IEnumerator ResetMeatballAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        ResetMeatball();
-    }
-
-    void ResetMeatball()
-    {
-        gameObject.SetActive(false);
-
-        transform.position = originalSpawnPosition;
-        transform.rotation = Quaternion.identity;
-
-        if (rb != null)
+        if (targetObject != null && IsCollidingWithTarget())
         {
-            rb.velocity = Vector2.zero;
-            rb.angularVelocity = 0f;
+            Debug.Log("Triggering CollisionAnimation on Meatball");
+
+            if (meatballAnimator != null)
+            {
+                meatballAnimator.SetTrigger("CollisionAnimation");
+            }
+
+            if (audioSource != null && collisionSound != null)
+            {
+                audioSource.PlayOneShot(collisionSound);
+            }
+
+            StartCoroutine(ResetAfterAnimation());
+        }
+    }
+
+    private bool IsCollidingWithTarget()
+    {
+        RectTransform targetRect = targetObject.GetComponent<RectTransform>();
+        return targetRect.rect.Contains(rectTransform.localPosition);
+    }
+
+    private IEnumerator ResetAfterAnimation()
+    {
+        if (meatballAnimator != null)
+        {
+            yield return null; // Wait 1 frame for trigger to register
+
+            // Wait until the animation starts
+            AnimatorStateInfo stateInfo = meatballAnimator.GetCurrentAnimatorStateInfo(0);
+            float timeout = 0.5f; // To prevent infinite loops
+            float elapsed = 0f;
+            while (!stateInfo.IsName("CollisionAnimation") && elapsed < timeout)
+            {
+                yield return null;
+                stateInfo = meatballAnimator.GetCurrentAnimatorStateInfo(0);
+                elapsed += Time.deltaTime;
+            }
+
+            // Wait until animation is done
+            while (stateInfo.IsName("CollisionAnimation") && stateInfo.normalizedTime < 1f)
+            {
+                yield return null;
+                stateInfo = meatballAnimator.GetCurrentAnimatorStateInfo(0);
+            }
         }
 
-        gameObject.SetActive(true);
+        ResetPosition();
+    }
+
+
+    private void ResetPosition()
+    {
+        rectTransform.localPosition = initialPosition;
     }
 }

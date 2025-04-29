@@ -39,7 +39,7 @@ public class CardHeal : CardComponent
     {
         foreach (Target target in targets)
         {
-            target.Heal(Healing);
+            target.Heal(new(Healing));
         }
     }
 

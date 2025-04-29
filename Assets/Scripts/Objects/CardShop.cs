@@ -269,13 +269,8 @@ public class CardShop : MonoBehaviour
 
     public void Exit()
     {
-        if (ActivationManager.Instance != null)
-        {
-            sceneSwitcher.LoadEgg(6);
-        }
-        else
-        {
+       
             SceneManager.LoadScene(exitScene);
-        }
+        
     }
 }

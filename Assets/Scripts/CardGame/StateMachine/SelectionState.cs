@@ -12,8 +12,11 @@ public class SelectionState : IState
         this.gameBehaviour = gameBehaviour;
         this.controls = gameBehaviour.controls;
         Debug.Log("SELECTION!!");
+
         gameBehaviour.EnableButton();
         gameBehaviour.ResetButtonText();
+        gameBehaviour.CheckCardAvailability();
+
         gameBehaviour.UpdateStatusText("Select a card");
         //player gets input
         //Wait();
@@ -33,7 +36,10 @@ public class SelectionState : IState
         {
             Target.TurnEnd.Invoke(Team.Player);
 
-            return new PlayEnemyState();
+            if (gameBehaviour.cardHand.DoDiscardState)
+            {
+                return new DiscardState();
+            }
         }
 
         /*

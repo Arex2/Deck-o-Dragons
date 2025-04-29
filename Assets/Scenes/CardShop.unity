@@ -690,8 +690,8 @@ MonoBehaviour:
   - {fileID: 655966147}
   - {fileID: 826357017}
   countPerRow: 3
-  cardsToTake: 5
-  amountOfRerolls: 2
+  cardsToTake: 3
+  amountOfRerolls: 1
   rerollButton: {fileID: 274281286}
   addButton: {fileID: 1986314823}
   topText: {fileID: 1412384845}
@@ -702,7 +702,7 @@ MonoBehaviour:
   cardDescriptionText: {fileID: 177108943}
   regularUIParent: {fileID: 414208496}
   selectedCardUIParent: {fileID: 1507164326}
-  exitScene: 4
+  exitScene: 1
   sceneSwitcher: {fileID: 1934631774}
 --- !u!4 &377654982
 Transform:
@@ -1297,7 +1297,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 22.9
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2074,7 +2074,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.05
+  m_fontSize: 18
   m_fontSizeBase: 31.11
   m_fontWeight: 400
   m_enableAutoSizing: 1

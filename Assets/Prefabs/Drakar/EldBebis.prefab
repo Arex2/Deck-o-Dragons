@@ -245,5 +245,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0efe51b2ff13e43b3c4bae16454a5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drakPrefab: {fileID: 0}
-  drakStart: {x: 0, y: 0}
+  dragonActive: {fileID: 0}
+  eggStart: {x: 0, y: 0}

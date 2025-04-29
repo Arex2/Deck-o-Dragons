@@ -7,15 +7,19 @@ public class DiscardState : IState
     private GameBehaviour gameBehaviour;
     private ControlsV2 controls;
 
+    private bool _switchState;
+
     public virtual IState Enter(GameBehaviour gameBehaviour)
     {
         Debug.Log("DISCARDING CARDS AND CHOOSING WHICH TO KEEP");
         this.gameBehaviour = gameBehaviour;
         controls = gameBehaviour.controls;
-        gameBehaviour.EnableButton();
-        gameBehaviour.SetButtonText("Done");
+
         gameBehaviour.cardHand.OnStartSelectingCards(CardHand.SelectionState.Discard);
         gameBehaviour.UpdateStatusText("DISCARDING CARDS");
+
+        gameBehaviour.EnableButton();
+        gameBehaviour.SetButtonText("Done");
 
         controls.controls.Enable();
 
@@ -32,24 +36,32 @@ public class DiscardState : IState
         if (gameBehaviour.ButtonPressed)
         {
             gameBehaviour.cardHand.EmptyHand();
+            gameBehaviour.cardHand.OnExitSelectingCards();
 
-            return new SelectionState();
+            controls.controls.Disable();
+
+            gameBehaviour.DisableButton();
+
+            gameBehaviour.StartCoroutine(Delay());
+        }
+
+        if (_switchState)
+        {
+            return new PlayEnemyState();
         }
 
         return null;
     }
 
+    private IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(1);
+
+        _switchState = true;
+    }
+
     public virtual IState Exit()
     {
-        Target.TurnStart.Invoke(Team.Player);
-
-        gameBehaviour.EnableButton();
-        gameBehaviour.ResetButtonText();
-
-        gameBehaviour.StartCoroutine(gameBehaviour.cardHand.DrawNewHand());
-        gameBehaviour.cardHand.OnExitSelectingCards();
-
-        controls.controls.Disable();
         return null;
     }
 }

@@ -4,44 +4,19 @@ using UnityEngine;
 
 public class DeckViewManager : MonoBehaviour
 {
-    [SerializeField] private List<CardViewInctance> cards;
-    [SerializeField] private List<Card> testDeck;
+    [SerializeField] private CardViewInctance cardPrefab;
+    [SerializeField] private GameObject contentContainer;
 
-    int currentPage = 1;
-
-    private void Start()
+    void Start()
     {
-        TurnPage(0);
-    }
-
-    public void NextPage()
-    {
-        if (DeckManager.Instance.deck.Count < (currentPage + 1) * 6) return;
-        else TurnPage(1);
-
-    }
-
-    public void PreviusPage()
-    {
-        if ((currentPage - 1) * 6 < 0) return;
-        else TurnPage(-1);
-    }
-    private void TurnPage(int amount) 
-    {
-        currentPage += amount;
-
-        for (int i = 0; i < cards.Count; i++)
+        foreach(Card card in DeckManager.Instance.deck)
         {
-            if (DeckManager.Instance.deck[i + ((currentPage - 1) * 6)] == null)
-            {
-                cards[i].gameObject.SetActive(false);
-            }
-            else
-            {
-                cards[i].gameObject.SetActive(true);
-                cards[i].setNewCard(DeckManager.Instance.deck[i + ((currentPage - 1) * 6)]);
-            }
-                
+            CardViewInctance newCard = Instantiate(cardPrefab);
+            newCard.setNewCard(card);
+            newCard.transform.parent = contentContainer.transform;
+            newCard.transform.localScale = new Vector3(1,1,1);
         }
+        print("yup");
+        
     }
 }
