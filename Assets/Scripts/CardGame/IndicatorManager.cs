@@ -122,6 +122,14 @@ public class IndicatorManager : MonoBehaviour
 
             foreach(CardAttack attack in c.GetCardComponents<CardAttack>())
             {
+
+                //mot båda
+                if(attack.TargetFilter.Team == TargetFilter.FilterTeam.All)
+                {
+                    dmgToPlayer += attack.TotalDamage;
+                    dmgToEnemy = attack.TotalDamage;
+                }
+
                 //mot player
                 if (attack.TargetFilter.Team == TargetFilter.FilterTeam.Own)
                 {
@@ -130,7 +138,7 @@ public class IndicatorManager : MonoBehaviour
                 //mot enemy
                 if(attack.TargetFilter.Team == TargetFilter.FilterTeam.Opponent)
                 {
-                    dmgToEnemy = c.GetCardComponent<CardAttack>().TotalDamage;
+                    dmgToEnemy = attack.TotalDamage;
                 }
             }
         }
@@ -143,8 +151,15 @@ public class IndicatorManager : MonoBehaviour
 
         if (c.GetCardComponent<CardHeal>() != null)
         {
+
             foreach (CardHeal heal in c.GetCardComponents<CardHeal>())
             {
+                if(heal.TargetFilter.Team == TargetFilter.FilterTeam.All)
+                {
+                    healToPlayer += heal.TotalHealing;
+                    healToEnemy += heal.TotalHealing;
+                }
+
                 if (heal.TargetFilter.Team == TargetFilter.FilterTeam.Own)
                 {
                     healToPlayer += heal.TotalHealing;
