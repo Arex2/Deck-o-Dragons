@@ -29,5 +29,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BattleSelection.unity
     guid: 30c8479f950ac454eaa412f12b3a13e2
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 2e258da2dba30ea4bb74371dc3042a03
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 9c25ad0c87d42d34e80d0deb5aa43f3c, type: 2}
