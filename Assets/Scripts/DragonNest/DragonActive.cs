@@ -43,7 +43,7 @@ public class DragonActive : MonoBehaviour
         evolutionSlider.maxValue = 3;
         evolutionSlider.value = 0;*/
 
-        statusText = GameObject.Find("CompleteTraining_Text").GetComponent<TMP_Text>();
+        statusText = GameObject.Find("Status_Text").GetComponent<TMP_Text>();
         statusText.text = "";
 
         doCheck = true;
