@@ -1,61 +1,84 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.EventSystems;
 
-public class ThrowEffect : MonoBehaviour
+public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    public GameObject poofPrefab;
-    public GameObject meatballPrefab;
-    public Transform poofSpawnPoint;
+    public GameObject targetObject;  // The target UI element to check collision with
+    public Animator targetAnimator;  // Animator for the target object (to play animation)
+    public AudioClip collisionSound; // Audio clip to play on collision
+    private AudioSource audioSource; // AudioSource for playing sound
+    private RectTransform rectTransform;
+    private Canvas canvas;
+    private Vector3 initialPosition;  // Store the initial position of the draggable object in local canvas space
+    private CanvasGroup canvasGroup;  // Optional: Can be used to manage raycasting or opacity during drag
 
-    private Vector3 originalSpawnPosition;
-
-    public Rigidbody2D rb;
-
-    private CanvasGroup canvasGroup;
-
-    void Start()
+    private void Awake()
     {
-        originalSpawnPosition = transform.position;
-        canvasGroup = GetComponentInParent<CanvasGroup>();
+        rectTransform = GetComponent<RectTransform>();
+        canvas = GetComponentInParent<Canvas>();
+        canvasGroup = GetComponent<CanvasGroup>();
+
+        // Store the initial local position relative to the canvas
+        initialPosition = rectTransform.localPosition;  // Store position relative to the canvas
+        audioSource = GetComponent<AudioSource>();  // Get the AudioSource component on the draggable object
     }
 
-    public void SpawnPoof()
+    public void OnBeginDrag(PointerEventData eventData)
     {
-
-        GameObject poof = Instantiate(poofPrefab, poofSpawnPoint.position, Quaternion.identity);
-
-
-        ParticleSystem ps = poof.GetComponent<ParticleSystem>();
-
-        if (ps != null)
+        // Optional: Disable raycasts during drag for smoother movement
+        if (canvasGroup != null)
         {
+            canvasGroup.blocksRaycasts = false;
+        }
+    }
 
-            Destroy(poof, ps.main.duration);
+    public void OnDrag(PointerEventData eventData)
+    {
+        // Move the object while dragging
+        Vector2 position = Input.mousePosition;
+        rectTransform.position = position;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        // Re-enable raycasts after drag is done
+        if (canvasGroup != null)
+        {
+            canvasGroup.blocksRaycasts = true;
         }
 
-        StartCoroutine(ResetMeatballAfterDelay(0.15f));
-    }
-
-    private IEnumerator ResetMeatballAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        ResetMeatball();
-    }
-
-    void ResetMeatball()
-    {
-        gameObject.SetActive(false);
-
-        transform.position = originalSpawnPosition;
-        transform.rotation = Quaternion.identity;
-
-        if (rb != null)
+        // Check for collision after dragging ends
+        if (targetObject != null && IsCollidingWithTarget())
         {
-            rb.velocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-        }
+            // Play the animation on collision
+            if (targetAnimator != null)
+            {
+                targetAnimator.SetTrigger("CollisionAnimation"); // Replace with the correct trigger name
+            }
 
-        gameObject.SetActive(true);
+            // Play the collision sound
+            if (audioSource != null && collisionSound != null)
+            {
+                audioSource.PlayOneShot(collisionSound);
+            }
+
+            // Immediately reset the draggable object to its original position relative to the canvas
+            ResetPosition();
+        }
+    }
+
+    private bool IsCollidingWithTarget()
+    {
+        // Check if the draggable object collides with the target object
+        RectTransform targetRect = targetObject.GetComponent<RectTransform>();
+
+        // Check if the draggable object is within the target's bounds
+        return targetRect.rect.Contains(rectTransform.localPosition);
+    }
+
+    private void ResetPosition()
+    {
+        // Reset draggable object position to its original position in local space relative to the canvas
+        rectTransform.localPosition = initialPosition;
     }
 }
