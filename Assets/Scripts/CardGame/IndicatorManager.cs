@@ -29,23 +29,24 @@ public class IndicatorManager : MonoBehaviour
     {
         ClearIndicators();
         ReadCard(c);
-        Debug.Log("Damage to player:  " + dmgToPlayer + "  Heal to player: " + healToPlayer + "   health slider hp: " + healthSlider.HP);
-        Debug.Log("Damage to enemy:  " + dmgToEnemy + "  Heal to enemy: " + healToEnemy + "   health slider hp: " + healthSlider.HP);
-        UpdateIndicatorsPlayer(healthSlider.HP, dmgToPlayer, healToPlayer);
-        //UpdateIndicatorsEnemy(enemyHealthSlider.value, dmgToEnemy, healToEnemy);
+        //Debug.Log("Damage to player:  " + dmgToPlayer + "  Heal to player: " + healToPlayer + "   health slider hp: " + healthSlider.HP);
+        //Debug.Log("Damage to enemy:  " + dmgToEnemy + "  Heal to enemy: " + healToEnemy + "   health slider hp: " + enemyHealthSlider.value );
+        //Debug.Log("player hp slider: " + healthSlider.HP + "  enemy health slider: " + enemyHealthSlider.value);
+        UpdateIndicatorsPlayer(healthSlider.HP, dmgToPlayer, healToPlayer, healthSlider.MaxHP);
+        UpdateIndicatorsEnemy(enemyHealthSlider.value, dmgToEnemy, healToEnemy, enemyHealthSlider.maxValue);
     }
 
-    public void UpdateIndicatorsPlayer(float currentHP, float incomingDMG, float incomingHEAL)
+    public void UpdateIndicatorsPlayer(float currentHP, float incomingDMG, float incomingHEAL, float maxHP)
     {
         indicatorDMG.ShowIncomingDamage(currentHP,incomingDMG);
-        indicatorHEAL.ShowIncomingHealing(currentHP,incomingHEAL);
+        indicatorHEAL.ShowIncomingHealing(currentHP,incomingHEAL, maxHP);
     }
-    public void UpdateIndicatorsEnemy(float currentHP, float incomingDMG, float incomingHEAL)
+    public void UpdateIndicatorsEnemy(float currentHP, float incomingDMG, float incomingHEAL, float maxHP)
     {
         //behöver få enemy healthbar oavsätt vilken enemy
 
-        //indicatorDMG.ShowIncomingDamage(currentHP, incomingDMG);
-        //indicatorHEAL.ShowIncomingHealing(currentHP, incomingHEAL);
+        enemyIndicatorDMG.ShowIncomingDamage(currentHP, incomingDMG);
+        enemyIndicatorHEAL.ShowIncomingHealing(currentHP, incomingHEAL, maxHP);
     }
 
 
@@ -54,12 +55,16 @@ public class IndicatorManager : MonoBehaviour
         //reset values
         dmgToPlayer = 0;
         dmgToEnemy = 0;
+
         healToPlayer = 0;
         healToEnemy = 0;
 
 
         indicatorDMG.hide();
         indicatorHEAL.hide();
+
+        enemyIndicatorDMG.hide();
+        enemyIndicatorHEAL.hide();
     }
 
     //Methods read damage and healing values from the card,
