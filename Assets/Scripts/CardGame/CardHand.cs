@@ -48,6 +48,7 @@ public class CardHand : MonoBehaviour
     int startSortingOrder;
 
     int currentIndex;
+    int previousIndex;
 
     private int CurrentIndex
     {
@@ -55,12 +56,13 @@ public class CardHand : MonoBehaviour
         set 
         {
             float previous = currentIndex;
+            previousIndex = currentIndex;
             currentIndex = value;
-
+            /*
             if (currentIndex != previous)
             {
                 OnSelectedIndexChanged();
-            }
+            }*/
 
         }
     }
@@ -171,15 +173,22 @@ public class CardHand : MonoBehaviour
         oldScreenSize = new Vector2Int(Screen.width, Screen.height);
     }
 
-    private void OnSelectedIndexChanged()
+    /// <summary>
+    /// Checks if a different card is selected
+    /// and then Updates the health and damage indicators.
+    /// </summary>
+    private void OnDifferentCard()
     {
-        //här updatera indicators
-        //om current index är ett heltal
+        //om handen inte är tomm och current index är ett heltal
         if (cardsInHand.Count > 0 && currentIndex % 1 == 0)
         {
-            if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
+            //om inte samma kort som precis innan, unless det är enda kortet i handen
+            if(previousIndex != currentIndex || cardsInHand.Count == 1)
             {
-                gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
+                if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
+                {
+                    gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
+                }
             }
         }
     }
@@ -818,7 +827,6 @@ public class CardHand : MonoBehaviour
             CurrentIndex = 0;
         else
             CurrentIndex = Mathf.RoundToInt(cardsInHand.Count / 2);
-        OnSelectedIndexChanged();
     }
 
     private void UpdateCardPositions()
@@ -939,6 +947,8 @@ public class CardHand : MonoBehaviour
         {
             cardObj.Canvas.sortingOrder += offset;
         }
+
+        OnDifferentCard();
     }
 
     public void ShiftAllRight()
