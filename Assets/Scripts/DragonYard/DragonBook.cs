@@ -67,9 +67,9 @@ public class DragonBook : MonoBehaviour
         DragonBookContents.SetNewDragonNameAndType("bibi", 2);
 
         //tton1 = dragonCollection.transform.GetChild(0).GetComponent<Button>();
-        for (int i = currentPage * 6; i < (currentPage + 1) * 6 - 1; i++) //få rätt index för drakarna i listorna
+        for (int i = currentPage * 6; i < (currentPage + 1) * 6 - 1; i++) //fï¿½ rï¿½tt index fï¿½r drakarna i listorna
         {
-            for (int j = 0; j < 6; j++) //gå igenom varje knapp
+            for (int j = 0; j < 6; j++) //gï¿½ igenom varje knapp
             {
                 if (DragonBookContents.GetDragonNames().Count <= j) //DragonBookContents.GetDragonNames().ElementAt(i) == null)
                 {
@@ -105,7 +105,7 @@ public class DragonBook : MonoBehaviour
             }
         }
     }
-
+    
     /*public void ShowAskToAddDragon()
     {
         AskToAddDragonPanel.SetActive(true);
