@@ -179,6 +179,14 @@ public class CardHand : MonoBehaviour
     /// </summary>
     private void OnDifferentCard()
     {
+        //dont show indicators when selecting cards for other things 
+        //OBS this might need to be changed to discarding phase???
+        if (SelectingCards)
+        {
+            gameBehaviour.indicatorManager.ClearIndicators();
+            return;
+        }
+
         //om handen inte är tomm och current index är ett heltal
         if (cardsInHand.Count > 0 && currentIndex % 1 == 0)
         {
@@ -1033,6 +1041,7 @@ public class CardHand : MonoBehaviour
         _affectCardsCustomFormat = textFormat;
 
         UpdateSelectingCardsText();
+        gameBehaviour.indicatorManager.ClearIndicators();
     }
 
     public void OnExitSelectingCards()
