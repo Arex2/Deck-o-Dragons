@@ -10,8 +10,9 @@ public class BattleButtonManager : MonoBehaviour
     private int currentLevel;
     void Start()
     {
-        //currentLevel = ProgressManager.Instance.GetCurrentLevel();
-        currentLevel = 3;
+        currentLevel = ProgressManager.Instance.GetCurrentLevel();
+        //currentLevel = 3;
+        Debug.Log("Current lvl: " + currentLevel);
         test();
     }
     private void test()
@@ -21,14 +22,14 @@ public class BattleButtonManager : MonoBehaviour
             Button button = buttonList[i];
             button.interactable = false;
 
-            if (i+1 > currentLevel)
+            if (i > currentLevel)
             {
                 continue;
             }
 
             drawLine.AddButtonToLine(button);
 
-            if (i+1 == currentLevel)
+            if (i == currentLevel)
             {
                 button.interactable = true;
                 button.image.color = Color.white;
