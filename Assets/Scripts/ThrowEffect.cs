@@ -65,7 +65,13 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
             StartCoroutine(ResetAfterAnimation());
         }
+        else
+        {
+
+            ResetPosition();
+        }
     }
+
 
     private bool IsCollidingWithTarget()
     {
