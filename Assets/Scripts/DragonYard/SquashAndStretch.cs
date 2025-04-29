@@ -27,7 +27,7 @@ public class SquashAndStretch : MonoBehaviour
 
     [SerializeField]
     private AnimationCurve squashAndStretchCurve = new AnimationCurve(
-        new Keyframe(8f, 0f),
+        new Keyframe(0f, 0f),
         new Keyframe(0.5f, 1f),
         new Keyframe(1f, 0f)
     );

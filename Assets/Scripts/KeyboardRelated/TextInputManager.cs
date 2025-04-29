@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class TextInputManager : MonoBehaviour
 {
@@ -11,7 +14,6 @@ public class TextInputManager : MonoBehaviour
 
     private static GameObject keyboardObject;
 
-    // Start is called before the first frame update
     void Start()
     {
         keyboard.onKeyPressed += KeyPressedCallback;
