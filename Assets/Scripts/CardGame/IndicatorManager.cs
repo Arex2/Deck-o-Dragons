@@ -24,6 +24,19 @@ public class IndicatorManager : MonoBehaviour
     float healToPlayer = 0;
     float healToEnemy = 0;
 
+    /// <summary>
+    /// Used to update indicators in cases when the calculations
+    /// were made before the health had been updated.
+    /// Fixes situations like: 
+    /// a damaging card is played, 
+    /// a healing card is selected while damage is being applied,
+    /// and healing is calculated on the wrong current health.
+    /// </summary>
+    public void UpdateIndicatorsForOldCard()
+    {
+        UpdateIndicatorsPlayer(healthSlider.HP, dmgToPlayer, healToPlayer, healthSlider.MaxHP);
+        UpdateIndicatorsEnemy(enemyHealthSlider.value, dmgToEnemy, healToEnemy, enemyHealthSlider.maxValue);
+    }
 
     public void UpdateIndicators(Card c)
     {

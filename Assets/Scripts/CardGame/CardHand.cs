@@ -195,6 +195,9 @@ public class CardHand : MonoBehaviour
             {
                 if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
                 {
+                    //if (CardBeingPlayed) return;
+                        //vänta tills det är över för att uppdatera!!!
+
                     gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
                 }
             }
