@@ -23,10 +23,10 @@ public class DragonBook : MonoBehaviour
     [SerializeField] private Button button6;*/
 
     [Header("Element Types")]
-    string water = "Chibi Water Dragon";
-    string earth = "Chibi Earth Dragon";
-    string fire = "Chibi Fire Dragon";
-    string air = "Chibi Air Dragon";
+    string water = "Chibi Water Dragon"; // 0
+    string earth = "Chibi Earth Dragon"; // 1
+    string fire = "Chibi Fire Dragon";   // 2
+    string air = "Chibi Air Dragon";     // 3
 
     [SerializeField] Button[] buttons;
 
@@ -64,7 +64,51 @@ public class DragonBook : MonoBehaviour
 
     public void AddDragonsToCollection()
     {
-        DragonBookContents.SetNewDragonNameAndType("bibi", 2);
+        int indexOfDragonToAdd = currentPage * 6;
+
+        for (int j = 0; j < 6; j++) //g� igenom varje knapp
+        {
+            //Debug.Log("indexOfDragonToAdd: " + indexOfDragonToAdd);
+
+            if (DragonBookContents.GetDragonNames().Count <= j) //DragonBookContents.GetDragonNames().ElementAt(i) == null)
+            {
+                buttons[j].interactable = false;
+                buttons[j].transform.GetChild(0).GetComponent<TMP_Text>().text = "";
+            }
+            else if (DragonBookContents.GetDragonNames().ElementAt(indexOfDragonToAdd) != null)
+            {
+                buttons[j].interactable = true;
+                buttons[j].transform.GetChild(0).GetComponent<TMP_Text>().text = DragonBookContents.GetDragonNames().ElementAt(indexOfDragonToAdd);
+                //buttons[j].transform.image = DragonBookContents.GetDragonTypes().ElementAt(i);
+                //string elementTYpe = buttons[j].GetComponent<OnDragonButtonClick>().SetElement();
+                int elementType = DragonBookContents.GetDragonTypes().ElementAt(indexOfDragonToAdd);
+
+                switch (elementType)
+                {
+                    case 0:
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(water); //water type
+                        break;
+                    case 1:
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(earth); //earth type
+                        break;
+                    case 2:
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(fire); // fire type
+                        break;
+                    case 3:
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(air); // air type
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            indexOfDragonToAdd++;
+        }
+    }
+
+    /*public void AddDragonsToCollection()
+    {
+        //DragonBookContents.SetNewDragonNameAndType("bibi", 2);
 
         //tton1 = dragonCollection.transform.GetChild(0).GetComponent<Button>();
         for (int i = currentPage * 6; i < (currentPage + 1) * 6 - 1; i++) //f� r�tt index f�r drakarna i listorna
@@ -86,16 +130,16 @@ public class DragonBook : MonoBehaviour
 
                     switch (elementType)
                     {
-                        case 1:
+                        case 0:
                             buttons[j].GetComponent<OnDragonButtonClick>().SetElement(water); //water type
                             break;
-                        case 2:
+                        case 1:
                             buttons[j].GetComponent<OnDragonButtonClick>().SetElement(earth); //earth type
                             break;
-                        case 3:
+                        case 2:
                             buttons[j].GetComponent<OnDragonButtonClick>().SetElement(fire); // fire type
                             break;
-                        case 4:
+                        case 3:
                             buttons[j].GetComponent<OnDragonButtonClick>().SetElement(air); // air type
                             break;
                         default:
@@ -104,8 +148,8 @@ public class DragonBook : MonoBehaviour
                 }
             }
         }
-    }
-    
+    }*/
+
     /*public void ShowAskToAddDragon()
     {
         AskToAddDragonPanel.SetActive(true);

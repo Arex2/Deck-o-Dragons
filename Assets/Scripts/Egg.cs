@@ -213,7 +213,6 @@ public class Egg : MonoBehaviour
     {
         int index = UnityEngine.Random.Range(0, dragonActive.babyDragons.Length);
         Instantiate(dragonActive.babyDragons[index], new Vector3(0, -3, 0), Quaternion.identity);
-        Debug.Log("Drakens index:" + index);
         //DragonActive.drPref = dragons[index];
         DragonActive.index = index;
         DragonActive.age = 1;

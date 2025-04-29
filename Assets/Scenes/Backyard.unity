@@ -3136,6 +3136,13 @@ MonoBehaviour:
   dragonCollection: {fileID: 1815612644}
   closeButton: {fileID: 1089955074}
   DragonLimit: {fileID: 2019747271}
+  buttons:
+  - {fileID: 325425349}
+  - {fileID: 163363230}
+  - {fileID: 757111376}
+  - {fileID: 1997091614}
+  - {fileID: 975949366}
+  - {fileID: 756670569}
 --- !u!1 &1997091611
 GameObject:
   m_ObjectHideFlags: 0

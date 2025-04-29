@@ -96,19 +96,15 @@ public class DragonActive : MonoBehaviour
 
     private void CheckForEggOrDragon()
     {
-        Debug.Log("Buildindex är 1");
-
         if(!isDragonActive)
         {
             Instantiate(egg, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
             //TextInputManager.dragonName.text = "";
             //Egg.SpawnEgg(egg);
-            Debug.Log("ägg borde finnas");
         }
         else if(isDragonActive)
         {
             //Instantiate(TextInputManager.dragonName, new UnityEngine.Vector3(0, 1000, 0), UnityEngine.Quaternion.identity);
-            Debug.Log("drake finns");
             SpawnDragons();
         }
     }
