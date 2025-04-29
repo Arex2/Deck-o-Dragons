@@ -17,14 +17,14 @@ public class DamageHealStatusEffect : StatusEffect
 
     public override string DurationName => "Attacks";
 
-    public override void OnAttack(Target target, ref float amount)
+    public override void OnAttack(Target target, AttackData attackData)
     {
-        if (amount < 0)
+        if (attackData < 0)
         {
             return;
         }
-
-        User.Heal(amount * Potency);
+        
+        User.Heal(new(attackData * Potency));
 
         Duration--;
     }

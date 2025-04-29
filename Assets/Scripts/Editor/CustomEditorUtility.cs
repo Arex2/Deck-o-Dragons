@@ -36,4 +36,11 @@ public static class CustomEditorUtility
         EditorGUI.DrawRect(rect, new Color(0, 0, 0, 0.1f));
     }
 
+    public static void SaveAsset(Object asset)
+    {
+        EditorUtility.SetDirty(asset);
+        AssetDatabase.SaveAssetIfDirty(asset);
+
+        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(asset), ImportAssetOptions.ForceUpdate);
+    }
 }

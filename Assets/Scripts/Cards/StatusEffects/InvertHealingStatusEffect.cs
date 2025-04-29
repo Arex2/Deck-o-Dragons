@@ -11,11 +11,11 @@ public class InvertHealingStatusEffect : StatusEffect
 
     public override string DurationName => "Heals";
 
-    public override void OnHeal(ref float healing)
+    public override void OnHeal(HealData healData)
     {
-        User.Hurt(healing);
+        User.Hurt(new(healData));
 
-        healing = 0;
+        healData.Negate();
 
         Duration--;
     }

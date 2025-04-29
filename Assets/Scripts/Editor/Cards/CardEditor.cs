@@ -142,15 +142,7 @@ public class CardEditor : Editor
 
     private void SaveAsset()
     {
-        SaveAsset(target);
-    }
-
-    public static void SaveAsset(Object asset)
-    {
-        EditorUtility.SetDirty(asset);
-        AssetDatabase.SaveAssetIfDirty(asset);
-
-        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(asset), ImportAssetOptions.ForceUpdate);
+        CustomEditorUtility.SaveAsset(target);
     }
 
     public override void OnInspectorGUI()

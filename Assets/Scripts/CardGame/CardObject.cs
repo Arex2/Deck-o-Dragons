@@ -188,7 +188,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     //Method to update mana cost text when mana affecting cards have been played
     public void UpdateCostLook()
     {
-        cardVisuals.UpdateCostLook();
+        cardVisuals.UpdateCostText();
     }
 
     public void SetCard(Card card)

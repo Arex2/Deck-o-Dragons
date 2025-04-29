@@ -13,17 +13,17 @@ public class HealingModifyStatusEffect : StatusEffect
 
     public override string DurationName => "Heals";
 
-    public override void OnHeal(ref float healing)
+    public override void OnHeal(HealData healData)
     {
         float potency = Potency * (IsDebuff ? -1f : 1f);
 
         if (PotencyIsPercent)
         {
-            healing *= 1 + potency;
+            healData *= 1 + potency;
         }
         else
         {
-            healing += potency;
+            healData += potency;
         }
 
         Duration--;

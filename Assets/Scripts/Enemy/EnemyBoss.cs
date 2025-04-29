@@ -10,7 +10,9 @@ public class EnemyBoss : Target
      * Mana and health variables
      */
 
-    
+    //notera måste lägga tillbaka scriptet på enemyn för att det ska fungera
+    [SerializeField] private Slider healthSlider; 
+
     [SerializeField] private TMP_Text healthText;
     [SerializeField] private int maxMana;
     private int currentMana;
@@ -44,6 +46,7 @@ public class EnemyBoss : Target
             maxMana = EnemyScalingManager.Instance.GetScaledMana();
         }
         healthTextFormat = healthText.text;
+        //healthSlider.highValue = MaxHP;
         UpdateHP();
         originalPosition = transform.localPosition;
          spriteRenderer = GetComponent<SpriteRenderer>();
@@ -150,11 +153,12 @@ public class EnemyBoss : Target
     {
         base.UpdateHP();
          healthText.text = string.Format(healthTextFormat, HP.ToString());
+        //healthSlider.value = HP;
     }
 
-    public override void Hurt(float amount)
+    public override void Hurt(AttackData attackData)
     {
-        base.Hurt(amount);
+        base.Hurt(attackData);
         StartCoroutine(ShakeCoroutine());
         if (AudioManager.Instance != null)
         {

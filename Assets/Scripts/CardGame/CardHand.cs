@@ -818,6 +818,7 @@ public class CardHand : MonoBehaviour
             CurrentIndex = 0;
         else
             CurrentIndex = Mathf.RoundToInt(cardsInHand.Count / 2);
+        OnSelectedIndexChanged();
     }
 
     private void UpdateCardPositions()
@@ -1056,6 +1057,24 @@ public class CardHand : MonoBehaviour
     {
         Discard,
         AffectCards,
+    }
+
+
+    /// <summary>
+    /// Kollar om spelare har tillräckligt mycket mana för att spela kort
+    /// Om ja: gör available visually
+    /// Om nej: gör un-available visually
+    /// </summary>
+    public void CheckCardAvailability()
+    {
+        foreach(CardObject obj in cardsInHand )
+        {
+            //jämför player mana med card mana cost
+            if(gameBehaviour.Mana >= obj.GetCost())
+                obj.CardVisuals.UpdateCardAvailableLook();
+            else
+                obj.CardVisuals.UpdateCardUnavailableLook();
+        }
     }
 
     /*
