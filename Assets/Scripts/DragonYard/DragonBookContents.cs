@@ -5,22 +5,26 @@ using TMPro;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Rendering.FilterWindow;
 
 public class DragonBookContents : MonoBehaviour
 {
-    private const int DRAGONS_PER_PAGE = 6;
     private static DragonBookContents drBookCont;
 
+    [Header ("Dragons in book related")]
+    private const int DRAGONS_PER_PAGE = 6;
     private static List<int> pagesInBook = new List<int>();
-
     private static List<string> dragonNamesInBook = new List<string>();
     private static List<int> dragonTypesInBook = new List<int>();
 
+    [Header ("Dragons in background related")]
     public static int LimitOfDragons = 8;
     private static List<string> dragonsInBackyard = new List<string>();
     private static List<int> elementsOfDragonsInBackyard = new List<int>();
 
-    public bool doCheck;
+    private bool buildCheck;
+
+    //public bool doCheck;
 
     void Awake()
     {
@@ -38,17 +42,28 @@ public class DragonBookContents : MonoBehaviour
 
     void LateUpdate()
     {
-        if (doCheck)
+        if (SceneManager.GetActiveScene().buildIndex == 1 && buildCheck)
+        {
+            Debug.Log("Contents: NAME SIZE : " + dragonsInBackyard.Count);
+            buildCheck = false;
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex != 1)
+        {
+            buildCheck = true;
+        }
+
+        /*if (doCheck)
         {
             if (SceneManager.GetActiveScene().buildIndex == 5)
             {
                 doCheck = false;
-                /*evolutionSlider = GameObject.Find("EvolutionSlider").GetComponent<Slider>();
-                statusText = GameObject.Find("CompleteTraining_Text").GetComponent<TMP_Text>();*/
+                //evolutionSlider = GameObject.Find("EvolutionSlider").GetComponent<Slider>();
+                //statusText = GameObject.Find("CompleteTraining_Text").GetComponent<TMP_Text>();
 
                 //currentDragon = FindObjectOfType<DragonController>();
             }
-        }
+        }*/
     }
 
     public static void SetNewDragonNameAndType(string name, int type)
@@ -61,12 +76,14 @@ public class DragonBookContents : MonoBehaviour
     {
         dragonsInBackyard.Add(name);
         elementsOfDragonsInBackyard.Add(element);
+        Debug.Log("Contents: NAME SIZE : " + dragonsInBackyard.Count);
+        //Debug.Log("Contents: ELEMENT SIZE: " + elementsOfDragonsInBackyard.Count);
     }
 
     public static void RemoveDragonAndElementFromBackyard(string name, int indexOfElement)
     {
-        Debug.Log("NAME INDEX : " + dragonsInBackyard.IndexOf(name));
-        Debug.Log("ELEMENT INDEX: " + indexOfElement);
+        Debug.Log("Contents: NAME INDEX : " + dragonsInBackyard.IndexOf(name));
+        //Debug.Log("Contents: ELEMENT INDEX: " + indexOfElement);
         dragonsInBackyard.Remove(name);
         elementsOfDragonsInBackyard.RemoveAt(indexOfElement);
     }

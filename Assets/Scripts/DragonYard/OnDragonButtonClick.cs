@@ -45,7 +45,7 @@ public class OnDragonButtonClick : MonoBehaviour
         DragonBook.dragonElement = elementType;
 
         //GameObject.Find("PanelController").GetComponent<DragonBook>().ShowAskToAddDragon();
-        GameObject.Find("PanelController").GetComponent<DragonBook>().InstantiateDragon(element, elementType);
+        GameObject.Find("PanelController").GetComponent<DragonBook>().InstantiateDragon(element);
 
         //DragonBook.ShowAskToAddDragon();
         //drBook.InstantiateDragon(dragonName);

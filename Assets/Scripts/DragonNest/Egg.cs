@@ -45,6 +45,7 @@ public class Egg : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         DragonActive.isDragonActive = false;
         DragonActive.statusText.text = "";
+        DragonActive.dragonName = null;
         DragonActive.index = 0;
         DragonActive.age = 0;
         DragonActive.evolutionProcess = 0;
@@ -56,8 +57,6 @@ public class Egg : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("egg hello");
-
         if (Input.GetKeyDown(KeyCode.K))
         {
             Hatch();

@@ -50,13 +50,18 @@ public class DragonController : MonoBehaviour
             if (DragonActive.age == 3)
             {
                 DragonActive.statusText.text = "Congratulations! " + DragonActive.dragonName + " has completed their training and will be added to your registry!";
-                DragonBookContents.SetNewDragonNameAndType(DragonActive.dragonName, DragonActive.index);
-                if(DragonBookContents.GetDragonsInYard().Count >= DragonBookContents.LimitOfDragons)
+
+                if(DragonActive.dragonName != null)
+                {
+                    DragonBookContents.SetNewDragonNameAndType(DragonActive.dragonName, DragonActive.index);
+                }
+
+                if(DragonBookContents.GetDragonsInYard().Count < DragonBookContents.LimitOfDragons)
                 {
                     DragonBookContents.SetNewDragonNamesAndElementsInBackyard(DragonActive.dragonName, DragonActive.index);
                 }
 
-                Invoke("SpawnNewDragon", 6f);
+                Invoke("SpawnNewDragon", 4f);
             }
             else
             {
