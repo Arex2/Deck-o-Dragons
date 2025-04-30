@@ -976,7 +976,6 @@ GameObject:
   - component: {fileID: 739077457}
   - component: {fileID: 739077459}
   - component: {fileID: 739077458}
-  - component: {fileID: 739077460}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -1073,22 +1072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragonName: {fileID: 1512423142}
-  forCompUse: 0
 --- !u!114 &739077459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739077451}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69dc97890db2a44018f74fd3567e66ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dragonName: {fileID: 1512423142}
-  keyboard: {fileID: 1543864554}
---- !u!114 &739077460
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1097,10 +1081,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 739077451}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b4a2ec86b64d4c83ae9bd65415c9670, type: 3}
+  m_Script: {fileID: 11500000, guid: 69dc97890db2a44018f74fd3567e66ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doCheck: 0
+  dragonName: {fileID: 1512423142}
+  keyboard: {fileID: 1543864554}
 --- !u!1 &810453343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1891,7 +1876,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragonName: {fileID: 1512423142}
-  forCompUse: 0
 --- !u!4 &1210905713
 Transform:
   m_ObjectHideFlags: 0
@@ -2523,7 +2507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1407644141
 MonoBehaviour:
   m_ObjectHideFlags: 0
