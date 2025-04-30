@@ -5,16 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class ActivationManager : MonoBehaviour
 {
-    [SerializeField] private DragonEvolutionManager dragonEvolutionManager;
 
 
     private void Awake()
     {
         if (ProgressManager.Instance != null)
         {
-            if (ProgressManager.Instance.GetWonLastBattle())
+            if (ProgressManager.Instance.WonLastBattle)
             {
-                ProgressManager.Instance.SetWonLastBattle(false);
+                ProgressManager.Instance.WonLastBattle = false;
                 Invoke("AddProgressToDragon", 1);
             }
         }
@@ -24,6 +23,6 @@ public class ActivationManager : MonoBehaviour
 
     private void AddProgressToDragon()
     {
-        dragonEvolutionManager.StepProgress();
+        DragonActive.StepProgress();
     }
 }
