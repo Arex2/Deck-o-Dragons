@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO.Pipes;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -343,7 +343,7 @@ public class ControlsV2 : MonoBehaviour
         //speed of swipe
         float time = Time.time - latestEdgeContactTime;
 
-        float velocity = distance / time;  //(dragDir.magnitude/100);// (speed/100); //desto kortare tid desto längre
+        float velocity = distance / time;  //(dragDir.magnitude/100);// (speed/100); //desto kortare tid desto lï¿½ngre
 
         //float moveAdditional = distance / time;
         //moveAdditional *= 0.5f;

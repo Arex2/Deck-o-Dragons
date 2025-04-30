@@ -24,9 +24,9 @@ public class DragonActive : MonoBehaviour
     public static string dragonName;
     public static bool isDragonActive; //används i Egg & TextInputManager
     public static bool doCheck;
-    public static int index;
+    public static int index; //element
     public static int age;
-    public static int evolutionProcess;
+    public static int evolutionProcess; //sliderprogress
 
     void Awake()
     {
@@ -43,7 +43,7 @@ public class DragonActive : MonoBehaviour
         evolutionSlider.maxValue = 3;
         evolutionSlider.value = 0;*/
 
-        statusText = GameObject.Find("CompleteTraining_Text").GetComponent<TMP_Text>();
+        statusText = GameObject.Find("Status_Text").GetComponent<TMP_Text>();
         statusText.text = "";
 
         doCheck = true;
@@ -96,19 +96,15 @@ public class DragonActive : MonoBehaviour
 
     private void CheckForEggOrDragon()
     {
-        Debug.Log("Buildindex är 1");
-
         if(!isDragonActive)
         {
             Instantiate(egg, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
             //TextInputManager.dragonName.text = "";
             //Egg.SpawnEgg(egg);
-            Debug.Log("ägg borde finnas");
         }
         else if(isDragonActive)
         {
             //Instantiate(TextInputManager.dragonName, new UnityEngine.Vector3(0, 1000, 0), UnityEngine.Quaternion.identity);
-            Debug.Log("drake finns");
             SpawnDragons();
         }
     }

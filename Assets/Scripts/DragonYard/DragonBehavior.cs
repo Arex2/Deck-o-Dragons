@@ -6,8 +6,8 @@ using static UnityEngine.GraphicsBuffer;
 public class DragonBehavior : MonoBehaviour
 {
     //private static DragonBehavior DrBeInstance;
-    private static Vector3 leftOuterBounds = new Vector3(-2.5f, 4.5f, 0);
-    private static Vector3 rightOuterBounds = new Vector3(2.5f, -4.5f, 0);
+    private static Vector3 leftOuterBounds = new Vector3(-1.5f, 4f, 0);
+    private static Vector3 rightOuterBounds = new Vector3(1.5f, -4f, 0);
     private Vector3 currentTargetPosition;
     //private GameObject currentTarget;
     //private Rigidbody2D rb;

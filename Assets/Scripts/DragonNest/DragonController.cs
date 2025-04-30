@@ -51,7 +51,7 @@ public class DragonController : MonoBehaviour
             {
                 DragonActive.statusText.text = "Congratulations! " + DragonActive.dragonName + " has completed their training and will be added to your registry!";
                 DragonBookContents.SetNewDragonNameAndType(DragonActive.dragonName, DragonActive.index);
-                Invoke("SpawnNewDragon", 3f);
+                Invoke("SpawnNewDragon", 6f);
             }
             else
             {
