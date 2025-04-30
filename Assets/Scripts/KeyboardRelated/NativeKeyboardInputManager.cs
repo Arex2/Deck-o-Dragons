@@ -14,6 +14,7 @@ public class NativeKeyboardInputManager : MonoBehaviour
     void Start()
     {
         placeName = true;
+        dragonName.text = DragonActive.dragonName;
     }
 
     void Update()
@@ -33,6 +34,7 @@ public class NativeKeyboardInputManager : MonoBehaviour
                 }
 
                 forCompUse = false;
+                DragonActive.dragonName = dragonName.text;
             }
         }
 

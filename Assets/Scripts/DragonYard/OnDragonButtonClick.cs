@@ -9,6 +9,7 @@ public class OnDragonButtonClick : MonoBehaviour
     //DragonBook drBook; // = new DragonBook();
     private Button button;
     private string element;
+    private int elementType;
     //public GameObject furniture;
     //public Receiver recevier;
 
@@ -41,8 +42,10 @@ public class OnDragonButtonClick : MonoBehaviour
         //drBook.ShowAskToAddDragon();
 
         DragonBook.dragonName = dragonName;
+        DragonBook.dragonElement = elementType;
+
         //GameObject.Find("PanelController").GetComponent<DragonBook>().ShowAskToAddDragon();
-        GameObject.Find("PanelController").GetComponent<DragonBook>().InstantiateDragon(element);
+        GameObject.Find("PanelController").GetComponent<DragonBook>().InstantiateDragon(element, elementType);
 
         //DragonBook.ShowAskToAddDragon();
         //drBook.InstantiateDragon(dragonName);
@@ -52,6 +55,11 @@ public class OnDragonButtonClick : MonoBehaviour
     public void SetElement(string element)
     {
         this.element = element;
+    }
+
+    public void SetElementType(int elementType)
+    {
+        this.elementType = elementType;
     }
 
     /*private void PassObjectToAnotherScript()
