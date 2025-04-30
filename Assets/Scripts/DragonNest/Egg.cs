@@ -8,7 +8,7 @@ using UnityEngine;
 public class Egg : MonoBehaviour
 {
     NativeKeyboardInputManager natInputMan;
-    TextInputManager inputMan;
+    //TextInputManager inputMan;
     DragonActive dragonActive;
     private float timeBetweenShakes = 0.75f; //in seconds
     private float time = 0;
@@ -49,7 +49,7 @@ public class Egg : MonoBehaviour
         DragonActive.index = 0;
         DragonActive.age = 0;
         DragonActive.evolutionProcess = 0;
-        inputMan = GameObject.Find("Scripts").GetComponent<TextInputManager>();
+        //inputMan = GameObject.Find("Scripts").GetComponent<TextInputManager>();
         natInputMan = GameObject.Find("NativeInputManager").GetComponent<NativeKeyboardInputManager>();
         screenShake = GameObject.Find("Main Camera").GetComponent<ScreenShake>();
         squashAndStretch = gameObject.GetComponent<SquashAndStretch>();

@@ -44,6 +44,8 @@ public class DragonBook : MonoBehaviour
 
     public void Start()
     {
+        dragonsInBackyard.Clear();
+        dragonElementsInBackyard.Clear();
         dragonCollection.SetActive(false);
         closeButton.SetActive(false);
         dragonLimitText.SetActive(false);
@@ -64,7 +66,7 @@ public class DragonBook : MonoBehaviour
             for (int i = 0; i < DragonBookContents.GetDragonsInYard().Count; i++)
             {
                 dragonName = DragonBookContents.GetDragonsInYard().ElementAt(i);
-                dragonElement = DragonBookContents.GetDragonTypes().ElementAt(i);
+                dragonElement = DragonBookContents.GetDragonElementsInYard().ElementAt(i);
 
                 switch (dragonElement)
                 {
@@ -75,10 +77,10 @@ public class DragonBook : MonoBehaviour
                         InstantiateDragon(earth); //earth type
                         break;
                     case 2:
-                        InstantiateDragon(fire); // fire type
+                        InstantiateDragon(fire);  //fire type
                         break;
                     case 3:
-                        InstantiateDragon(air); // air type
+                        InstantiateDragon(air);   //air type
                         break;
                     default:
                         break;
@@ -123,19 +125,19 @@ public class DragonBook : MonoBehaviour
                 switch (elementType)
                 {
                     case 0:
-                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(water); //water type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(water);           //water type
                         buttons[j].GetComponent<OnDragonButtonClick>().SetElementType(elementType); //water type
                         break;
                     case 1:
-                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(earth); //earth type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(earth);           //earth type
                         buttons[j].GetComponent<OnDragonButtonClick>().SetElementType(elementType); //earth type
                         break;
                     case 2:
-                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(fire); // fire type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(fire);            // fire type
                         buttons[j].GetComponent<OnDragonButtonClick>().SetElementType(elementType); //fire type
                         break;
                     case 3:
-                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(air); // air type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(air);             // air type
                         buttons[j].GetComponent<OnDragonButtonClick>().SetElementType(elementType); //air type
                         break;
                     default:
@@ -214,7 +216,7 @@ public class DragonBook : MonoBehaviour
         //string dragonName = gameObject.transform.GetChild(0).GetComponent<TMP_Text>().text;
         //Debug.Log(dragonName);
 
-        if (dragonsInBackyard.Contains(dragonName))
+        if (dragonsInBackyard.Contains(dragonName)) //(DragonBookContents.GetDragonsInYard().Contains(dragonName))
         {
             //Debug.Log("Book: NAME INDEX : " + dragonsInBackyard.IndexOf(name));
             //Debug.Log("Book: ELEMENT INDEX: " + dragonElementsInBackyard.IndexOf(dragonElement));

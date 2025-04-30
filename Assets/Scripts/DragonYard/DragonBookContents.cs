@@ -11,18 +11,18 @@ public class DragonBookContents : MonoBehaviour
 {
     private static DragonBookContents drBookCont;
 
-    [Header ("Dragons in book related")]
+    [Header ("Dragons shown in book related")]
     private const int DRAGONS_PER_PAGE = 6;
     private static List<int> pagesInBook = new List<int>();
     private static List<string> dragonNamesInBook = new List<string>();
     private static List<int> dragonTypesInBook = new List<int>();
 
-    [Header ("Dragons in background related")]
+    [Header ("Dragons shown in background related")]
     public static int LimitOfDragons = 8;
-    private static List<string> dragonsInBackyard = new List<string>();
-    private static List<int> elementsOfDragonsInBackyard = new List<int>();
+    private static List<string> dragonsActiveInBackyard = new List<string>();
+    private static List<int> elementsOfDragonsActiveInBackyard = new List<int>();
 
-    private bool buildCheck;
+    private bool buildCheck = true;
 
     //public bool doCheck;
 
@@ -44,12 +44,13 @@ public class DragonBookContents : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 1 && buildCheck)
         {
-            Debug.Log("Contents: NAME SIZE : " + dragonsInBackyard.Count);
+            Debug.Log("Ägg: NAME SIZE : " + dragonsActiveInBackyard.Count);
             buildCheck = false;
         }
 
-        if (SceneManager.GetActiveScene().buildIndex != 1)
+        if (SceneManager.GetActiveScene().buildIndex != 1 && !buildCheck)
         {
+            Debug.Log("Contents: NAME SIZE : " + dragonsActiveInBackyard.Count);
             buildCheck = true;
         }
 
@@ -74,28 +75,28 @@ public class DragonBookContents : MonoBehaviour
 
     public static void SetNewDragonNamesAndElementsInBackyard(string name, int element)
     {
-        dragonsInBackyard.Add(name);
-        elementsOfDragonsInBackyard.Add(element);
-        Debug.Log("Contents: NAME SIZE : " + dragonsInBackyard.Count);
+        dragonsActiveInBackyard.Add(name);
+        elementsOfDragonsActiveInBackyard.Add(element);
+        //Debug.Log("Contents: NAME SIZE : " + dragonsInBackyard.Count);
         //Debug.Log("Contents: ELEMENT SIZE: " + elementsOfDragonsInBackyard.Count);
     }
 
     public static void RemoveDragonAndElementFromBackyard(string name, int indexOfElement)
     {
-        Debug.Log("Contents: NAME INDEX : " + dragonsInBackyard.IndexOf(name));
+        //Debug.Log("Contents: NAME INDEX : " + dragonsInBackyard.IndexOf(name));
         //Debug.Log("Contents: ELEMENT INDEX: " + indexOfElement);
-        dragonsInBackyard.Remove(name);
-        elementsOfDragonsInBackyard.RemoveAt(indexOfElement);
+        dragonsActiveInBackyard.Remove(name);
+        elementsOfDragonsActiveInBackyard.RemoveAt(indexOfElement);
     }
 
     public static List<string> GetDragonsInYard()
     {
-        return dragonsInBackyard;
+        return dragonsActiveInBackyard;
     }
 
     public static List<int> GetDragonElementsInYard()
     {
-        return elementsOfDragonsInBackyard;
+        return elementsOfDragonsActiveInBackyard;
     }
 
     public static List<string> GetDragonNames()
