@@ -18,8 +18,6 @@ public class DragonBehavior : MonoBehaviour
     private float moveTimer;
     public float horizontalValue;
 
-    public int elementType;
-
     void Start()
     {
         //rb = GetComponent<Rigidbody2D>();

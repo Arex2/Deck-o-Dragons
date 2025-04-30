@@ -16,10 +16,6 @@ public class DragonBookContents : MonoBehaviour
     private static List<string> dragonNamesInBook = new List<string>();
     private static List<int> dragonTypesInBook = new List<int>();
 
-    public static int LimitOfDragons = 8;
-    private static List<string> dragonsInBackyard = new List<string>();
-    private static List<int> elementsOfDragonsInBackyard = new List<int>();
-
     public bool doCheck;
 
     void Awake()
@@ -55,30 +51,6 @@ public class DragonBookContents : MonoBehaviour
     {
         dragonNamesInBook.Add(name);
         dragonTypesInBook.Add(type);
-    }
-
-    public static void SetNewDragonNamesAndElementsInBackyard(string name, int element)
-    {
-        dragonsInBackyard.Add(name);
-        elementsOfDragonsInBackyard.Add(element);
-    }
-
-    public static void RemoveDragonAndElementFromBackyard(string name, int indexOfElement)
-    {
-        Debug.Log("NAME INDEX : " + dragonsInBackyard.IndexOf(name));
-        Debug.Log("ELEMENT INDEX: " + indexOfElement);
-        dragonsInBackyard.Remove(name);
-        elementsOfDragonsInBackyard.RemoveAt(indexOfElement);
-    }
-
-    public static List<string> GetDragonsInYard()
-    {
-        return dragonsInBackyard;
-    }
-
-    public static List<int> GetDragonElementsInYard()
-    {
-        return elementsOfDragonsInBackyard;
     }
 
     public static List<string> GetDragonNames()
