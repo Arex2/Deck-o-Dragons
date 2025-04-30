@@ -31,13 +31,16 @@ public class DragonBook : MonoBehaviour
     [SerializeField] Button[] buttons;
 
     private static List<string> dragonsInBackyard = new List<string>();
+    private static List<int> dragonElementsInBackyard = new List<int>();
     /*private static List<int> pagesInBook = new List<int>();
 
     public static List<string> dragonNamesInBook = new List<string>();
     public static List<int> dragonTypesInBook = new List<int>();*/
 
     public static string dragonName;
-    private int limit = 4;
+    public static int dragonElement;
+
+    //private int limit = 4;
     private int currentPage;
 
     public void Start()
@@ -47,7 +50,33 @@ public class DragonBook : MonoBehaviour
         //AskToAddDragonPanel.SetActive(false);
         //AskForDragonCloseButton.SetActive(false);
         DragonLimit.SetActive(false);
+        dragonsInBackyard.AddRange(DragonBookContents.GetDragonsInYard());
+        dragonElementsInBackyard.AddRange(DragonBookContents.GetDragonElementsInYard());
         AddDragonsToCollection();
+
+        for(int i = 0; i < dragonsInBackyard.Count; i++)
+        {
+            dragonName = DragonBookContents.GetDragonsInYard().ElementAt(i);
+            dragonElement = DragonBookContents.GetDragonTypes().ElementAt(i);
+
+            switch (dragonElement)
+            {
+                case 0:
+                    InstantiateDragon(water, dragonElement); //water type
+                    break;
+                case 1:
+                    InstantiateDragon(earth, dragonElement); //earth type
+                    break;
+                case 2:
+                    InstantiateDragon(fire, dragonElement); // fire type
+                    break;
+                case 3:
+                    InstantiateDragon(air, dragonElement); // air type
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public void ShowDragonCollection()
@@ -87,15 +116,19 @@ public class DragonBook : MonoBehaviour
                 {
                     case 0:
                         buttons[j].GetComponent<OnDragonButtonClick>().SetElement(water); //water type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElementType(elementType); //water type
                         break;
                     case 1:
                         buttons[j].GetComponent<OnDragonButtonClick>().SetElement(earth); //earth type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElementType(elementType); //earth type
                         break;
                     case 2:
                         buttons[j].GetComponent<OnDragonButtonClick>().SetElement(fire); // fire type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElementType(elementType); //fire type
                         break;
                     case 3:
                         buttons[j].GetComponent<OnDragonButtonClick>().SetElement(air); // air type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElementType(elementType); //air type
                         break;
                     default:
                         break;
@@ -165,7 +198,7 @@ public class DragonBook : MonoBehaviour
         closeButton.SetActive(true);
     }*/
 
-    public void InstantiateDragon(string element)
+    public void InstantiateDragon(string element, int elementType)
     {
         //string dragonName = gameObject.transform.GetChild(0).Resources.Load(prefabName);
         //TMP_Text dragonName = gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
@@ -177,7 +210,7 @@ public class DragonBook : MonoBehaviour
         {
             RemoveDragon();
         }
-        else if (dragonsInBackyard.Count >= limit)
+        else if (dragonsInBackyard.Count >= DragonBookContents.LimitOfDragons)
         {
             DragonLimit.SetActive(true);
             Invoke("InactivateLimitText", 3f);
@@ -190,6 +223,7 @@ public class DragonBook : MonoBehaviour
 
                 GameObject newDragon = (GameObject)Instantiate(Resources.Load(element));
                 newDragon.name = dragonName;
+                newDragon.GetComponent<DragonBehavior>().elementType = elementType;
                 CloseDragonCollection();
             }
         }
@@ -204,7 +238,11 @@ public class DragonBook : MonoBehaviour
 
     public void RemoveDragon()
     {
+        int indexOfDragonName = DragonBookContents.GetDragonsInYard().IndexOf(dragonName) + 1;
+        //int elementToRemove = GameObject.Find(dragonName).GetComponent<DragonBehavior>().elementType;
+        DragonBookContents.RemoveDragonAndElementFromBackyard(dragonName, indexOfDragonName);
         dragonsInBackyard.Remove(dragonName);
+        dragonElementsInBackyard.RemoveAt(indexOfDragonName);
         Destroy(GameObject.Find(dragonName));
         //CloseAskToAddDragon();
     } 
