@@ -9,12 +9,16 @@ using UnityEngine.UI;
 public class DragonBook : MonoBehaviour
 {
     [SerializeField] private GameObject dragonCollection;
-    [SerializeField] private GameObject closeButton;
+    [SerializeField] private GameObject DragonLimit;
     //[SerializeField] private GameObject AskToAddDragonPanel;
     //[SerializeField] private GameObject AskForDragonCloseButton;
-    [SerializeField] private GameObject DragonLimit;
+
+    public static string dragonName;
+    public static int dragonElement;
 
     [Header("Buttons")]
+    [SerializeField] Button[] buttons;
+    [SerializeField] private GameObject closeButton;
     /*[SerializeField] private Button button1;
     [SerializeField] private Button button2;
     [SerializeField] private Button button3;
@@ -28,17 +32,12 @@ public class DragonBook : MonoBehaviour
     string fire = "Chibi Fire Dragon";   // 2
     string air = "Chibi Air Dragon";     // 3
 
-    [SerializeField] Button[] buttons;
-
     private static List<string> dragonsInBackyard = new List<string>();
     private static List<int> dragonElementsInBackyard = new List<int>();
     /*private static List<int> pagesInBook = new List<int>();
 
     public static List<string> dragonNamesInBook = new List<string>();
     public static List<int> dragonTypesInBook = new List<int>();*/
-
-    public static string dragonName;
-    public static int dragonElement;
 
     //private int limit = 4;
     private int currentPage;
