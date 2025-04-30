@@ -19,9 +19,12 @@ public class NativeKeyboardInputManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("native hello");
+        if (!DragonActive.isDragonActive)
+        {
+            dragonName.text = "";
+        }
 
-        if(forCompUse)
+        if (forCompUse)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
@@ -40,7 +43,6 @@ public class NativeKeyboardInputManager : MonoBehaviour
 
         if (keyboard != null && keyboard.active == true || keyboard != null && TouchScreenKeyboard.visible == true)
         {
-            Debug.Log("DET SKA FINNAS KEYBOARD");
             dragonName.text = keyboard.text.Trim();
         }
 

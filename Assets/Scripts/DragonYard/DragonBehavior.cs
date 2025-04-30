@@ -18,7 +18,7 @@ public class DragonBehavior : MonoBehaviour
     private float moveTimer;
     public float horizontalValue;
 
-    public int elementType;
+    //public int elementType;
 
     void Start()
     {

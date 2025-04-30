@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Rendering.FilterWindow;
 
 public class DragonBookContents : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class DragonBookContents : MonoBehaviour
     public static int LimitOfDragons = 8;
     private static List<string> dragonsInBackyard = new List<string>();
     private static List<int> elementsOfDragonsInBackyard = new List<int>();
+
+    private bool buildCheck;
 
     //public bool doCheck;
 
@@ -39,6 +42,17 @@ public class DragonBookContents : MonoBehaviour
 
     void LateUpdate()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 1 && buildCheck)
+        {
+            Debug.Log("Contents: NAME SIZE : " + dragonsInBackyard.Count);
+            buildCheck = false;
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex != 1)
+        {
+            buildCheck = true;
+        }
+
         /*if (doCheck)
         {
             if (SceneManager.GetActiveScene().buildIndex == 5)
@@ -62,12 +76,14 @@ public class DragonBookContents : MonoBehaviour
     {
         dragonsInBackyard.Add(name);
         elementsOfDragonsInBackyard.Add(element);
+        Debug.Log("Contents: NAME SIZE : " + dragonsInBackyard.Count);
+        //Debug.Log("Contents: ELEMENT SIZE: " + elementsOfDragonsInBackyard.Count);
     }
 
     public static void RemoveDragonAndElementFromBackyard(string name, int indexOfElement)
     {
-        Debug.Log("NAME INDEX : " + dragonsInBackyard.IndexOf(name));
-        Debug.Log("ELEMENT INDEX: " + indexOfElement);
+        Debug.Log("Contents: NAME INDEX : " + dragonsInBackyard.IndexOf(name));
+        //Debug.Log("Contents: ELEMENT INDEX: " + indexOfElement);
         dragonsInBackyard.Remove(name);
         elementsOfDragonsInBackyard.RemoveAt(indexOfElement);
     }
