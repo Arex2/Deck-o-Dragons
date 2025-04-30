@@ -34,12 +34,14 @@ public class IndicatorManager : MonoBehaviour
     /// </summary>
     public void UpdateIndicatorsForOldCard()
     {
+        //Debug.Log("Update Indicators for OLD card.");
         UpdateIndicatorsPlayer(healthSlider.HP, dmgToPlayer, healToPlayer, healthSlider.MaxHP);
         UpdateIndicatorsEnemy(enemyHealthSlider.value, dmgToEnemy, healToEnemy, enemyHealthSlider.maxValue);
     }
 
     public void UpdateIndicators(Card c)
     {
+        //Debug.Log("Update Indicators now: " + c);
         ClearIndicators();
         ReadCard(c);
         //Debug.Log("Damage to player:  " + dmgToPlayer + "  Heal to player: " + healToPlayer + "   health slider hp: " + healthSlider.HP);

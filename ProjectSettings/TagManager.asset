@@ -9,6 +9,7 @@ TagManager:
   - Teen
   - Mouth
   - Egg
+  - Dirt
   layers:
   - Default
   - TransparentFX

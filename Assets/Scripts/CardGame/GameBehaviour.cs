@@ -165,7 +165,7 @@ public class GameBehaviour : Target
         hpSlider.value = HP; 
         //StartCoroutine(UpdateHealthBar());
         playerHealthText.text = HP.ToString();
-        indicatorManager.ClearIndicators();
+        //indicatorManager.ClearIndicators();
     }
 
     //Verkade som att det redan var någon incrimental effekt på slidern/hpBaren
