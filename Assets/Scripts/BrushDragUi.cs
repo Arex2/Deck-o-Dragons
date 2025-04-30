@@ -15,13 +15,19 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private bool isBrushing = false;
     private bool isDragging = false;
+    private bool isStillOnTarget = false;  
 
-    private Vector3 initialPosition; // <-- Här lagrar vi startposition
+    private Vector3 initialPosition; 
 
-    // Rörelselogik
     private List<(Vector2 position, float time)> movementHistory = new List<(Vector2, float)>();
     private float brushMovementThreshold = 10f;
     private float sampleWindow = 0.1f;
+
+    private GameObject[] dirtObjects;  
+    private bool[] dirtRemoved;       
+    private float[] dirtTimers;       
+
+    private float brushingTime = 0f;  
 
     private void Awake()
     {
@@ -31,7 +37,7 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         audioSource = GetComponent<AudioSource>();
         brushAnimator = GetComponent<Animator>();
 
-        initialPosition = rectTransform.localPosition; // <-- Spara startläge
+        initialPosition = rectTransform.localPosition;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -47,10 +53,14 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         rectTransform.position = Input.mousePosition;
 
-        if (!isDragging || !IsOverTarget())
+
+        if (IsOverTarget())
         {
-            StopBrushing();
-            return;
+            isStillOnTarget = true;
+        }
+        else
+        {
+            isStillOnTarget = false;
         }
 
         TrackMovement();
@@ -73,13 +83,30 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             canvasGroup.blocksRaycasts = true;
 
         isDragging = false;
+
+        ResetPosition();
         StopBrushing();
-        ResetPosition(); // <-- Återställ position när släppt
     }
 
     private void ResetPosition()
     {
+
         rectTransform.localPosition = initialPosition;
+
+
+        if (!isDragging)
+        {
+
+            if (isBrushing)
+            {
+                for (int i = 0; i < dirtTimers.Length; i++)
+                {
+                    dirtTimers[i] = 0f;
+                }
+
+                brushingTime = 0f; 
+            }
+        }
     }
 
     private bool IsOverTarget()
@@ -97,6 +124,16 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         if (isBrushing) return;
 
         isBrushing = true;
+
+        dirtObjects = GameObject.FindGameObjectsWithTag("Dirt");
+        dirtRemoved = new bool[dirtObjects.Length];
+        dirtTimers = new float[dirtObjects.Length];
+
+
+        for (int i = 0; i < dirtTimers.Length; i++)
+        {
+            dirtTimers[i] = 0f;
+        }
 
         if (brushAnimator != null)
             brushAnimator.SetBool("IsBrushing", true);
@@ -120,6 +157,25 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         if (audioSource != null && audioSource.isPlaying)
             audioSource.Stop();
+
+        if (dirtObjects != null && dirtObjects.Length > 0)
+        {
+            foreach (GameObject dirt in dirtObjects)
+            {
+                if (dirt != null && !dirtRemoved[System.Array.IndexOf(dirtObjects, dirt)])
+                {
+                    dirt.SetActive(true); 
+                }
+            }
+        }
+
+        if (dirtRemoved != null)
+        {
+            for (int i = 0; i < dirtRemoved.Length; i++)
+            {
+                dirtRemoved[i] = false;
+            }
+        }
     }
 
     private void TrackMovement()
@@ -139,5 +195,28 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             total += Vector2.Distance(movementHistory[i - 1].position, movementHistory[i].position);
         }
         return total;
+    }
+
+    private void Update()
+    {
+        if (isBrushing)
+        {
+            if (!isStillOnTarget)
+            {
+                brushingTime += Time.deltaTime; 
+            }
+
+
+            for (int i = 0; i < dirtObjects.Length; i++)
+            {
+             
+                dirtTimers[i] += Time.deltaTime;
+                if (dirtTimers[i] >= (i + 1) && !dirtRemoved[i])
+                {
+                    dirtObjects[i].SetActive(false); 
+                    dirtRemoved[i] = true;   
+                }
+            }
+        }
     }
 }
