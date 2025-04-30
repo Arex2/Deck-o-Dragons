@@ -12,25 +12,41 @@ public class BattleButtonManager : MonoBehaviour
     {
         currentLevel = ProgressManager.Instance.GetCurrentLevel();
         //currentLevel = 3;
+        Debug.Log("Current lvl: " + currentLevel);
         test();
     }
     private void test()
     {
         for (int i = 0; i < buttonList.Count; i++)
         {
+            Button button = buttonList[i];
+            button.interactable = false;
+
+            if (i > currentLevel)
+            {
+                continue;
+            }
+
+            drawLine.AddButtonToLine(button);
+
+            if (i == currentLevel)
+            {
+                button.interactable = true;
+                button.image.color = Color.white;
+            }
+            else
+            {
+                button.image.color = Color.grey;
+            }
+
+            //OLD
+            /*
             //rita linje mellan
             if(i <= currentLevel)
             {
                 drawLine.AddButtonToLine(buttonList[i]);
                 continue;
             }
-
-            /*
-            if (i == currentLevel)
-            {
-                continue;
-            }
-            */
 
             Button button = buttonList[i];
             ColorBlock colors = button.colors;
@@ -41,7 +57,9 @@ public class BattleButtonManager : MonoBehaviour
             colors.disabledColor = Color.black;
             button.colors = colors;
             button.interactable = false;
+            */
 
         }
     }
+
 }

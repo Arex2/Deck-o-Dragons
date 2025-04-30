@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class EnemyBoss : Target
 {
@@ -46,7 +46,7 @@ public class EnemyBoss : Target
             maxMana = EnemyScalingManager.Instance.GetScaledMana();
         }
         healthTextFormat = healthText.text;
-        //healthSlider.highValue = MaxHP;
+        healthSlider.maxValue = MaxHP;
         UpdateHP();
         originalPosition = transform.localPosition;
          spriteRenderer = GetComponent<SpriteRenderer>();
@@ -153,7 +153,7 @@ public class EnemyBoss : Target
     {
         base.UpdateHP();
          healthText.text = string.Format(healthTextFormat, HP.ToString());
-        //healthSlider.value = HP;
+        healthSlider.value = HP;
     }
 
     public override void Hurt(AttackData attackData)

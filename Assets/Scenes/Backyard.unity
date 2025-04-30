@@ -1881,7 +1881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1129103187
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2493,7 +2493,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1450111713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3135,9 +3135,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dragonCollection: {fileID: 1815612644}
   closeButton: {fileID: 1089955074}
-  AskToAddDragonPanel: {fileID: 1129103186}
-  AskForDragonCloseButton: {fileID: 1450111712}
   DragonLimit: {fileID: 2019747271}
+  buttons:
+  - {fileID: 325425349}
+  - {fileID: 163363230}
+  - {fileID: 757111376}
+  - {fileID: 1997091614}
+  - {fileID: 975949366}
+  - {fileID: 756670569}
 --- !u!1 &1997091611
 GameObject:
   m_ObjectHideFlags: 0

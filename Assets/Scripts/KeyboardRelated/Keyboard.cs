@@ -148,22 +148,16 @@ public class Keyboard : MonoBehaviour
 
     private void KeyPressedCallback(char key)
     {
-        Debug.Log(key);
-
         onKeyPressed?.Invoke(key);
     }
 
     private void BackspacePressedCallback()
     {
-        Debug.Log("backspace");
-
         onBackspacePressed?.Invoke();
     }
 
     private void EnterPressedCallback()
     {
-        Debug.Log("enter");
-
         onEnterPressed?.Invoke();
     }
 }

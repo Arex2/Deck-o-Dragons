@@ -8,9 +8,9 @@ public class ProgressManager : MonoBehaviour
     public static ProgressManager Instance { get; private set; }
 
     private int currentLevel = 0;
-    private bool wonLastBattle;
+    public bool WonLastBattle { get; set; }
 
-    
+
 
     private void Awake()
     {
@@ -24,15 +24,7 @@ public class ProgressManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public bool GetWonLastBattle()
-    {
-        return wonLastBattle;
-    }
-    public void SetWonLastBattle(bool value)
-    {
-        wonLastBattle = value;
-    }
-
+   
 
     public int GetCurrentLevel()
     {
@@ -42,6 +34,6 @@ public class ProgressManager : MonoBehaviour
     public void IncreaseLevel()
     {
         currentLevel++;
-        wonLastBattle = true;
+        WonLastBattle = true;
     }
 }

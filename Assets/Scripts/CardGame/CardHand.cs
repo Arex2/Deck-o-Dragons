@@ -48,20 +48,15 @@ public class CardHand : MonoBehaviour
     int startSortingOrder;
 
     int currentIndex;
+    int previousIndex;
 
     private int CurrentIndex
     {
         get { return currentIndex; }
         set 
         {
-            float previous = currentIndex;
+            previousIndex = currentIndex;
             currentIndex = value;
-
-            if (currentIndex != previous)
-            {
-                OnSelectedIndexChanged();
-            }
-
         }
     }
 
@@ -171,15 +166,38 @@ public class CardHand : MonoBehaviour
         oldScreenSize = new Vector2Int(Screen.width, Screen.height);
     }
 
-    private void OnSelectedIndexChanged()
+    /// <summary>
+    /// Checks if a different card is selected
+    /// and then Updates the health and damage indicators.
+    /// </summary>
+    private void OnDifferentCard()
     {
-        //här updatera indicators
-        //om current index är ett heltal
+        //dont show indicators when selecting cards for other things 
+        //OBS this might need to be changed to discarding phase???
+        if (SelectingCards)
+        {
+            gameBehaviour.indicatorManager.ClearIndicators();
+            return;
+        }
+
+        //om handen inte är tomm och current index är ett heltal
         if (cardsInHand.Count > 0 && currentIndex % 1 == 0)
         {
-            if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
+            //för scenarion där man spelar index 0 och nytt kort då är index 0
+            if (currentIndex == 0)
             {
-                gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
+                Card c = cardsInHand[0].Card;
+                //Debug.Log("Current index: " + currentIndex);
+                //Debug.Log("Pos 0, current card: " + c);
+                gameBehaviour.indicatorManager.UpdateIndicators(c);
+            }
+            //om inte samma kort som precis innan, unless det är enda kortet i handen
+            else if (previousIndex != currentIndex)// || cardsInHand.Count == 1)
+            {
+                if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
+                {
+                    gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
+                }
             }
         }
     }
@@ -818,7 +836,6 @@ public class CardHand : MonoBehaviour
             CurrentIndex = 0;
         else
             CurrentIndex = Mathf.RoundToInt(cardsInHand.Count / 2);
-        OnSelectedIndexChanged();
     }
 
     private void UpdateCardPositions()
@@ -939,6 +956,8 @@ public class CardHand : MonoBehaviour
         {
             cardObj.Canvas.sortingOrder += offset;
         }
+
+        OnDifferentCard();
     }
 
     public void ShiftAllRight()
@@ -1023,6 +1042,7 @@ public class CardHand : MonoBehaviour
         _affectCardsCustomFormat = textFormat;
 
         UpdateSelectingCardsText();
+        gameBehaviour.indicatorManager.ClearIndicators();
     }
 
     public void OnExitSelectingCards()

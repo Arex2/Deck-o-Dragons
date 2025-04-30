@@ -16,12 +16,12 @@ public class IncomingHealingIndicator : MonoBehaviour
 
     public void Test()
     {
-        ShowIncomingHealing(incomingHealing / 10, hpSlider.value);
+        //ShowIncomingHealing(incomingHealing / 10, hpSlider.value);
     }
 
-    public void ShowIncomingHealing(float currentHP, float incomingHealing)
+    public void ShowIncomingHealing(float currentHP, float incomingHealing, float sliderMaxHP)
     {
-        healingSlider.value = CalculateHealingToSlider(currentHP, incomingHealing);
+        healingSlider.value = CalculateHealingToSlider(currentHP, incomingHealing, sliderMaxHP);
     }
 
     public void hide()
@@ -29,8 +29,13 @@ public class IncomingHealingIndicator : MonoBehaviour
         healingSlider.value = 0;
     }
 
-    private float CalculateHealingToSlider(float hp, float healing)
+    private float CalculateHealingToSlider(float hp, float healing, float sliderMaxHP)
     {
-        return (hp + healing) /10;
+        //Debug.Log("hp: " + hp + " healing: " + healing + " sliderMazHP: " + sliderMaxHP);
+        //Debug.Log("Slider value: " + (hp + healing) / sliderMaxHP);
+        
+        if(healing == 0) return 0;
+
+        return (hp + healing)/sliderMaxHP;
     }
 }

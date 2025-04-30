@@ -16,6 +16,8 @@ public class SelectionState : IState
         gameBehaviour.EnableButton();
         gameBehaviour.ResetButtonText();
         gameBehaviour.CheckCardAvailability();
+        //gameBehaviour.indicatorManager.ClearIndicators();
+        gameBehaviour.indicatorManager.UpdateIndicatorsForOldCard();
 
         gameBehaviour.UpdateStatusText("Select a card");
         //player gets input
