@@ -17,6 +17,7 @@ public class CardShop : MonoBehaviour
     private Transform[] rows;
 
     [SerializeField] private int countPerRow = 3;
+    [SerializeField] private int totalCardsButton = 9;
 
     [SerializeField] private int cardsToTake = 5;
     private int _cardsRemaining;
@@ -25,6 +26,7 @@ public class CardShop : MonoBehaviour
 
     [Space]
     [SerializeField] private Button rerollButton;
+    [SerializeField] private Button exitButton;
     [SerializeField] private Button addButton;
 
     [Space]
@@ -86,8 +88,9 @@ public class CardShop : MonoBehaviour
         }
 
         int rowCount = rows.Length;
+        int maxAmount = rowCount * countPerRow;
 
-        _cardShopButtonsCount = rowCount * countPerRow;
+        _cardShopButtonsCount = Mathf.Min(maxAmount, totalCardsButton);
         _cardShopButtons = new CardShopButton[_cardShopButtonsCount];
         int cardShopButtonIndex = 0;
 
@@ -95,6 +98,11 @@ public class CardShop : MonoBehaviour
         {
             for (int i = 0; i < countPerRow; i++, cardShopButtonIndex++)
             {
+                if (cardShopButtonIndex >= _cardShopButtonsCount)
+                {
+                    break;
+                }
+
                 CardShopButton newCardShopButton = Instantiate(cardShopButtonPrefab, row);
 
                 newCardShopButton.gameObject.SetActive(true);
@@ -111,6 +119,8 @@ public class CardShop : MonoBehaviour
         _rerollsRemaining = amountOfRerolls + 1;
 
         Reroll();
+
+        exitButton.interactable = false;
     }
 
     private void UpdateText()
@@ -190,6 +200,7 @@ public class CardShop : MonoBehaviour
         if (_cardsRemaining <= 0)
         {
             addButton.interactable = false;
+            exitButton.interactable = true;
             return;
         }
 
@@ -207,7 +218,10 @@ public class CardShop : MonoBehaviour
 
         _cardsRemaining--;
 
-        addButton.interactable = _cardsRemaining > 0;
+        bool chosenAllCards = _cardsRemaining <= 0;
+
+        addButton.interactable = !chosenAllCards;
+        exitButton.interactable = chosenAllCards;
 
         _deckManager.AddCardToDeck(card, card.Copies);
 
@@ -232,13 +246,14 @@ public class CardShop : MonoBehaviour
     {
         if (Selected == cardShopButton)
         {
+            Selected?.Unselect();
+            Selected = null;
+
+            UpdateUI();
             return;
         }
 
-        if (Selected != null)
-        {
-            Selected.Unselect();
-        }
+        Selected?.Unselect();
 
         Selected = cardShopButton;
         Selected.Select();
