@@ -55,15 +55,8 @@ public class CardHand : MonoBehaviour
         get { return currentIndex; }
         set 
         {
-            float previous = currentIndex;
             previousIndex = currentIndex;
             currentIndex = value;
-            /*
-            if (currentIndex != previous)
-            {
-                OnSelectedIndexChanged();
-            }*/
-
         }
     }
 
@@ -190,14 +183,19 @@ public class CardHand : MonoBehaviour
         //om handen inte är tomm och current index är ett heltal
         if (cardsInHand.Count > 0 && currentIndex % 1 == 0)
         {
+            //för scenarion där man spelar index 0 och nytt kort då är index 0
+            if (currentIndex == 0)
+            {
+                Card c = cardsInHand[0].Card;
+                //Debug.Log("Current index: " + currentIndex);
+                //Debug.Log("Pos 0, current card: " + c);
+                gameBehaviour.indicatorManager.UpdateIndicators(c);
+            }
             //om inte samma kort som precis innan, unless det är enda kortet i handen
-            if(previousIndex != currentIndex || cardsInHand.Count == 1)
+            else if (previousIndex != currentIndex)// || cardsInHand.Count == 1)
             {
                 if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
                 {
-                    //if (CardBeingPlayed) return;
-                        //vänta tills det är över för att uppdatera!!!
-
                     gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
                 }
             }
