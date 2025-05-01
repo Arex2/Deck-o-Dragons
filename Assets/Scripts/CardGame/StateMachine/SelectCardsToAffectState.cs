@@ -22,7 +22,7 @@ public class SelectCardsToAffectState : IState
         //gameBehaviour.NewTurn();
 
         cardObject = cardHand.CardBeingPlayed;
-        IAffectOtherCards affectOtherCards = cardObject.Card.CurrentComponent as IAffectOtherCards;
+        IAffectOtherCardsHandler affectOtherCards = cardObject.Card.CurrentComponent as IAffectOtherCardsHandler;
         int? count = affectOtherCards.Count;
         requireExactAmount = affectOtherCards.RequireExactAmount;
 

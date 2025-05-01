@@ -11,6 +11,8 @@ public class CardHand : MonoBehaviour
 {
     public static CardHand Instance { get; private set; }
 
+    public GameBehaviour GameBehaviour => gameBehaviour;
+
     [SerializeField]
     private GameBehaviour gameBehaviour;
 
@@ -27,6 +29,8 @@ public class CardHand : MonoBehaviour
     [SerializeField]
     private int defaultSelectedCardsLimit = 3;
     public int CurrentSelectedCardsLimit { get; set; }
+
+    private int amountBindingCardsInHand;
 
     [Space]
     [SerializeField]
@@ -142,20 +146,12 @@ public class CardHand : MonoBehaviour
 
     private void Update()
     {
-
-
         if (oldScreenSize.x == Screen.width && oldScreenSize.y == Screen.height)
         {
             return;
         }
 
-
-
-
-
-
         OnChangeResolution();
-
     }
 
     private void OnChangeResolution()
@@ -465,7 +461,13 @@ public class CardHand : MonoBehaviour
             return;
         }
 
-        int cost = cardObj.GetCost();
+        if (cardObj.HasTag(CardManager.UnplayableTag))
+        {
+            DoCardMiniBounce(cardObj);
+            return;
+        }
+
+        int cost = cardObj.Cost;
 
         if (!gameBehaviour.CheckMana(cost) || IsPlayingCard)
         {
@@ -492,10 +494,12 @@ public class CardHand : MonoBehaviour
         cardObj.OnCardPressed -= OnCardPressed;
         cardObj.TweenTransformInHand(cardPlayPosition, 0, 1, 1, 1, 1, Ease.OutExpo);
 
-        StartCoroutine(DelayPlayCard(cardObj));
+        cardObj.DecreaseTagPotency(CardManager.ReturningTag);
+
+        StartCoroutine(DelayPlayCard(cardObj, !cardObj.HasTag(CardManager.ReturningTag)));
     }
 
-    private IEnumerator DelayPlayCard(CardObject cardObj)
+    private IEnumerator DelayPlayCard(CardObject cardObj, bool discard)
     {
         yield return new WaitForSeconds(0.15f);
 
@@ -503,7 +507,7 @@ public class CardHand : MonoBehaviour
 
         yield return new WaitForSeconds(0.15f);
 
-        cardObj.Play();
+        cardObj.Play(discard);
     }
 
     /*
@@ -524,15 +528,17 @@ public class CardHand : MonoBehaviour
 
     private void MoveCardToCenter(CardObject cardObj)
     {
-        //move to center this card
-        for(int i = 0; i < cardsInHand.Count; i++)
+        int index = cardsInHand.IndexOf(cardObj);
+
+        // Not present in list
+        if (index < 0)
         {
-            if (cardsInHand[i] == cardObj)
-            {
-                CurrentIndex = i;
-                UpdateCardPositions();
-            }
+            return;
         }
+
+        // Move to center this card
+        CurrentIndex = index;
+        UpdateCardPositions();
     }
 
     // MAKE EM DO A LIL CUTE BOUNCE
@@ -659,7 +665,9 @@ public class CardHand : MonoBehaviour
                 break;
         }
 
-        selectingCardsText.text = string.Format(format, count, CurrentSelectedCardsLimit == 0 ? "infinite" : CurrentSelectedCardsLimit);
+        int amountToDrawNextTurn = Mathf.Max(0, amountToDraw - count - amountBindingCardsInHand);
+        selectingCardsText.text = string.Format(format, count, CurrentSelectedCardsLimit == 0 ? "infinite" : CurrentSelectedCardsLimit,
+            amountToDrawNextTurn, amountToDrawNextTurn != 1 ? "s" : "");
     }
 
     public CardObject DrawCard(bool updateCurrentIndex = true) => DrawCard(deck.DrawNext());
@@ -676,7 +684,6 @@ public class CardHand : MonoBehaviour
         cardObj.CardHand = this;
 
         cardObj.StartYPos = cardsYPos;
-        cardObj.OnCardPressed += OnCardPressed;
 
         cardObj.Initialize(card);
 
@@ -684,12 +691,22 @@ public class CardHand : MonoBehaviour
         //r.sprite = testCard.Sprite;
         //r.color = UnityEngine.Random.ColorHSV();
 
+        AddCardObjToHand(cardObj, updateCurrentIndex);
+
+        return cardObj;
+    }
+
+    public void AddCardObjToHand(CardObject cardObj, bool updateCurrentIndex = true)
+    {
+        cardObj.OnCardPressed -= OnCardPressed;
+        cardObj.OnCardPressed += OnCardPressed;
+
         // Insert the CardObject into the cardsInHand list in the correct order (as determined by the card sorter)
         int count = cardsInHand.Count;
         int index;
 
         CardObject selectedCard = count > 0 ? cardsInHand[CurrentIndex] : null;
-        
+
         // Stolen from: https://stackoverflow.com/questions/12172162/how-to-insert-item-into-list-in-order
         if (count <= 0 || CardSorter.Instance.Compare(cardsInHand[count - 1], cardObj) <= 0)
         {
@@ -717,8 +734,6 @@ public class CardHand : MonoBehaviour
         }
 
         UpdateCardPositions();
-
-        return cardObj;
     }
 
     /*
@@ -782,16 +797,6 @@ public class CardHand : MonoBehaviour
             return;
         }
 
-        /* TODO: Make this work
-        int index = cardsInHand.IndexOf(cardObj);
-
-        if (index >= 0)
-        {
-            currentIndex = index;
-            SnapIntoPosition();
-        }
-        */
-
         DoCardMiniBounce(cardObj);
 
         MoveCardToCenter(cardObj);
@@ -811,7 +816,13 @@ public class CardHand : MonoBehaviour
         {
             CardObject cardObj = cardsInHand[i];
 
-            if (SelectingCards && SelectingCardsState == SelectionState.Discard && selectedCards.Contains(cardObj))
+            if (
+                ((cardObj.HasTag(CardManager.BindingTag))
+                || 
+                (SelectingCards && SelectingCardsState == SelectionState.Discard && selectedCards.Contains(cardObj)))
+                && 
+                cardObj.OnKeptAfterDiscard()
+                )
             {
                 continue;
             }
@@ -838,7 +849,7 @@ public class CardHand : MonoBehaviour
             CurrentIndex = Mathf.RoundToInt(cardsInHand.Count / 2);
     }
 
-    private void UpdateCardPositions()
+    public void UpdateCardPositions()
     {
         //this is method called from Controls wihout parameters
         UpdateCardPositions(CurrentIndex);
@@ -1009,6 +1020,8 @@ public class CardHand : MonoBehaviour
         selectedCards.Clear();
         SelectedCardsCount = 0;
 
+        amountBindingCardsInHand = 0;
+
         foreach (CardObject cardObj in cardsInHand)
         {
             bool disable = false;
@@ -1023,6 +1036,11 @@ public class CardHand : MonoBehaviour
 
                     cardObj.SetDisabledText(result.FailMessage);
                 }
+            }
+
+            if (cardObj.Card.HasTag(CardManager.BindingTag))
+            {
+                amountBindingCardsInHand++;
             }
 
             cardObj.ToggleSelectable(!disable);
@@ -1090,7 +1108,7 @@ public class CardHand : MonoBehaviour
         foreach(CardObject obj in cardsInHand )
         {
             //jämför player mana med card mana cost
-            if(gameBehaviour.Mana >= obj.GetCost())
+            if(gameBehaviour.Mana >= obj.Cost)
                 obj.CardVisuals.UpdateCardAvailableLook();
             else
                 obj.CardVisuals.UpdateCardUnavailableLook();

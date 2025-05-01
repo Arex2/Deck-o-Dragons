@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 707f2552eeec21a4ab75cd1a69dbefe4
   displayName: Non Drawable
+  description: 
   hidden: 1
+  hasPotency: 0

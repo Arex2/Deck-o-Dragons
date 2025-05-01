@@ -1,7 +1,11 @@
+/// <summary>
+/// Data for an attack.
+/// </summary>
 public class AttackData
 {
     public float Damage { get; set; }
     public bool Bullseye { get; set; }
+    public bool SelfDamage { get; set; }
 
     public string NegateMessage { get; set; } = null;
 
@@ -11,15 +15,16 @@ public class AttackData
         NegateMessage = messsage;
     }
 
-    public AttackData(float damage) : this(damage, false)
+    public AttackData(float damage) : this(damage, false, false)
     {
 
     }
 
-    public AttackData(float damage, bool bullseye)
+    public AttackData(float damage, bool bullseye, bool selfDamage)
     {
         Damage = damage;
         Bullseye = bullseye;
+        SelfDamage = selfDamage;
     }
 
     public static implicit operator float(AttackData data) => data.Damage;

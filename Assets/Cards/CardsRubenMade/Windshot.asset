@@ -1,6 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6176342591211957828
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
+  m_Name: Windshot
+  m_EditorClassIdentifier: 
+  guid: 3d994b6e153fc8d4b81359942a3e2156
+  sprite: {fileID: 0}
+  displayName: Windshot
+  description: Deal {DAMAGE} damage.
+  cost: 4
+  element: 3
+  category: 1
+  rarity: 0
+  copies: 1
+  canChangeLevel: 1
+  minLevel:
+    Enabled: 1
+    Value: -3
+  maxLevel:
+    Enabled: 0
+    Value: 0
+  tags:
+    data:
+    - tag: {fileID: 11400000, guid: 7a64935662935214796f0f6d78b32650, type: 2}
+      potency: 0
+  cardComponents:
+  - {fileID: 5793708038661123117}
+--- !u!114 &5793708038661123117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +54,7 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 3
+    baseValue: 4
     stack: 1
     loopBehaviour: 1
     upgrades:
@@ -51,37 +85,3 @@ MonoBehaviour:
     maxLimit:
       Enabled: 0
       Value: 0
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: Test2
-  m_EditorClassIdentifier: 
-  guid: ee0c150733ad3124c84008ef9a74c6b6
-  sprite: {fileID: 21300000, guid: 57fd45e4c3a192c46ad1956cd366b7a1, type: 3}
-  displayName: Test 2
-  description: awdwadw
-  cost: 2
-  element: 0
-  category: 0
-  rarity: 0
-  copies: 0
-  canChangeLevel: 0
-  minLevel:
-    Enabled: 0
-    Value: 0
-  maxLevel:
-    Enabled: 0
-    Value: 0
-  tags:
-    data:
-    - tag: {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
-      potency: 0
-  cardComponents:
-  - {fileID: -6176342591211957828}

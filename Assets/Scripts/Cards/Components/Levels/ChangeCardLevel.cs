@@ -5,29 +5,7 @@ using UnityEngine;
 [AddComponentMenu("Levels/Change Card Level")]
 public class ChangeCardLevel : CardComponent, IAffectOtherCards
 {
-    [SerializeField] private UpgradeableInt count = new(1);
     [SerializeField] private UpgradeableInt levels = new(1);
-
-    public int? Count => count[Level];
-
-    public bool RequireExactAmount => count[Level] == 1;
-
-    public string SelectMessage
-    {
-        get
-        {
-            string levelType = levels[Level] >= 0 ? "upgrde" : "downgrade";
-
-            if (count[Level] > 1)
-            {
-                return "Select up to {1} cards to " + levelType +". \n({0}/{1})";
-            }
-            else
-            {
-                return $"Select a card to " + levelType + ".";
-            }
-        }
-    }
 
     public IEnumerator OnCardsSelected(List<CardObject> cardObjects)
     {
