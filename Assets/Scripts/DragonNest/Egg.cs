@@ -22,13 +22,13 @@ public class Egg : MonoBehaviour
     private int shakeCount = 0;
     private bool isHatching;
 
-    float shakeTreshold = 2.0f * 2.0f;
-    Vector3 lowPassValue;
+    private float shakeTreshold = 2.0f * 2.0f;
+    private Vector3 lowPassValue;
 
     [SerializeField] private Sprite[] crackedSprites;
-    [SerializeField] GameObject eggInPieces;
+    [SerializeField] private GameObject eggInPieces;
 
-    ScreenShake screenShake;
+    private ScreenShake screenShake;
 
     private void Awake()
     {

@@ -5,7 +5,7 @@ using TMPro;
 
 public class DragonController : MonoBehaviour
 {
-    public DragonActive dragonActive;
+    private DragonActive dragonActive;
     private Slider evolutionSlider;
     [SerializeField] private Vector2 eggStart = Vector2.zero;
 

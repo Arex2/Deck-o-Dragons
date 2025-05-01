@@ -13,11 +13,12 @@ public class DragonBook : MonoBehaviour
     //[SerializeField] private GameObject AskToAddDragonPanel;
     //[SerializeField] private GameObject AskForDragonCloseButton;
 
+    [Header ("Variables dictating which dragon to affect")]
     public static string dragonName;
     public static int dragonElement;
 
     [Header("Buttons")]
-    [SerializeField] Button[] buttons;
+    [SerializeField] private Button[] buttons;
     [SerializeField] private GameObject closeButton;
     /*[SerializeField] private Button button1;
     [SerializeField] private Button button2;
@@ -27,10 +28,10 @@ public class DragonBook : MonoBehaviour
     [SerializeField] private Button button6;*/
 
     [Header("Element Types")]
-    string water = "Chibi Water Dragon"; // 0
-    string earth = "Chibi Earth Dragon"; // 1
-    string fire = "Chibi Fire Dragon";   // 2
-    string air = "Chibi Air Dragon";     // 3
+    private string water = "Chibi Water Dragon"; // 0
+    private string earth = "Chibi Earth Dragon"; // 1
+    private string fire = "Chibi Fire Dragon";   // 2
+    private string air = "Chibi Air Dragon";     // 3
 
     private static List<string> dragonsInBackyard = new List<string>();
     private static List<int> dragonElementsInBackyard = new List<int>();
