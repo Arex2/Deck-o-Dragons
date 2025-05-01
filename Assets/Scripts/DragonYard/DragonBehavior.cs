@@ -25,7 +25,6 @@ public class DragonBehavior : MonoBehaviour
         moveTimer = Random.Range(moveMinTimer, moveMaxTimer);
     }
 
-    // Update is called once per frame
     void Update()
     {
         horizontalValue = transform.position.x;

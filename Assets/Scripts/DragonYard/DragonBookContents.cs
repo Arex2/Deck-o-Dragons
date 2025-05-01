@@ -22,10 +22,6 @@ public class DragonBookContents : MonoBehaviour
     private static List<string> dragonsActiveInBackyard = new List<string>();
     private static List<int> elementsOfDragonsActiveInBackyard = new List<int>();
 
-    //private bool buildCheck = true;
-
-    //public bool doCheck;
-
     void Awake()
     {
         if (drBookCont == null)
@@ -40,21 +36,6 @@ public class DragonBookContents : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    /*void LateUpdate()
-    {
-        if (SceneManager.GetActiveScene().buildIndex == 1 && buildCheck)
-        {
-            Debug.Log("Ägg: NAME SIZE : " + dragonsActiveInBackyard.Count);
-            buildCheck = false;
-        }
-
-        if (SceneManager.GetActiveScene().buildIndex != 1 && !buildCheck)
-        {
-            Debug.Log("Contents: NAME SIZE : " + dragonsActiveInBackyard.Count);
-            buildCheck = true;
-        }
-    }*/
-
     public static void SetNewDragonNameAndTypeInBook(string name, int type) //Används i DragonController
     {
         dragonNamesInBook.Add(name);
@@ -65,14 +46,10 @@ public class DragonBookContents : MonoBehaviour
     {
         dragonsActiveInBackyard.Add(name);
         elementsOfDragonsActiveInBackyard.Add(element);
-        //Debug.Log("Contents: NAME SIZE : " + dragonsInBackyard.Count);
-        //Debug.Log("Contents: ELEMENT SIZE: " + elementsOfDragonsInBackyard.Count);
     }
 
     public static void RemoveDragonAndElementFromBackyard(string name, int indexOfElement) //Används i DragonBook
     {
-        //Debug.Log("Contents: NAME INDEX : " + dragonsInBackyard.IndexOf(name));
-        //Debug.Log("Contents: ELEMENT INDEX: " + indexOfElement);
         dragonsActiveInBackyard.Remove(name);
         elementsOfDragonsActiveInBackyard.RemoveAt(indexOfElement);
     }
@@ -96,4 +73,27 @@ public class DragonBookContents : MonoBehaviour
     {
         return dragonTypesInBook;
     }
+
+    public static int GetDragonsPerPageAmount()
+    {
+        return DRAGONS_PER_PAGE;
+    }
+
+    /*public static void toString()
+    {
+        string names = "Names: ";
+        string elements = "Elements: ";
+
+        foreach (string name in GetDragonsActiveInBackyard())
+        {
+            names += name + ", ";
+        }
+        foreach (int element in GetElementsOfDragonsActiveInBackyard())
+        {
+            elements += element.ToString() + ", ";
+        }
+
+        Debug.Log(names);
+        Debug.Log(elements);
+    }*/
 }

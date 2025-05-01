@@ -8,7 +8,7 @@ public class OnDragonButtonClick : MonoBehaviour
 {
     private Button button;
     private string element;
-    private int elementType;
+    private int elementNumber;
 
     void Start()
     {
@@ -21,17 +21,13 @@ public class OnDragonButtonClick : MonoBehaviour
     {
         string dragonName = gameObject.transform.GetChild(0).GetComponent<TMP_Text>().text;
         DragonBook.dragonName = dragonName;
-        DragonBook.dragonElement = elementType;
+        DragonBook.dragonElement = elementNumber;
         GameObject.Find("PanelController").GetComponent<DragonBook>().InstantiateDragon(element);
     }
 
-    public void SetElement(string element)
+    public void SetElementAndElementNumber(string element, int elementNumber)
     {
         this.element = element;
-    }
-
-    public void SetElementType(int elementType)
-    {
-        this.elementType = elementType;
+        this.elementNumber = elementNumber;
     }
 }
