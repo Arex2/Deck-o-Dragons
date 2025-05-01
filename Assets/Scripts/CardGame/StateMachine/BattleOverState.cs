@@ -38,7 +38,8 @@ public class BattleOverState : IState
     {
         if (temp)
         {
-            /*
+            
+            //LOSE
             if(gameBehaviour.HP <= 0)
             {
                 //end game
@@ -46,12 +47,14 @@ public class BattleOverState : IState
                 gameBehaviour.SwitchToEggScene();
                 return null;
             }
-            Debug.Log("New Encounter");
-            gameBehaviour.NewEncounter();
-            */
-
-            // Card shop scene
-            UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+            //Debug.Log("New Encounter");
+            //gameBehaviour.NewEncounter();
+            //WIN
+            else
+            {
+                // Card shop scene
+                UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+            }
         }
         return null;
     }
