@@ -5,7 +5,7 @@ using TMPro;
 
 public class DragonController : MonoBehaviour
 {
-    public DragonActive dragonActive;
+    private DragonActive dragonActive;
     private Slider evolutionSlider;
     [SerializeField] private Vector2 eggStart = Vector2.zero;
 
@@ -46,7 +46,7 @@ public class DragonController : MonoBehaviour
                     DragonBookContents.SetNewDragonNameAndTypeInBook(DragonActive.dragonName, DragonActive.index);
                 }
 
-                if(DragonBookContents.GetDragonsActiveInBackyard().Count < DragonBookContents.LimitOfDragons)
+                if(DragonActive.dragonName != null && DragonBookContents.GetDragonsActiveInBackyard().Count < DragonBookContents.LimitOfDragons)
                 {
                     DragonBookContents.SetNewDragonNamesAndElementsActiveInBackyard(DragonActive.dragonName, DragonActive.index);
                 }
