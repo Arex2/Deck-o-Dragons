@@ -9,7 +9,7 @@ public class CardSorter : IComparer<CardObject>, IComparer<Card>
 
     public int Compare(CardObject a, CardObject b)
     {
-        int manaComparison = a.GetCost().CompareTo(b.GetCost());
+        int manaComparison = a.Cost.CompareTo(b.Cost);
 
         if (manaComparison != 0 || a.Card == null || b.Card == null)
         {

@@ -6,10 +6,6 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 /// <summary>
 /// The main card class that every single card uses. <para/>
 /// Does nothing on it's own and needs a <see cref="CardComponent"/> (or multiple) to work.
@@ -63,15 +59,7 @@ public class Card : GUIDScriptableObject
     public Optional<int> MinLevel => minLevel;
     public Optional<int> MaxLevel => maxLevel;
 
-    public CardTag[] Tags
-    {
-        get
-        {
-            TryCacheCardTags();
-
-            return _tagsArray;
-        }
-    }
+    public TagData Tags => _playTagData.HasValue ? _playTagData.Value : tags;
 
     /// <summary>
     /// The current <see cref="Target"/> that's using this <see cref="Card"/>.
@@ -100,9 +88,9 @@ public class Card : GUIDScriptableObject
     [SerializeField] private Optional<int> maxLevel;
 
     [Space]
-    [SerializeField] private TagData[] tags;
-    private Dictionary<CardTag, float> _tagsDicitonary;
-    private CardTag[] _tagsArray;
+    [SerializeField] private TagData tags;
+    [NonSerialized]
+    private TagData? _playTagData = null; // Tag data used in the Play() method
 
     [HideInInspector]
     [SerializeField] private CardComponent[] cardComponents;
@@ -111,157 +99,24 @@ public class Card : GUIDScriptableObject
 
     [NonSerialized]
     private bool _cachedCardComponents = false;
-    [NonSerialized]
-    private bool _cachedCardTags = false;
 
     public void OnLoad()
     {
-        TryCacheCardTags();
         TryCacheCardComponents();
     }
 
-    private void TryCacheCardTags()
-    {
-        if (_cachedCardTags)
-        {
-            return;
-        }
+    public IEnumerator Play(Target user, Action onFinish = null) => Play(user, new(), null, 0, onFinish);
 
-        _cachedCardTags = true;
+    public IEnumerator Play(Target user, int level, Action onFinish = null) => Play(user, new(), null, level, onFinish);
 
-        int length = tags.Length;
-        _tagsArray = new CardTag[length];
+    public IEnumerator Play(Target user, CardData cardData, Action onFinish = null) => Play(user, cardData, null, 0, onFinish);
 
-        _tagsDicitonary = new();
+    public IEnumerator Play(Target user, CardData cardData, int level, Action onFinish = null) => Play(user, cardData, null, level, onFinish);
 
-        for (int i = 0; i < length; i++)
-        {
-            TagData tagData = tags[i];
-            CardTag tag = tagData.Tag;
-
-            if (tag == null)
-            {
-                continue;
-            }
-
-            _tagsArray[i] = tag;
-            _tagsDicitonary.Add(tag, tag.HasPotency ? tagData.Potency : 0f);
-        }
-    }
-
-    private static readonly MethodInfo _createListMethod = typeof(Card).GetMethod(nameof(CreateListMethod), BindingFlags.Static | BindingFlags.NonPublic);
-    private static List<T> CreateListMethod<T>() => new();
-
-    private static readonly MethodInfo _createArrayMethod = typeof(Card).GetMethod(nameof(CreateArrayMethod), BindingFlags.Static | BindingFlags.NonPublic);
-    private static CardComponent[] CreateArrayMethod<T>(List<T> list) => list.ToArray() as CardComponent[];
-
-    private void TryCacheCardComponents()
-    {
-        if (_cachedCardComponents)
-        {
-            return;
-        }
-
-        _cachedCardComponents = true;
-
-        _cardComponentTypeDictionary.Clear();
-        _cardComponentNameDictionary.Clear();
-
-        // Forgive me for doing this... Whatever this is...
-        Dictionary<Type, IList> temp = new();
-
-        foreach (CardComponent cardComponent in cardComponents)
-        {
-            void AddType(Type type)
-            {
-                if (!temp.ContainsKey(type))
-                {
-                    temp.Add(type, _createListMethod.MakeGenericMethod(type).Invoke(this, null) as IList);
-                }
-
-                temp[type].Add(cardComponent);
-
-                Debug.Log("ADDED " + type.Name + " | " + cardComponent.name);
-            }
-
-            void AddInterfaces(Type type)
-            {
-                foreach (Type interfaceType in type.GetInterfaces())
-                {
-                    AddType(interfaceType);
-                }
-            }
-
-            Type type = cardComponent.GetType();
-
-            AddType(type);
-            AddInterfaces(type);
-
-            while (type.BaseType != null && type.BaseType != typeof(ScriptableObject))
-            {
-                type = type.BaseType;
-
-                AddType(type);
-                AddInterfaces(type);
-            }
-
-            string name = cardComponent.name.Trim().ToLower();
-
-            if (!_cardComponentNameDictionary.ContainsKey(name))
-            {
-                _cardComponentNameDictionary.Add(name, cardComponent);
-            }
-#if UNITY_EDITOR
-            else
-            {
-                Debug.LogWarning($"The Card: \"{this.name}\" has more than one CardComponent named \"{name}\"! Please rename them in the inspector.", this);
-            }
-#endif
-        }
-
-        foreach (var pair in temp)
-        {
-            Type type = pair.Key;
-            CardComponent[] array = _createArrayMethod.MakeGenericMethod(type).Invoke(null, new object[] { pair.Value }) as CardComponent[];
-
-            _cardComponentTypeDictionary.Add(type, array);
-        }
-
-        foreach (CardComponent cardComponent in cardComponents)
-        {
-            cardComponent.InternalInitialize();
-        }
-    }
-
-    /// <summary>
-    /// Returns whether or not this card has the given card <paramref name="tag"/>.
-    /// </summary>
-    public bool HasTag(CardTag tag)
-    {
-        TryCacheCardTags();
-
-        return _tagsDicitonary.ContainsKey(tag);
-    }
-
-    public float GetTagPotency(CardTag tag)
-    {
-        if (!HasTag(tag))
-        {
-            return 0;
-        }
-
-        return _tagsDicitonary[tag];
-    }
-
-    public IEnumerator Play(Target user, Action onFinish = null) => Play(user, new(), 0, onFinish);
-
-    public IEnumerator Play(Target user, int level, Action onFinish = null) => Play(user, new(), level, onFinish);
-
-    public IEnumerator Play(Target user, CardData cardData, Action onFinish = null) => Play(user, cardData, 0, onFinish);
-
-    public IEnumerator Play(Target user, CardData cardData, int level, Action onFinish = null)
+    public IEnumerator Play(Target user, CardData cardData, TagData? tags, int level, Action onFinish = null)
     {
         _cardData = cardData;
+        _playTagData = tags;
 
         foreach (CardComponent cardComponent in cardComponents)
         {
@@ -291,7 +146,7 @@ public class Card : GUIDScriptableObject
             CurrentComponent = cardComponent;
 
             // Account for and execute IAffectOtherCards
-            IAffectOtherCards affectOtherCards = cardComponent as IAffectOtherCards;
+            IAffectOtherCardsHandler affectOtherCards = cardComponent as IAffectOtherCardsHandler;
 
             if (affectOtherCards != null)
             {
@@ -355,6 +210,7 @@ public class Card : GUIDScriptableObject
         onFinish?.Invoke();
 
         User = null;
+        _playTagData = null;
     }
 
     public void FinishedSettingCardsToAffect()
@@ -367,41 +223,22 @@ public class Card : GUIDScriptableObject
         WaitingForCardsToAffect = false;
     }
 
-    [Serializable]
-    private class TagData
+    public void Cancel()
     {
-        public CardTag Tag => tag;
-        public float Potency => potency;
-
-        [SerializeField] private CardTag tag;
-        [SerializeField] private float potency;
+        CurrentComponent = null;
+        User = null;
+        _playTagData = null;
     }
 
-#if UNITY_EDITOR
-    [CustomPropertyDrawer(typeof(TagData))]
-    private class TagDataPropertyDrawer : PropertyDrawer
-    {
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            SerializedProperty tagProp = property.FindPropertyRelative("tag");
-            SerializedProperty potencyProp = property.FindPropertyRelative("potency");
+    /// <summary>
+    /// Returns whether or not this card has the given card <paramref name="tag"/>.
+    /// </summary>
+    public bool HasTag(CardTag tag) => Tags.HasTag(tag);
 
-            CardTag obj = tagProp.objectReferenceValue as CardTag;
-
-            Rect potencyRect = position;
-            potencyRect.xMin = potencyRect.xMax - 80;
-
-            position.xMax -= potencyRect.width + 8;
-
-            using (new EditorGUI.DisabledScope(obj == null || !obj.HasPotency))
-            {
-                EditorGUI.PropertyField(potencyRect, potencyProp, GUIContent.none);
-            }
-
-            EditorGUI.PropertyField(position, tagProp, GUIContent.none);
-        }
-    }
-#endif
+    /// <summary>
+    /// Returns the potency this <see cref="Card"/> has on the given <paramref name="tag"/>.
+    /// </summary>
+    public float GetTagPotency(CardTag tag) => Tags[tag];
 
     #region Card Data Stuff
     public void SetCardData<T>(string key, T value) => _cardData.SetCardData(key, value);
@@ -481,6 +318,88 @@ public class Card : GUIDScriptableObject
     #endregion
 
     #region GetCardComponent Methods
+    private static readonly MethodInfo _createListMethod = typeof(Card).GetMethod(nameof(CreateListMethod), BindingFlags.Static | BindingFlags.NonPublic);
+    private static List<T> CreateListMethod<T>() => new();
+
+    private static readonly MethodInfo _createArrayMethod = typeof(Card).GetMethod(nameof(CreateArrayMethod), BindingFlags.Static | BindingFlags.NonPublic);
+    private static CardComponent[] CreateArrayMethod<T>(List<T> list) => list.ToArray() as CardComponent[];
+
+    private void TryCacheCardComponents()
+    {
+        if (_cachedCardComponents)
+        {
+            return;
+        }
+
+        _cachedCardComponents = true;
+
+        _cardComponentTypeDictionary.Clear();
+        _cardComponentNameDictionary.Clear();
+
+        // Forgive me for doing this... Whatever this is...
+        Dictionary<Type, IList> temp = new();
+
+        foreach (CardComponent cardComponent in cardComponents)
+        {
+            void AddType(Type type)
+            {
+                if (!temp.ContainsKey(type))
+                {
+                    temp.Add(type, _createListMethod.MakeGenericMethod(type).Invoke(this, null) as IList);
+                }
+
+                temp[type].Add(cardComponent);
+            }
+
+            void AddInterfaces(Type type)
+            {
+                foreach (Type interfaceType in type.GetInterfaces())
+                {
+                    AddType(interfaceType);
+                }
+            }
+
+            Type type = cardComponent.GetType();
+
+            AddType(type);
+            AddInterfaces(type);
+
+            while (type.BaseType != null && type.BaseType != typeof(ScriptableObject))
+            {
+                type = type.BaseType;
+
+                AddType(type);
+                AddInterfaces(type);
+            }
+
+            string name = cardComponent.name.Trim().ToLower();
+
+            if (!_cardComponentNameDictionary.ContainsKey(name))
+            {
+                _cardComponentNameDictionary.Add(name, cardComponent);
+            }
+#if UNITY_EDITOR
+            else
+            {
+                Debug.LogWarning($"The Card: \"{this.name}\" has more than one CardComponent named \"{name}\"! Please rename them in the inspector.", this);
+            }
+#endif
+        }
+
+        foreach (var pair in temp)
+        {
+            Type type = pair.Key;
+            CardComponent[] array = _createArrayMethod.MakeGenericMethod(type).Invoke(null, new object[] { pair.Value }) as CardComponent[];
+
+            _cardComponentTypeDictionary.Add(type, array);
+        }
+
+        foreach (CardComponent cardComponent in cardComponents)
+        {
+            cardComponent.InternalInitialize();
+        }
+    }
+
     public T GetCardComponent<T>() where T : CardComponent
     {
         return GetCardComponent(typeof(T)) as T;
@@ -523,6 +442,11 @@ public class Card : GUIDScriptableObject
     public CardComponent[] GetCardComponents(Type type)
     {
         TryCacheCardComponents();
+
+        if (type == null)
+        {
+            return null;
+        }
 
         if (!_cardComponentTypeDictionary.ContainsKey(type))
         {

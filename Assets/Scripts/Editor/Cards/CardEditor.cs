@@ -38,6 +38,8 @@ public class CardEditor : Editor
     private Object _pendingRenameObj = null;
     private Object _currentRenameObj = null;
 
+    private string _currentDragArea;
+
     private void OnEnable()
     {
         _cardComponentsProperty = serializedObject.FindProperty("cardComponents");
@@ -196,7 +198,7 @@ public class CardEditor : Editor
             enabledRect.width = 20;
 
             SerializedProperty disabledProp = editor.serializedObject.FindProperty("disableOnStart");
-            string toggleName = "CARD_EDITOR:disableOnStart_toggle_" + i;
+            string toggleName = $"CARD_EDITOR:{target.name}_disableOnStart_toggle_{i}";
 
             Event evt = Event.current;
 
@@ -209,7 +211,48 @@ public class CardEditor : Editor
                 GUI.FocusControl(toggleName);
             }
 
-            expandedProp.boolValue = EditorGUI.BeginFoldoutHeaderGroup(rect, expandedProp.boolValue, foldoutContent, null, (rect) =>
+            // Drag and drop
+            string dragAreaName = $"CARD_EDITOR:{target.name}_drag_area_{i}";
+
+            if (string.IsNullOrEmpty(_currentDragArea))
+            {
+                if (rect.Contains(evt.mousePosition) && evt.type == EventType.MouseDown && evt.button == 0)
+                {
+                    _currentDragArea = dragAreaName;
+                    evt.Use();
+                }
+            }
+            else if (evt.button == 0 && _currentDragArea == dragAreaName)
+            {
+                switch (evt.type)
+                {
+                    case EventType.MouseDrag:
+                        if (!rect.Contains(evt.mousePosition))
+                        {
+                            break;
+                        }
+
+                        DragAndDrop.PrepareStartDrag();
+
+                        DragAndDrop.objectReferences = new Object[1] { arrayObj };
+                        DragAndDrop.StartDrag("Dragging " + arrayObj);
+
+                        _currentDragArea = null;
+
+                        evt.Use();
+                        break;
+
+                    case EventType.MouseUp:
+                        expandedProp.boolValue = !expandedProp.boolValue;
+
+                        _currentDragArea = null;
+
+                        evt.Use();
+                        break;
+                }
+            }
+
+            EditorGUI.BeginFoldoutHeaderGroup(rect, expandedProp.boolValue, foldoutContent, null, (rect) =>
             {
                 OpenCardComponentContextMenu(arrayObj, rect);
             });
@@ -236,9 +279,15 @@ public class CardEditor : Editor
 
             editor.serializedObject.ApplyModifiedProperties();
 
-            if (rect.Contains(Event.current.mousePosition) && Event.current.type == EventType.ContextClick)
+            if (rect.Contains(evt.mousePosition))
             {
-                OpenCardComponentContextMenu(arrayObj, null);
+                switch (evt.type)
+                {
+                    case EventType.ContextClick:
+                        OpenCardComponentContextMenu(arrayObj, null);
+                        evt.Use();
+                        break;
+                }
             }
             
             if (expandedProp.boolValue)

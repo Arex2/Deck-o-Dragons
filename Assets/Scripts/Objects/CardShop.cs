@@ -274,7 +274,7 @@ public class CardShop : MonoBehaviour
 
             cardNameText.text = card.DisplayName;
 
-            cardTagsText.text = CardVisuals.GetTagsString(card);
+            cardTagsText.text = CardVisuals.GetTagsString(card.Tags);
 
             cardDescriptionText.text = card.GetDescription(0);
 

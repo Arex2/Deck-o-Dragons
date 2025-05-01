@@ -13,8 +13,8 @@ public class CardManager : Singleton<CardManager>
     public static Card[] NonDrawableCards => Instance._nonDrawableCards;
     public static Card[] DrawableCards => Instance._drawableCards;
     public static CardTag[] AllTags => Instance.allTags;
+
     public static CardTag NonDrawableTag => Instance.nonDrawableTag;
-    public static CardTag[] BullseyeTags => Instance.bullseyeTags;
 
     [HideInInspector] [SerializeField] private Card[] allCards;
     [HideInInspector] [SerializeField] private CardTag[] allTags;
@@ -23,7 +23,23 @@ public class CardManager : Singleton<CardManager>
     private Card[] _drawableCards;
     
     [SerializeField] private CardTag nonDrawableTag;
-    [SerializeField] private CardTag[] bullseyeTags;
+
+    [Header("Functional tags")]
+    [SerializeField] private CardTag bullseyeTag;
+    [SerializeField] private CardTag unplayableTag;
+    [SerializeField] private CardTag bindingTag;
+    [SerializeField] private CardTag slipperyTag;
+    [SerializeField] private CardTag returningTag;
+    [SerializeField] private CardTag vanishingTag;
+    [SerializeField] private CardTag thornsTag;
+
+    public static CardTag BullseyeTag => Instance.bullseyeTag;
+    public static CardTag UnplayableTag => Instance.unplayableTag;
+    public static CardTag BindingTag => Instance.bindingTag;
+    public static CardTag SlipperyTag => Instance.slipperyTag;
+    public static CardTag ReturningTag => Instance.returningTag;
+    public static CardTag VanishingTag => Instance.vanishingTag;
+    public static CardTag ThornsTag => Instance.thornsTag;
 
     private static readonly Dictionary<CardTag, Card[]> _cardsTagDictionary = new();
     private static readonly Dictionary<string, Card> _cardsNameDictionary = new();

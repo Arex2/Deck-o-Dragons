@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using System.Net;
+using System.Text;
 
 public class CardVisuals : MonoBehaviour
 {
@@ -160,32 +161,62 @@ public class CardVisuals : MonoBehaviour
 
     public void UpdateCostText()
     {
-        costText.text = (cardObject == null ? Card.Cost : cardObject.GetCost()).ToString();
+        costText.text = (cardObject == null ? Card.Cost : cardObject.Cost).ToString();
     }
 
     public void UpdateTagText()
     {
-        tagsText.text = GetTagsString(Card);
+        tagsText.text = GetTagsString(cardObject == null ? Card.Tags : cardObject.TagData);
     }
 
-    public static string GetTagsString(Card card)
+    private static readonly StringBuilder _tagsStringBuilder = new();
+    public static string GetTagsString(TagData tagData)
     {
-        if (card.Tags == null || card.Tags.Length <= 0)
+        if (tagData.Count <= 0)
         {
             return "";
         }
 
-        string tags = "";
-        foreach (CardTag tag in card.Tags)
+        _tagsStringBuilder.Clear();
+        foreach (CardTag tag in tagData)
         {
             if (tag == null || tag.Hidden)
                 continue;
 
-            tags += tag.DisplayName;
-            tags += " ";
+            _tagsStringBuilder.Append(tag.DisplayName);
+            _tagsStringBuilder.Append(" ");
+
+            if (tag.HasPotency)
+            {
+                float potency = tagData.GetPotency(tag);
+
+                if (potency > 0)
+                {
+                    _tagsStringBuilder.Append("(");
+
+                    string format;
+
+                    if (tag.PotencyFormatSingle.Enabled && potency == 1)
+                    {
+                        format = tag.PotencyFormatSingle.Value;
+                    }
+                    else if (!string.IsNullOrEmpty(tag.PotencyFormat))
+                    {
+                        format = tag.PotencyFormat;
+                    }
+                    else
+                    {
+                        format = "{0}";
+                    }
+
+                    _tagsStringBuilder.Append(string.Format(format, Mathf.Round(potency)));
+
+                    _tagsStringBuilder.Append(") ");
+                }
+            }
         }
 
-        return tags;
+        return _tagsStringBuilder.ToString().Trim();
     }
 
     public void FadeOverlay(float alpha, float duration)

@@ -139,6 +139,16 @@ public abstract class CardComponent : ScriptableObject
         return @delegate.Invoke();
     }
 
+    /// <summary>
+    /// Returns whether or not this card has the given card <paramref name="tag"/>.
+    /// </summary>
+    public bool HasTag(CardTag tag) => card.HasTag(tag);
+
+    /// <summary>
+    /// Returns the potency this <see cref="Card"/> has on the given <paramref name="tag"/>.
+    /// </summary>
+    public float GetTagPotency(CardTag tag) => card.GetTagPotency(tag);
+
     #region Card Data Stuff
     public void SetCardData<T>(string key, T value) => card.SetCardData(key, value);
 

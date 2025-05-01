@@ -61,6 +61,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8308501f4d5c6c448961f6839a94a750, type: 2}
   - {fileID: 11400000, guid: af812dbd79929c5488bea420e38b3414, type: 2}
   - {fileID: 11400000, guid: 815f22a374bec81428f83532c0c30a7a, type: 2}
+  - {fileID: 11400000, guid: 3d994b6e153fc8d4b81359942a3e2156, type: 2}
   - {fileID: 11400000, guid: 9cc527b6d0cc85547b021d492a15161f, type: 2}
   - {fileID: 11400000, guid: e444ebe4889011c4b8c2265e96304acc, type: 2}
   - {fileID: 11400000, guid: cc5a434975884c54ab0673b1e6f8a838, type: 2}
@@ -73,11 +74,22 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4420287fca5bb59498d4e4f92e41fd6c, type: 2}
   - {fileID: 11400000, guid: ee0c150733ad3124c84008ef9a74c6b6, type: 2}
   allTags:
+  - {fileID: 11400000, guid: c5733c034e166df48abbe0a5568b6a18, type: 2}
   - {fileID: 11400000, guid: 7a64935662935214796f0f6d78b32650, type: 2}
   - {fileID: 11400000, guid: 789701f024d709f41ab3f63be0739412, type: 2}
   - {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
+  - {fileID: 11400000, guid: c18a164a6c83fc348843f3c6a06dddd5, type: 2}
+  - {fileID: 11400000, guid: b2ac6835593aa554d8613ed292c7944f, type: 2}
   - {fileID: 11400000, guid: bab0385fc0dd83a42b30d4747a766495, type: 2}
+  - {fileID: 11400000, guid: ead904e15e55ce44aa553bd385ab5a0d, type: 2}
+  - {fileID: 11400000, guid: 20f4de7c04e254646a526fce5d99f639, type: 2}
+  - {fileID: 11400000, guid: 1089c1e228cde7447943e612cd6462fc, type: 2}
   - {fileID: 11400000, guid: 8e83fbed3e191eb46ae0916ba15c98a5, type: 2}
   nonDrawableTag: {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
-  bullseyeTags:
-  - {fileID: 11400000, guid: 7a64935662935214796f0f6d78b32650, type: 2}
+  bullseyeTag: {fileID: 11400000, guid: 7a64935662935214796f0f6d78b32650, type: 2}
+  unplayableTag: {fileID: 11400000, guid: 20f4de7c04e254646a526fce5d99f639, type: 2}
+  bindingTag: {fileID: 11400000, guid: c5733c034e166df48abbe0a5568b6a18, type: 2}
+  slipperyTag: {fileID: 11400000, guid: b2ac6835593aa554d8613ed292c7944f, type: 2}
+  returningTag: {fileID: 11400000, guid: c18a164a6c83fc348843f3c6a06dddd5, type: 2}
+  vanishingTag: {fileID: 11400000, guid: 1089c1e228cde7447943e612cd6462fc, type: 2}
+  thornsTag: {fileID: 11400000, guid: ead904e15e55ce44aa553bd385ab5a0d, type: 2}

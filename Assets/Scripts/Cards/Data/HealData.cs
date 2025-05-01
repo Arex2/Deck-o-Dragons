@@ -1,3 +1,6 @@
+/// <summary>
+/// Data for a heal.
+/// </summary>
 public class HealData
 {
     public float Healing { get; set; }

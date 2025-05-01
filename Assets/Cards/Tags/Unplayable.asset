@@ -10,11 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2d278b8117b8ad4e8021ff314b1c628, type: 3}
-  m_Name: Bullseye
+  m_Name: Unplayable
   m_EditorClassIdentifier: 
-  guid: 7a64935662935214796f0f6d78b32650
-  displayName: Bullseye
-  description: Can't miss. Will always deal full damage and bypass any defense boosts
-    or damage reduction.
+  guid: 20f4de7c04e254646a526fce5d99f639
+  displayName: Unplayable
+  description: This card can't be played.
+  potencyDescription: This card can't be played for {0} turns.
   hidden: 0
-  hasPotency: 0
+  isCurse: 1
+  hasPotency: 1
+  potencyFormat: '{0} turns'
+  potencyFormatSingle:
+    Enabled: 1
+    Value: '{0} turn'
