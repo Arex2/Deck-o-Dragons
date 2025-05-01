@@ -22,7 +22,7 @@ public class DragonBookContents : MonoBehaviour
     private static List<string> dragonsActiveInBackyard = new List<string>();
     private static List<int> elementsOfDragonsActiveInBackyard = new List<int>();
 
-    private bool buildCheck = true;
+    //private bool buildCheck = true;
 
     //public bool doCheck;
 
@@ -40,7 +40,7 @@ public class DragonBookContents : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    void LateUpdate()
+    /*void LateUpdate()
     {
         if (SceneManager.GetActiveScene().buildIndex == 1 && buildCheck)
         {
@@ -53,27 +53,15 @@ public class DragonBookContents : MonoBehaviour
             Debug.Log("Contents: NAME SIZE : " + dragonsActiveInBackyard.Count);
             buildCheck = true;
         }
+    }*/
 
-        /*if (doCheck)
-        {
-            if (SceneManager.GetActiveScene().buildIndex == 5)
-            {
-                doCheck = false;
-                //evolutionSlider = GameObject.Find("EvolutionSlider").GetComponent<Slider>();
-                //statusText = GameObject.Find("CompleteTraining_Text").GetComponent<TMP_Text>();
-
-                //currentDragon = FindObjectOfType<DragonController>();
-            }
-        }*/
-    }
-
-    public static void SetNewDragonNameAndType(string name, int type)
+    public static void SetNewDragonNameAndTypeInBook(string name, int type) //Används i DragonController
     {
         dragonNamesInBook.Add(name);
         dragonTypesInBook.Add(type);
     }
 
-    public static void SetNewDragonNamesAndElementsInBackyard(string name, int element)
+    public static void SetNewDragonNamesAndElementsActiveInBackyard(string name, int element) //Används i DragonBook && DragonController
     {
         dragonsActiveInBackyard.Add(name);
         elementsOfDragonsActiveInBackyard.Add(element);
@@ -81,7 +69,7 @@ public class DragonBookContents : MonoBehaviour
         //Debug.Log("Contents: ELEMENT SIZE: " + elementsOfDragonsInBackyard.Count);
     }
 
-    public static void RemoveDragonAndElementFromBackyard(string name, int indexOfElement)
+    public static void RemoveDragonAndElementFromBackyard(string name, int indexOfElement) //Används i DragonBook
     {
         //Debug.Log("Contents: NAME INDEX : " + dragonsInBackyard.IndexOf(name));
         //Debug.Log("Contents: ELEMENT INDEX: " + indexOfElement);
@@ -89,22 +77,22 @@ public class DragonBookContents : MonoBehaviour
         elementsOfDragonsActiveInBackyard.RemoveAt(indexOfElement);
     }
 
-    public static List<string> GetDragonsInYard()
+    public static List<string> GetDragonsActiveInBackyard() //Används i DragonBook && DragonController
     {
         return dragonsActiveInBackyard;
     }
 
-    public static List<int> GetDragonElementsInYard()
+    public static List<int> GetElementsOfDragonsActiveInBackyard() //Används i DragonBook
     {
         return elementsOfDragonsActiveInBackyard;
     }
 
-    public static List<string> GetDragonNames()
+    public static List<string> GetDragonNamesInBook() //Används i DragonBook && NativeKeyboardInputManager
     {
         return dragonNamesInBook;
     }
 
-    public static List<int> GetDragonTypes()
+    public static List<int> GetDragonTypesInBook() //Används i DragonBook
     {
         return dragonTypesInBook;
     }

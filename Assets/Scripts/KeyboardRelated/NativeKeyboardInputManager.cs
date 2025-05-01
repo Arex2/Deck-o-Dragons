@@ -15,15 +15,15 @@ public class NativeKeyboardInputManager : MonoBehaviour
     {
         placeName = true;
         dragonName.text = DragonActive.dragonName;
-    }
 
-    void Update()
-    {
         if (!DragonActive.isDragonActive)
         {
             dragonName.text = "";
         }
+    }
 
+    void Update()
+    {
         if (forCompUse)
         {
             if (Input.GetKeyDown(KeyCode.R))
@@ -55,7 +55,7 @@ public class NativeKeyboardInputManager : MonoBehaviour
 
         if(placeName && keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Done)
         {
-            foreach(string alredayExistingName in DragonBookContents.GetDragonNames())
+            foreach(string alredayExistingName in DragonBookContents.GetDragonNamesInBook())
             {
                 if(dragonName.text == alredayExistingName)
                 {
@@ -91,25 +91,4 @@ public class NativeKeyboardInputManager : MonoBehaviour
         Invoke("ClearStatusText", 1.5f);
         keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, false, true, "Please name your dragon", 10);
     }
-
-    /*private void OnGUI()
-    {
-        //keyboard = TouchScreenKeyboard.Open(nameToEdit, TouchScreenKeyboardType.Default, false, false, false, false, "Please name your dragon", 10);
-        //keyboard = TouchScreenKeyboard.Open("text to edit");
-
-        nameToEdit = GUI.TextField(new Rect(10, 10, 200, 30), nameToEdit, 30);
-
-        if (GUI.Button(new Rect(10, 50, 200, 100), "Default"))
-        {
-            keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
-        }
-        if (GUI.Button(new Rect(10, 150, 200, 100), "ASCIICapable"))
-        {
-            keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.ASCIICapable);
-        }
-        if (GUI.Button(new Rect(10, 250, 200, 100), "Numbers and Punctuation"))
-        {
-            keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.NumbersAndPunctuation);
-        }
-    }*/
 }

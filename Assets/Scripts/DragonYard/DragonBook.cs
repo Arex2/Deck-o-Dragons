@@ -61,12 +61,12 @@ public class DragonBook : MonoBehaviour
 
     private void AddSelectedDragonsToYardOnLoad()
     {
-        if(DragonBookContents.GetDragonsInYard().Count > 0)
+        if(DragonBookContents.GetDragonsActiveInBackyard().Count > 0)
         {
-            for (int i = 0; i < DragonBookContents.GetDragonsInYard().Count; i++)
+            for (int i = 0; i < DragonBookContents.GetDragonsActiveInBackyard().Count; i++)
             {
-                dragonName = DragonBookContents.GetDragonsInYard().ElementAt(i);
-                dragonElement = DragonBookContents.GetDragonElementsInYard().ElementAt(i);
+                dragonName = DragonBookContents.GetDragonsActiveInBackyard().ElementAt(i);
+                dragonElement = DragonBookContents.GetElementsOfDragonsActiveInBackyard().ElementAt(i);
 
                 switch (dragonElement)
                 {
@@ -109,18 +109,18 @@ public class DragonBook : MonoBehaviour
         {
             //Debug.Log("indexOfDragonToAdd: " + indexOfDragonToAdd);
 
-            if (DragonBookContents.GetDragonNames().Count <= j) //DragonBookContents.GetDragonNames().ElementAt(i) == null)
+            if (DragonBookContents.GetDragonNamesInBook().Count <= j) //DragonBookContents.GetDragonNames().ElementAt(i) == null)
             {
                 buttons[j].interactable = false;
                 buttons[j].transform.GetChild(0).GetComponent<TMP_Text>().text = "";
             }
-            else if (DragonBookContents.GetDragonNames().ElementAt(indexOfDragonToAdd) != null)
+            else if (DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd) != null)
             {
                 buttons[j].interactable = true;
-                buttons[j].transform.GetChild(0).GetComponent<TMP_Text>().text = DragonBookContents.GetDragonNames().ElementAt(indexOfDragonToAdd);
+                buttons[j].transform.GetChild(0).GetComponent<TMP_Text>().text = DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd);
                 //buttons[j].transform.image = DragonBookContents.GetDragonTypes().ElementAt(i);
                 //string elementTYpe = buttons[j].GetComponent<OnDragonButtonClick>().SetElement();
-                int elementType = DragonBookContents.GetDragonTypes().ElementAt(indexOfDragonToAdd);
+                int elementType = DragonBookContents.GetDragonTypesInBook().ElementAt(indexOfDragonToAdd);
 
                 switch (elementType)
                 {
@@ -234,9 +234,9 @@ public class DragonBook : MonoBehaviour
                 dragonsInBackyard.Add(dragonName);
                 dragonElementsInBackyard.Add(dragonElement);
 
-                if(!DragonBookContents.GetDragonsInYard().Contains(dragonName))
+                if(!DragonBookContents.GetDragonsActiveInBackyard().Contains(dragonName))
                 {
-                    DragonBookContents.SetNewDragonNamesAndElementsInBackyard(dragonName, dragonElement);
+                    DragonBookContents.SetNewDragonNamesAndElementsActiveInBackyard(dragonName, dragonElement);
                 }
                 //Debug.Log("Book: NAME INDEX : " + dragonsInBackyard.IndexOf(name));
                 //Debug.Log("Book: ELEMENT INDEX: " + dragonElementsInBackyard.IndexOf(dragonElement));

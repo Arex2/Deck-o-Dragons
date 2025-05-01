@@ -7,22 +7,17 @@ public class DragonController : MonoBehaviour
 {
     public DragonActive dragonActive;
     private Slider evolutionSlider;
-    //private TMP_Text statusText;
-    //[SerializeField] private GameObject drakPrefab;
     [SerializeField] private Vector2 eggStart = Vector2.zero;
 
     private void Awake()
     {
-        //DontDestroyOnLoad(drakPrefab);
         dragonActive = GameObject.Find("DragonActive").GetComponent<DragonActive>();
         evolutionSlider = GameObject.Find("EvolutionSlider").GetComponent<Slider>();
-        //statusText = GameObject.Find("CompleteTraining_Text").GetComponent<TMP_Text>();
 
         evolutionSlider.minValue = 0;
         evolutionSlider.maxValue = 3;
         evolutionSlider.value = DragonActive.evolutionProcess;
 
-        //statusText.text = "";
         DragonActive.currentDragon = this;
     }
 
@@ -32,11 +27,6 @@ public class DragonController : MonoBehaviour
         {
             SpawnNewDragon();
         }
-
-        /*if (!DragonActive.isDragonActive)
-        {
-            statusText.text = "";
-        }*/
     }
 
     public void StepProgress()
@@ -53,12 +43,12 @@ public class DragonController : MonoBehaviour
 
                 if(DragonActive.dragonName != null)
                 {
-                    DragonBookContents.SetNewDragonNameAndType(DragonActive.dragonName, DragonActive.index);
+                    DragonBookContents.SetNewDragonNameAndTypeInBook(DragonActive.dragonName, DragonActive.index);
                 }
 
-                if(DragonBookContents.GetDragonsInYard().Count < DragonBookContents.LimitOfDragons)
+                if(DragonBookContents.GetDragonsActiveInBackyard().Count < DragonBookContents.LimitOfDragons)
                 {
-                    DragonBookContents.SetNewDragonNamesAndElementsInBackyard(DragonActive.dragonName, DragonActive.index);
+                    DragonBookContents.SetNewDragonNamesAndElementsActiveInBackyard(DragonActive.dragonName, DragonActive.index);
                 }
 
                 Invoke("SpawnNewDragon", 4f);
@@ -89,7 +79,6 @@ public class DragonController : MonoBehaviour
         {
             Instantiate(dragonActive.egg, eggStart, Quaternion.identity);
             DragonActive.age = 0;
-            //statusText.text = "";
         }
         else
         {
