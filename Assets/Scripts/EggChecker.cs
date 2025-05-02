@@ -5,6 +5,7 @@ public class EggChecker : MonoBehaviour
     public GameObject uiElement;
     public GameObject meny;
     public GameObject block;
+    public GameObject button;
 
     void Update()
     {
@@ -15,12 +16,14 @@ public class EggChecker : MonoBehaviour
             uiElement.SetActive(true);
             block.SetActive(true);
             meny.SetActive(false);
+            button.SetActive(false);
         }
         else
         {
             uiElement.SetActive(false);
             block.SetActive(false);
             meny.SetActive(true);
+            button.SetActive(true);
         }
     }
 }
