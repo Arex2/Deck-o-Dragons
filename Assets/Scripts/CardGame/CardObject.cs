@@ -107,8 +107,6 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     private Tween[] _offsetTweens = new Tween[2];
     private Vector2 _offset;
 
-    private static CardTag[] _turnBasedTags = null;
-
     private bool _discardOnFinish;
 
     private void Awake()
@@ -295,23 +293,21 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public bool OnKeptAfterDiscard()
     {
-        if (_turnBasedTags == null)
+        if (HasTag(CardManager.SlipperyTag))
         {
-            _turnBasedTags = new CardTag[]
-            {
-                CardManager.BindingTag,
-                CardManager.UnplayableTag,
-            };
+            return false;
         }
 
         bool updateCardLook = false;
 
-        foreach (CardTag tag in _turnBasedTags)
+        if (DecreaseTagPotency(CardManager.BindingTag))
         {
-            if (DecreaseTagPotency(tag))
-            {
-                updateCardLook = true;
-            }
+            updateCardLook = true;
+        }
+
+        if (DecreaseTagPotency(CardManager.UnplayableTag))
+        {
+            updateCardLook = true;
         }
 
         if (DecreaseTagPotency(CardManager.VanishingTag))

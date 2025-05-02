@@ -13,11 +13,11 @@ public class DiscardState : IState
     {
         if (cardObject.HasTag(CardManager.BindingTag))
         {
-            return CardFilterResult.Failure("Binding cards must be kept.");
+            return CardFilterResult.Failure("Binding cards can't be discarded.");
         }
         if (cardObject.HasTag(CardManager.SlipperyTag))
         {
-            return CardFilterResult.Failure("Slippery cards can't be kept.");
+            return CardFilterResult.Failure("Slippery cards will be auto-discarded.");
         }
         if (cardObject.TryGetTagPotency(CardManager.VanishingTag, out float potency))
         {
@@ -32,7 +32,7 @@ public class DiscardState : IState
 
     public virtual IState Enter(GameBehaviour gameBehaviour)
     {
-        Debug.Log("DISCARDING CARDS AND CHOOSING WHICH TO KEEP");
+        Debug.Log("DISCARDING CARDS");
         this.gameBehaviour = gameBehaviour;
         controls = gameBehaviour.controls;
 

@@ -456,11 +456,6 @@ public class Card : GUIDScriptableObject
         return _cardComponentTypeDictionary[type];
     }
 
-    public bool TryGetCardComponent<T>(out T cardComponent) where T : CardComponent
-    {
-        return TryGetCardComponent(out cardComponent);
-    }
-
     public bool TryGetCardComponent(string name, out CardComponent cardComponent, bool formatName = false)
     {
         TryCacheCardComponents();
@@ -471,6 +466,22 @@ public class Card : GUIDScriptableObject
         }
 
         return _cardComponentNameDictionary.TryGetValue(name, out cardComponent);
+    }
+
+    public bool TryGetCardComponent<T>(out T cardComponent) where T : CardComponent
+    {
+        bool success = TryGetCardComponent(typeof(T), out CardComponent result);
+
+        if (success)
+        {
+            cardComponent = result as T;
+        }
+        else
+        {
+            cardComponent = null;
+        }
+
+        return success;
     }
 
     public bool TryGetCardComponent(Type type, out CardComponent cardComponent)
@@ -491,7 +502,18 @@ public class Card : GUIDScriptableObject
 
     public bool TryGetCardComponents<T>(out T[] cardComponents) where T : CardComponent
     {
-        return TryGetCardComponents(out cardComponents);
+        bool success = TryGetCardComponents(typeof(T), out CardComponent[] result);
+
+        if (success)
+        {
+            cardComponents = result as T[];
+        }
+        else
+        {
+            cardComponents = null;
+        }
+
+        return success;
     }
 
     public bool TryGetCardComponents(Type type, out CardComponent[] cardComponents)

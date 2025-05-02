@@ -137,61 +137,62 @@ public class IndicatorManager : MonoBehaviour
         }
         */
 
-        if (c.GetCardComponent<CardAttack>() != null)
+        if (!c.TryGetCardComponents(out CardAttack[] components)) return;
+
+        foreach (CardAttack attack in components)
         {
-
-            foreach(CardAttack attack in c.GetCardComponents<CardAttack>())
+            switch (attack.TargetFilter.Team)
             {
-
                 //mot båda
-                if(attack.TargetFilter.Team == TargetFilter.FilterTeam.All)
-                {
+                case TargetFilter.FilterTeam.Chosen:
+                case TargetFilter.FilterTeam.Random:
+                case TargetFilter.FilterTeam.All:
                     dmgToPlayer += attack.TotalDamage;
                     dmgToEnemy = attack.TotalDamage;
-                }
+                    break;
 
                 //mot player
-                if (attack.TargetFilter.Team == TargetFilter.FilterTeam.Own)
-                {
+                case TargetFilter.FilterTeam.Own:
                     dmgToPlayer += attack.TotalDamage;
-                }
+                    break;
+
                 //mot enemy
-                if(attack.TargetFilter.Team == TargetFilter.FilterTeam.Opponent)
-                {
+                case TargetFilter.FilterTeam.Opponent:
                     dmgToEnemy = attack.TotalDamage;
-                }
+                    break;
             }
         }
-
     }
 
     private void ReadHealing(Card c)
     {
         if (c == null) return;
 
-        if (c.GetCardComponent<CardHeal>() != null)
+        if (!c.TryGetCardComponents(out CardHeal[] components)) return;
+
+        foreach (CardHeal heal in components)
         {
-
-            foreach (CardHeal heal in c.GetCardComponents<CardHeal>())
+            switch (heal.TargetFilter.Team)
             {
-                if(heal.TargetFilter.Team == TargetFilter.FilterTeam.All)
-                {
+                //mot båda
+                case TargetFilter.FilterTeam.Chosen:
+                case TargetFilter.FilterTeam.Random:
+                case TargetFilter.FilterTeam.All:
                     healToPlayer += heal.TotalHealing;
                     healToEnemy += heal.TotalHealing;
-                }
+                    break;
 
-                if (heal.TargetFilter.Team == TargetFilter.FilterTeam.Own)
-                {
+                //mot player
+                case TargetFilter.FilterTeam.Own:
                     healToPlayer += heal.TotalHealing;
-                }
+                    break;
 
-                if (heal.TargetFilter.Team == TargetFilter.FilterTeam.Opponent)
-                {
+                //mot enemy
+                case TargetFilter.FilterTeam.Opponent:
                     healToEnemy += heal.TotalHealing;
-                }
+                    break;
             }
         }
-
     }
 
 }

@@ -26,11 +26,13 @@ public class CardHand : MonoBehaviour
     [SerializeField]
     private int amountToDraw = 6;
 
+    private int amountSelectedForDiscard;
+
     [SerializeField]
     private int defaultSelectedCardsLimit = 3;
     public int CurrentSelectedCardsLimit { get; set; }
 
-    private int amountBindingCardsInHand;
+    //private int amountBindingCardsInHand;
 
     [Space]
     [SerializeField]
@@ -665,9 +667,12 @@ public class CardHand : MonoBehaviour
                 break;
         }
 
-        int amountToDrawNextTurn = Mathf.Max(0, amountToDraw - count - amountBindingCardsInHand);
+        //int amountToDrawNextTurn = Mathf.Max(0, amountToDraw - count - amountBindingCardsInHand);
+        amountSelectedForDiscard = Mathf.Max(amountToDraw - cardsInHand.Count, count);
+        //Debug.Log(amountToDrawNextTurn);
+
         selectingCardsText.text = string.Format(format, count, CurrentSelectedCardsLimit == 0 ? "infinite" : CurrentSelectedCardsLimit,
-            amountToDrawNextTurn, amountToDrawNextTurn != 1 ? "s" : "");
+            amountSelectedForDiscard, amountSelectedForDiscard != 1 ? "s" : "");
     }
 
     public CardObject DrawCard(bool updateCurrentIndex = true) => DrawCard(deck.DrawNext());
@@ -764,7 +769,8 @@ public class CardHand : MonoBehaviour
         // Draw cards in sorted order
         List<Card> cardsToDraw = new();
 
-        for (int i = count; i < amountToDraw; i++)
+        int cardsToDrawCount = Mathf.Max(amountToDraw - count, amountSelectedForDiscard);
+        for (int i = 0; i < cardsToDrawCount; i++)
         {
             if (!deck.CanDrawNext())
             {
@@ -810,21 +816,29 @@ public class CardHand : MonoBehaviour
 
     public void EmptyHand()
     {
-        CurrentIndex = 0;
-
         for (int i = cardsInHand.Count - 1; i >= 0; i--)
         {
             CardObject cardObj = cardsInHand[i];
 
             if (
-                ((cardObj.HasTag(CardManager.BindingTag))
-                || 
-                (SelectingCards && SelectingCardsState == SelectionState.Discard && selectedCards.Contains(cardObj)))
+                (cardObj.HasTag(CardManager.BindingTag)
+                ||
+                (SelectingCards && SelectingCardsState == SelectionState.Discard && !selectedCards.Contains(cardObj)))
                 && 
                 cardObj.OnKeptAfterDiscard()
                 )
             {
                 continue;
+            }
+
+            if (currentIndex == i)
+            {
+                currentIndex--;
+
+                if (currentIndex < 0)
+                {
+                    currentIndex = 0;
+                }
             }
 
             cardObj.Canvas.sortingOrder -= startSortingOrder;
@@ -1020,7 +1034,7 @@ public class CardHand : MonoBehaviour
         selectedCards.Clear();
         SelectedCardsCount = 0;
 
-        amountBindingCardsInHand = 0;
+        //amountBindingCardsInHand = 0;
 
         foreach (CardObject cardObj in cardsInHand)
         {
@@ -1038,10 +1052,12 @@ public class CardHand : MonoBehaviour
                 }
             }
 
+            /*
             if (cardObj.Card.HasTag(CardManager.BindingTag))
             {
                 amountBindingCardsInHand++;
             }
+            */
 
             cardObj.ToggleSelectable(!disable);
             cardObj.ToggleDarkOverlay(disable);
