@@ -8,17 +8,23 @@ public class NativeKeyboardInputManager : MonoBehaviour
 {
     [SerializeField] public TMP_Text dragonName;
     private TouchScreenKeyboard keyboard;
-    private bool placeName;
+    private bool canNameBeSet;
     public bool forCompUse;
 
     void Start()
     {
-        placeName = true;
         dragonName.text = DragonActive.dragonName;
 
         if (!DragonActive.isDragonActive)
         {
             dragonName.text = "";
+            canNameBeSet = true;
+        }
+
+        if (DragonActive.dragonName == null && DragonActive.isDragonActive)
+        {
+            forCompUse = true;
+            OpenKeyboard();
         }
     }
 
@@ -41,6 +47,12 @@ public class NativeKeyboardInputManager : MonoBehaviour
             }
         }
 
+        if (DragonActive.dragonName == null)
+        {
+            dragonName.text = "";
+            canNameBeSet = true;
+        }
+
         if (keyboard != null && keyboard.active == true || keyboard != null && TouchScreenKeyboard.visible == true)
         {
             dragonName.text = keyboard.text.Trim();
@@ -53,7 +65,7 @@ public class NativeKeyboardInputManager : MonoBehaviour
             Invoke("ClearStatusText", 1.5f);
         }
 
-        if(placeName && keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Done)
+        if(canNameBeSet && keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Done)
         {
             foreach(string alredayExistingName in DragonBookContents.GetDragonNamesInBook())
             {
@@ -74,7 +86,7 @@ public class NativeKeyboardInputManager : MonoBehaviour
             }
             else
             {
-                placeName = false;
+                canNameBeSet = false;
                 DragonActive.dragonName = dragonName.text;
             }
         }
