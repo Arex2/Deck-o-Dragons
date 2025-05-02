@@ -22,7 +22,7 @@ public class OnDragonButtonClick : MonoBehaviour
         string dragonName = gameObject.transform.GetChild(0).GetComponent<TMP_Text>().text;
         DragonBook.dragonName = dragonName;
         DragonBook.dragonElement = elementNumber;
-        GameObject.Find("PanelController").GetComponent<DragonBook>().InstantiateDragon(element);
+        GameObject.Find("PanelController").GetComponent<DragonBook>().CheckToInstantiateDragon(element);
     }
 
     public void SetElementAndElementNumber(string element, int elementNumber)

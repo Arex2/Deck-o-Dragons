@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class DragonController : MonoBehaviour
 {
@@ -51,6 +50,7 @@ public class DragonController : MonoBehaviour
                     DragonBookContents.SetNewDragonNamesAndElementsActiveInBackyard(DragonActive.dragonName, DragonActive.index);
                 }
 
+                DragonActive.isDragonActive = false;
                 Invoke("SpawnNewDragon", 4f);
             }
             else

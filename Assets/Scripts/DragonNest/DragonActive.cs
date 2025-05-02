@@ -61,7 +61,10 @@ public class DragonActive : MonoBehaviour
 
     public static void StepProgress()
     {
-        currentDragon.StepProgress();
+        if(dragonName != null)
+        {
+            currentDragon.StepProgress();
+        }
     }
 
     private void CheckForEggOrDragon()

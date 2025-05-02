@@ -5,6 +5,8 @@ using System.Numerics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class DragonBook : MonoBehaviour
 {
@@ -32,6 +34,10 @@ public class DragonBook : MonoBehaviour
     private string earth = "Chibi Earth Dragon"; // 1
     private string fire = "Chibi Fire Dragon";   // 2
     private string air = "Chibi Air Dragon";     // 3
+
+    [Header ("Position related to spawning dragons")]
+    private Vector3 leftOuterBounds = new Vector3(-1.5f, 4f, 0);
+    private Vector3 rightOuterBounds = new Vector3(1.5f, -4f, 0);
 
     private int currentPage;
     //private static List<string> dragonsInBackyard = new List<string>();
@@ -110,16 +116,16 @@ public class DragonBook : MonoBehaviour
                 switch (dragonElement)
                 {
                     case 0:
-                        InstatiateAllAcriveDragonsOnLOad(water);
+                        InstatiateDragon(water);
                         break;
                     case 1:
-                        InstatiateAllAcriveDragonsOnLOad(earth);
+                        InstatiateDragon(earth);
                         break;
                     case 2:
-                        InstatiateAllAcriveDragonsOnLOad(fire);
+                        InstatiateDragon(fire);
                         break;
                     case 3:
-                        InstatiateAllAcriveDragonsOnLOad(air);
+                        InstatiateDragon(air);
                         break;
                     default:
                         break;
@@ -143,13 +149,14 @@ public class DragonBook : MonoBehaviour
         closeButton.SetActive(true);
     }*/
 
-    private void InstatiateAllAcriveDragonsOnLOad(string element)
+    private void InstatiateDragon(string element)
     {
-        GameObject newDragon = (GameObject)Instantiate(Resources.Load(element));
+        Vector3 randomSpawnPos = new Vector3(Random.Range(leftOuterBounds.x, rightOuterBounds.x), Random.Range(leftOuterBounds.y, rightOuterBounds.y), 0);
+        GameObject newDragon = (GameObject)Instantiate(Resources.Load(element), randomSpawnPos, Quaternion.identity);
         newDragon.name = dragonName;
     }
 
-    public void InstantiateDragon(string element)
+    public void CheckToInstantiateDragon(string element)
     {
         if (DragonBookContents.GetDragonsActiveInBackyard().Contains(dragonName)) //(DragonBookContents.GetDragonsInYard().Contains(dragonName))
         {
@@ -168,8 +175,7 @@ public class DragonBook : MonoBehaviour
                 //dragonsInBackyard.Add(dragonName);
                 //dragonElementsInBackyard.Add(dragonElement);
 
-                GameObject newDragon = (GameObject)Instantiate(Resources.Load(element));
-                newDragon.name = dragonName;
+                InstatiateDragon(element);
                 CloseDragonCollection();
             }
         }
