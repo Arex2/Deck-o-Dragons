@@ -52,7 +52,7 @@ public class AttackEffect : MonoBehaviour
         //transform.DOJump(Vector3 endValue, float jumpPower, int numJumps, float duration, bool snapping)
         //transform.DOJump(b, 2, 5, desiredDuration);
         //, PathType.CatmullRom);
-
+        /*
         if (new Vector2(transform.position.x, transform.position.y) == b)
         {
             //DestroySelf();
@@ -62,6 +62,7 @@ public class AttackEffect : MonoBehaviour
             DestroySelf();
             once = true;
         }
+        */
     }
     /*
     private void GeneratePath(Vector3 startPos, Vector3 endPos)
@@ -96,7 +97,7 @@ public class AttackEffect : MonoBehaviour
 
     }
 
-    private void DestroySelf()
+    public void DestroySelf()
     {
         //instantiate explosion particle effect
         ParticleSystem g = Instantiate(explosion);

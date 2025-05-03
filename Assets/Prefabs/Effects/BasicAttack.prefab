@@ -4843,9 +4843,10 @@ GameObject:
   - component: {fileID: 6251244894255348910}
   - component: {fileID: 2916153954538124942}
   - component: {fileID: 7753408292326557458}
+  - component: {fileID: -3494314109526133110}
   m_Layer: 0
   m_Name: BasicAttack
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5045,8 +5046,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   a: {x: 0, y: -2}
   b: {x: -2, y: 1.5}
-  c: {x: -16, y: 3.4}
-  d: {x: 0, y: 3}
+  c: {x: -1.6, y: 3.4}
+  d: {x: 0, y: 3.5}
   enemy: {fileID: 0}
   explosion: {fileID: 4756486857855628924, guid: d2b2b04b7e2c6a241a1afa54185e45c2, type: 3}
 --- !u!50 &7753408292326557458
@@ -5076,3 +5077,38 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &-3494314109526133110
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3220979642805324005}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

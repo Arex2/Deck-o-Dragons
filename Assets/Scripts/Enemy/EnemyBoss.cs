@@ -159,11 +159,14 @@ public class EnemyBoss : Target
     public override void Hurt(AttackData attackData)
     {
         base.Hurt(attackData);
+        //Flyttat till on trigger enter
+        /*
         StartCoroutine(ShakeCoroutine());
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlaySFX(damageTakenSound);
         }
+        */
     }
 
     public override void OnDeath()
@@ -205,5 +208,19 @@ public class EnemyBoss : Target
         }
 
         transform.localPosition = originalPosition;
+    }
+
+    //För att trigga shake när dmg projektiler kommer tillräckligt nära
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Projectile"))
+        {
+            StartCoroutine(ShakeCoroutine());
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX(damageTakenSound);
+            }
+            collision.GetComponent<AttackEffect>().DestroySelf();
+        }
     }
 }
