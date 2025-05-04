@@ -959,8 +959,9 @@ public class CardHand : MonoBehaviour
 
     private void UpdateCardLayers()
     {
-        if (cardsInHand.Count <= 0)
+        if (cardsInHand.Count <= 0 || CurrentIndex >= cardsInHand.Count)
             return;
+
 
         //v�nstra sidan fr�n selected index
         for (int i = 0; i < CurrentIndex; i++)
@@ -969,12 +970,12 @@ public class CardHand : MonoBehaviour
             //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (selectedIndex - i);
         }
         //selected index
-        cardsInHand[CurrentIndex].Canvas.sortingOrder = 1;
+            cardsInHand[CurrentIndex].Canvas.sortingOrder = 1;
         //cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 1;
         //h�gra sidan fr�n selected index
         for (int i = CurrentIndex+1; i < cardsInHand.Count;i++)
         {
-            cardsInHand[i].Canvas.sortingOrder = -1 * (i -(CurrentIndex) + 1);
+                cardsInHand[i].Canvas.sortingOrder = -1 * (i -(CurrentIndex) + 1);
             //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (i - (selectedIndex) + 1);
         }
 
