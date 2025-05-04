@@ -25,6 +25,12 @@ public class UpgradeableInt : UpgradeableNumber<int>
 
     protected override int DivideMethod(int a, int b)
     {
+        if (b == 0)
+        {
+            Debug.LogWarning("Diving by zero!");
+            return 0;
+        }
+
         return a / b;
     }
 

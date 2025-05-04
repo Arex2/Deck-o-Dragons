@@ -65,9 +65,8 @@ public class TagDataPropertyDrawer : PropertyDrawer
     {
         if (_list == null)
         {
-            _list = new ReorderableList(property.serializedObject, property);
+            _list = new ReorderableList(property.serializedObject, property, true, false, true, true);
             _list.drawElementCallback = DrawElementCallback;
-            _list.headerHeight = 0;
             _list.elementHeight = EditorGUIUtility.singleLineHeight;
         }
         else

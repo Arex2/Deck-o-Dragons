@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Collections;
 
 /// <summary>
 /// The base property drawer script for every Upgradeable property drawer like <see cref="UpgradeablePropertyDrawer"/> and <see cref="UpgradeableNumberPropertyDrawer{T}"/>.
@@ -14,8 +15,12 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
     protected static bool showExtraProperties => SessionState.GetBool(SHOW_EXTRA_PROPERTIES_NAME, false);
 
     private static readonly FieldInfo _genericMenuItemsField = typeof(GenericMenu).GetField("m_MenuItems", BindingFlags.NonPublic | BindingFlags.Instance);
+    
     private static readonly Type _genericMenuItemType = typeof(GenericMenu).GetNestedType("MenuItem", BindingFlags.NonPublic);
     private static readonly FieldInfo _genericMenuItemContentField = _genericMenuItemType.GetField("content", BindingFlags.Public | BindingFlags.Instance);
+    private static readonly FieldInfo _genericMenuItemSeparatorField = _genericMenuItemType.GetField("separator", BindingFlags.Public | BindingFlags.Instance);
+    //private static readonly FieldInfo _genericMenuItemFuncField = _genericMenuItemType.GetField("func", BindingFlags.Public | BindingFlags.Instance);
+
     private static readonly MethodInfo _loopThroughAllMenuItemsInList = typeof(UpgradeableBasePropertyDrawer<T>).GetMethod(nameof(LoopThroughAllMenuItemsInList), BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(_genericMenuItemType);
 
     private T _oldValue;
@@ -276,7 +281,6 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
             menu.AddSeparator("");
 
             AddStackAndLoopOptions(menu);
-            return;
         }
         else if (MatchesLevel(property.type))
         {
@@ -314,8 +318,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
                 }
             };
 
-            object list = _genericMenuItemsField.GetValue(menu);
-            _loopThroughAllMenuItemsInList.Invoke(null, new object[] { list, callback });
+            _loopThroughAllMenuItemsInList.Invoke(null, new object[] { _genericMenuItemsField.GetValue(menu), callback, null });
 
             SerializedProperty array = property.serializedObject.FindProperty(fixedPath);
             int arraySize = array.arraySize;
@@ -332,21 +335,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
             void SwapWith(int otherIndex)
             {
-                SerializedProperty otherProp = array.GetArrayElementAtIndex(otherIndex);
-
-                SerializedProperty valueProp = property.FindPropertyRelative("value");
-                SerializedProperty otherValueProp = otherProp.FindPropertyRelative("value");
-
-                float tempValue = otherValueProp.floatValue;
-                otherValueProp.floatValue = valueProp.floatValue;
-                valueProp.floatValue = tempValue;
-
-                SerializedProperty methodProp = property.FindPropertyRelative("method");
-                SerializedProperty otherMethodProp = otherProp.FindPropertyRelative("method");
-
-                int tempMethod = otherMethodProp.enumValueIndex;
-                otherMethodProp.enumValueIndex = methodProp.enumValueIndex;
-                methodProp.enumValueIndex = tempMethod;
+                array.MoveArrayElement(index, otherIndex);
 
                 property.serializedObject.ApplyModifiedProperties();
             }
@@ -366,9 +355,38 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
             AddStackAndLoopOptions(menu);
             AddMoreMenuOptions(menu, property);
 
-            return;
+            // Clean the list
+            Action<IList> listCallback = (list) =>
+            {
+                bool previousWasSeperator = false;
+                List<int> indicesToRemove = new();
+
+                int index = 0;
+                int count = 0;
+
+                foreach (object item in list)
+                {
+                    bool seperator = (bool)_genericMenuItemSeparatorField.GetValue(item);
+
+                    if (previousWasSeperator && seperator)
+                    {
+                        indicesToRemove.Add(index);
+                        count++;
+                    }
+
+                    previousWasSeperator = seperator;
+                }
+
+                for (int i = count - 1; i >= 0; i--)
+                {
+                    list.RemoveAt(indicesToRemove[i]);
+                }
+            };
+
+            _loopThroughAllMenuItemsInList.Invoke(null, new object[] { _genericMenuItemsField.GetValue(menu), null, listCallback });
         }
 
+        /*
         lastDotIndex = property.propertyPath.LastIndexOf('.');
 
         if (lastDotIndex < 0)
@@ -389,14 +407,17 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
         menu.AddSeparator("");
 
         AddStackAndLoopOptions(menu);
+        */
     }
 
-    private static void LoopThroughAllMenuItemsInList<T2>(List<T2> list, Action<object> callback)
+    private static void LoopThroughAllMenuItemsInList<T2>(List<T2> list, Action<object> callback, Action<IList> listCallback)
     {
         foreach (T2 item in list)
         {
             callback?.Invoke(item);
         }
+
+        listCallback?.Invoke(list);
     }
 
     // TODO: Add a clean list method

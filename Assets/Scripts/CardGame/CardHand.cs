@@ -93,7 +93,7 @@ public class CardHand : MonoBehaviour
     [SerializeField] CardObject cardPrefab;
     //[SerializeField] Card testCard;
     DeckManager deck;
-    Vector3 cardPlayPosition = new Vector3(0, 0.5f, 0);
+    public Vector3 cardPlayPosition = new Vector3(0, 0.5f, 0);
     List<CardObject> cardsInHand = new List<CardObject>();
     //List<CardObject> cardsSelected = new List<CardObject>();
 
@@ -710,7 +710,7 @@ public class CardHand : MonoBehaviour
         int count = cardsInHand.Count;
         int index;
 
-        CardObject selectedCard = count > 0 ? cardsInHand[CurrentIndex] : null;
+        CardObject selectedCard = count > 0 && currentIndex < count ? cardsInHand[CurrentIndex] : null;
 
         // Stolen from: https://stackoverflow.com/questions/12172162/how-to-insert-item-into-list-in-order
         if (count <= 0 || CardSorter.Instance.Compare(cardsInHand[count - 1], cardObj) <= 0)
@@ -959,9 +959,9 @@ public class CardHand : MonoBehaviour
 
     private void UpdateCardLayers()
     {
-        if (cardsInHand.Count <= 0 || CurrentIndex >= cardsInHand.Count)
+        int count = cardsInHand.Count;
+        if (count <= 0 || CurrentIndex < 0 || CurrentIndex >= count)
             return;
-
 
         //v�nstra sidan fr�n selected index
         for (int i = 0; i < CurrentIndex; i++)
@@ -970,16 +970,16 @@ public class CardHand : MonoBehaviour
             //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (selectedIndex - i);
         }
         //selected index
-            cardsInHand[CurrentIndex].Canvas.sortingOrder = 1;
+        cardsInHand[CurrentIndex].Canvas.sortingOrder = 1;
         //cardsInHand[selectedIndex].GetComponent<SpriteRenderer>().sortingOrder = 1;
         //h�gra sidan fr�n selected index
-        for (int i = CurrentIndex+1; i < cardsInHand.Count;i++)
+        for (int i = CurrentIndex+1; i < count; i++)
         {
                 cardsInHand[i].Canvas.sortingOrder = -1 * (i -(CurrentIndex) + 1);
             //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (i - (selectedIndex) + 1);
         }
 
-        int offset = startSortingOrder + cardsInHand.Count;
+        int offset = startSortingOrder + count;
 
         foreach (CardObject cardObj in cardsInHand)
         {
