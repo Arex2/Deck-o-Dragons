@@ -9,7 +9,7 @@ public class DeckViewManager : MonoBehaviour
 
     void Start()
     {
-        foreach(Card card in DeckManager.Instance.deck)
+        foreach(Card card in DeckManager.Instance.Deck)
         {
             CardViewInctance newCard = Instantiate(cardPrefab);
             newCard.setNewCard(card);

@@ -959,6 +959,9 @@ public class CardHand : MonoBehaviour
 
     private void UpdateCardLayers()
     {
+        if (cardsInHand.Count <= 0)
+            return;
+
         //v�nstra sidan fr�n selected index
         for (int i = 0; i < CurrentIndex; i++)
         {
