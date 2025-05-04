@@ -51,6 +51,9 @@ MonoBehaviour:
     maxLimit:
       Enabled: 0
       Value: 0
+  vfx:
+    tag: Attack
+    vfxs: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

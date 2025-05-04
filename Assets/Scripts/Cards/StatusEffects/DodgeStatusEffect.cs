@@ -17,6 +17,11 @@ public class DodgeStatusEffect : StatusEffect
 
     public override void OnHurt(Target attacker, AttackData attackData)
     {
+        if (attackData.SelfDamage)
+        {
+            return;
+        }
+
         if (Random.value <= Potency)
         {
             attackData.Negate("Dodged!");

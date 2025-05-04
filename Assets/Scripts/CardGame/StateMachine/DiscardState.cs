@@ -68,7 +68,7 @@ public class DiscardState : IState
             gameBehaviour.cardHand.UpdateCardPositions();
         }
 
-        if (_switchState)
+        if (_switchState && CardVFXManager.ActiveVFXCount <= 0)
         {
             BattleOverState battleOverState = BattleOverState.BattleOverCheck();
 

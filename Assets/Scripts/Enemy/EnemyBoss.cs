@@ -94,6 +94,7 @@ public class EnemyBoss : Target
             {
                 currentMana -= currentCard.Cost;
 
+                currentCard.VFXSpawnOrigin = transform.position;
                 StartCoroutine(currentCard.Play(this));
             }
         }
@@ -149,6 +150,8 @@ public class EnemyBoss : Target
         return new Bounds(transform.position, transform.localScale);
     }
 
+    public override Vector2 GetHitPosition() => transform.position;
+
     protected override void UpdateHP()
     {
         base.UpdateHP();
@@ -159,14 +162,12 @@ public class EnemyBoss : Target
     public override void Hurt(AttackData attackData)
     {
         base.Hurt(attackData);
-        //Flyttat till on trigger enter
-        /*
+
         StartCoroutine(ShakeCoroutine());
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlaySFX(damageTakenSound);
         }
-        */
     }
 
     public override void OnDeath()
@@ -210,6 +211,8 @@ public class EnemyBoss : Target
         transform.localPosition = originalPosition;
     }
 
+    /*
+    //Behövs inte med CardVFX trigger systemet - Ruben
     //För att trigga shake när dmg projektiler kommer tillräckligt nära
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -223,4 +226,5 @@ public class EnemyBoss : Target
             collision.GetComponent<AttackEffect>().DestroySelf();
         }
     }
+    */
 }

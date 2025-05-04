@@ -223,6 +223,7 @@ public abstract class Target : MonoBehaviour
     }
 
     public abstract Bounds GetWorldBounds();
+    public abstract Vector2 GetHitPosition();
 
     public virtual void OnTurnStart()
     {

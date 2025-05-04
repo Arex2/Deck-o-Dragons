@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using UnityEngine.XR;
 
-public class AttackEffect : MonoBehaviour
+public class AttackEffect : MonoBehaviour, ICardVFXComponent
 {
     [SerializeField]
     Vector2 a, b, c, d;
@@ -13,17 +12,26 @@ public class AttackEffect : MonoBehaviour
     Vector2 enemyPos;
     public Vector2 EnemyPos { set { enemyPos = value; d = enemyPos; } }
 
-
-    float desiredDuration = 2f;
+    [SerializeField]
+    float desiredDuration = 1f;
     float elapsedTime;
+    float percentageComplete;
+    [SerializeField]
+    Ease ease;
 
     //[SerializeField]
     //Vector3[] path;
+    /*
     [SerializeField]
     ParticleSystem explosion;
+    */
+    // Explosion is CardVFX instead
+    [SerializeField]
+    CardVFXReference deathVFX;
 
     private bool once;
 
+    /*
     // Start is called before the first frame update
     void Start()
     {
@@ -37,17 +45,14 @@ public class AttackEffect : MonoBehaviour
 
         //transform.DOPath(path, desiredDuration, PathType.CatmullRom);
     }
+    */
 
     // Update is called once per frame
     void Update()
     {
-        elapsedTime += Time.deltaTime;
-        float percentageComplete = elapsedTime / desiredDuration;
-
         //transform.position = Vector2.Lerp(a, b, percentageComplete);
 
-
-        transform.position = Bezier(a, b, c, d, elapsedTime);
+        transform.position = Bezier(a, b, c, d, percentageComplete);
 
         //transform.DOJump(Vector3 endValue, float jumpPower, int numJumps, float duration, bool snapping)
         //transform.DOJump(b, 2, 5, desiredDuration);
@@ -97,6 +102,7 @@ public class AttackEffect : MonoBehaviour
 
     }
 
+    /*
     public void DestroySelf()
     {
         //instantiate explosion particle effect
@@ -104,5 +110,29 @@ public class AttackEffect : MonoBehaviour
         g.transform.position = d;
         //delete self
         Destroy(gameObject,0.1f);
+    }
+    */
+
+    public void OnVFXCreated(CardVFX cardVFX)
+    {
+        a = transform.position;
+        b = a + new Vector2(Random.Range(-5, 5), Random.Range(-2, 2));
+        c = a + new Vector2(Random.Range(-5, 5), Random.Range(2, 5));
+        d = cardVFX.Target.GetHitPosition();
+    }
+
+    public IEnumerator VFXCoroutine(CardVFX cardVFX)
+    {
+        DOTween.To(() => percentageComplete, (value) => percentageComplete = value, 1, desiredDuration).SetEase(ease);
+
+        yield return new WaitForSeconds(desiredDuration);
+
+        // Instantiate explosion particle effect
+        cardVFX.SpawnVFX(deathVFX, d);
+    }
+
+    public void OnVFXDestroyed(CardVFX cardVFX)
+    {
+
     }
 }

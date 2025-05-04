@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4725707414487022372}
   m_Layer: 0
   m_Name: EnemyBoss
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,6 +51,7 @@ MonoBehaviour:
   maxHp: 20
   isLeader: 1
   immuneToStatusEffects: []
+  healthSlider: {fileID: 0}
   healthText: {fileID: 8271646347377200835}
   maxMana: 5
   cardsAvailable:
