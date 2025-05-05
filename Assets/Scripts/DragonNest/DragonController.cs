@@ -43,6 +43,10 @@ public class DragonController : MonoBehaviour
                 if(DragonActive.dragonName != null)
                 {
                     DragonBookContents.SetNewDragonNameAndTypeInBook(DragonActive.dragonName, DragonActive.index);
+                    if(SaveDragons.Instance != null)
+                    {
+                        SaveDragons.Instance.SaveDragonToFile(DragonActive.dragonName, DragonActive.index);
+                    }
                 }
 
                 if(DragonActive.dragonName != null && DragonBookContents.GetDragonsActiveInBackyard().Count < DragonBookContents.LimitOfDragons)
