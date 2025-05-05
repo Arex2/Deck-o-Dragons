@@ -46,5 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseHealth: 20
   baseMana: 5
-  healthIncrease: 5
+  healthIncrease: 3
   manaIncrease: 1

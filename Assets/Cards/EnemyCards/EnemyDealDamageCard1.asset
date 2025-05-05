@@ -20,7 +20,7 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 3
+    baseValue: 2
     stack: 1
     loopBehaviour: 1
     upgrades:
