@@ -76,7 +76,10 @@ public abstract class UpgradeableBase<T, Level>
                     break;
 
                 case LoopBehaviour.Reset:
-                    level %= length;
+                    if (length != 0)
+                    {
+                        level %= length;
+                    }
                     break;
             }
 
@@ -105,7 +108,10 @@ public abstract class UpgradeableBase<T, Level>
                         break;
 
                     case LoopBehaviour.Reset:
-                        index %= length;
+                        if (length != 0)
+                        {
+                            level %= length;
+                        }
                         break;
                 }
             }

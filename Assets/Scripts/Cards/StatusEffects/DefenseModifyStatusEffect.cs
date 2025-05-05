@@ -14,18 +14,25 @@ public class DefenseModifyStatusEffect : StatusEffect
 
     public override void OnHurt(Target attacker, AttackData attackData)
     {
+        if (attackData.Bullseye && !IsDebuff)
+        {
+            return;
+        }
+
+        if (attackData.SelfDamage && IsDebuff)
+        {
+            return;
+        }
+
         float potency = Potency * (IsDebuff ? 1f : -1f);
 
-        if (!attackData.Bullseye || IsDebuff)
+        if (PotencyIsPercent)
         {
-            if (PotencyIsPercent)
-            {
-                attackData *= 1 + potency;
-            }
-            else
-            {
-                attackData += potency;
-            }
+            attackData *= 1 + potency;
+        }
+        else
+        {
+            attackData += potency;
         }
 
         Duration--;

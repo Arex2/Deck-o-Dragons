@@ -35,7 +35,7 @@ public class PlayEnemyState : IState
 
     public virtual IState Execute()
     {
-        if (temp)
+        if (temp && CardVFXManager.ActiveVFXCount <= 0)
         {
 
             //CARDS PLAY THEMSELVES
@@ -47,11 +47,12 @@ public class PlayEnemyState : IState
 
             //check player hp
             //if player hp <= 0, return gameLost
-            //else return setupState
-            if (gameBehaviour.HP <= 0)
+
+            BattleOverState battleOverState = BattleOverState.BattleOverCheck();
+
+            if (battleOverState != null)
             {
-                Debug.Log("RETURN GAME LOST " + gameBehaviour.HP);
-                return new BattleOverState();
+                return battleOverState;
             }
             else
             {

@@ -24,12 +24,9 @@ public class StatusEffectOptionsPropertyDrawer : PropertyDrawer
             rect.height = EditorGUIUtility.singleLineHeight;
         }
 
-        Rect prefixRect = CustomEditorUtility.GetPrefixRect(rect);
+        Rect prefixRect = CustomEditorUtility.GetPrefixRect(rect, out Rect remainderRect);
         
         SerializedProperty statusEffectProp = property.FindPropertyRelative("statusEffect");
-
-        Rect remainderRect = rect;
-        remainderRect.xMin = prefixRect.xMax;
 
         EditorGUI.PropertyField(remainderRect, statusEffectProp, GUIContent.none);
 

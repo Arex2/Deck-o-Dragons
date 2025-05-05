@@ -10,76 +10,76 @@ public class DeckManager : Singleton<DeckManager>
 
     [SerializeField] private CardDeck defaultStarterDeck;
 
-    public List<Card> deck {get; private set;}
-    public Stack<Card> drawPile { get; private set; }
-    public LinkedList<Card> discardPile { get; private set; }
+    public List<Card> Deck {get; private set;}
+    public Stack<Card> DrawPile { get; private set; }
+    public LinkedList<Card> DiscardPile { get; private set; }
 
     protected override void Awake()
     {
         base.Awake();
 
-        discardPile = new LinkedList<Card>();
-        deck = new List<Card>();
+        DiscardPile = new LinkedList<Card>();
+        Deck = new List<Card>();
+        DrawPile = new Stack<Card>();
 
         InitializeDeck(defaultStarterDeck);
     }
 
     public void InitializeDeck(IEnumerable<Card> startingDeck)
     {
-        deck.Clear();
-        deck.AddRange(startingDeck);
+        Deck.Clear();
+        Deck.AddRange(startingDeck);
 
         ResetDeck();
     }
 
     public void ResetDeck()
     {
-        drawPile = new Stack<Card>(deck.Count);
-        List<Card> tempCardList = new List<Card>(deck);
-        ShuffleDrawFromList(tempCardList);
-        discardPile.Clear();
+        DrawPile.Clear();
+        ShuffleDrawFromList(new List<Card>(Deck));
+        DiscardPile.Clear();
     }
 
     public void AddCardToDeck(Card card, int copies = 1)
     {
         for (int i = 0; i < copies; i++)
         {
-            deck.Add(card);
+            Deck.Add(card);
         }
     }
 
     public void RemoveCardFromDeck(Card card)
     {
-        deck.RemoveAll((match) => match == card);
+        Deck.RemoveAll((match) => match == card);
     }
 
     public int CardCount(Card card)
     {
-        return deck.Count((match) => match == card);
+        return Deck.Count((match) => match == card);
     }
 
     public bool CanDrawNext()
     {
-        return drawPile != null && !(drawPile.Count == 0 && discardPile.Count == 0);
+        return !(DrawPile.Count == 0 && DiscardPile.Count == 0);
     }
 
     public Card DrawNext()
     {
-        if (drawPile.Count <= 0)
+        if (DrawPile.Count <= 0)
         {
-            ReshuffleDeck();
+            ResetDeck();
         }
 
-        return drawPile.Pop();
+        return DrawPile.Pop();
     }
 
     public Card DrawNextWithTag(CardTag tag)
     {
-        int count = drawPile.Count;
+        int count = DrawPile.Count;
 
         if (count <= 0)
         {
-            ReshuffleDeck();
+            ResetDeck();
         }
 
         Stack<Card> tempPile = new Stack<Card>();
@@ -96,7 +96,7 @@ public class DeckManager : Singleton<DeckManager>
                 tempPile.Push(card);
             }
 
-            card = drawPile.Pop();
+            card = DrawPile.Pop();
 
             tries++;
 
@@ -104,17 +104,17 @@ public class DeckManager : Singleton<DeckManager>
         }
         while (!hasTag && tries <= count);
 
-        void ReaddCardsToDeck()
+        void ReaddCardsToDrawPile()
         {
             foreach (Card card in tempPile)
             {
-                drawPile.Push(card);
+                DrawPile.Push(card);
             }
         }
 
         if (hasTag)
         {
-            ReaddCardsToDeck();
+            ReaddCardsToDrawPile();
             return card;
         }
 
@@ -123,40 +123,33 @@ public class DeckManager : Singleton<DeckManager>
             tempPile.Push(card);
         }
 
-        ReaddCardsToDeck();
+        ReaddCardsToDrawPile();
 
         return null;
     }
 
     public void Discard(Card card)
     {
-        discardPile.AddLast(value: card);
+        DiscardPile.AddLast(card);
     }
 
     public void InsertInDrawRandom(Card card)
     {
-        int randomIndex = Random.Range(0, drawPile.Count);
+        int randomIndex = Random.Range(0, DrawPile.Count);
 
         LinkedList<Card> drawPileHead = new LinkedList<Card>();
 
         for(int i = 0; i < randomIndex; i++)
         {
-            drawPileHead.AddFirst(drawPile.Pop());
+            drawPileHead.AddFirst(DrawPile.Pop());
         }
 
-        drawPile.Push(card);
+        DrawPile.Push(card);
 
         foreach(Card c in drawPileHead)
         {
-            drawPile.Push(c);
+            DrawPile.Push(c);
         }
-    }
-
-    private void ReshuffleDeck()
-    {
-        List<Card> tempCardList = new List<Card>(discardPile);
-        ShuffleDrawFromList(tempCardList);
-        discardPile.Clear();
     }
 
     private void ShuffleDrawFromList(List<Card> cards)
@@ -176,7 +169,7 @@ public class DeckManager : Singleton<DeckManager>
 
         foreach(Card card in cards)
         {
-            drawPile.Push(card);
+            DrawPile.Push(card);
         }
     }
 }

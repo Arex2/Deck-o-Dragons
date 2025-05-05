@@ -10,8 +10,6 @@ TagManager:
   - Mouth
   - Egg
   - Dirt
-  - Enemy
-  - Projectile
   layers:
   - Default
   - TransparentFX

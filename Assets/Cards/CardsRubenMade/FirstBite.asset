@@ -28,7 +28,8 @@ MonoBehaviour:
   maxLevel:
     Enabled: 0
     Value: 0
-  tags: []
+  tags:
+    data: []
   cardComponents:
   - {fileID: 6375763638406167516}
 --- !u!114 &6375763638406167516
@@ -82,3 +83,6 @@ MonoBehaviour:
     maxLimit:
       Enabled: 0
       Value: 0
+  vfx:
+    tag: Attack
+    vfxs: []

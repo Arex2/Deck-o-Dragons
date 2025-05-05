@@ -51,6 +51,9 @@ MonoBehaviour:
     maxLimit:
       Enabled: 0
       Value: 0
+  vfx:
+    tag: Attack
+    vfxs: []
 --- !u!114 &-1223053199875735651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +89,9 @@ MonoBehaviour:
     maxLimit:
       Enabled: 0
       Value: 0
+  vfx:
+    tag: Heal
+    vfxs: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

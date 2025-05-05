@@ -20,7 +20,7 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 3
+    baseValue: 2
     stack: 1
     loopBehaviour: 1
     upgrades:
@@ -51,6 +51,9 @@ MonoBehaviour:
     maxLimit:
       Enabled: 0
       Value: 0
+  vfx:
+    tag: Attack
+    vfxs: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -70,7 +70,7 @@ MonoBehaviour:
       Enabled: 0
       Value: 0
   attackAmount:
-    baseValue: 1
+    baseValue: 0
     stack: 1
     loopBehaviour: 1
     upgrades:
@@ -85,3 +85,7 @@ MonoBehaviour:
     maxLimit:
       Enabled: 0
       Value: 0
+  vfx:
+    tag: Attack
+    vfxs:
+    - {fileID: 0}

@@ -15,6 +15,11 @@ public class AbsorbStatusEffect : StatusEffect
 
     public override void OnHurt(Target attacker, AttackData attackData)
     {
+        if (attackData.Bullseye || attackData.SelfDamage)
+        {
+            return;
+        }
+
         if (attackData > Potency)
         {
             attackData -= Potency;

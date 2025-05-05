@@ -223,6 +223,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         _discardOnFinish = discard;
 
+        Card.VFXSpawnOrigin = CardHand.cardPlayPosition;
         _coroutine = StartCoroutine(Card.Play(user, _cardData, _tagData, Level, OnFinishPlayingCard));
     }
 

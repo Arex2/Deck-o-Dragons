@@ -100,6 +100,8 @@ public class Card : GUIDScriptableObject
     [NonSerialized]
     private bool _cachedCardComponents = false;
 
+    public Vector2 VFXSpawnOrigin { get; set; } = Vector3.zero;
+
     public void OnLoad()
     {
         TryCacheCardComponents();
@@ -239,6 +241,34 @@ public class Card : GUIDScriptableObject
     /// Returns the potency this <see cref="Card"/> has on the given <paramref name="tag"/>.
     /// </summary>
     public float GetTagPotency(CardTag tag) => Tags[tag];
+
+    #region CardVFX
+    public List<CardVFX> SpawnVFX(IEnumerable<CardVFX> enumerable) => SpawnVFX(enumerable, VFXSpawnOrigin);
+    public List<CardVFX> SpawnVFX(IEnumerable<CardVFX> enumerable, Vector3 position)
+    {
+        List<CardVFX> result = new();
+
+        foreach (CardVFX vfx in enumerable)
+        {
+            result.Add(SpawnVFX(vfx, position));
+        }
+
+        return result;
+    }
+
+    public CardVFX SpawnVFX(CardVFX cardVFX) => SpawnVFX(cardVFX, VFXSpawnOrigin);
+    public CardVFX SpawnVFX(CardVFX cardVFX, Vector3 position)
+    {
+        CardVFX vfx = CardVFXManager.SpawnVFX(cardVFX, position);
+
+        if (vfx != null)
+        {
+            vfx.SetCard(this);
+        }
+
+        return vfx;
+    }
+    #endregion
 
     #region Card Data Stuff
     public void SetCardData<T>(string key, T value) => _cardData.SetCardData(key, value);

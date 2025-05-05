@@ -24,6 +24,8 @@ MonoBehaviour:
     stack: 1
     loopBehaviour: 0
     upgrades:
+    - value: 0
+      method: 1
     - value: 1
       method: 1
     downgrades: []
@@ -36,8 +38,10 @@ MonoBehaviour:
   attackAmount:
     baseValue: 2
     stack: 1
-    loopBehaviour: 2
-    upgrades: []
+    loopBehaviour: 0
+    upgrades:
+    - value: 1
+      method: 1
     downgrades:
     - value: 0
       method: 0
@@ -49,6 +53,9 @@ MonoBehaviour:
     maxLimit:
       Enabled: 0
       Value: 0
+  vfx:
+    tag: Attack
+    vfxs: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,11 +80,12 @@ MonoBehaviour:
   canChangeLevel: 1
   minLevel:
     Enabled: 1
-    Value: -2
+    Value: -3
   maxLevel:
     Enabled: 0
     Value: 0
-  tags: []
+  tags:
+    data: []
   cardComponents:
   - {fileID: -7613602807708551334}
   - {fileID: 12205428413956754}

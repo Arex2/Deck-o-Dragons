@@ -13,6 +13,15 @@ public static class CustomEditorUtility
     private static GUIStyle _italicLabelStyle;
 
     public static Rect GetPrefixRect(Rect rect) => new Rect(rect.x + EditorGUI.indentLevel * 15, rect.y, EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15, rect.height);
+    public static Rect GetPrefixRect(Rect rect, out Rect remainderRect)
+    {
+        Rect prefixRect = GetPrefixRect(rect);
+
+        remainderRect = rect;
+        remainderRect.xMin = prefixRect.xMax;
+
+        return prefixRect;
+    }
 
     public static void DoFadedLabel(Rect rect, GUIContent label, bool italic = true)
     {

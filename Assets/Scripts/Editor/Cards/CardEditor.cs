@@ -404,8 +404,6 @@ public class CardEditor : Editor
                     rect = EditorGUILayout.GetControlRect();
 
                     Rect prefixRect = CustomEditorUtility.GetPrefixRect(rect);
-                    Rect remainer = rect;
-                    remainer.xMin += prefixRect.width;
 
                     EditorGUI.BeginProperty(rect, GUIContent.none, iterator);
                     EditorGUI.PropertyField(rect, iterator, new GUIContent("Upgrades/Downgrades"));

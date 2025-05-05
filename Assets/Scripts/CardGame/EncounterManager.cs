@@ -23,12 +23,7 @@ public class EncounterManager : MonoBehaviour
 
         if (currentEncounterIndex >= encounters.Count)
         {
-            //Increase Progression
-            if (ProgressManager.Instance != null)
-            {
-                ProgressManager.Instance.IncreaseLevel();
-                EnemyScalingManager.Instance.AdvanceScaling();
-            }
+            
               
 
           

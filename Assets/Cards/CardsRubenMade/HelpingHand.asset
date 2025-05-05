@@ -62,6 +62,7 @@ MonoBehaviour:
   maxLevel:
     Enabled: 0
     Value: 0
-  tags: []
+  tags:
+    data: []
   cardComponents:
   - {fileID: -5908546219856521039}
