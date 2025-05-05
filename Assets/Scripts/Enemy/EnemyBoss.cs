@@ -44,9 +44,12 @@ public class EnemyBoss : Target
         if (EnemyScalingManager.Instance != null)
         {
             maxMana = EnemyScalingManager.Instance.GetScaledMana();
+            MaxHP = EnemyScalingManager.Instance.GetScaledHealth();
+            
         }
         healthTextFormat = healthText.text;
         healthSlider.maxValue = MaxHP;
+        HP = MaxHP;
         UpdateHP();
         originalPosition = transform.localPosition;
          spriteRenderer = GetComponent<SpriteRenderer>();
@@ -74,7 +77,6 @@ public class EnemyBoss : Target
     public void StartTurn()
     {
         currentMana = maxMana;
-        print(currentMana);
         PlayCards();
     }
 
@@ -94,6 +96,7 @@ public class EnemyBoss : Target
             {
                 currentMana -= currentCard.Cost;
 
+                currentCard.VFXSpawnOrigin = transform.position;
                 StartCoroutine(currentCard.Play(this));
             }
         }
@@ -149,6 +152,8 @@ public class EnemyBoss : Target
         return new Bounds(transform.position, transform.localScale);
     }
 
+    public override Vector2 GetHitPosition() => transform.position;
+
     protected override void UpdateHP()
     {
         base.UpdateHP();
@@ -159,6 +164,7 @@ public class EnemyBoss : Target
     public override void Hurt(AttackData attackData)
     {
         base.Hurt(attackData);
+
         StartCoroutine(ShakeCoroutine());
         if (AudioManager.Instance != null)
         {
@@ -169,7 +175,11 @@ public class EnemyBoss : Target
     public override void OnDeath()
     {
         base.OnDeath();
-        ProgressManager.Instance.IncreaseLevel();
+        if (EnemyScalingManager.Instance != null && ProgressManager.Instance != null)
+        {
+            ProgressManager.Instance.IncreaseLevel();
+            EnemyScalingManager.Instance.AdvanceScaling();
+        }
         StartCoroutine(RotateOverTime(Quaternion.Euler(0, 0, 90), 0.3f));
     }
 
@@ -206,4 +216,21 @@ public class EnemyBoss : Target
 
         transform.localPosition = originalPosition;
     }
+
+    /*
+    //Behövs inte med CardVFX trigger systemet - Ruben
+    //För att trigga shake när dmg projektiler kommer tillräckligt nära
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Projectile"))
+        {
+            StartCoroutine(ShakeCoroutine());
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX(damageTakenSound);
+            }
+            collision.GetComponent<AttackEffect>().DestroySelf();
+        }
+    }
+    */
 }

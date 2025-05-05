@@ -10,7 +10,7 @@ public class SongLayer : ScriptableObject
     {
         get
         {
-            return intro.loadState == AudioDataLoadState.Loaded && loop.loadState == AudioDataLoadState.Loaded;
+            return (intro == null || intro.loadState == AudioDataLoadState.Loaded) && (loop == null || loop.loadState == AudioDataLoadState.Loaded);
         }
     }
 

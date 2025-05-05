@@ -36,8 +36,8 @@ MonoBehaviour:
   m_Name: Base Layer
   m_EditorClassIdentifier: 
   song: {fileID: 11400000}
-  intro: {fileID: 8300000, guid: 93c762444de38c84a8bb639cbc223226, type: 3}
-  loop: {fileID: 8300000, guid: 710dc4ef6720e3843bb327fa5c62ab4a, type: 3}
+  intro: {fileID: 8300000, guid: ca8b6a0eadc37e347b2caf437a8a9307, type: 3}
+  loop: {fileID: 8300000, guid: 567aa937fa3a0124482708a5deac594f, type: 3}
 --- !u!114 &9044496262593945899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,5 +51,5 @@ MonoBehaviour:
   m_Name: Drums
   m_EditorClassIdentifier: 
   song: {fileID: 11400000}
-  intro: {fileID: 0}
-  loop: {fileID: 0}
+  intro: {fileID: 8300000, guid: fcb4577096b41e6419f70111539bbf2a, type: 3}
+  loop: {fileID: 8300000, guid: dbb833af164afa645ba733272a75e04d, type: 3}

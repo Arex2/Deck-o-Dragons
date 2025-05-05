@@ -1,28 +1,22 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class DragonController : MonoBehaviour
 {
-    public DragonActive dragonActive;
+    private DragonActive dragonActive;
     private Slider evolutionSlider;
-    //private TMP_Text statusText;
-    //[SerializeField] private GameObject drakPrefab;
     [SerializeField] private Vector2 eggStart = Vector2.zero;
 
     private void Awake()
     {
-        //DontDestroyOnLoad(drakPrefab);
         dragonActive = GameObject.Find("DragonActive").GetComponent<DragonActive>();
         evolutionSlider = GameObject.Find("EvolutionSlider").GetComponent<Slider>();
-        //statusText = GameObject.Find("CompleteTraining_Text").GetComponent<TMP_Text>();
 
         evolutionSlider.minValue = 0;
         evolutionSlider.maxValue = 3;
         evolutionSlider.value = DragonActive.evolutionProcess;
 
-        //statusText.text = "";
         DragonActive.currentDragon = this;
     }
 
@@ -32,11 +26,6 @@ public class DragonController : MonoBehaviour
         {
             SpawnNewDragon();
         }
-
-        /*if (!DragonActive.isDragonActive)
-        {
-            statusText.text = "";
-        }*/
     }
 
     public void StepProgress()
@@ -50,9 +39,19 @@ public class DragonController : MonoBehaviour
             if (DragonActive.age == 3)
             {
                 DragonActive.statusText.text = "Congratulations! " + DragonActive.dragonName + " has completed their training and will be added to your registry!";
-                DragonBookContents.SetNewDragonNameAndType(DragonActive.dragonName, DragonActive.index);
-                SaveDragons.Instance.SaveDragonToFile(DragonActive.dragonName, DragonActive.index);
-                Invoke("SpawnNewDragon", 6f);
+
+                if(DragonActive.dragonName != null)
+                {
+                    DragonBookContents.SetNewDragonNameAndTypeInBook(DragonActive.dragonName, DragonActive.index);
+                }
+
+                if(DragonActive.dragonName != null && DragonBookContents.GetDragonsActiveInBackyard().Count < DragonBookContents.LimitOfDragons)
+                {
+                    DragonBookContents.SetNewDragonNamesAndElementsActiveInBackyard(DragonActive.dragonName, DragonActive.index);
+                }
+
+                DragonActive.isDragonActive = false;
+                Invoke("SpawnNewDragon", 4f);
             }
             else
             {
@@ -80,7 +79,6 @@ public class DragonController : MonoBehaviour
         {
             Instantiate(dragonActive.egg, eggStart, Quaternion.identity);
             DragonActive.age = 0;
-            //statusText.text = "";
         }
         else
         {

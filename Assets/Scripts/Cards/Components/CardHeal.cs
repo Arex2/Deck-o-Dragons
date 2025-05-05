@@ -27,7 +27,7 @@ public class CardHeal : CardComponent
     /// <summary>
     /// How much healing this component will give, does not account for <see cref="HealingMultiplier"/>.
     /// </summary>
-    public float Healing => healing[Level] * HealingMultiplier;
+    public float Healing => healing[Level];
 
     public override TargetFilter TargetFilter => targetFilter;
     [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Own, TargetFilter.FilterMode.Leader);
@@ -35,11 +35,36 @@ public class CardHeal : CardComponent
     [Space]
     [SerializeField] private UpgradeableFloat healing = new(2);
 
+    [Space]
+    [SerializeField] private CardVFXReference vfx = new("Heal");
+
     public override void Play(List<Target> targets)
     {
         foreach (Target target in targets)
         {
-            target.Heal(new(Healing));
+            bool addedActionToVFX = false;
+
+            // VFX
+            foreach (CardVFX vfx in SpawnVFX(vfx))
+            {
+                if (vfx == null)
+                {
+                    continue;
+                }
+
+                vfx.SetTarget(target);
+
+                if (vfx.TriggersActions && !addedActionToVFX)
+                {
+                    vfx.AddAction((cardVFX) => target.Heal(new(TotalHealing)));
+                    addedActionToVFX = true;
+                }
+            }
+
+            if (!addedActionToVFX)
+            {
+                target.Heal(new(TotalHealing));
+            }
         }
     }
 

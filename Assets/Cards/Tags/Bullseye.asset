@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 7a64935662935214796f0f6d78b32650
   displayName: Bullseye
-  description: Can't miss. Will always deal full damage and bypass any  defense boosts
+  description: Can't miss. Will always deal full damage and bypass any defense boosts
     or damage reduction.
   hidden: 0
   hasPotency: 0

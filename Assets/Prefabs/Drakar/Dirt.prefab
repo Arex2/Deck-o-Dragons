@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8728821178087714569}
   - component: {fileID: 2012706628350972522}
-  - component: {fileID: 2461715698181737801}
   - component: {fileID: 8048471040675207706}
   m_Layer: 0
   m_Name: Dirt
@@ -29,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.51, y: -2.22, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,8 +73,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
-  m_Sprite: {fileID: -759610999, guid: 4e52ff9e091d94b498d788255d736130, type: 3}
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: 4fb5faded19be0e48a66ef41251f715f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,29 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2461715698181737801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2046779752237185758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 788d7e88f912c4043a8474bfe5d24bb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dirtLevel:
-  - {fileID: -759610999, guid: 4e52ff9e091d94b498d788255d736130, type: 3}
-  - {fileID: 498611172, guid: 4e52ff9e091d94b498d788255d736130, type: 3}
-  - {fileID: 718957623, guid: 4e52ff9e091d94b498d788255d736130, type: 3}
-  stageTimes:
-  - 1
-  - 2
-  - 3
-  brushingSound: {fileID: 8300000, guid: 593bfc056d9d4644a87e82e2b844ba9b, type: 3}
-  finishedSound: {fileID: 8300000, guid: 7d2c97c1852415941b12e4380f80f979, type: 3}
-  cleanParticles: {fileID: 0}
 --- !u!61 &8048471040675207706
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -145,7 +121,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.84}
+    oldSize: {x: 1.56, y: 1.2}
     newSize: {x: 0.64, y: 0.84}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

@@ -25,6 +25,12 @@ public class UpgradeableFloatPropertyDrawer : UpgradeableNumberPropertyDrawer<fl
 
     protected override float DivideMethod(float a, float b)
     {
+        if (b == 0)
+        {
+            Debug.LogWarning("Diving by zero!");
+            return 0;
+        }
+
         return a / b;
     }
 

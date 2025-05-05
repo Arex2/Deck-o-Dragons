@@ -29,6 +29,12 @@ MonoBehaviour:
     downgrades:
     - value: 1
       method: 1
+    minLimit:
+      Enabled: 0
+      Value: 0
+    maxLimit:
+      Enabled: 0
+      Value: 0
   attackAmount:
     baseValue: 1
     stack: 1
@@ -39,6 +45,15 @@ MonoBehaviour:
     downgrades:
     - value: 0
       method: 1
+    minLimit:
+      Enabled: 0
+      Value: 0
+    maxLimit:
+      Enabled: 0
+      Value: 0
+  vfx:
+    tag: Attack
+    vfxs: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,8 +74,19 @@ MonoBehaviour:
   element: 0
   category: 1
   rarity: 0
+  copies: 1
+  canChangeLevel: 0
+  minLevel:
+    Enabled: 0
+    Value: 0
+  maxLevel:
+    Enabled: 0
+    Value: 0
   tags:
-  - {fileID: 11400000, guid: 789701f024d709f41ab3f63be0739412, type: 2}
-  - {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
+    data:
+    - tag: {fileID: 11400000, guid: 789701f024d709f41ab3f63be0739412, type: 2}
+      potency: 0
+    - tag: {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
+      potency: 0
   cardComponents:
   - {fileID: -1860155053858908950}

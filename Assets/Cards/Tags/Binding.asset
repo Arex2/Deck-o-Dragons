@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d278b8117b8ad4e8021ff314b1c628, type: 3}
+  m_Name: Binding
+  m_EditorClassIdentifier: 
+  guid: c5733c034e166df48abbe0a5568b6a18
+  displayName: Binding
+  description: This card cannot be discarded, eaten or sacrificed.
+  potencyDescription: This card cannot be discarded, eaten or sacrificed for {0}
+    turns
+  hidden: 0
+  isCurse: 1
+  hasPotency: 1
+  potencyFormat: '{0} turns'
+  potencyFormatSingle:
+    Enabled: 1
+    Value: '{0} turn'

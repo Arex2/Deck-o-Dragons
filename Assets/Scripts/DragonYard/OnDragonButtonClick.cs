@@ -6,19 +6,10 @@ using UnityEngine.UI;
 
 public class OnDragonButtonClick : MonoBehaviour
 {
-    //DragonBook drBook; // = new DragonBook();
     private Button button;
     private string element;
-    //public GameObject furniture;
-    //public Receiver recevier;
+    private int elementNumber;
 
-    /*public OnDragonButtonClick()
-    {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(PassObjectToAnotherScript);
-    }*/
-
-    // Start is called before the first frame update
     void Start()
     {
         button = GetComponent<Button>();
@@ -26,46 +17,17 @@ public class OnDragonButtonClick : MonoBehaviour
         //button.onClick.AddListener(DragonBook.InstantiateDragon(GetButton());
     }
 
-    /*private Button GetButton()
-    {
-        return button;
-    }*/
-
     private void PassObjectToAnotherScript()
     {
-        //Code to pass the object to another C# script
-        //recevier.PassedGameObject = furniture;
         string dragonName = gameObject.transform.GetChild(0).GetComponent<TMP_Text>().text;
-        //DragonBook.InstantiateDragon(dragonName);
-        //drBook = new DragonBook();
-        //drBook.ShowAskToAddDragon();
-
         DragonBook.dragonName = dragonName;
-        //GameObject.Find("PanelController").GetComponent<DragonBook>().ShowAskToAddDragon();
-        GameObject.Find("PanelController").GetComponent<DragonBook>().InstantiateDragon(element);
-
-        //DragonBook.ShowAskToAddDragon();
-        //drBook.InstantiateDragon(dragonName);
-        //Invoke("DestroyDragonBook", 0.5f);
+        DragonBook.dragonElement = elementNumber;
+        GameObject.Find("PanelController").GetComponent<DragonBook>().CheckToInstantiateDragon(element);
     }
 
-    public void SetElement(string element)
+    public void SetElementAndElementNumber(string element, int elementNumber)
     {
         this.element = element;
+        this.elementNumber = elementNumber;
     }
-
-    /*private void PassObjectToAnotherScript()
-    {
-        //Code to pass the object to another C# script
-        //recevier.PassedGameObject = furniture;
-        string dragonName = gameObject.transform.GetChild(0).GetComponent<TMP_Text>().text;
-        //DragonBook.InstantiateDragon(dragonName);
-        drBook.InstantiateDragon(dragonName);
-        Invoke("DestroyDragonBook", 0.5f);
-    }*/
-
-    /*private void DestroyDragonBook()
-    {
-        Destroy(drBook, 0f);
-    }*/
 }

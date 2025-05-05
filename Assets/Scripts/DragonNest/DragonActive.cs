@@ -8,23 +8,22 @@ using TMPro;
 
 public class DragonActive : MonoBehaviour
 {
+    [Header ("Script instances")]
     private static DragonActive DrActInstance;
+    public static DragonController currentDragon;
 
+    [Header ("Dragon collection lists (prefabs)")]
     [SerializeField] public GameObject egg;
     [SerializeField] public GameObject[] babyDragons;
     [SerializeField] public GameObject[] teenDragons;
     [SerializeField] public GameObject[] adultDragons;
-    //public DragonActive dragonActive;
 
-    public static DragonController currentDragon;
-    //private Slider evolutionSlider;
+    [Header ("Variables")]
     public static TMP_Text statusText;
-    //public static TMP_Text dragonName;
-    //public static GameObject drPref;
     public static string dragonName;
-    public static bool isDragonActive; //används i Egg & TextInputManager
+    public static bool isDragonActive;  //används i Egg & TextInputManager
     public static bool doCheck;
-    public static int index; //element
+    public static int index;            //element
     public static int age;
     public static int evolutionProcess; //sliderprogress
 
@@ -39,10 +38,6 @@ public class DragonActive : MonoBehaviour
             Destroy(gameObject);
         }
 
-        /*evolutionSlider.minValue = 0;
-        evolutionSlider.maxValue = 3;
-        evolutionSlider.value = 0;*/
-
         statusText = GameObject.Find("Status_Text").GetComponent<TMP_Text>();
         statusText.text = "";
 
@@ -51,28 +46,6 @@ public class DragonActive : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        /*if (SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            Debug.Log("Buildindex är 1");
-
-            if (!DragonActive.dragonActive)
-            {
-                Instantiate(egg, new Vector3(0, 0, 0), Quaternion.identity);
-                //Egg.SpawnEgg(egg);
-                Debug.Log("ägg borde finnas");
-            }
-            else if(DragonActive.dragonActive)
-            {
-                Debug.Log("drake finns");
-                SpawnDragons();
-            }
-        }*/
-    }
-
-    // Update is called once per frame
     void LateUpdate()
     {
         if(doCheck)
@@ -81,9 +54,6 @@ public class DragonActive : MonoBehaviour
             {
                 CheckForEggOrDragon();
                 doCheck = false;
-                /*evolutionSlider = GameObject.Find("EvolutionSlider").GetComponent<Slider>();
-                statusText = GameObject.Find("CompleteTraining_Text").GetComponent<TMP_Text>();*/
-
                 currentDragon = FindObjectOfType<DragonController>();
             }
         }
@@ -91,7 +61,10 @@ public class DragonActive : MonoBehaviour
 
     public static void StepProgress()
     {
-        currentDragon.StepProgress();
+        if(dragonName != null)
+        {
+            currentDragon.StepProgress();
+        }
     }
 
     private void CheckForEggOrDragon()
@@ -100,7 +73,6 @@ public class DragonActive : MonoBehaviour
         {
             Instantiate(egg, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
             //TextInputManager.dragonName.text = "";
-            //Egg.SpawnEgg(egg);
         }
         else if(isDragonActive)
         {

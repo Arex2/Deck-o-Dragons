@@ -42,6 +42,9 @@ public class CardAttack : CardComponent
     [SerializeField] private UpgradeableFloat damage = new(3, 1);
     [SerializeField] private UpgradeableInt attackAmount = new(1);
 
+    [Space]
+    [SerializeField] private CardVFXReference vfx = new("Attack");
+
     public override void Play(List<Target> targets)
     {
 
@@ -52,24 +55,39 @@ public class CardAttack : CardComponent
         float damage = Damage * DamageMultiplier;
         int attackAmount = AttackAmount;
 
-        bool bullseye = false;
-
-        foreach (CardTag tag in CardManager.BullseyeTags)
-        {
-            if (card.HasTag(tag))
-            {
-                bullseye = true;
-                break;
-            }
-        }
+        bool bullseye = HasTag(CardManager.BullseyeTag);
 
         void DoDamage(Target target)
         {
-            AttackData data = new(damage, bullseye);
+            AttackData data = new(damage, bullseye, target == User);
 
             User.DoAttack(target, data);
 
-            target.Hurt(User, data);
+            Target user = User;
+
+            bool addedActionToVFX = false;
+
+            // VFX
+            foreach (CardVFX vfx in SpawnVFX(vfx))
+            {
+                if (vfx == null)
+                {
+                    continue;
+                }
+
+                vfx.SetTarget(target);
+
+                if (vfx.TriggersActions && !addedActionToVFX)
+                {
+                    vfx.AddAction((cardVFX) => target.Hurt(user, data));
+                    addedActionToVFX = true;
+                }
+            }
+
+            if (!addedActionToVFX)
+            {
+                target.Hurt(user, data);
+            }
         }
 
         IEnumerator HurtTarget(Target target)

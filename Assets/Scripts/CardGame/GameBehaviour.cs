@@ -66,6 +66,15 @@ public class GameBehaviour : Target
     [SerializeField]
     private ScreenShake screenShake;
 
+    [Space]
+    [SerializeField]
+    private
+#if UNITY_EDITOR
+        new
+#endif
+        Camera camera;
+    [SerializeField] private RectTransform hitPositionRect;
+
     //Reference to enemy script
     /*
     [SerializeField]
@@ -165,7 +174,7 @@ public class GameBehaviour : Target
         hpSlider.value = HP; 
         //StartCoroutine(UpdateHealthBar());
         playerHealthText.text = HP.ToString();
-        indicatorManager.ClearIndicators();
+        //indicatorManager.ClearIndicators();
     }
 
     //Verkade som att det redan var någon incrimental effekt på slidern/hpBaren
@@ -230,6 +239,8 @@ public class GameBehaviour : Target
             return true;
         else return false;
     }
+
+    public override Vector2 GetHitPosition() => camera.ScreenToWorldPoint(hitPositionRect.position);
 
     /*
     public void NewEncounter()

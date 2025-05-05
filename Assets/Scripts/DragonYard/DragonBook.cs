@@ -5,16 +5,23 @@ using System.Numerics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class DragonBook : MonoBehaviour
 {
     [SerializeField] private GameObject dragonCollection;
-    [SerializeField] private GameObject closeButton;
+    [SerializeField] private GameObject dragonLimitText;
     //[SerializeField] private GameObject AskToAddDragonPanel;
     //[SerializeField] private GameObject AskForDragonCloseButton;
-    [SerializeField] private GameObject DragonLimit;
+
+    [Header ("Variables dictating which dragon to affect")]
+    public static string dragonName;
+    public static int dragonElement;
 
     [Header("Buttons")]
+    [SerializeField] private Button[] buttons;
+    [SerializeField] private GameObject closeButton;
     /*[SerializeField] private Button button1;
     [SerializeField] private Button button2;
     [SerializeField] private Button button3;
@@ -23,79 +30,70 @@ public class DragonBook : MonoBehaviour
     [SerializeField] private Button button6;*/
 
     [Header("Element Types")]
-    string water = "Chibi Water Dragon"; // 0
-    string earth = "Chibi Earth Dragon"; // 1
-    string fire = "Chibi Fire Dragon";   // 2
-    string air = "Chibi Air Dragon";     // 3
+    private string water = "Chibi Water Dragon"; // 0
+    private string earth = "Chibi Earth Dragon"; // 1
+    private string fire = "Chibi Fire Dragon";   // 2
+    private string air = "Chibi Air Dragon";     // 3
 
-    [SerializeField] Button[] buttons;
+    [Header ("Position related to spawning dragons")]
+    private Vector3 leftOuterBounds = new Vector3(-1.5f, 4f, 0);
+    private Vector3 rightOuterBounds = new Vector3(1.5f, -4f, 0);
 
-    private static List<string> dragonsInBackyard = new List<string>();
+    private int currentPage;
+    //private static List<string> dragonsInBackyard = new List<string>();
+    //private static List<int> dragonElementsInBackyard = new List<int>();
     /*private static List<int> pagesInBook = new List<int>();
 
     public static List<string> dragonNamesInBook = new List<string>();
     public static List<int> dragonTypesInBook = new List<int>();*/
 
-    public static string dragonName;
-    private int limit = 4;
-    private int currentPage;
+    //private int limit = 4;
 
     public void Start()
     {
+        //dragonsInBackyard.Clear();
+        //dragonElementsInBackyard.Clear();
         dragonCollection.SetActive(false);
         closeButton.SetActive(false);
+        dragonLimitText.SetActive(false);
         //AskToAddDragonPanel.SetActive(false);
         //AskForDragonCloseButton.SetActive(false);
-        DragonLimit.SetActive(false);
-        AddDragonsToCollection();
+
+        AddDragonsToBookCollectionAPageAtATime();
+        AddSelectedDragonsToYardOnLoad();
     }
 
-    public void ShowDragonCollection()
+    private void AddDragonsToBookCollectionAPageAtATime()
     {
-        dragonCollection.SetActive(true);
-        closeButton.SetActive(true);
-    }
+        int indexOfDragonToAdd = currentPage * DragonBookContents.GetDragonsPerPageAmount();
 
-    public void CloseDragonCollection()
-    {
-        dragonCollection.SetActive(false);
-        closeButton.SetActive(false);
-    }
-
-    public void AddDragonsToCollection()
-    {
-        int indexOfDragonToAdd = currentPage * 6;
-
-        for (int j = 0; j < 6; j++) //g� igenom varje knapp
+        for (int j = 0; j < DragonBookContents.GetDragonsPerPageAmount(); j++) //g� igenom varje knapp på en sida
         {
-            //Debug.Log("indexOfDragonToAdd: " + indexOfDragonToAdd);
-
-            if (DragonBookContents.GetDragonNames().Count <= j) //DragonBookContents.GetDragonNames().ElementAt(i) == null)
+            if (DragonBookContents.GetDragonNamesInBook().Count <= j) //DragonBookContents.GetDragonNames().ElementAt(i) == null)
             {
                 buttons[j].interactable = false;
                 buttons[j].transform.GetChild(0).GetComponent<TMP_Text>().text = "";
             }
-            else if (DragonBookContents.GetDragonNames().ElementAt(indexOfDragonToAdd) != null)
+            else if (DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd) != null)
             {
                 buttons[j].interactable = true;
-                buttons[j].transform.GetChild(0).GetComponent<TMP_Text>().text = DragonBookContents.GetDragonNames().ElementAt(indexOfDragonToAdd);
+                buttons[j].transform.GetChild(0).GetComponent<TMP_Text>().text = DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd);
                 //buttons[j].transform.image = DragonBookContents.GetDragonTypes().ElementAt(i);
-                //string elementTYpe = buttons[j].GetComponent<OnDragonButtonClick>().SetElement();
-                int elementType = DragonBookContents.GetDragonTypes().ElementAt(indexOfDragonToAdd);
+                int elementType = DragonBookContents.GetDragonTypesInBook().ElementAt(indexOfDragonToAdd);
 
                 switch (elementType)
                 {
                     case 0:
-                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(water); //water type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElementAndElementNumber(water, elementType);  //water type
                         break;
                     case 1:
-                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(earth); //earth type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElementAndElementNumber(earth, elementType);  //earth type
                         break;
                     case 2:
-                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(fire); // fire type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElementAndElementNumber(fire, elementType);   // fire type
                         break;
                     case 3:
-                        buttons[j].GetComponent<OnDragonButtonClick>().SetElement(air); // air type
+                        buttons[j].GetComponent<OnDragonButtonClick>().SetElementAndElementNumber(air, elementType);    // air type
                         break;
                     default:
                         break;
@@ -106,49 +104,35 @@ public class DragonBook : MonoBehaviour
         }
     }
 
-    /*public void AddDragonsToCollection()
+    private void AddSelectedDragonsToYardOnLoad()
     {
-        //DragonBookContents.SetNewDragonNameAndType("bibi", 2);
-
-        //tton1 = dragonCollection.transform.GetChild(0).GetComponent<Button>();
-        for (int i = currentPage * 6; i < (currentPage + 1) * 6 - 1; i++) //f� r�tt index f�r drakarna i listorna
+        if (DragonBookContents.GetDragonsActiveInBackyard().Count > 0)
         {
-            for (int j = 0; j < 6; j++) //g� igenom varje knapp
+            for (int i = 0; i < DragonBookContents.GetDragonsActiveInBackyard().Count; i++)
             {
-                if (DragonBookContents.GetDragonNames().Count <= j) //DragonBookContents.GetDragonNames().ElementAt(i) == null)
-                {
-                    buttons[j].interactable = false;
-                    buttons[j].transform.GetChild(0).GetComponent<TMP_Text>().text = "";
-                }
-                else if(DragonBookContents.GetDragonNames().ElementAt(i) != null)
-                {
-                    buttons[j].interactable = true;
-                    buttons[j].transform.GetChild(0).GetComponent<TMP_Text>().text = DragonBookContents.GetDragonNames().ElementAt(i);
-                    //buttons[j].transform.image = DragonBookContents.GetDragonTypes().ElementAt(i);
-                    //string elementTYpe = buttons[j].GetComponent<OnDragonButtonClick>().SetElement();
-                    int elementType = DragonBookContents.GetDragonTypes().ElementAt(i);
+                dragonName = DragonBookContents.GetDragonsActiveInBackyard().ElementAt(i);
+                dragonElement = DragonBookContents.GetElementsOfDragonsActiveInBackyard().ElementAt(i);
 
-                    switch (elementType)
-                    {
-                        case 0:
-                            buttons[j].GetComponent<OnDragonButtonClick>().SetElement(water); //water type
-                            break;
-                        case 1:
-                            buttons[j].GetComponent<OnDragonButtonClick>().SetElement(earth); //earth type
-                            break;
-                        case 2:
-                            buttons[j].GetComponent<OnDragonButtonClick>().SetElement(fire); // fire type
-                            break;
-                        case 3:
-                            buttons[j].GetComponent<OnDragonButtonClick>().SetElement(air); // air type
-                            break;
-                        default:
-                            break;
-                    }
+                switch (dragonElement)
+                {
+                    case 0:
+                        InstatiateDragon(water);
+                        break;
+                    case 1:
+                        InstatiateDragon(earth);
+                        break;
+                    case 2:
+                        InstatiateDragon(fire);
+                        break;
+                    case 3:
+                        InstatiateDragon(air);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
-    }*/
+    }
 
     /*public void ShowAskToAddDragon()
     {
@@ -165,47 +149,64 @@ public class DragonBook : MonoBehaviour
         closeButton.SetActive(true);
     }*/
 
-    public void InstantiateDragon(string element)
+    private void InstatiateDragon(string element)
     {
-        //string dragonName = gameObject.transform.GetChild(0).Resources.Load(prefabName);
-        //TMP_Text dragonName = gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
-        //string newDragonName = dragonName.text;
-        //string dragonName = gameObject.transform.GetChild(0).GetComponent<TMP_Text>().text;
-        //Debug.Log(dragonName);
+        Vector3 randomSpawnPos = new Vector3(Random.Range(leftOuterBounds.x, rightOuterBounds.x), Random.Range(leftOuterBounds.y, rightOuterBounds.y), 0);
+        GameObject newDragon = (GameObject)Instantiate(Resources.Load(element), randomSpawnPos, Quaternion.identity);
+        newDragon.name = dragonName;
+    }
 
-        if (dragonsInBackyard.Contains(dragonName))
+    public void CheckToInstantiateDragon(string element)
+    {
+        if (DragonBookContents.GetDragonsActiveInBackyard().Contains(dragonName)) //(DragonBookContents.GetDragonsInYard().Contains(dragonName))
         {
             RemoveDragon();
         }
-        else if (dragonsInBackyard.Count >= limit)
+        else if (DragonBookContents.GetDragonsActiveInBackyard().Count >= DragonBookContents.LimitOfDragons)
         {
-            DragonLimit.SetActive(true);
+            dragonLimitText.SetActive(true);
             Invoke("InactivateLimitText", 3f);
         }
         else
         {
-            if (dragonName != null && !dragonsInBackyard.Contains(dragonName))
+            if (dragonName != null && !DragonBookContents.GetDragonsActiveInBackyard().Contains(dragonName))
             {
-                dragonsInBackyard.Add(dragonName);
+                DragonBookContents.SetNewDragonNamesAndElementsActiveInBackyard(dragonName, dragonElement);
+                //dragonsInBackyard.Add(dragonName);
+                //dragonElementsInBackyard.Add(dragonElement);
 
-                GameObject newDragon = (GameObject)Instantiate(Resources.Load(element));
-                newDragon.name = dragonName;
+                InstatiateDragon(element);
                 CloseDragonCollection();
             }
         }
-        //planet = (GameObject)Instantiate(Resources.Load(prefabName))
-        //Instantiate(necklaceParticles, pickup.transform.position, Quaternion.identity);
-    }
-
-    private void InactivateLimitText()
-    {
-        DragonLimit.SetActive(false);
     }
 
     public void RemoveDragon()
     {
-        dragonsInBackyard.Remove(dragonName);
+        int indexOfDragonName = DragonBookContents.GetDragonsActiveInBackyard().IndexOf(dragonName);
+        DragonBookContents.RemoveDragonAndElementFromBackyard(dragonName, indexOfDragonName);
         Destroy(GameObject.Find(dragonName));
+
+        //dragonsInBackyard.Remove(dragonName);
+        //dragonElementsInBackyard.RemoveAt(indexOfDragonName);
+
         //CloseAskToAddDragon();
-    } 
+    }
+
+    public void ShowDragonCollection()
+    {
+        dragonCollection.SetActive(true);
+        closeButton.SetActive(true);
+    }
+
+    public void CloseDragonCollection()
+    {
+        dragonCollection.SetActive(false);
+        closeButton.SetActive(false);
+    }
+
+    private void InactivateLimitText()
+    {
+        dragonLimitText.SetActive(false);
+    }
 }

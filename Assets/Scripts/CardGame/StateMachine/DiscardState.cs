@@ -9,13 +9,34 @@ public class DiscardState : IState
 
     private bool _switchState;
 
+    private CardFilterResult DiscardFilter(CardObject cardObject)
+    {
+        if (cardObject.HasTag(CardManager.BindingTag))
+        {
+            return CardFilterResult.Failure("Binding cards can't be discarded.");
+        }
+        if (cardObject.HasTag(CardManager.SlipperyTag))
+        {
+            return CardFilterResult.Failure("Slippery cards will be auto-discarded.");
+        }
+        if (cardObject.TryGetTagPotency(CardManager.VanishingTag, out float potency))
+        {
+            if (potency <= 1)
+            {
+                return CardFilterResult.Failure("This card will vanish next turn.");
+            }
+        }
+
+        return CardFilterResult.Success();
+    }
+
     public virtual IState Enter(GameBehaviour gameBehaviour)
     {
-        Debug.Log("DISCARDING CARDS AND CHOOSING WHICH TO KEEP");
+        Debug.Log("DISCARDING CARDS");
         this.gameBehaviour = gameBehaviour;
         controls = gameBehaviour.controls;
 
-        gameBehaviour.cardHand.OnStartSelectingCards(CardHand.SelectionState.Discard);
+        gameBehaviour.cardHand.OnStartSelectingCards(CardHand.SelectionState.Discard, null, null, DiscardFilter);
         gameBehaviour.UpdateStatusText("DISCARDING CARDS");
 
         gameBehaviour.EnableButton();
@@ -43,10 +64,19 @@ public class DiscardState : IState
             gameBehaviour.DisableButton();
 
             gameBehaviour.StartCoroutine(Delay());
+
+            gameBehaviour.cardHand.UpdateCardPositions();
         }
 
-        if (_switchState)
+        if (_switchState && CardVFXManager.ActiveVFXCount <= 0)
         {
+            BattleOverState battleOverState = BattleOverState.BattleOverCheck();
+
+            if (battleOverState != null)
+            {
+                return battleOverState;
+            }
+
             return new PlayEnemyState();
         }
 
@@ -57,11 +87,14 @@ public class DiscardState : IState
     {
         yield return new WaitForSeconds(1);
 
+        gameBehaviour.cardHand.UpdateCardPositions();
+
         _switchState = true;
     }
 
     public virtual IState Exit()
     {
+        controls.controls.Disable();
         return null;
     }
 }

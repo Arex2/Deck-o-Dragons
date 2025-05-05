@@ -7,9 +7,14 @@ using UnityEngine;
 
 public class Egg : MonoBehaviour
 {
-    NativeKeyboardInputManager natInputMan;
-    TextInputManager inputMan;
-    DragonActive dragonActive;
+    [Header ("Script instances")]
+    private NativeKeyboardInputManager natInputMan;
+    private DragonActive dragonActive;
+    private SpriteRenderer spriteRenderer;
+    private SquashAndStretch squashAndStretch;
+    //TextInputManager inputMan;
+
+    [Header ("Egg hatch related")]
     private float timeBetweenShakes = 0.75f; //in seconds
     private float time = 0;
     //three stages of egg cracking
@@ -17,16 +22,13 @@ public class Egg : MonoBehaviour
     private int shakeCount = 0;
     private bool isHatching;
 
-    float shakeTreshold = 2.0f * 2.0f;
-    Vector3 lowPassValue;
+    private float shakeTreshold = 2.0f * 2.0f;
+    private Vector3 lowPassValue;
 
-    ScreenShake screenShake;
-
-    //[SerializeField] GameObject[] dragons;
     [SerializeField] private Sprite[] crackedSprites;
-    [SerializeField] GameObject eggInPieces;
-    private SpriteRenderer spriteRenderer;
-    private SquashAndStretch squashAndStretch;
+    [SerializeField] private GameObject eggInPieces;
+
+    private ScreenShake screenShake;
 
     private void Awake()
     {
@@ -43,21 +45,15 @@ public class Egg : MonoBehaviour
         //typ default shake v�rde som alltid �r d�r (m�ng acceleration mobil naturligt har)
         lowPassValue = Input.acceleration;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        DragonActive.isDragonActive = false;
-        DragonActive.statusText.text = "";
-        DragonActive.index = 0;
-        DragonActive.age = 0;
-        DragonActive.evolutionProcess = 0;
-        inputMan = GameObject.Find("Scripts").GetComponent<TextInputManager>();
         natInputMan = GameObject.Find("NativeInputManager").GetComponent<NativeKeyboardInputManager>();
         screenShake = GameObject.Find("Main Camera").GetComponent<ScreenShake>();
         squashAndStretch = gameObject.GetComponent<SquashAndStretch>();
+        //inputMan = GameObject.Find("Scripts").GetComponent<TextInputManager>();
+        SetupDragonAttributes();
     }
 
     void Update()
     {
-        Debug.Log("egg hello");
-
         if (Input.GetKeyDown(KeyCode.K))
         {
             Hatch();
@@ -69,6 +65,7 @@ public class Egg : MonoBehaviour
 
         Vector3 acceleration = Input.acceleration;
         Vector3 deltaAcceleration = acceleration - lowPassValue;
+
         if(!isHatching && shakeCount == 3)
         {
             //Hatch();
@@ -96,6 +93,16 @@ public class Egg : MonoBehaviour
         }
     }
 
+    private void SetupDragonAttributes()
+    {
+        DragonActive.isDragonActive = false;
+        DragonActive.statusText.text = "";
+        DragonActive.dragonName = null;
+        DragonActive.index = 0;
+        DragonActive.age = 0;
+        DragonActive.evolutionProcess = 0;
+    }
+
     private void OnMouseDown()
     {
         if (!isHatching && shakeCount >= 3)
@@ -106,7 +113,7 @@ public class Egg : MonoBehaviour
         else
         {
             // Optional: tap counts as a shake if you want faster interaction
-            Debug.Log("Egg tapped!");
+            //Debug.Log("Egg tapped!");
             //ShakeByTap();
             TapToOpen();
         }
@@ -119,7 +126,6 @@ public class Egg : MonoBehaviour
     {
         //tap feedback effect
         squashAndStretch.PlaySquashAndStretch();
-
 
         //varje tap ökar tapCurrent;
         tapCurrent += 0.5f;
@@ -186,10 +192,9 @@ public class Egg : MonoBehaviour
         SpawnDragon();
         Invoke("DeleteEgg", 0.05f);
         //inputMan.SpawnKeyboard();
-        natInputMan.OpenKeyboard();
         natInputMan.forCompUse = true;
+        natInputMan.OpenKeyboard();
         //Invoke("CallToOpenKeyboard", 1f);
-        //DeleteEgg();
     }
 
     private void CallToOpenKeyboard()

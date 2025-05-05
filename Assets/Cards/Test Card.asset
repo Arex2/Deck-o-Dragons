@@ -51,6 +51,9 @@ MonoBehaviour:
     maxLimit:
       Enabled: 0
       Value: 0
+  vfx:
+    tag: Attack
+    vfxs: []
 --- !u!114 &-1223053199875735651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +89,9 @@ MonoBehaviour:
     maxLimit:
       Enabled: 0
       Value: 0
+  vfx:
+    tag: Heal
+    vfxs: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +114,7 @@ MonoBehaviour:
   element: 1
   category: 1
   rarity: 0
-  copies: 0
+  copies: 5
   canChangeLevel: 0
   minLevel:
     Enabled: 0
@@ -117,7 +123,9 @@ MonoBehaviour:
     Enabled: 0
     Value: 0
   tags:
-  - {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
+    data:
+    - tag: {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
+      potency: 0
   cardComponents:
   - {fileID: -1860155053858908950}
   - {fileID: -1223053199875735651}

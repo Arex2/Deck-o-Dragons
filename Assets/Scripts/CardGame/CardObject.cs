@@ -37,6 +37,17 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public float TimeCreated { get; set; }
 
+    public int Cost
+    {
+        get => Mathf.Max(Card.Cost + CostOffset, 0);
+        set
+        {
+            value -= Card.Cost;
+
+            CostOffset = value;
+        }
+    }
+
     public int CostOffset { get; set; }
 
     public float StartYPos { get; set; }
@@ -64,8 +75,10 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public Action<CardObject> OnCardPressed { get; set; }
 
     public Card Card { get; private set; }
+    public TagData TagData => _tagData;
 
     private CardData _cardData;
+    private TagData _tagData;
 
     private bool _pressed;
 
@@ -94,6 +107,8 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     private Tween[] _offsetTweens = new Tween[2];
     private Vector2 _offset;
 
+    private bool _discardOnFinish;
+
     private void Awake()
     {
         _startPos = transform.localPosition;
@@ -108,10 +123,8 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public void Initialize(Card card)
     {
         SetCard(card);
-        cardVisuals.RandomizeDissolve();
-        UpdateCardLook();
 
-        DOTween.To(() => _amountInHand, (value) => _amountInHand = value, 1, 0.5f).SetEase(Ease.OutSine);
+        Spawn();
     }
 
     private void Update()
@@ -135,11 +148,12 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         pos += _offset;
 
+        /*
         // For some reason, positions become either NaN or Infinity so this should fix that (?)
         void FixValue(ref float value, float fixValue)
         {
             // "I'm normal" said the float
-            if (float.IsNormal(value))
+            if (!float.IsNaN(value) && !float.IsInfinity(value))
             {
                 // And it was correct
                 return;
@@ -155,6 +169,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         FixValue(ref rot, _currentRot);
         FixValue(ref scale, _currentScale);
+        */
 
         if (_currentPos != pos)
         {
@@ -195,21 +210,21 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     {
         Card = card;
         cardVisuals.Card = card;
+
+        _tagData = card.Tags;
     }
 
-    public int GetCost()
-    {
-        return Mathf.Max(Card.Cost + CostOffset, 0);
-    }
-
-    public void Play()
+    public void Play(bool discard = true)
     {
         if (_coroutine != null)
         {
             return;
         }
 
-        _coroutine = StartCoroutine(Card.Play(user, _cardData, Level, OnFinishPlayingCard));
+        _discardOnFinish = discard;
+
+        Card.VFXSpawnOrigin = CardHand.cardPlayPosition;
+        _coroutine = StartCoroutine(Card.Play(user, _cardData, _tagData, Level, OnFinishPlayingCard));
     }
 
     public void Cancel()
@@ -218,6 +233,9 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         {
             return;
         }
+
+        Card.Cancel();
+        _coroutine = null;
 
         StopCoroutine(_coroutine);
         OnFinishPlayingCard();
@@ -234,13 +252,120 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         cardVisuals.Dissolve.TweenDissolveAmount(1, 1).onComplete = () => _doingDissolveAnimation = false;
     }
 
+    public void Spawn()
+    {
+        _coroutine = null;
+        _doingDissolveAnimation = false;
+
+        cardVisuals.Dissolve.DOKill();
+        cardVisuals.Dissolve.DissolveAmount = 0;
+        cardVisuals.CanvasGroup.blocksRaycasts = true;
+
+        cardVisuals.RandomizeDissolve();
+
+        _currentPos = _startPos;
+        _currentRot = _startRot;
+        _currentScale = _startScale;
+
+        transform.localPosition = _startPos;
+
+        _amountInHand = 0;
+        DOTween.To(() => _amountInHand, (value) => _amountInHand = value, 1, 0.5f).SetEase(Ease.OutSine);
+
+        UpdateCardLook();
+    }
+
     private void OnFinishPlayingCard()
     {
-        Destroy();
-
-        CardHand.DiscardCard(this);
         CardHand.OnFinishPlayingCard();
+
+        if (_discardOnFinish)
+        {
+            Destroy();
+
+            CardHand.DiscardCard(this);
+        }
+        else
+        {
+            Spawn();
+            CardHand.AddCardObjToHand(this);
+        }
     }
+
+    public bool OnKeptAfterDiscard()
+    {
+        if (HasTag(CardManager.SlipperyTag))
+        {
+            return false;
+        }
+
+        bool updateCardLook = false;
+
+        if (DecreaseTagPotency(CardManager.BindingTag))
+        {
+            updateCardLook = true;
+        }
+
+        if (DecreaseTagPotency(CardManager.UnplayableTag))
+        {
+            updateCardLook = true;
+        }
+
+        if (DecreaseTagPotency(CardManager.VanishingTag))
+        {
+            if (!HasTag(CardManager.VanishingTag))
+            {
+                return false;
+            }
+
+            updateCardLook = true;
+        }
+
+        if (TryGetTagPotency(CardManager.ThornsTag, out float thornsPotency))
+        {
+            CardHand.GameBehaviour.Hurt(new(thornsPotency, false, true));
+        }
+
+        if (updateCardLook)
+        {
+            UpdateCardLook();
+        }
+
+        return true;
+    }
+
+    public bool DecreaseTagPotency(CardTag tag, float decreaseFactor = 1, bool removeOnZero = true)
+    {
+        if (TryGetTagPotency(tag, out float potency) && potency > 0)
+        {
+            potency -= decreaseFactor;
+
+            if (potency <= 0 && removeOnZero)
+            {
+                RemoveTag(tag);
+            }
+            else
+            {
+                SetTagPotency(tag, potency);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public void SetTag(CardTag tag) => _tagData.SetTag(tag);
+
+    public void SetTagPotency(CardTag tag, float potency) => _tagData.SetPotency(tag, potency);
+
+    public void RemoveTag(CardTag tag) => _tagData.RemoveTag(tag);
+
+    public bool HasTag(CardTag tag) => _tagData.HasTag(tag);
+
+    public float GetTagPotency(CardTag tag) => _tagData[tag];
+
+    public bool TryGetTagPotency(CardTag tag, out float potency) => _tagData.TryGet(tag, out potency);
 
     #region Card Data
     public void SetCardData<T>(string key, T value) => _cardData.SetCardData(key, value);
