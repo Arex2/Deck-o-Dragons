@@ -44,9 +44,12 @@ public class EnemyBoss : Target
         if (EnemyScalingManager.Instance != null)
         {
             maxMana = EnemyScalingManager.Instance.GetScaledMana();
+            MaxHP = EnemyScalingManager.Instance.GetScaledHealth();
+            
         }
         healthTextFormat = healthText.text;
         healthSlider.maxValue = MaxHP;
+        HP = MaxHP;
         UpdateHP();
         originalPosition = transform.localPosition;
          spriteRenderer = GetComponent<SpriteRenderer>();
@@ -74,7 +77,6 @@ public class EnemyBoss : Target
     public void StartTurn()
     {
         currentMana = maxMana;
-        print(currentMana);
         PlayCards();
     }
 
@@ -173,7 +175,11 @@ public class EnemyBoss : Target
     public override void OnDeath()
     {
         base.OnDeath();
-        ProgressManager.Instance.IncreaseLevel();
+        if (EnemyScalingManager.Instance != null && ProgressManager.Instance != null)
+        {
+            ProgressManager.Instance.IncreaseLevel();
+            EnemyScalingManager.Instance.AdvanceScaling();
+        }
         StartCoroutine(RotateOverTime(Quaternion.Euler(0, 0, 90), 0.3f));
     }
 

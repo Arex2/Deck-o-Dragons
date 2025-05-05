@@ -53,7 +53,7 @@ MonoBehaviour:
   immuneToStatusEffects: []
   healthSlider: {fileID: 0}
   healthText: {fileID: 8271646347377200835}
-  maxMana: 5
+  maxMana: 10
   cardsAvailable:
   - {fileID: 11400000, guid: e444ebe4889011c4b8c2265e96304acc, type: 2}
   - {fileID: 11400000, guid: cc5a434975884c54ab0673b1e6f8a838, type: 2}
@@ -65,6 +65,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 11d6b67cb5e24d44ebeb8b64322d3362, type: 3}
   - {fileID: 21300000, guid: 74d31a0986b1394448f97e34163969d8, type: 3}
   - {fileID: 21300000, guid: c6e1420baf3179e4b8142954385e4d1f, type: 3}
+  - {fileID: 21300000, guid: 31f8b9cef0585d64e9bfc3d5504a4564, type: 3}
+  - {fileID: 21300000, guid: 31f8b9cef0585d64e9bfc3d5504a4564, type: 3}
+  - {fileID: 21300000, guid: 31f8b9cef0585d64e9bfc3d5504a4564, type: 3}
   - {fileID: 21300000, guid: 31f8b9cef0585d64e9bfc3d5504a4564, type: 3}
 --- !u!212 &7979273853757071510
 SpriteRenderer:
