@@ -29,16 +29,17 @@ public class EnemyScalingManager : MonoBehaviour
 
     public int GetScaledHealth()
     {
-        return baseHealth += currentHealthIncrease;
+        return baseHealth + currentHealthIncrease;
     }
 
     public int GetScaledMana()
     {
-        return baseMana += currentManaIncrease;
+        return baseMana + currentManaIncrease;
     }
 
     public void AdvanceScaling()
     {
+        print("DEN SCALEAR"); 
         currentHealthIncrease += healthIncrease;
         currentManaIncrease += manaIncrease;
     }
