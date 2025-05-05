@@ -7,24 +7,37 @@ using UnityEngine;
 public class LoadDragons : MonoBehaviour
 {
     private DragonList dragonList;
-    private void Awake()
+    public static LoadDragons Instance { get; private set; }
+    void Awake()
     {
-        LoadDragonsFromFile();
+        if (Instance == null)
+        {
+            Instance = this;
+            LoadDragonsFromFile();
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void LoadDragonsFromFile()
     {
         string filePath = Path.Combine(Application.persistentDataPath, "dragons.json");
 
-        if (File.Exists(filePath))
+        if (!File.Exists(filePath))
         {
-            string json = File.ReadAllText(filePath);
-
-            dragonList = JsonUtility.FromJson<DragonList>(json);
+            dragonList = new DragonList();
+            string emptyJson = JsonUtility.ToJson(dragonList, true);
+            File.WriteAllText(filePath, emptyJson);
         }
+        string json = File.ReadAllText(filePath);
+        dragonList = JsonUtility.FromJson<DragonList>(json);
+
         foreach (Dragon dragon in dragonList.dragons)
         {
-            DragonBookContents.SetNewDragonNameAndType(dragon.name, dragon.type);
+            DragonBookContents.SetNewDragonNameAndTypeInBook(dragon.name, dragon.type);
         }
     }
 
