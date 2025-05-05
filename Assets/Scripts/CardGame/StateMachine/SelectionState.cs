@@ -42,6 +42,7 @@ public class SelectionState : IState
             {
                 return new DiscardState();
             }
+            else return new PlayEnemyState();
         }
 
         /*
