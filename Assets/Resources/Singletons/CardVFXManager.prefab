@@ -50,3 +50,4 @@ MonoBehaviour:
   cardVFXPrefabs:
   - {fileID: 8529259432028219167, guid: 33c33183e98d67d42a5f7d4e5e46ae64, type: 3}
   - {fileID: 102398844963847324, guid: d2b2b04b7e2c6a241a1afa54185e45c2, type: 3}
+  - {fileID: 2405398319983216021, guid: 4787cc505c9d37948b7b1ccb031ed8d1, type: 3}
