@@ -39,7 +39,7 @@ public class CardAttack : CardComponent
     [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Opponent, TargetFilter.FilterMode.Chosen);
 
     [Space]
-    [SerializeField] private UpgradeableFloat damage = new(3, 1);
+    [SerializeField] private UpgradeableFloat damage = new(30, 10);
     [SerializeField] private UpgradeableInt attackAmount = new(1);
 
     [Space]
@@ -129,21 +129,27 @@ public class CardAttack : CardComponent
     private string ReplaceMainKeyword()
     {
         float value = attackAmount.GetValue(Level);
-        string result = ReplaceDamageKeyword();
+        string result;
 
         if (value != 1)
         {
-            result += "x" + value.ToString();
+            result = value.ToString() + "x" + GetDamageString();
+        }
+        else
+        {
+            result = GetDamageString();
         }
 
-        return result;
+        return UpgradeablesManager.ColorBasedOnLevel(result, Level);
     }
 
     [ReplaceDescriptionKeyword("DAMAGE")]
     private string ReplaceDamageKeyword()
     {
-        return Mathf.Round(Damage * DamageMultiplier).ToString();
+        return UpgradeablesManager.ColorBasedOnLevel(GetDamageString(), Level);
     }
+
+    private string GetDamageString() => Mathf.Round(Damage * DamageMultiplier).ToString();
 
     [ReplaceDescriptionKeyword("AMOUNT")]
     private string ReplaceAttackAmountKeyword()

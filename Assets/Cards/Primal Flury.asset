@@ -20,14 +20,16 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 2
+    baseValue: 20
     stack: 1
     loopBehaviour: 1
     upgrades:
     - value: 0
       method: 0
     downgrades:
-    - value: 1
+    - value: 10
+      method: 1
+    - value: 0
       method: 1
     minLimit:
       Enabled: 0
@@ -44,6 +46,8 @@ MonoBehaviour:
       method: 0
     downgrades:
     - value: 0
+      method: 1
+    - value: 1
       method: 1
     minLimit:
       Enabled: 0
@@ -67,18 +71,18 @@ MonoBehaviour:
   m_Name: Primal Flury
   m_EditorClassIdentifier: 
   guid: 391dd47343e7986488677edfff97eb51
-  sprite: {fileID: 21300000, guid: 50629d0683fa0d842bb27d0ad3720c6c, type: 3}
+  sprite: {fileID: 21300000, guid: 7a8bd0b88ffa24044be4ef323c96da4b, type: 3}
   displayName: Primal Flury
   description: Deal {ATTACK} damage.
   cost: 5
   element: 0
   category: 1
   rarity: 0
-  copies: 2
-  canChangeLevel: 0
+  copies: 3
+  canChangeLevel: 1
   minLevel:
-    Enabled: 0
-    Value: 0
+    Enabled: 1
+    Value: -2
   maxLevel:
     Enabled: 0
     Value: 0

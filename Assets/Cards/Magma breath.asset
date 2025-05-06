@@ -20,15 +20,13 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 1
+    baseValue: 10
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 1
+    - value: 3
       method: 0
-    downgrades:
-    - value: 1
-      method: 1
+    downgrades: []
     minLimit:
       Enabled: 0
       Value: 0
@@ -39,11 +37,9 @@ MonoBehaviour:
     baseValue: 4
     stack: 1
     loopBehaviour: 1
-    upgrades:
-    - value: 0
-      method: 0
+    upgrades: []
     downgrades:
-    - value: 0
+    - value: 1
       method: 1
     minLimit:
       Enabled: 0
@@ -67,18 +63,18 @@ MonoBehaviour:
   m_Name: Magma breath
   m_EditorClassIdentifier: 
   guid: c17ab45f4ed7fd144b6a6e4fdc7f69c0
-  sprite: {fileID: 21300000, guid: 7a8bd0b88ffa24044be4ef323c96da4b, type: 3}
+  sprite: {fileID: 21300000, guid: 2b2ecd2be1671fa4a8c1c69f070598d0, type: 3}
   displayName: Magma Breath
   description: Deal {ATTACK} damage.
   cost: 3
   element: 1
   category: 1
   rarity: 1
-  copies: 2
-  canChangeLevel: 0
+  copies: 3
+  canChangeLevel: 1
   minLevel:
-    Enabled: 0
-    Value: 0
+    Enabled: 1
+    Value: -3
   maxLevel:
     Enabled: 0
     Value: 0

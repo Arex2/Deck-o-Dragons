@@ -14,7 +14,7 @@ public class BattleOverState : IState
         Debug.Log("BATTLE OVER");
         this.gameBehaviour = gameBehaviour;
         //gameBehaviour.NewTurn();
-        gameBehaviour.UpdateStatusText("BATTLE OVER");
+        //gameBehaviour.UpdateStatusText("BATTLE OVER");
 
         gameBehaviour.StartCoroutine(Wait()); //s�tter temp till true
 
@@ -23,8 +23,12 @@ public class BattleOverState : IState
 
     IEnumerator Wait()
     {
+        yield return new WaitForSeconds(1f);
+
+        gameBehaviour.BattleOver(gameBehaviour.HP <= 0 ? "You lost..." : "You won!");
+
         //Debug.Log("Wait start " + Time.time);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(2f);
         //Debug.Log("Wait over " + Time.time);
         temp = true;
     }

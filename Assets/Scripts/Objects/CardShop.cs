@@ -74,6 +74,15 @@ public class CardShop : MonoBehaviour
             {
                 _drawableCards.Add(card);
             }
+
+            /*
+            if (_deckManager.HasCardInDeck(card))
+            {
+                continue;
+            }
+
+            _drawableCards.Add(card);
+            */
         }
 
         // Shuffle
@@ -157,6 +166,7 @@ public class CardShop : MonoBehaviour
         rerollButton.interactable = _rerollsRemaining > 0;
 
         UpdateText();
+        UpdateExitButton();
     }
 
     private Card GetRandomCard()
@@ -197,10 +207,11 @@ public class CardShop : MonoBehaviour
 
     public void ConfirmCardShopButton()
     {
+        UpdateExitButton();
+
         if (_cardsRemaining <= 0)
         {
             addButton.interactable = false;
-            exitButton.interactable = true;
             return;
         }
 
@@ -223,15 +234,23 @@ public class CardShop : MonoBehaviour
         addButton.interactable = !chosenAllCards;
         exitButton.interactable = chosenAllCards;
 
-        _deckManager.AddCardToDeck(card, card.Copies);
+        //_deckManager.AddCardToDeck(card, card.Copies);
+        _deckManager.AddCardToDeck(card, 1);
 
         UpdateText();
 
         UpdateUI();
     }
 
+    private void UpdateExitButton()
+    {
+        exitButton.interactable = _cardsRemaining <= 0 || _drawableCards.Count <= 0;
+    }
+
     public void CancelCardShopButton()
     {
+        UpdateExitButton();
+
         if (Selected != null)
         {
             Selected.Unselect();
@@ -284,8 +303,6 @@ public class CardShop : MonoBehaviour
 
     public void Exit()
     {
-       
-            SceneManager.LoadScene(exitScene);
-        
+        SceneManager.LoadScene(exitScene);
     }
 }

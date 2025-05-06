@@ -10,7 +10,7 @@ public class SetupState : IState //VET EJ OM MONO BEH�VS H�R, ALTERNATIVT HA
     {
         Debug.Log("SETUP!!");
         this.gameBehaviour = gameBehaviour;
-        gameBehaviour.UpdateStatusText("New turn");
+        //gameBehaviour.UpdateStatusText("New turn");
         return null; 
     }
 

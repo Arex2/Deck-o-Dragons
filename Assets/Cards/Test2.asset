@@ -20,7 +20,7 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 3
+    baseValue: 30
     stack: 1
     loopBehaviour: 1
     upgrades:
@@ -74,7 +74,7 @@ MonoBehaviour:
   element: 0
   category: 0
   rarity: 0
-  copies: 0
+  copies: 5
   canChangeLevel: 0
   minLevel:
     Enabled: 0

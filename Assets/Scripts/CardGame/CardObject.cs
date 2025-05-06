@@ -50,7 +50,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public int CostOffset { get; set; }
 
-    public float StartYPos { get; set; }
+    //public float StartYPos { get; set; }
 
     public CardHand CardHand { get; set; }
     public Canvas Canvas => cardVisuals.Canvas;
@@ -148,7 +148,6 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         pos += _offset;
 
-        /*
         // For some reason, positions become either NaN or Infinity so this should fix that (?)
         void FixValue(ref float value, float fixValue)
         {
@@ -169,7 +168,6 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         FixValue(ref rot, _currentRot);
         FixValue(ref scale, _currentScale);
-        */
 
         if (_currentPos != pos)
         {
@@ -234,10 +232,11 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
             return;
         }
 
+        StopCoroutine(_coroutine);
         Card.Cancel();
+
         _coroutine = null;
 
-        StopCoroutine(_coroutine);
         OnFinishPlayingCard();
     }
 

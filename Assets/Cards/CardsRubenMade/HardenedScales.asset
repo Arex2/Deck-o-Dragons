@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HardenedScales
   m_EditorClassIdentifier: 
   guid: e3ae0944914a0584fb54faae81077112
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 43c10b78b7bcc07448f89008f884c592, type: 3}
   displayName: Hardened Scales
   description: You take {POTENCY} less damage for the next {DURATION} attacks.
   cost: 3
@@ -49,7 +49,7 @@ MonoBehaviour:
   card: {fileID: 11400000}
   disableOnStart: 0
   targetFilter:
-    team: 0
+    team: 1
     mode: 0
   statusEffect:
     statusEffect: {fileID: 11400000, guid: 0e8e29e52b28319468618bca2fa8faa8, type: 2}

@@ -21,6 +21,8 @@ public class AffectHPStatusEffect : StatusEffect
 
         User.Heal(new(Potency));
 
+        Trigger();
+
         Duration--;
     }
 
@@ -32,6 +34,8 @@ public class AffectHPStatusEffect : StatusEffect
         }
 
         User.Hurt(new(Potency));
+
+        Trigger();
 
         Duration--;
     }

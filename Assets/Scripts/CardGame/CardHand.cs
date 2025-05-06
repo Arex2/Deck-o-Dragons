@@ -43,10 +43,14 @@ public class CardHand : MonoBehaviour
     private float maxCardRotation;
     [SerializeField]
     private Vector2 cardSpacing = new Vector2(1.7f, 0.1f);
+
+    [Space]
     [SerializeField]
     private AnimationCurve cardSizeCurve;
     [SerializeField]
-    private float cardSmallestSize = 0.7f;
+    private float cardSmallestSize = 0.5f;
+    [SerializeField]
+    private float cardLargestSize = 1f;
 
     [SerializeField]
     private AnimationCurve cardMiniBounceCurve;
@@ -66,7 +70,7 @@ public class CardHand : MonoBehaviour
         }
     }
 
-    float cardsYPos = -2.2f;
+    //float cardsYPos = -2.2f;
 
     /*
     //för att få current pos av cards
@@ -99,6 +103,10 @@ public class CardHand : MonoBehaviour
 
     public CardObject CardBeingPlayed { get; private set; }
     public bool IsPlayingCard { get; private set; }
+
+    [Space]
+    [SerializeField] private RectTransform cardsHeldPosition;
+    private float _cardsHeldYPos;
 
     [Header("Selecting Multiple Cards")]
     [SerializeField]
@@ -158,10 +166,14 @@ public class CardHand : MonoBehaviour
 
     private void OnChangeResolution()
     {
+        oldScreenSize = new Vector2Int(Screen.width, Screen.height);
+        
         screenLeftXPos = camera.ViewportToWorldPoint(new Vector2(0, 0)).x;
         screenRightXPos = camera.ViewportToWorldPoint(new Vector2(1, 0)).x;
 
-        oldScreenSize = new Vector2Int(Screen.width, Screen.height);
+        gameBehaviour.StatusButton.UpdateLooks();
+
+        _cardsHeldYPos = camera.ScreenToWorldPoint(cardsHeldPosition.position).y;
     }
 
     /// <summary>
@@ -342,13 +354,13 @@ public class CardHand : MonoBehaviour
 
         float spaceFromSelected = Mathf.Abs(i - middlePos);
         float posY = -cardSpacing.y * spaceFromSelected;
-        Vector2 newPos = new Vector2(posX, cardsYPos + posY);
+        Vector2 newPos = new Vector2(posX, _cardsHeldYPos + posY);
 
         //Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0, 0, 10f * (i - middlePos)));
         //Quaternion rot = Quaternion.AngleAxis((-5f * (i - middlePos)), Vector3.forward);
         float newRot = Mathf.Lerp(maxCardRotation, -maxCardRotation, t);
 
-        float newScale = Mathf.Lerp(cardSmallestSize, 1, SampleCurve(t, cardSizeCurve));
+        float newScale = Mathf.Lerp(cardSmallestSize, cardLargestSize, SampleCurve(t, cardSizeCurve));
 
         cardObj.TweenTransformInHand(newPos, newRot, newScale, posDuration, rotDuration, scaleDuration);
         /*
@@ -364,6 +376,8 @@ public class CardHand : MonoBehaviour
     private void Start()
     {
         deck = DeckManager.Instance;
+
+        deck.ResetDeck();
 
         SelectInitialCard();
     }
@@ -668,7 +682,7 @@ public class CardHand : MonoBehaviour
         }
 
         //int amountToDrawNextTurn = Mathf.Max(0, amountToDraw - count - amountBindingCardsInHand);
-        amountSelectedForDiscard = Mathf.Max(amountToDraw - cardsInHand.Count, count);
+        amountSelectedForDiscard = Mathf.Max(amountToDraw - cardsInHand.Count + count, count);
         //Debug.Log(amountToDrawNextTurn);
 
         selectingCardsText.text = string.Format(format, count, CurrentSelectedCardsLimit == 0 ? "infinite" : CurrentSelectedCardsLimit,
@@ -677,7 +691,7 @@ public class CardHand : MonoBehaviour
 
     public CardObject DrawCard(bool updateCurrentIndex = true) => DrawCard(deck.DrawNext());
 
-    public CardObject DrawCard(Card card, bool updateCurrentIndex = true)
+    public CardObject DrawCard(Card card)
     {
         //check if can draw card
         //if(!deck.CanDrawNext()) return null;
@@ -688,20 +702,18 @@ public class CardHand : MonoBehaviour
 
         cardObj.CardHand = this;
 
-        cardObj.StartYPos = cardsYPos;
-
         cardObj.Initialize(card);
 
         //SpriteRenderer r = card.GetComponent<SpriteRenderer>();
         //r.sprite = testCard.Sprite;
         //r.color = UnityEngine.Random.ColorHSV();
 
-        AddCardObjToHand(cardObj, updateCurrentIndex);
+        AddCardObjToHand(cardObj);
 
         return cardObj;
     }
 
-    public void AddCardObjToHand(CardObject cardObj, bool updateCurrentIndex = true)
+    public void AddCardObjToHand(CardObject cardObj)
     {
         cardObj.OnCardPressed -= OnCardPressed;
         cardObj.OnCardPressed += OnCardPressed;
@@ -710,7 +722,7 @@ public class CardHand : MonoBehaviour
         int count = cardsInHand.Count;
         int index;
 
-        CardObject selectedCard = count > 0 && currentIndex < count ? cardsInHand[CurrentIndex] : null;
+        //CardObject selectedCard = count > 0 && currentIndex < count ? cardsInHand[CurrentIndex] : null;
 
         // Stolen from: https://stackoverflow.com/questions/12172162/how-to-insert-item-into-list-in-order
         if (count <= 0 || CardSorter.Instance.Compare(cardsInHand[count - 1], cardObj) <= 0)
@@ -733,10 +745,12 @@ public class CardHand : MonoBehaviour
             cardsInHand.Insert(index, cardObj);
         }
 
+        /*
         if (updateCurrentIndex && selectedCard != null && cardsInHand[CurrentIndex] != selectedCard)
         {
             CurrentIndex++;
         }
+        */
 
         UpdateCardPositions();
     }
@@ -770,6 +784,7 @@ public class CardHand : MonoBehaviour
         List<Card> cardsToDraw = new();
 
         int cardsToDrawCount = Mathf.Max(amountToDraw - count, amountSelectedForDiscard);
+        int actualCount = 0;
         for (int i = 0; i < cardsToDrawCount; i++)
         {
             if (!deck.CanDrawNext())
@@ -778,15 +793,19 @@ public class CardHand : MonoBehaviour
             }
 
             cardsToDraw.Add(deck.DrawNext());
+            actualCount++;
         }
 
         cardsToDraw.Sort(CardSorter.Instance);
 
-        foreach (Card card in cardsToDraw)
+        for (int i = 0; i < actualCount; i++)
         {
-            DrawCard(card, count > 0);
+            DrawCard(cardsToDraw[i]);
 
-            yield return new WaitForSeconds(0.1f);
+            if (i < actualCount - 1)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
         }
     }
 
@@ -975,7 +994,7 @@ public class CardHand : MonoBehaviour
         //h�gra sidan fr�n selected index
         for (int i = CurrentIndex+1; i < count; i++)
         {
-                cardsInHand[i].Canvas.sortingOrder = -1 * (i -(CurrentIndex) + 1);
+            cardsInHand[i].Canvas.sortingOrder = -1 * (i -(CurrentIndex) + 1);
             //cardsInHand[i].GetComponent<SpriteRenderer>().sortingOrder = -1 * (i - (selectedIndex) + 1);
         }
 
