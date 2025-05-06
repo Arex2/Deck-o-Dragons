@@ -128,7 +128,16 @@ public abstract class UpgradeableBase<T, Level>
 
     public string ToString(int level)
     {
-        return GetValue(level).ToString();
+        string text = GetValue(level).ToString();
+
+        if (level != 0)
+        {
+            return UpgradeablesManager.ColorBasedOnLevel(text, level);
+        }
+        else
+        {
+            return text;
+        }
     }
 
     public UpgradeableBase(T baseValue, int upgradeAmount, int downgradeAmount, Func<int, Level> forEachUpgrade, Func<int, Level> forEachDowngrade)
