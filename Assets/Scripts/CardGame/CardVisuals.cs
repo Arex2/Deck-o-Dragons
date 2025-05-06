@@ -88,15 +88,26 @@ public class CardVisuals : MonoBehaviour
 
         titleText.text = Card.DisplayName.ToString();
 
-        if (cardObject != null && cardObject.Level != 0)
+        if (cardObject != null)
         {
-            if (cardObject.Level > 0)
+            int level = cardObject.Level;
+
+            if (level != 0)
             {
-                titleText.text += $" (+{cardObject.Level})";
-            }
-            else
-            {
-                titleText.text += $" ({cardObject.Level})";
+                string suffix;
+
+                if (level > 0)
+                {
+                    suffix = $" (+{level})";
+                }
+                else
+                {
+                    suffix = $" ({level})";
+                }
+
+                suffix = UpgradeablesManager.ColorBasedOnLevel(suffix, level);
+
+                titleText.text += suffix;
             }
         }
         UpdateCostWhole();
