@@ -54,6 +54,8 @@ public abstract class StatusEffect : GUIDScriptableObject
     public Target User { get; set; }
     public StatusEffectData Data { get; set; }
 
+    public bool Triggered { get; private set; }
+
     /// <summary>
     /// How strong the <see cref="StatusEffect"/> is.
     /// </summary>
@@ -181,6 +183,13 @@ public abstract class StatusEffect : GUIDScriptableObject
     {
         User = target;
         Data = data;
+
+        Triggered = false;
+    }
+
+    protected void Trigger()
+    {
+        Triggered = true;
     }
 
     public virtual void OnApplied()

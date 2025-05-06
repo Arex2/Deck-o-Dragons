@@ -784,6 +784,7 @@ public class CardHand : MonoBehaviour
         List<Card> cardsToDraw = new();
 
         int cardsToDrawCount = Mathf.Max(amountToDraw - count, amountSelectedForDiscard);
+        int actualCount = 0;
         for (int i = 0; i < cardsToDrawCount; i++)
         {
             if (!deck.CanDrawNext())
@@ -792,15 +793,16 @@ public class CardHand : MonoBehaviour
             }
 
             cardsToDraw.Add(deck.DrawNext());
+            actualCount++;
         }
 
         cardsToDraw.Sort(CardSorter.Instance);
 
-        for (int i = 0; i < cardsToDrawCount; i++)
+        for (int i = 0; i < actualCount; i++)
         {
             DrawCard(cardsToDraw[i]);
 
-            if (i < cardsToDrawCount - 1)
+            if (i < actualCount - 1)
             {
                 yield return new WaitForSeconds(0.1f);
             }

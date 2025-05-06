@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static UnityEditor.Rendering.FilterWindow;
 
 public class DragonBookContents : MonoBehaviour
 {
