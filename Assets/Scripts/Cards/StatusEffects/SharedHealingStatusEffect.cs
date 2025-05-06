@@ -10,7 +10,7 @@ public class SharedHealingStatusEffect : StatusEffect
 {
     public override bool HasPotency => false;
 
-    public override string DurationName => "Turns";
+    //public override string DurationName => "Turns";
 
     public override void OnHeal(HealData healData)
     {
@@ -28,8 +28,10 @@ public class SharedHealingStatusEffect : StatusEffect
         }
     }
 
+    /*
     public override void OnTurnEnd()
     {
         Duration--;
     }
+    */
 }

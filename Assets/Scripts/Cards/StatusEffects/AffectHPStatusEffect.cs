@@ -10,7 +10,7 @@ public class AffectHPStatusEffect : StatusEffect
     public override bool HasPotency => true;
 
     public override string PotencyName => IsDebuff ? "Damage" : "Healing";
-    public override string DurationName => "Turns";
+    //public override string DurationName => "Turns";
 
     public override void OnTurnStart()
     {
@@ -23,7 +23,7 @@ public class AffectHPStatusEffect : StatusEffect
 
         Trigger();
 
-        Duration--;
+        //Duration--;
     }
 
     public override void OnTurnEnd()
@@ -37,6 +37,6 @@ public class AffectHPStatusEffect : StatusEffect
 
         Trigger();
 
-        Duration--;
+        //Duration--;
     }
 }

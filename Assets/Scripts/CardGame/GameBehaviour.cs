@@ -179,6 +179,7 @@ public class GameBehaviour : Target
 
     protected override void UpdateHP()
     {
+        base.UpdateHP();
         /*
         if (hpSlider.value > HP)
         {

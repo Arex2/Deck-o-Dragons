@@ -47,9 +47,6 @@ public class CardgameStatusButton : MonoBehaviour, IPointerDownHandler, IPointer
     [Space]
     [SerializeField] private GameBehaviour gameBehaviour;
 
-    [Header("TEMP PLEASE DELTET")]
-    [SerializeField] private CanvasGroup TEMP_TUTORIAL_TEXT;
-    private static bool _doneWith_TEMP_Tutorial;
     private float _heldTimer;
     private bool _pressed;
 
@@ -73,15 +70,6 @@ public class CardgameStatusButton : MonoBehaviour, IPointerDownHandler, IPointer
 
     private void Start()
     {
-        if (_doneWith_TEMP_Tutorial)
-        {
-            TEMP_TUTORIAL_TEXT.alpha = 0;
-        }
-        else
-        {
-            TEMP_TUTORIAL_TEXT.transform.DOLocalMoveY(TEMP_TUTORIAL_TEXT.transform.localPosition.y + 30, 0.5f).SetLoops(-1, LoopType.Yoyo);
-        }
-
         _pressRadialFillActiveAlpha = pressRadialFill.color.a;
         pressRadialFill.fillAmount = pressRadialFillMin;
 
@@ -277,15 +265,6 @@ public class CardgameStatusButton : MonoBehaviour, IPointerDownHandler, IPointer
 
         transform.DOKill();
         transform.DOScale(heldSize, 0.75f).SetEase(Ease.OutExpo);
-
-        if (!_doneWith_TEMP_Tutorial)
-        {
-            TEMP_TUTORIAL_TEXT.DOFade(0, 0.5f).onComplete = () =>
-            {
-                TEMP_TUTORIAL_TEXT.transform.DOKill();
-            };
-            _doneWith_TEMP_Tutorial = true;
-        }
     }
 
     public void OnPointerUp(PointerEventData eventData)

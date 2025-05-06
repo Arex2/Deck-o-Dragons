@@ -75,7 +75,7 @@ public struct CardData : IEnumerable<KeyValuePair<Type, Dictionary<string, objec
 
     private static readonly MethodInfo _getDefaultGenericMethodInfo = typeof(CardData).GetType().GetMethod("GetDefaultGeneric", BindingFlags.Static | BindingFlags.NonPublic);
 
-    private static T GetDefaultGeneric<T>() =>  default(T);
+    private static T GetDefaultGeneric<T>() => default(T);
 
     public bool TryGetCardData<T>(string key, out T value, T defaultValue)
     {
@@ -110,6 +110,19 @@ public struct CardData : IEnumerable<KeyValuePair<Type, Dictionary<string, objec
     }
 
     /// <summary>
+    /// Clears all saved card data.
+    /// </summary>
+    public void Clear()
+    {
+        if (_data == null)
+        {
+            return;
+        }
+
+        _data.Clear();
+    }
+
+    /// <summary>
     /// Merges this <see cref="CardData"/> with some <paramref name="other"/> <see cref="CardData"/>.
     /// </summary>
     public void Merge(CardData other)
@@ -121,6 +134,22 @@ public struct CardData : IEnumerable<KeyValuePair<Type, Dictionary<string, objec
             {
                 SetCardData(pair2.Key, pair1.Key, pair2.Value);
             }
+        }
+    }
+
+    /// <summary>
+    /// Merges this <see cref="CardData"/> with some other <paramref name="cardDatas"/>.
+    /// </summary>
+    public void Merge(params CardData[] cardDatas) => Merge((IEnumerable<CardData>)cardDatas);
+
+    /// <summary>
+    /// Merges this <see cref="CardData"/> with some other <paramref name="cardDatas"/>.
+    /// </summary>
+    public void Merge(IEnumerable<CardData> cardDatas)
+    {
+        foreach (var cardData in cardDatas)
+        {
+            Merge(cardData);
         }
     }
 

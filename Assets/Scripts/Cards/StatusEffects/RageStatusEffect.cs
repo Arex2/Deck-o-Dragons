@@ -12,7 +12,7 @@ public class RageStatusEffect : StatusEffect
     public override bool? ForcedPotencyIsPercent => false;
 
     public override string PotencyName => "DMG per hit";
-    public override string DurationName => "Turns";
+    //public override string DurationName => "Turns";
 
     public override void OnHurt(Target attacker, AttackData attackData)
     {
@@ -44,10 +44,12 @@ public class RageStatusEffect : StatusEffect
         attackData += (int)UserData;
     }
 
+    /*
     public override void OnTurnEnd()
     {
         Duration--;
     }
+    */
 
     public override string DefaultUserDataString()
     {

@@ -10,7 +10,7 @@ using UnityEngine;
 public class StatusEffectOptions
 {
     public StatusEffect StatusEffect => statusEffect;
-    public StatusEffectData GetData(int level) => new StatusEffectData(GetPotency(level), GetDuration(level));
+    public StatusEffectData GetData(int level) => new StatusEffectData(StatusEffect, GetPotency(level), GetDuration(level));
     public float GetPotency(int level) => potency[level];
     public int GetDuration(int level) => duration[level];
 

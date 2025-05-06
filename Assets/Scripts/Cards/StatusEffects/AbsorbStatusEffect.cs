@@ -11,7 +11,7 @@ public class AbsorbStatusEffect : StatusEffect
 
     public override string PotencyName => "HP";
 
-    public override string DurationName => "Turns";
+    //public override string DurationName => "Turns";
 
     public override void OnHurt(Target attacker, AttackData attackData)
     {
@@ -38,8 +38,10 @@ public class AbsorbStatusEffect : StatusEffect
         }
     }
 
+    /*
     public override void OnTurnEnd()
     {
         Duration--;
     }
+    */
 }
