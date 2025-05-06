@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Name: AirborneSacrifice
   m_EditorClassIdentifier: 
   guid: 439881303f08dc641bade804432640d2
-  sprite: {fileID: 21300000, guid: 4bdb746a017162440b9f17a9befd0f13, type: 3}
+  sprite: {fileID: 21300000, guid: bb2de3fbf42a8bb43b495aa8d5ee1211, type: 3}
   displayName: Airborne Sacrifice
   description: Take {Attack} damage and draw {CARD_AMOUNT}.
   cost: 2

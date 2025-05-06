@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Weakness
   m_EditorClassIdentifier: 
   guid: 815f22a374bec81428f83532c0c30a7a
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 0e6c1e1d0805177498f904a69d32a748, type: 3}
   displayName: Weakness
   description: Reduce your opponents damage by {POTENCY} for {DURATION} turns.
   cost: 4

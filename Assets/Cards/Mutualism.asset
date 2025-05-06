@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: Mutualism
   m_EditorClassIdentifier: 
   guid: 9f6a71bf88d32634681c9df4bc542c4d
-  sprite: {fileID: 21300000, guid: 56b83dd35c7ef00449a5b31f06875fc9, type: 3}
+  sprite: {fileID: 21300000, guid: 77e8d93c7f197f4469f0058c3fea8bd3, type: 3}
   displayName: Mutualism
   description: Heal yourself by {HEALING}, heal the enemy by {HEALING}
   cost: 2

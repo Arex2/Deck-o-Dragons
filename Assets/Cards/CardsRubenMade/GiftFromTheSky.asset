@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: GiftFromTheSky
   m_EditorClassIdentifier: 
   guid: 0d6f53dc7d5f61e4c8fd6fcbff74bb2e
-  sprite: {fileID: 21300000, guid: 4e3129cc8aa819e4691aff0a0b2f5bc4, type: 3}
+  sprite: {fileID: 21300000, guid: 2448b13a0d2eda54f9451242e9cd0b2a, type: 3}
   displayName: Gift From the Sky
   description: Draw {CARD_AMOUNT} and heal {HEAL}.
   cost: 5

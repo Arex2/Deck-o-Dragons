@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WaterShield
   m_EditorClassIdentifier: 
   guid: af812dbd79929c5488bea420e38b3414
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: a1c5bd3ad09e3f24b8ac1c3420c9f5be, type: 3}
   displayName: Water Shield
   description: Gain a temporary shield that absorbs a total of {POTENCY} damage. 
     Disappears after {DURATION} turns.

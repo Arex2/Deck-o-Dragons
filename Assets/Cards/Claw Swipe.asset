@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: Claw Swipe
   m_EditorClassIdentifier: 
   guid: 9cc527b6d0cc85547b021d492a15161f
-  sprite: {fileID: 21300000, guid: 9412a01de10a1b94daa08d1e71ac9792, type: 3}
+  sprite: {fileID: 21300000, guid: f6c6d58e2c49019438480caf79f71f29, type: 3}
   displayName: Claw Swipe
   description: 'Deal {DAMAGE} damage '
   cost: 3

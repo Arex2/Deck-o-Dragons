@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Minor Healing
   m_EditorClassIdentifier: 
   guid: ce92a4cd8d0265a4b8ef6d7710d80c66
-  sprite: {fileID: 21300000, guid: 8f888de801b6d1645a92093365782acc, type: 3}
+  sprite: {fileID: 21300000, guid: 2c1f0239df71d4e4889cc503c2b6bc56, type: 3}
   displayName: Minor Healing
   description: Heal yourself by {HEALING}.
   cost: 1
