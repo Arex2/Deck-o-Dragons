@@ -33,6 +33,13 @@ public class SelectionState : IState
 
     public virtual IState Execute()
     {
+        //Added check here since enemy now can die after card has finished playing - Harriet 
+        BattleOverState battleOver = BattleOverState.BattleOverCheck();
+        if (battleOver != null)
+        {
+            return new BattleOverState();
+        }
+
         //if endTurn button pressed end turn
         if (gameBehaviour.ButtonPressed)
         {
