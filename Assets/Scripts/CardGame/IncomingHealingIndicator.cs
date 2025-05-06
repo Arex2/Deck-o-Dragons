@@ -21,12 +21,12 @@ public class IncomingHealingIndicator : MonoBehaviour
 
     public void ShowIncomingHealing(float currentHP, float incomingHealing, float sliderMaxHP)
     {
-        healingSlider.value = CalculateHealingToSlider(currentHP, incomingHealing, sliderMaxHP);
+        healingSlider.normalizedValue = CalculateHealingToSlider(currentHP, incomingHealing, sliderMaxHP);
     }
 
-    public void hide()
+    public void Hide()
     {
-        healingSlider.value = 0;
+        healingSlider.normalizedValue = 0;
     }
 
     private float CalculateHealingToSlider(float hp, float healing, float sliderMaxHP)

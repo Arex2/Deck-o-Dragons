@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: ce92a4cd8d0265a4b8ef6d7710d80c66
   sprite: {fileID: 21300000, guid: 2c1f0239df71d4e4889cc503c2b6bc56, type: 3}
-  displayName: Minor Healing
+  displayName: Tasty Treat
   description: Heal yourself by {HEALING}.
   cost: 1
   element: 2
   category: 0
   rarity: 0
   copies: 3
-  canChangeLevel: 0
+  canChangeLevel: 1
   minLevel:
-    Enabled: 0
-    Value: 0
+    Enabled: 1
+    Value: -1
   maxLevel:
-    Enabled: 0
-    Value: 0
+    Enabled: 1
+    Value: 1
   tags:
     data: []
   cardComponents:
@@ -52,14 +52,14 @@ MonoBehaviour:
     team: 1
     mode: 0
   healing:
-    baseValue: 2
+    baseValue: 20
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 0
+    - value: 10
       method: 0
     downgrades:
-    - value: 0
+    - value: 10
       method: 1
     minLimit:
       Enabled: 0

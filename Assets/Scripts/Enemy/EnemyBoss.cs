@@ -10,13 +10,20 @@ public class EnemyBoss : Target
      * Mana and health variables
      */
 
+    [Space]
     [SerializeField] private Slider healthSlider;
+    /*
+    [SerializeField] private IncomingDamageIndicator indicatorDMG;
+    [SerializeField] private IncomingHealingIndicator indicatorHEAL;
+    */
 
+    [Space]
     [SerializeField] private TMP_Text healthText;
     [SerializeField] private int maxMana;
     private int currentMana;
     private string healthTextFormat;
 
+    [Space]
     [SerializeField] List<Card> cardsAvailable = new List<Card>();
 
     /*
@@ -32,6 +39,8 @@ public class EnemyBoss : Target
     [SerializeField] private AudioClip damageTakenSound;
 
     [SerializeField] private List<Sprite> enemySprites;
+    [SerializeField] private List<string> enemyNames;
+    [SerializeField] private TMP_Text nameText;
     private SpriteRenderer spriteRenderer;
 
     //Damage text - Harriet
@@ -52,6 +61,7 @@ public class EnemyBoss : Target
         }
         healthTextFormat = healthText.text;
         healthSlider.maxValue = MaxHP;
+
         HP = MaxHP;
         UpdateHP();
         originalPosition = transform.localPosition;
@@ -59,10 +69,12 @@ public class EnemyBoss : Target
 
         if (ProgressManager.Instance != null)
         {
+            int level = ProgressManager.Instance.GetCurrentLevel();
 
-            if (enemySprites.Count - 1 > ProgressManager.Instance.GetCurrentLevel())
+            if (enemySprites.Count - 1 > level)
             {
-                spriteRenderer.sprite = enemySprites[ProgressManager.Instance.GetCurrentLevel()];
+                spriteRenderer.sprite = enemySprites[level];
+                nameText.text = enemyNames[level];
             }
         }
     }
@@ -160,8 +172,8 @@ public class EnemyBoss : Target
     protected override void UpdateHP()
     {
         base.UpdateHP();
-        healthText.text = string.Format(healthTextFormat, HP.ToString());
         healthSlider.value = HP;
+        healthText.text = string.Format(healthTextFormat, Mathf.Ceil(HP), MaxHP);
     }
 
     public override void Hurt(AttackData attackData)

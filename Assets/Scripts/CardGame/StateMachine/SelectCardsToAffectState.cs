@@ -27,7 +27,7 @@ public class SelectCardsToAffectState : IState
         requireExactAmount = affectOtherCards.RequireExactAmount;
 
         cardHand.OnStartSelectingCards(CardHand.SelectionState.AffectCards, count.HasValue ? count.Value : 0, affectOtherCards.SelectMessage, affectOtherCards.FilterCardObject);
-        gameBehaviour.UpdateStatusText("SELECT CARD TO AFFECT");
+        //gameBehaviour.UpdateStatusText("SELECT CARD TO AFFECT");
 
         controls.controls.Enable();
 
@@ -37,7 +37,7 @@ public class SelectCardsToAffectState : IState
         }
         else
         {
-            gameBehaviour.SetButtonText("Done");
+            gameBehaviour.SetButtonText("Finish");
         }
 
         gameBehaviour.EnableButton();
@@ -60,7 +60,7 @@ public class SelectCardsToAffectState : IState
             }
             else
             {
-                gameBehaviour.SetButtonText("Done");
+                gameBehaviour.SetButtonText("Finish");
             }
         }
 
@@ -98,6 +98,7 @@ public class SelectCardsToAffectState : IState
         cardObject.Card.FinishedSettingCardsToAffect();
 
         gameBehaviour.DisableButton();
+        gameBehaviour.ResetButtonText();
 
         //gameBehaviour.StartCoroutine(gameBehaviour.cardHand.DrawNewHandNew());
         cardHand.OnExitSelectingCards();

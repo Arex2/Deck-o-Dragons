@@ -20,11 +20,11 @@ MonoBehaviour:
   element: 2
   category: 4
   rarity: 0
-  copies: 2
-  canChangeLevel: 0
+  copies: 1
+  canChangeLevel: 1
   minLevel:
-    Enabled: 0
-    Value: 0
+    Enabled: 1
+    Value: -3
   maxLevel:
     Enabled: 0
     Value: 0
@@ -67,14 +67,14 @@ MonoBehaviour:
   disableOnStart: 0
   tag: {fileID: 0}
   amount:
-    baseValue: 5
+    baseValue: 6
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 0
+    - value: 2
       method: 0
     downgrades:
-    - value: 0
+    - value: 1
       method: 1
     minLimit:
       Enabled: 0

@@ -7,6 +7,7 @@ public class SelectionState : IState
 {
     protected ControlsV2 controls;
     GameBehaviour gameBehaviour;
+    float battleOverCheckTimer;
     public virtual IState Enter(GameBehaviour gameBehaviour)
     {
         this.gameBehaviour = gameBehaviour;
@@ -19,7 +20,9 @@ public class SelectionState : IState
         //gameBehaviour.indicatorManager.ClearIndicators();
         gameBehaviour.indicatorManager.UpdateIndicatorsForOldCard();
 
-        gameBehaviour.UpdateStatusText("Select a card");
+        gameBehaviour.StatusButton.ProceedStatus(CardgameStatusButton.PLAYER_TURN, CardgameStatusButton.DISCARD);
+
+        //gameBehaviour.UpdateStatusText("Select a card");
         //player gets input
         //Wait();
         controls.controls.Enable();
@@ -34,10 +37,21 @@ public class SelectionState : IState
     public virtual IState Execute()
     {
         //Added check here since enemy now can die after card has finished playing - Harriet 
-        BattleOverState battleOver = BattleOverState.BattleOverCheck();
-        if (battleOver != null)
+        // Check only once per 0.1 seconds, every frame is a bit excessive - Ruben
+        if (battleOverCheckTimer <= 0)
         {
-            return new BattleOverState();
+            battleOverCheckTimer = 0.1f;
+
+            BattleOverState battleOver = BattleOverState.BattleOverCheck();
+
+            if (battleOver != null)
+            {
+                return battleOver;
+            }
+        }
+        else
+        {
+            battleOverCheckTimer -= Time.deltaTime;
         }
 
         //if endTurn button pressed end turn
@@ -49,7 +63,12 @@ public class SelectionState : IState
             {
                 return new DiscardState();
             }
-            else return new PlayEnemyState();
+            else
+            {
+                gameBehaviour.StatusButton.ProceedStatus(CardgameStatusButton.DISCARD, CardgameStatusButton.ENEMY_TURN);
+                gameBehaviour.StatusButton.ProceedStatus(CardgameStatusButton.ENEMY_TURN, CardgameStatusButton.PLAYER_TURN);
+                return new PlayEnemyState();
+            }
         }
 
         /*

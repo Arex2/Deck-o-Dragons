@@ -33,7 +33,7 @@ public class CardHeal : CardComponent
     [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Own, TargetFilter.FilterMode.Leader);
 
     [Space]
-    [SerializeField] private UpgradeableFloat healing = new(2);
+    [SerializeField] private UpgradeableFloat healing = new(20, 10);
 
     [Space]
     [SerializeField] private CardVFXReference vfx = new("Heal");

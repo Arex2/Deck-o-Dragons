@@ -37,23 +37,25 @@ public class GameBehaviour : Target
     [SerializeField]
     public CardHand cardHand;
 
+    public CardgameStatusButton StatusButton => statusButton;
+
     //End turn button
     [Space]
     [SerializeField]
-    Button button;
-    CanvasGroup buttonCanvasGroup;
-    [SerializeField]
-    TMP_Text buttonText;
-    string buttonDefaultText;
+    CardgameStatusButton statusButton;
+    CanvasGroup statusButtonCanvasGroup;
 
     //temp canvas text
+    /*
     [Space]
     [SerializeField]
     private TMP_Text statusText;
+    */
     [SerializeField]
     private TMP_Text manaText;
     [SerializeField]
     private TMP_Text playerHealthText;
+    private string _playerHealthFormat;
     //[SerializeField]
     //private TMP_Text enemyHealthText;
 
@@ -75,6 +77,10 @@ public class GameBehaviour : Target
         Camera camera;
     [SerializeField] private RectTransform hitPositionRect;
 
+    [Header("Battle Over")]
+    [SerializeField] private CanvasGroup battleOverCanvas;
+    [SerializeField] private TMP_Text battleOverResultText;
+
     //Reference to enemy script
     /*
     [SerializeField]
@@ -85,10 +91,11 @@ public class GameBehaviour : Target
     {
         Instance = this;
 
-        buttonCanvasGroup = button.GetComponentInChildren<CanvasGroup>(true);
+        _playerHealthFormat = playerHealthText.text;
 
-        buttonCanvasGroup.alpha = 0;
-        buttonCanvasGroup.blocksRaycasts = false;
+        statusButtonCanvasGroup = statusButton.GetComponentInChildren<CanvasGroup>(true);
+
+        statusButtonCanvasGroup.blocksRaycasts = false;
 
         base.Awake();
     }
@@ -97,25 +104,24 @@ public class GameBehaviour : Target
     {
         base.Start();
 
-        buttonDefaultText = buttonText.text;
-
         mana = maxMana;
 
         manaText.text = mana.ToString();
-        //enemyHealthText.text = enemyHp.ToString();
-        playerHealthText.text = HP.ToString();
 
         hpSlider.maxValue = MaxHP;
-        hpSlider.value = HP;
+
+        UpdateHP();
 
         //encounterManager.InctanceNextEncounter();
     }
 
     //update status text
+    /*
     public void UpdateStatusText(string text)
     {
         statusText.text = text;
     }
+    */
 
     //end turn button
     public void ButtonPress()
@@ -132,48 +138,57 @@ public class GameBehaviour : Target
 
     public void SetButtonText(string text)
     {
-        if (buttonText.text == text)
-        {
-            return;
-        }
-
-        buttonText.text = text;
+        statusButton.SetOverrideCurrentText(text);
     }
 
     public void ResetButtonText()
     {
-        SetButtonText(buttonDefaultText);
+        statusButton.SetOverrideCurrentText(null);
     }
 
     public void EnableButton()
     {
         buttonPressed = false;
 
-        buttonCanvasGroup.blocksRaycasts = true;
-
-        buttonCanvasGroup.DOKill();
-        buttonCanvasGroup.DOFade(1, 0.25f);
+        statusButtonCanvasGroup.blocksRaycasts = true;
     }
 
     public void DisableButton()
     {
         buttonPressed = false;
 
-        buttonCanvasGroup.blocksRaycasts = false;
+        statusButtonCanvasGroup.blocksRaycasts = false;
+    }
 
-        buttonCanvasGroup.DOKill();
-        buttonCanvasGroup.DOFade(0, 0.25f);
+    public void BattleOver(string result)
+    {
+        battleOverCanvas.DOFade(1, 1);
+
+        battleOverResultText.text = result;
+    }
+
+    public override void Hurt(AttackData attackData)
+    {
+        base.Hurt(attackData);
+
+        if (attackData > 0)
+        {
+            screenShake.StartShake();
+        }
     }
 
     protected override void UpdateHP()
     {
+        /*
         if (hpSlider.value > HP)
         {
             screenShake.StartShake();
         }
+        */
+
         hpSlider.value = HP; 
         //StartCoroutine(UpdateHealthBar());
-        playerHealthText.text = HP.ToString();
+        playerHealthText.text = string.Format(_playerHealthFormat, Mathf.Ceil(HP), MaxHP);
         //indicatorManager.ClearIndicators();
     }
 

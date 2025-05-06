@@ -11,7 +11,7 @@ public class PlayEnemyState : IState
     {
         Debug.Log("ENEMY TURN!!");
         this.gameBehaviour = gameBehaviour;
-        gameBehaviour.UpdateStatusText("Enemy Turn");
+        //gameBehaviour.UpdateStatusText("Enemy Turn");
         Target.TurnStart.Invoke(Team.Enemy);
 
         //play card effect

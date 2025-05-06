@@ -20,15 +20,11 @@ MonoBehaviour:
     team: 1
     mode: 0
   healing:
-    baseValue: 2
+    baseValue: 20
     stack: 1
     loopBehaviour: 1
-    upgrades:
-    - value: 0
-      method: 0
-    downgrades:
-    - value: 0
-      method: 1
+    upgrades: []
+    downgrades: []
     minLimit:
       Enabled: 0
       Value: 0

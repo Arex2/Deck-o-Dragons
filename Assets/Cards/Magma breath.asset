@@ -20,15 +20,13 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 1
+    baseValue: 10
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 1
+    - value: 3
       method: 0
-    downgrades:
-    - value: 1
-      method: 1
+    downgrades: []
     minLimit:
       Enabled: 0
       Value: 0
@@ -39,11 +37,9 @@ MonoBehaviour:
     baseValue: 4
     stack: 1
     loopBehaviour: 1
-    upgrades:
-    - value: 0
-      method: 0
+    upgrades: []
     downgrades:
-    - value: 0
+    - value: 1
       method: 1
     minLimit:
       Enabled: 0
@@ -74,11 +70,11 @@ MonoBehaviour:
   element: 1
   category: 1
   rarity: 1
-  copies: 2
-  canChangeLevel: 0
+  copies: 3
+  canChangeLevel: 1
   minLevel:
-    Enabled: 0
-    Value: 0
+    Enabled: 1
+    Value: -3
   maxLevel:
     Enabled: 0
     Value: 0

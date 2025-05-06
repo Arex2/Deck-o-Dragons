@@ -37,10 +37,11 @@ public class DiscardState : IState
         controls = gameBehaviour.controls;
 
         gameBehaviour.cardHand.OnStartSelectingCards(CardHand.SelectionState.Discard, null, null, DiscardFilter);
-        gameBehaviour.UpdateStatusText("DISCARDING CARDS");
+        //gameBehaviour.UpdateStatusText("DISCARDING CARDS");
 
         gameBehaviour.EnableButton();
-        gameBehaviour.SetButtonText("Done");
+
+        gameBehaviour.StatusButton.ProceedStatus(CardgameStatusButton.DISCARD, CardgameStatusButton.ENEMY_TURN);
 
         controls.controls.Enable();
 
@@ -66,6 +67,8 @@ public class DiscardState : IState
             gameBehaviour.StartCoroutine(Delay());
 
             gameBehaviour.cardHand.UpdateCardPositions();
+
+            gameBehaviour.StatusButton.ProceedStatus(CardgameStatusButton.ENEMY_TURN, CardgameStatusButton.PLAYER_TURN);
         }
 
         if (_switchState && CardVFXManager.ActiveVFXCount <= 0)

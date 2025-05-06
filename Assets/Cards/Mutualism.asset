@@ -20,14 +20,16 @@ MonoBehaviour:
     team: 4
     mode: 3
   healing:
-    baseValue: 5
+    baseValue: 50
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 0
+    - value: 20
+      method: 0
+    - value: 30
       method: 0
     downgrades:
-    - value: 0
+    - value: 20
       method: 1
     minLimit:
       Enabled: 0
@@ -59,13 +61,13 @@ MonoBehaviour:
   category: 4
   rarity: 1
   copies: 2
-  canChangeLevel: 0
+  canChangeLevel: 1
   minLevel:
-    Enabled: 0
-    Value: 0
+    Enabled: 1
+    Value: -1
   maxLevel:
-    Enabled: 0
-    Value: 0
+    Enabled: 1
+    Value: 2
   tags:
     data: []
   cardComponents:

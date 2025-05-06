@@ -32,6 +32,8 @@ MonoBehaviour:
     data:
     - tag: {fileID: 11400000, guid: 7a64935662935214796f0f6d78b32650, type: 2}
       potency: 0
+    - tag: {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
+      potency: 0
   cardComponents:
   - {fileID: 5793708038661123117}
 --- !u!114 &5793708038661123117
@@ -54,14 +56,14 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 4
+    baseValue: 40
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 1
+    - value: 10
       method: 0
     downgrades:
-    - value: 1
+    - value: 10
       method: 1
     minLimit:
       Enabled: 0
@@ -87,5 +89,4 @@ MonoBehaviour:
       Value: 0
   vfx:
     tag: Attack
-    vfxs:
-    - {fileID: 0}
+    vfxs: []

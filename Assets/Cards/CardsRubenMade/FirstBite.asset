@@ -24,7 +24,7 @@ MonoBehaviour:
   canChangeLevel: 1
   minLevel:
     Enabled: 1
-    Value: -2
+    Value: -1
   maxLevel:
     Enabled: 0
     Value: 0
@@ -52,14 +52,14 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 2
+    baseValue: 15
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 1
+    - value: 7
       method: 0
     downgrades:
-    - value: 1
+    - value: 7
       method: 1
     minLimit:
       Enabled: 0

@@ -77,6 +77,7 @@ public class TagDataPropertyDrawer : PropertyDrawer
 
     private static void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
     {
+        rect.y += EditorGUIUtility.standardVerticalSpacing / 2;
         rect.height -= EditorGUIUtility.standardVerticalSpacing;
 
         SerializedProperty property = _list.serializedProperty.GetArrayElementAtIndex(index);

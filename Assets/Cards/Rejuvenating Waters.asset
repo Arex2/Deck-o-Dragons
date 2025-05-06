@@ -21,10 +21,10 @@ MonoBehaviour:
   category: 0
   rarity: 0
   copies: 2
-  canChangeLevel: 0
+  canChangeLevel: 1
   minLevel:
-    Enabled: 0
-    Value: 0
+    Enabled: 1
+    Value: -3
   maxLevel:
     Enabled: 0
     Value: 0
@@ -52,14 +52,14 @@ MonoBehaviour:
     team: 1
     mode: 0
   healing:
-    baseValue: 8
+    baseValue: 80
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 2
+    - value: 20
       method: 0
     downgrades:
-    - value: 2
+    - value: 20
       method: 1
     minLimit:
       Enabled: 0
