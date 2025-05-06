@@ -39,7 +39,6 @@ public class EnemyScalingManager : MonoBehaviour
 
     public void AdvanceScaling()
     {
-        print("DEN SCALEAR"); 
         currentHealthIncrease += healthIncrease;
         currentManaIncrease += manaIncrease;
     }
