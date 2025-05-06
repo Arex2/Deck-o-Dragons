@@ -15,7 +15,7 @@ public class PlayCardState : IState
         cardHand = gameBehaviour.cardHand;
         controls = gameBehaviour.controls;
 
-        gameBehaviour.UpdateStatusText("Card playing");
+        //gameBehaviour.UpdateStatusText("Card playing");
 
         controls.controls.Enable();
         return null;

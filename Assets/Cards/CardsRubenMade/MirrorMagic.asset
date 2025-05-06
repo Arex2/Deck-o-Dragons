@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Name: MirrorMagic
   m_EditorClassIdentifier: 
   guid: e7166f9b18750a44cad110b613464879
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: e5a0df0893cdc0643a2f81ffce385574, type: 3}
   displayName: Mirror Magic
   description: For the next {DURATION} turns, any Status Effect you receive will
     also be applied to your opponent.
@@ -74,7 +74,7 @@ MonoBehaviour:
   element: 0
   category: 4
   rarity: 1
-  copies: 2
+  copies: 1
   canChangeLevel: 1
   minLevel:
     Enabled: 1
@@ -83,6 +83,8 @@ MonoBehaviour:
     Enabled: 0
     Value: 0
   tags:
-    data: []
+    data:
+    - tag: {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
+      potency: 0
   cardComponents:
   - {fileID: -463966842060125003}

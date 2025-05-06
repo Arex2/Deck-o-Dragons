@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [SingletonMode(true)]
 public class DeckManager : Singleton<DeckManager>
@@ -13,6 +15,10 @@ public class DeckManager : Singleton<DeckManager>
     public List<Card> Deck {get; private set;}
     public Stack<Card> DrawPile { get; private set; }
     public LinkedList<Card> DiscardPile { get; private set; }
+
+    public static Action OnUpdateDrawPile { get; set; }
+    public static Action OnUpdateDiscardPile { get; set; }
+    public static Action OnUpdateDeck { get; set; }
 
     protected override void Awake()
     {
@@ -38,6 +44,11 @@ public class DeckManager : Singleton<DeckManager>
         DrawPile.Clear();
         ShuffleDrawFromList(new List<Card>(Deck));
         DiscardPile.Clear();
+
+        OnUpdateDrawPile?.Invoke();
+        OnUpdateDiscardPile?.Invoke();
+
+        OnUpdateDeck?.Invoke();
     }
 
     public void AddCardToDeck(Card card, int copies = 1)
@@ -46,11 +57,20 @@ public class DeckManager : Singleton<DeckManager>
         {
             Deck.Add(card);
         }
+
+        OnUpdateDeck?.Invoke();
     }
 
     public void RemoveCardFromDeck(Card card)
     {
         Deck.RemoveAll((match) => match == card);
+
+        OnUpdateDeck?.Invoke();
+    }
+
+    public bool HasCardInDeck(Card card)
+    {
+        return Deck.Contains(card);
     }
 
     public int CardCount(Card card)
@@ -70,7 +90,11 @@ public class DeckManager : Singleton<DeckManager>
             ResetDeck();
         }
 
-        return DrawPile.Pop();
+        Card card = DrawPile.Pop();
+
+        OnUpdateDrawPile?.Invoke();
+
+        return card;
     }
 
     public Card DrawNextWithTag(CardTag tag)
@@ -104,7 +128,7 @@ public class DeckManager : Singleton<DeckManager>
         }
         while (!hasTag && tries <= count);
 
-        void ReaddCardsToDrawPile()
+        void ReAddCardsToDrawPile()
         {
             foreach (Card card in tempPile)
             {
@@ -114,7 +138,9 @@ public class DeckManager : Singleton<DeckManager>
 
         if (hasTag)
         {
-            ReaddCardsToDrawPile();
+            ReAddCardsToDrawPile();
+
+            OnUpdateDrawPile?.Invoke();
             return card;
         }
 
@@ -123,7 +149,7 @@ public class DeckManager : Singleton<DeckManager>
             tempPile.Push(card);
         }
 
-        ReaddCardsToDrawPile();
+        ReAddCardsToDrawPile();
 
         return null;
     }
@@ -131,6 +157,8 @@ public class DeckManager : Singleton<DeckManager>
     public void Discard(Card card)
     {
         DiscardPile.AddLast(card);
+
+        OnUpdateDiscardPile?.Invoke();
     }
 
     public void InsertInDrawRandom(Card card)

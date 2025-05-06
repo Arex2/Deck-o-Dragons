@@ -39,7 +39,7 @@ public class CardAttack : CardComponent
     [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Opponent, TargetFilter.FilterMode.Chosen);
 
     [Space]
-    [SerializeField] private UpgradeableFloat damage = new(3, 1);
+    [SerializeField] private UpgradeableFloat damage = new(30, 10);
     [SerializeField] private UpgradeableInt attackAmount = new(1);
 
     [Space]

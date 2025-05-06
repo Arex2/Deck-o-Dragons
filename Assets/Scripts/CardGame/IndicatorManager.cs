@@ -75,11 +75,11 @@ public class IndicatorManager : MonoBehaviour
         healToEnemy = 0;
 
 
-        indicatorDMG.hide();
-        indicatorHEAL.hide();
+        indicatorDMG.Hide();
+        indicatorHEAL.Hide();
 
-        enemyIndicatorDMG.hide();
-        enemyIndicatorHEAL.hide();
+        enemyIndicatorDMG.Hide();
+        enemyIndicatorHEAL.Hide();
     }
 
     //Methods read damage and healing values from the card,
@@ -148,7 +148,7 @@ public class IndicatorManager : MonoBehaviour
                 case TargetFilter.FilterTeam.Random:
                 case TargetFilter.FilterTeam.All:
                     dmgToPlayer += attack.TotalDamage;
-                    dmgToEnemy = attack.TotalDamage;
+                    dmgToEnemy += attack.TotalDamage;
                     break;
 
                 //mot player
@@ -158,7 +158,7 @@ public class IndicatorManager : MonoBehaviour
 
                 //mot enemy
                 case TargetFilter.FilterTeam.Opponent:
-                    dmgToEnemy = attack.TotalDamage;
+                    dmgToEnemy += attack.TotalDamage;
                     break;
             }
         }

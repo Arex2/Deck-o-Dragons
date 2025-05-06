@@ -10,14 +10,20 @@ public class EnemyBoss : Target
      * Mana and health variables
      */
 
-    //notera måste lägga tillbaka scriptet på enemyn för att det ska fungera
-    [SerializeField] private Slider healthSlider; 
+    [Space]
+    [SerializeField] private Slider healthSlider;
+    /*
+    [SerializeField] private IncomingDamageIndicator indicatorDMG;
+    [SerializeField] private IncomingHealingIndicator indicatorHEAL;
+    */
 
+    [Space]
     [SerializeField] private TMP_Text healthText;
     [SerializeField] private int maxMana;
     private int currentMana;
     private string healthTextFormat;
 
+    [Space]
     [SerializeField] List<Card> cardsAvailable = new List<Card>();
 
     /*
@@ -33,7 +39,13 @@ public class EnemyBoss : Target
     [SerializeField] private AudioClip damageTakenSound;
 
     [SerializeField] private List<Sprite> enemySprites;
+    [SerializeField] private List<string> enemyNames;
+    [SerializeField] private TMP_Text nameText;
     private SpriteRenderer spriteRenderer;
+
+    //Damage text - Harriet
+    [SerializeField]
+    private GameObject FloatingTextPrefab;
 
     public override Team Team => Team.Enemy;
 
@@ -45,21 +57,24 @@ public class EnemyBoss : Target
         {
             maxMana = EnemyScalingManager.Instance.GetScaledMana();
             MaxHP = EnemyScalingManager.Instance.GetScaledHealth();
-            
+
         }
         healthTextFormat = healthText.text;
         healthSlider.maxValue = MaxHP;
+
         HP = MaxHP;
         UpdateHP();
         originalPosition = transform.localPosition;
-         spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (ProgressManager.Instance != null)
         {
-           
-            if (enemySprites.Count - 1 > ProgressManager.Instance.GetCurrentLevel())
+            int level = ProgressManager.Instance.GetCurrentLevel();
+
+            if (enemySprites.Count - 1 > level)
             {
-                spriteRenderer.sprite = enemySprites[ProgressManager.Instance.GetCurrentLevel()];
+                spriteRenderer.sprite = enemySprites[level];
+                nameText.text = enemyNames[level];
             }
         }
     }
@@ -84,7 +99,7 @@ public class EnemyBoss : Target
     {
         while (true)
         {
-            if(currentMana <= 0 || !CanPlayCard())
+            if (currentMana <= 0 || !CanPlayCard())
             {
                 break;
             }
@@ -106,8 +121,8 @@ public class EnemyBoss : Target
 
     private Card PickRandomCard()
     {
-        int index = Random.Range(0, cardsAvailable.Count);  
-        
+        int index = Random.Range(0, cardsAvailable.Count);
+
         return cardsAvailable[index];
     }
 
@@ -116,7 +131,7 @@ public class EnemyBoss : Target
     {
         bool canPlay = false;
 
-        for(int i = 0; i < cardsAvailable.Count; i++)
+        for (int i = 0; i < cardsAvailable.Count; i++)
         {
             if (cardsAvailable[i].Cost <= currentMana)
             {
@@ -130,7 +145,7 @@ public class EnemyBoss : Target
     {
         bool playCard = true;
 
-        if(cardToCheck.Category == CardCategory.Defense)
+        if (cardToCheck.Category == CardCategory.Defense)
         {
             if (HP == MaxHP)
             {
@@ -157,8 +172,8 @@ public class EnemyBoss : Target
     protected override void UpdateHP()
     {
         base.UpdateHP();
-         healthText.text = string.Format(healthTextFormat, HP.ToString());
         healthSlider.value = HP;
+        healthText.text = string.Format(healthTextFormat, Mathf.Ceil(HP), MaxHP);
     }
 
     public override void Hurt(AttackData attackData)
@@ -169,6 +184,11 @@ public class EnemyBoss : Target
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlaySFX(damageTakenSound);
+        }
+
+        if(FloatingTextPrefab)
+        {
+            ShowFloatingText(attackData);
         }
     }
 
@@ -215,6 +235,15 @@ public class EnemyBoss : Target
         }
 
         transform.localPosition = originalPosition;
+    }
+
+    //Damage text
+    private void ShowFloatingText(AttackData attackData)
+    {
+        GameObject obj = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity);
+        obj.GetComponent<TextMeshPro>().text = attackData.Damage.ToString();
+        //obj.GetComponent<TextMeshPro>().color = Random.ColorHSV();
+        obj.GetComponent<TextMeshPro>().color = Color.red;
     }
 
     /*
