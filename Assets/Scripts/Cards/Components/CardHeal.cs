@@ -72,6 +72,6 @@ public class CardHeal : CardComponent
     [ReplaceDescriptionKeyword("HEALING")]
     private string ReplaceDescriptionKeyword()
     {
-        return Mathf.Round(Healing).ToString();
+        return UpgradeablesManager.ColorBasedOnLevel(Mathf.Round(Healing).ToString(), Level);
     }
 }

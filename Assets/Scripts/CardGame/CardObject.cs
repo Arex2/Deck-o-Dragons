@@ -148,6 +148,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         pos += _offset;
 
+        /*
         // For some reason, positions become either NaN or Infinity so this should fix that (?)
         void FixValue(ref float value, float fixValue)
         {
@@ -168,6 +169,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         FixValue(ref rot, _currentRot);
         FixValue(ref scale, _currentScale);
+        */
 
         if (_currentPos != pos)
         {

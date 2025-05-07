@@ -82,12 +82,15 @@ public class StatusEffectOptionsPropertyDrawer : PropertyDrawer
 
         label.text = durationProp.displayName;
 
+        /*
         string durationName = statusEffect == null ? null : statusEffect.DurationName;
 
         if (!string.IsNullOrEmpty(durationName))
         {
             label.text += $" ({durationName})";
         }
+        */
+        label.text += " (Turns)";
 
         EditorGUI.PropertyField(rect, durationProp, label);
 

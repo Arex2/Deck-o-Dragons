@@ -15,7 +15,7 @@ MonoBehaviour:
   guid: 40eab4164775d014b9740b6f1dfa9bf6
   sprite: {fileID: 21300000, guid: 5c335dca2a770544d940a3ac51cdc070, type: 3}
   displayName: Rejuvenating Waters
-  description: Heal {HEALING}.
+  description: Heal yourself by {HEALING}.
   cost: 6
   element: 2
   category: 0

@@ -13,11 +13,16 @@ public class ReflectDamageStatusEffect : StatusEffect
 
     public override string PotencyName => "Percent";
 
-    public override string DurationName => "Attacks";
+    //public override string DurationName => "Attacks";
 
     public override void OnHurt(Target attacker, AttackData attackData)
     {
         if (attackData < 0)
+        {
+            return;
+        }
+
+        if (attacker == null)
         {
             return;
         }
@@ -28,6 +33,6 @@ public class ReflectDamageStatusEffect : StatusEffect
 
         attacker.NotifyStatusEffects = true;
 
-        Duration--;
+        //Duration--;
     }
 }

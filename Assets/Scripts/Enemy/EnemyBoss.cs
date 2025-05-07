@@ -241,7 +241,7 @@ public class EnemyBoss : Target
     private void ShowFloatingText(AttackData attackData)
     {
         GameObject obj = Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity);
-        obj.GetComponent<TextMeshPro>().text = attackData.Damage.ToString();
+        obj.GetComponent<TextMeshPro>().text = attackData.ToString();
         //obj.GetComponent<TextMeshPro>().color = Random.ColorHSV();
         obj.GetComponent<TextMeshPro>().color = Color.red;
     }

@@ -15,7 +15,7 @@ MonoBehaviour:
   guid: e3ae0944914a0584fb54faae81077112
   sprite: {fileID: 21300000, guid: 43c10b78b7bcc07448f89008f884c592, type: 3}
   displayName: Hardened Scales
-  description: You take {POTENCY} less damage for the next {DURATION} attacks.
+  description: You take {POTENCY} less damage for the next {DURATION} turns.
   cost: 3
   element: 0
   category: 2

@@ -37,7 +37,8 @@ public class TargetEffects : MonoBehaviour, ITargetCallbacks
     {
         foreach (StatusEffectVisual visual in statusEffectVisuals)
         {
-            bool enabled = _target.StatusEffectsData.ContainsKey(visual.Effect);
+            bool enabled = _target.TryGetStatusEffectData(visual.Effect, out List<StatusEffectData> dataList) && dataList.Count > 0;
+
             visual.Toggle(enabled);
         }
     }
@@ -54,11 +55,29 @@ public class TargetEffects : MonoBehaviour, ITargetCallbacks
 
     private void TriggerStatusEffectVisuals()
     {
-        foreach (StatusEffectVisual visual in statusEffectVisuals)
+        HashSet<StatusEffectVisual> triggeredVisuals = new();
+
+        foreach (StatusEffectData data in _target.StatusEffects)
         {
-            if (visual.Effect.Triggered)
+            if (!data.Triggered)
             {
+                continue;
+            }
+
+            foreach (StatusEffectVisual visual in statusEffectVisuals)
+            {
+                if (triggeredVisuals.Contains(visual))
+                {
+                    continue;
+                }
+
+                if (visual.Effect != data.StatusEffect)
+                {
+                    continue;
+                }
+
                 visual.Triggered();
+                triggeredVisuals.Add(visual);
             }
         }
     }

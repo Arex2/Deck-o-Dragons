@@ -15,7 +15,7 @@ public class DamageHealStatusEffect : StatusEffect
 
     public override string PotencyName => "Percent";
 
-    public override string DurationName => "Attacks";
+    //public override string DurationName => "Attacks";
 
     public override void OnAttack(Target target, AttackData attackData)
     {
@@ -26,6 +26,6 @@ public class DamageHealStatusEffect : StatusEffect
         
         User.Heal(new(attackData * Potency));
 
-        Duration--;
+        //Duration--;
     }
 }

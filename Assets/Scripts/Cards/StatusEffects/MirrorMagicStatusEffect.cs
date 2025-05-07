@@ -10,14 +10,16 @@ public class MirrorMagicStatusEffect : StatusEffect
 {
     public override bool HasPotency => false;
 
-    public override string DurationName => "Turns";
+    //public override string DurationName => "Turns";
 
+    /*
     public override void OnTurnEnd()
     {
         Duration--;
     }
+    */
 
-    public override void OnOtherStatusEffectApplied(StatusEffect statusEffect, StatusEffectData otherData)
+    public override void OnAddOtherStatusEffect(StatusEffectData otherData)
     {
         Team team = User.Team;
 
@@ -27,8 +29,8 @@ public class MirrorMagicStatusEffect : StatusEffect
         {
             target.NotifyStatusEffects = false;
 
-            target.ApplyStatusEffect(statusEffect, otherData.Clone());
-
+            target.AddStatusEffect(otherData.Clone());
+            
             target.NotifyStatusEffects = true;
         }
     }

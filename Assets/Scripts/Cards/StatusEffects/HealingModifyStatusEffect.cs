@@ -11,7 +11,7 @@ public class HealingModifyStatusEffect : StatusEffect
 
     public override string PotencyName => PotencyIsPercent ? "Percent" : "Healing";
 
-    public override string DurationName => "Heals";
+    //public override string DurationName => "Heals";
 
     public override void OnHeal(HealData healData)
     {
@@ -26,6 +26,6 @@ public class HealingModifyStatusEffect : StatusEffect
             healData += potency;
         }
 
-        Duration--;
+        //Duration--;
     }
 }

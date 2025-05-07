@@ -9,7 +9,7 @@ public class InvertHealingStatusEffect : StatusEffect
 {
     public override bool HasPotency => false;
 
-    public override string DurationName => "Heals";
+    //public override string DurationName => "Heals";
 
     public override void OnHeal(HealData healData)
     {
@@ -17,6 +17,6 @@ public class InvertHealingStatusEffect : StatusEffect
 
         healData.Negate();
 
-        Duration--;
+        //Duration--;
     }
 }

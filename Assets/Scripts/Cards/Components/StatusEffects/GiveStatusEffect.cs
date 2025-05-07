@@ -20,7 +20,7 @@ public class GiveStatusEffect : CardComponent
     {
         foreach (Target target in targets)
         {
-            target.ApplyStatusEffect(statusEffect.StatusEffect, statusEffect.GetData(Level));
+            target.AddStatusEffect(statusEffect.GetData(Level));
         }
     }
 

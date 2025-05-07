@@ -20,7 +20,7 @@ public abstract class StatusEffect : GUIDScriptableObject
 
     public virtual string PotencyName => null;
 
-    public virtual string DurationName => null;
+    //public virtual string DurationName => null;
 
     public Sprite Icon => icon;
     public string DisplayName
@@ -54,7 +54,7 @@ public abstract class StatusEffect : GUIDScriptableObject
     public Target User { get; set; }
     public StatusEffectData Data { get; set; }
 
-    public bool Triggered { get; private set; }
+    public bool Triggered => Data == null ? false : Data.Triggered;
 
     /// <summary>
     /// How strong the <see cref="StatusEffect"/> is.
@@ -74,7 +74,7 @@ public abstract class StatusEffect : GUIDScriptableObject
     }
 
     /// <summary>
-    /// How long the <see cref="StatusEffect"/> lasts.
+    /// How many turns the <see cref="StatusEffect"/> lasts.
     /// </summary>
     public int Duration
     {
@@ -183,16 +183,19 @@ public abstract class StatusEffect : GUIDScriptableObject
     {
         User = target;
         Data = data;
-
-        Triggered = false;
     }
 
     protected void Trigger()
     {
-        Triggered = true;
+        if (Data == null)
+        {
+            return;
+        }
+        
+        Data.Trigger();
     }
 
-    public virtual void OnApplied()
+    public virtual void OnAdded()
     {
         
     }
@@ -227,7 +230,12 @@ public abstract class StatusEffect : GUIDScriptableObject
 
     }
 
-    public virtual void OnOtherStatusEffectApplied(StatusEffect statusEffect, StatusEffectData otherData)
+    public virtual void OnAddOtherStatusEffect(StatusEffectData otherData)
+    {
+
+    }
+
+    public virtual void OnWriteCardData(CardData cardData)
     {
 
     }
