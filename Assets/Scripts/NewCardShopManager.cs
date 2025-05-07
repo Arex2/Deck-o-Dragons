@@ -5,7 +5,7 @@ using UnityEngine;
 public class NewCardShopManager : MonoBehaviour
 {
     [SerializeField] private GameObject contentContainer;
-    [SerializeField] private GameObject zoomContainer;
+    [SerializeField] private CardShopScroll scroll;
     [SerializeField] private CardViewInctance cardPrefab;
 
     void Start()
@@ -15,7 +15,8 @@ public class NewCardShopManager : MonoBehaviour
             CardViewInctance newCard = Instantiate(cardPrefab);
             newCard.setNewCard(card);
             newCard.transform.parent = contentContainer.transform;
-            newCard.transform.localScale = new Vector3(1, 1, 1);
+            newCard.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            scroll.cardPositions.Add(newCard.GetComponent<RectTransform>());
         }
     }
 
