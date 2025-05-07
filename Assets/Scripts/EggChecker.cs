@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EggChecker : MonoBehaviour
 {
-    public GameObject uiElement;
+    public GameObject panelButton;
     public GameObject meny;
     public GameObject block;
     public GameObject button;
@@ -13,14 +13,14 @@ public class EggChecker : MonoBehaviour
 
         if (egg != null)
         {
-            uiElement.SetActive(true);
+            panelButton.SetActive(false);
             block.SetActive(true);
             meny.SetActive(false);
             button.SetActive(false);
         }
         else
         {
-            uiElement.SetActive(false);
+            panelButton.SetActive(true);
             block.SetActive(false);
             meny.SetActive(true);
             button.SetActive(true);

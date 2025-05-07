@@ -2281,7 +2281,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -99
-  m_Sprite: {fileID: 21300000, guid: c9a9487dd88390b46adc0ca3e916a1d9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 75ce81aa9ef67b9409312c41e5907ee6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2301,7 +2301,7 @@ Transform:
   m_GameObject: {fileID: 1060654497}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.96, y: 5.12, z: 0}
+  m_LocalPosition: {x: -1.98, y: 5.01, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2839,53 +2839,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c97afc556caea1c44969477eb7ddec74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NSA_iPhoneX:
-  - x: 0
-    y: 0.04187192
-    width: 1
-    height: 0.9039409
-  - x: 0.054187194
-    y: 0.056
-    width: 0.89162564
-    height: 0.944
-  NSA_iPhoneXsMax:
-  - x: 0
-    y: 0.03794643
-    width: 1
-    height: 0.9129464
-  - x: 0.04910714
-    y: 0.050724637
-    width: 0.90178573
-    height: 0.9492754
-  NSA_Pixel3XL_LSL:
-  - x: 0
-    y: 0
-    width: 1
-    height: 0.94222975
-  - x: 0
-    y: 0
-    width: 0.94222975
-    height: 1
-  NSA_Pixel3XL_LSR:
-  - x: 0
-    y: 0
-    width: 1
-    height: 0.94222975
-  - x: 0.05777027
-    y: 0
-    width: 0.94222975
-    height: 1
-  Panel: {fileID: 0}
-  LastSafeArea:
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  LastScreenSize: {x: 0, y: 0}
-  LastOrientation: 5
-  ConformX: 1
-  ConformY: 1
-  Logging: 0
 --- !u!1 &1312216977
 GameObject:
   m_ObjectHideFlags: 0
