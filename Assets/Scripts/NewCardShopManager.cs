@@ -14,8 +14,8 @@ public class NewCardShopManager : MonoBehaviour
         {
             CardViewInctance newCard = Instantiate(cardPrefab);
             newCard.setNewCard(card);
-            newCard.transform.parent = contentContainer.transform;
             newCard.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            newCard.transform.parent = contentContainer.transform;
             scroll.cardPositions.Add(newCard.GetComponent<RectTransform>());
         }
     }
