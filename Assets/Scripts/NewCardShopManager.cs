@@ -14,10 +14,12 @@ public class NewCardShopManager : MonoBehaviour
         {
             CardViewInctance newCard = Instantiate(cardPrefab);
             newCard.setNewCard(card);
-            newCard.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             newCard.transform.parent = contentContainer.transform;
+            newCard.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             scroll.cardPositions.Add(newCard.GetComponent<RectTransform>());
         }
+
+        scroll.Initialize();
     }
 
     // Update is called once per frame
