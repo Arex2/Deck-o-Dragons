@@ -14,6 +14,11 @@ public abstract class StatusEffect : GUIDScriptableObject
     private static readonly Regex _durationRegex = new Regex(@"\{duration\}", RegexOptions.IgnoreCase);
     private static readonly Regex _userDataRegex = new Regex(@"\{(user|extra|other)data\}", RegexOptions.IgnoreCase);
 
+    private static NumberFormatInfo _percentNumberFormat = new()
+    {
+        PercentPositivePattern = 1,
+    };
+
     public abstract bool HasPotency { get; }
 
     public virtual bool? ForcedPotencyIsPercent => null;
@@ -166,7 +171,7 @@ public abstract class StatusEffect : GUIDScriptableObject
                 }
             }
 
-            return potency.ToString(format, CultureInfo.InvariantCulture);
+            return potency.ToString(format, _percentNumberFormat);
         }
         else
         {
