@@ -55,6 +55,11 @@ public class TargetEffects : MonoBehaviour, ITargetCallbacks
 
     private void TriggerStatusEffectVisuals()
     {
+        if (_target == null)
+        {
+            return;
+        }
+
         HashSet<StatusEffectVisual> triggeredVisuals = new();
 
         foreach (StatusEffectData data in _target.StatusEffects)
