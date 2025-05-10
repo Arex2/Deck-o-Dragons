@@ -10,6 +10,7 @@ TagManager:
   - Mouth
   - Egg
   - Dirt
+  - Hearts
   layers:
   - Default
   - TransparentFX

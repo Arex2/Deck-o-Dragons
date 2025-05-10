@@ -71,8 +71,8 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         if (meatballAnimator != null)
         {
+            // Wait until the animation starts playing
             yield return null;
-
             AnimatorStateInfo stateInfo = meatballAnimator.GetCurrentAnimatorStateInfo(0);
             float timeout = 0.5f;
             float elapsed = 0f;
@@ -83,6 +83,7 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 elapsed += Time.deltaTime;
             }
 
+            // Wait until the animation is finished
             while (stateInfo.IsName("CollisionAnimation") && stateInfo.normalizedTime < 1f)
             {
                 yield return null;
@@ -90,8 +91,42 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             }
         }
 
+        // Reset meatball position immediately
         ResetPosition();
+
+        // Then handle the heart activation separately
+        GameObject hearts = FindInactiveHeartWithTag();
+        if (hearts != null)
+        {
+            StartCoroutine(ActivateHeartTemporarily(hearts));
+        }
+        else
+        {
+            Debug.LogWarning("Inactive Heart with tag 'Heart' not found in the scene.");
+        }
     }
+
+    private IEnumerator ActivateHeartTemporarily(GameObject heart)
+    {
+        heart.SetActive(true);
+        yield return new WaitForSeconds(0.7f);
+        heart.SetActive(false);
+    }
+
+    private GameObject FindInactiveHeartWithTag()
+    {
+        GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.CompareTag("Hearts") && !obj.activeInHierarchy && obj.scene.IsValid())
+            {
+                return obj;
+            }
+        }
+        return null;
+    }
+
+
 
     private void ResetPosition()
     {
