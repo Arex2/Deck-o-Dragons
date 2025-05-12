@@ -69,7 +69,7 @@ MonoBehaviour:
   sprite: {fileID: 0}
   displayName: Seeping Venom
   description: Increases the damage your opponent takes by {POTENCY} for {DURATION}
-    attacks.
+    turns.
   cost: 4
   element: 0
   category: 1

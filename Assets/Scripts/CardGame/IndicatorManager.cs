@@ -15,9 +15,9 @@ public class IndicatorManager : MonoBehaviour
     IncomingHealingIndicator enemyIndicatorHEAL;
 
     [SerializeField]
-    GameBehaviour healthSlider;
+    Target player;
     [SerializeField]
-    Slider enemyHealthSlider;
+    Target enemy;
 
     float dmgToPlayer = 0;
     float dmgToEnemy = 0;
@@ -35,8 +35,8 @@ public class IndicatorManager : MonoBehaviour
     public void UpdateIndicatorsForOldCard()
     {
         //Debug.Log("Update Indicators for OLD card.");
-        UpdateIndicatorsPlayer(healthSlider.HP, dmgToPlayer, healToPlayer, healthSlider.MaxHP);
-        UpdateIndicatorsEnemy(enemyHealthSlider.value, dmgToEnemy, healToEnemy, enemyHealthSlider.maxValue);
+        UpdateIndicatorsPlayer(player.HP, dmgToPlayer, healToPlayer, player.MaxHP);
+        UpdateIndicatorsEnemy(enemy.HP, dmgToEnemy, healToEnemy, enemy.MaxHP);
     }
 
     public void UpdateIndicators(Card c)
@@ -47,23 +47,44 @@ public class IndicatorManager : MonoBehaviour
         //Debug.Log("Damage to player:  " + dmgToPlayer + "  Heal to player: " + healToPlayer + "   health slider hp: " + healthSlider.HP);
         //Debug.Log("Damage to enemy:  " + dmgToEnemy + "  Heal to enemy: " + healToEnemy + "   health slider hp: " + enemyHealthSlider.value );
         //Debug.Log("player hp slider: " + healthSlider.HP + "  enemy health slider: " + enemyHealthSlider.value);
-        UpdateIndicatorsPlayer(healthSlider.HP, dmgToPlayer, healToPlayer, healthSlider.MaxHP);
-        UpdateIndicatorsEnemy(enemyHealthSlider.value, dmgToEnemy, healToEnemy, enemyHealthSlider.maxValue);
+        UpdateIndicatorsPlayer(player.HP, dmgToPlayer, healToPlayer, player.MaxHP);
+        UpdateIndicatorsEnemy(enemy.HP, dmgToEnemy, healToEnemy, enemy.MaxHP);
     }
 
     public void UpdateIndicatorsPlayer(float currentHP, float incomingDMG, float incomingHEAL, float maxHP)
     {
-        indicatorDMG.ShowIncomingDamage(currentHP,incomingDMG);
-        indicatorHEAL.ShowIncomingHealing(currentHP,incomingHEAL, maxHP);
+        UpdateIndicatorsOfTarget(
+            player, indicatorDMG, indicatorHEAL, 
+            currentHP, incomingDMG, incomingHEAL, maxHP
+            );
     }
+
     public void UpdateIndicatorsEnemy(float currentHP, float incomingDMG, float incomingHEAL, float maxHP)
     {
         //behöver få enemy healthbar oavsätt vilken enemy
 
-        enemyIndicatorDMG.ShowIncomingDamage(currentHP, incomingDMG);
-        enemyIndicatorHEAL.ShowIncomingHealing(currentHP, incomingHEAL, maxHP);
+        UpdateIndicatorsOfTarget(
+            enemy, enemyIndicatorDMG, enemyIndicatorHEAL,
+            currentHP, incomingDMG, incomingHEAL, maxHP
+            );
     }
 
+    public void UpdateIndicatorsOfTarget(Target target, IncomingDamageIndicator indicatorDMG, IncomingHealingIndicator indicatorHEAL, float currentHP, float incomingDMG, float incomingHEAL, float maxHP)
+    {
+        AttackData attackData = new(incomingDMG);
+        HealData healData = new(incomingHEAL);
+
+        foreach (StatusEffectData statusEffectData in target.StatusEffects)
+        {
+            statusEffectData.Setup(target);
+
+            statusEffectData.StatusEffect.OnHurt(null, attackData);
+            statusEffectData.StatusEffect.OnHeal(healData);
+        }
+
+        indicatorDMG.ShowIncomingDamage(currentHP, attackData);
+        indicatorHEAL.ShowIncomingHealing(currentHP, healData, maxHP);
+    }
 
     public void ClearIndicators()
     {

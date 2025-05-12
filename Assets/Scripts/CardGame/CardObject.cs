@@ -148,6 +148,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         pos += _offset;
 
+        /*
         // For some reason, positions become either NaN or Infinity so this should fix that (?)
         void FixValue(ref float value, float fixValue)
         {
@@ -168,6 +169,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         FixValue(ref rot, _currentRot);
         FixValue(ref scale, _currentScale);
+        */
 
         if (_currentPos != pos)
         {
@@ -383,7 +385,31 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     #region Tweening
     public void TweenTransformInHand(Vector2 position, float rotation, float scale, float posDuration, float rotDuration, float scaleDuration, Ease ease = Ease.Unset)
     {
-        KillTweens(_transformInHandTweens);
+        KillTweens(_transformInHandTweens, 3);
+
+        // TEMP!
+        void DO_ERROR_IF_INVALID(float value)
+        {
+            if (float.IsNaN(value) || float.IsInfinity(value) || float.IsPositiveInfinity(value) || float.IsNegativeInfinity(value))
+            {
+                throw new Exception("--TWEEN INFO-- " +
+                    "\nPosition: " + position +
+                    "\nRotation: " + rotation +
+                    "\nScale: " + scale +
+                    "\nPosition Duration: " + posDuration +
+                    "\nRotation Duration: " + rotDuration +
+                    "\nScale Duration: " + scaleDuration +
+                    "\nEase: " + ease.ToString());
+            }
+        }
+
+        DO_ERROR_IF_INVALID(position.x);
+        DO_ERROR_IF_INVALID(position.x);
+        DO_ERROR_IF_INVALID(rotation);
+        DO_ERROR_IF_INVALID(scale);
+        DO_ERROR_IF_INVALID(posDuration);
+        DO_ERROR_IF_INVALID(rotDuration);
+        DO_ERROR_IF_INVALID(scaleDuration);
 
         if (posDuration <= 0)
         {
@@ -392,6 +418,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         else
         {
             _transformInHandTweens[0] = DOTween.To(() => _posInHand, (value) => _posInHand = value, position, posDuration).SetEase(ease);
+            _transformInHandTweens[0].onComplete = () => _transformInHandTweens[0] = null;
         }
 
         if (rotDuration <= 0)
@@ -401,6 +428,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         else
         {
             _transformInHandTweens[1] = DOTween.To(() => _rotInHand, (value) => _rotInHand = value, rotation, rotDuration).SetEase(ease);
+            _transformInHandTweens[1].onComplete = () => _transformInHandTweens[1] = null;
         }
 
         if (scaleDuration <= 0)
@@ -410,6 +438,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         else
         {
             _transformInHandTweens[2] = DOTween.To(() => _scaleInHand, (value) => _scaleInHand = value, scale, scaleDuration).SetEase(ease);
+            _transformInHandTweens[2].onComplete = () => _transformInHandTweens[2] = null;
         }
     }
 
@@ -422,11 +451,23 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         _scaleInHand = scale;
     }
 
-    private void KillTweens(Tween[] tweens)
+    private void KillTweens(Tween[] tweens, int? length = null)
     {
-        foreach (Tween tween in tweens)
+        if (!length.HasValue)
         {
-            tween?.Kill();
+            length = tweens.Length;
+        }
+
+        for (int i = 0; i < length.Value; i++)
+        {
+            Tween tween = tweens[i];
+
+            if (tween != null)
+            {
+                tween.Kill();
+            }
+
+            tweens[i] = null;
         }
     }
 

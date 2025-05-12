@@ -21,8 +21,6 @@ public class GameBehaviour : Target
 
     public bool ButtonPressed => buttonPressed;
     private bool buttonPressed;
-    public bool CancelButtonPressed => cancelButtonPressed;
-    private bool cancelButtonPressed;
 
     //player stats, should maybe be moved? or script renamed
     //OBS MaxHP and HP is instead used from Target superclass
@@ -179,6 +177,7 @@ public class GameBehaviour : Target
 
     protected override void UpdateHP()
     {
+        base.UpdateHP();
         /*
         if (hpSlider.value > HP)
         {

@@ -10,7 +10,7 @@ public class DefenseModifyStatusEffect : StatusEffect
 
     public override string PotencyName => PotencyIsPercent ? "Percent" : "Damage";
 
-    public override string DurationName => "Attacks";
+    //public override string DurationName => "Attacks";
 
     public override void OnHurt(Target attacker, AttackData attackData)
     {
@@ -28,13 +28,13 @@ public class DefenseModifyStatusEffect : StatusEffect
 
         if (PotencyIsPercent)
         {
-            attackData *= 1 + potency;
+            attackData.Multiplier += potency;
         }
         else
         {
             attackData += potency;
         }
 
-        Duration--;
+        //Duration--;
     }
 }

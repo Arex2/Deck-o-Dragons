@@ -16,8 +16,11 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
     private static readonly FieldInfo _genericMenuItemsField = typeof(GenericMenu).GetField("m_MenuItems", BindingFlags.NonPublic | BindingFlags.Instance);
     
+    private const string MENU_SEPERATOR = "UpgradeableSeperator";
+
     private static readonly Type _genericMenuItemType = typeof(GenericMenu).GetNestedType("MenuItem", BindingFlags.NonPublic);
     private static readonly FieldInfo _genericMenuItemContentField = _genericMenuItemType.GetField("content", BindingFlags.Public | BindingFlags.Instance);
+    private static readonly FieldInfo _genericMenuItemUserDataField = _genericMenuItemType.GetField("userData", BindingFlags.Public | BindingFlags.Instance);
     private static readonly FieldInfo _genericMenuItemSeparatorField = _genericMenuItemType.GetField("separator", BindingFlags.Public | BindingFlags.Instance);
     //private static readonly FieldInfo _genericMenuItemFuncField = _genericMenuItemType.GetField("func", BindingFlags.Public | BindingFlags.Instance);
 
@@ -302,24 +305,6 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
 
             bool isDowngrade = fixedPath.Substring(fixedPath.LastIndexOf('.') + 1).Trim() == "downgrades";
 
-            string levelType = isDowngrade ? "Downgrade" : "Upgrade";
-
-            Action<object> callback = (obj) =>
-            {
-                GUIContent content = (GUIContent)_genericMenuItemContentField.GetValue(obj);
-
-                if (content.text.StartsWith("Duplicate"))
-                {
-                    content.text = "Duplicate " + levelType;
-                }
-                else if (content.text.StartsWith("Delete"))
-                {
-                    content.text = "Delete " + levelType;
-                }
-            };
-
-            _loopThroughAllMenuItemsInList.Invoke(null, new object[] { _genericMenuItemsField.GetValue(menu), callback, null });
-
             SerializedProperty array = property.serializedObject.FindProperty(fixedPath);
             int arraySize = array.arraySize;
 
@@ -340,21 +325,74 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
                 property.serializedObject.ApplyModifiedProperties();
             }
 
-            menu.AddItem(new GUIContent("Move up"), false, (isDowngrade ? lowerBound : upperBound) ? null : () =>
-            {
-                SwapWith(index + (isDowngrade ? -1 : 1));
-            });
+            string levelType = isDowngrade ? "Downgrade" : "Upgrade";
 
-            menu.AddItem(new GUIContent("Move down"), false, (isDowngrade ? upperBound : lowerBound) ? null : () =>
+            Action<object> callback = (obj) =>
             {
-                SwapWith(index + (isDowngrade ? 1 : -1));
-            });
+                GUIContent content = (GUIContent)_genericMenuItemContentField.GetValue(obj);
 
-            menu.AddSeparator("");
+                if (content.text.StartsWith("Duplicate"))
+                {
+                    content.text = "Duplicate " + levelType;
+                }
+                else if (content.text.StartsWith("Delete"))
+                {
+                    content.text = "Delete " + levelType;
+                }
+            };
+
+            Action<IList> listCallback = (list) =>
+            {
+                void AddMenuItem(GUIContent content, bool on, bool isSeperator, GenericMenu.MenuFunction2 func, object userData = null)
+                {
+                    list.Add(Activator.CreateInstance(_genericMenuItemType, new object[] { content, on, isSeperator, func, userData }));
+                }
+
+                AddMenuItem(new GUIContent("Move up"), false, false, (isDowngrade ? lowerBound : upperBound) ? null : (userData) =>
+                {
+                    SwapWith(index + (isDowngrade ? -1 : 1));
+                });
+
+                AddMenuItem(new GUIContent("Move down"), false, false, (isDowngrade ? upperBound : lowerBound) ? null : (userData) =>
+                {
+                    SwapWith(index + (isDowngrade ? 1 : -1));
+                });
+
+                bool hasSeperator = false;
+
+                foreach (object obj in list)
+                {
+                    if (obj == null)
+                    {
+                        continue;
+                    }
+
+                    object userData = _genericMenuItemUserDataField.GetValue(obj);
+
+                    if (userData is string)
+                    {
+                        if ((string)userData == MENU_SEPERATOR)
+                        {
+                            hasSeperator = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (hasSeperator)
+                {
+                    return;
+                }
+
+                AddMenuItem(GUIContent.none, false, true, null, MENU_SEPERATOR);
+            };
+
+            _loopThroughAllMenuItemsInList.Invoke(null, new object[] { _genericMenuItemsField.GetValue(menu), callback, listCallback });
 
             AddStackAndLoopOptions(menu);
             AddMoreMenuOptions(menu, property);
 
+            /*
             // Clean the list
             Action<IList> listCallback = (list) =>
             {
@@ -384,6 +422,7 @@ public abstract class UpgradeableBasePropertyDrawer<T> : PropertyDrawer
             };
 
             _loopThroughAllMenuItemsInList.Invoke(null, new object[] { _genericMenuItemsField.GetValue(menu), null, listCallback });
+            */
         }
 
         /*

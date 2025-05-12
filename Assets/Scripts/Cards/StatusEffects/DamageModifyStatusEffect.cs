@@ -11,17 +11,27 @@ public class DamageModifyStatusEffect : StatusEffect
 
     public override string PotencyName => PotencyIsPercent ? "Percent" : "Damage";
 
-    public override string DurationName => "Attacks";
+    //public override string DurationName => "Attacks";
 
     public override void OnAttack(Target target, AttackData attackData)
     {
+        if (attackData.Bullseye && IsDebuff)
+        {
+            return;
+        }
+
+        if (attackData.SelfDamage && !IsDebuff)
+        {
+            return;
+        }
+
         float potency = Potency * (IsDebuff ? -1f : 1f);
 
         if (!attackData.Bullseye || !IsDebuff)
         {
             if (PotencyIsPercent)
             {
-                attackData *= 1 + potency;
+                attackData.Multiplier += potency;
             }
             else
             {
@@ -29,6 +39,6 @@ public class DamageModifyStatusEffect : StatusEffect
             }
         }
 
-        Duration--;
+        //Duration--;
     }
 }

@@ -13,7 +13,7 @@ public class DodgeStatusEffect : StatusEffect
 
     public override string PotencyName => "Percent";
 
-    public override string DurationName => "Attacks";
+    //public override string DurationName => "Attacks";
 
     public override void OnHurt(Target attacker, AttackData attackData)
     {
@@ -27,6 +27,6 @@ public class DodgeStatusEffect : StatusEffect
             attackData.Negate("Dodged!");
         }
 
-        Duration--;
+        //Duration--;
     }
 }

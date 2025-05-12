@@ -66,7 +66,7 @@ public class UpgradeablesManager : Singleton<UpgradeablesManager>
 
         _stringBuilder.Append(text);
 
-        _stringBuilder.AppendLine(COLOR_SUFFIX);
+        _stringBuilder.Append(COLOR_SUFFIX);
 
         return _stringBuilder.ToString();
     }

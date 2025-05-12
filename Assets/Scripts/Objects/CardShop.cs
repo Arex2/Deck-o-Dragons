@@ -240,6 +240,8 @@ public class CardShop : MonoBehaviour
         UpdateText();
 
         UpdateUI();
+
+        UpdateExitButton();
     }
 
     private void UpdateExitButton()

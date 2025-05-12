@@ -242,7 +242,19 @@ public class CardHand : MonoBehaviour
         if (cardsInHand.Count <= 0)
             return;
 
-        TweenCardPositions(changeX + startPoint, 0.1f, 0.2f, 0.1f);
+        try
+        {
+            TweenCardPositions(changeX + startPoint, 0.1f, 0.2f, 0.1f);
+        }
+        catch (Exception ex)
+        {
+
+            throw new Exception("-- INVALID VALUE DETECTED IN UpdatePositions(changeX) --" +
+                "\nChangeX: " + changeX +
+                "\nStartPoint: " + startPoint +
+                "\nCurrentIndex: " + CurrentIndex +
+                "\n\n" + ex.Message);
+        }
         /*
         float spacingX = cardSpacingX;
         float spacingY = 0.1f;
@@ -278,7 +290,16 @@ public class CardHand : MonoBehaviour
         if (cardsInHand.Count <= 0)
             return;
 
-        TweenCardPositions(CurrentIndex, 0.2f, 0.2f, 0.2f);
+        try
+        {
+            TweenCardPositions(CurrentIndex, 0.2f, 0.2f, 0.2f);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("-- INVALID VALUE DETECTED IN SnapIntoPosition() --" +
+                "\nCurrentIndex: " + CurrentIndex +
+                "\n\n" + ex.Message);
+        }
 
         /*
         float spacingX = cardSpacingX;
@@ -362,7 +383,17 @@ public class CardHand : MonoBehaviour
 
         float newScale = Mathf.Lerp(cardSmallestSize, cardLargestSize, SampleCurve(t, cardSizeCurve));
 
-        cardObj.TweenTransformInHand(newPos, newRot, newScale, posDuration, rotDuration, scaleDuration);
+        try
+        {
+            cardObj.TweenTransformInHand(newPos, newRot, newScale, posDuration, rotDuration, scaleDuration);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("-- CARD INFO! --" +
+                    "\nCard: " + cardObj.Card.DisplayName +
+                    "\nI: " + i +
+                    "\n\n" + ex.Message);
+        }
         /*
         cardObj.transform.DOKill();
         cardObj.transform.DOMove(newPos, moveDuration);
@@ -895,7 +926,16 @@ public class CardHand : MonoBehaviour
         if (cardsInHand.Count == 0)
             return;
 
-        TweenCardPositions(changeX, 0.4f, 0.2f, 0.4f);
+        try
+        {
+            TweenCardPositions(changeX, 0.4f, 0.2f, 0.4f);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("-- INVALID VALUE DETECTED IN UpdateCardPositions(changeX) --" +
+                "\nchangeX: " + changeX +
+                "\n\n" + ex.Message);
+        }
 
         /*
         float spacingX = cardSpacingX;// 0.8f;

@@ -1,53 +1,57 @@
-using System.Collections.Generic;
-using UnityEngine;
+// Script by Ruben
+using System;
 
 /// <summary>
 /// Contains the Potency and Duration of a <see cref="StatusEffect"/>. <para/>
 /// This data cannot be stored on the <see cref="StatusEffect"/> itself as multiple <see cref="Target"/>s can have the same <see cref="StatusEffect"/>.
 /// </summary>
-// Script by Ruben
 public class StatusEffectData
 {
+    public StatusEffect StatusEffect => _statusEffect;
+    private StatusEffect _statusEffect;
+
     /// <summary>
     /// How strong the <see cref="StatusEffect"/> is.
     /// </summary>
     public float Potency
     {
-        get => potency;
+        get => _potency;
         set
         {
-            if (potency == value)
+            if (_potency == value)
             {
                 return;
             }
 
-            potency = value;
+            _potency = value;
 
             //OnChanged?.Invoke();
         }
     }
+    private float _potency;
 
     /// <summary>
     /// How long the <see cref="StatusEffect"/> lasts.
     /// </summary>
     public int Duration
     {
-        get => duration;
+        get => _duration;
         set
         {
-            if (duration == value)
+            if (_duration == value)
             {
                 return;
             }
 
-            duration = value;
+            _duration = value;
 
             //OnChanged?.Invoke();
         }
     }
+    private int _duration;
 
     //public Action OnChanged { get; set; }
-    
+
     /// <summary>
     /// Custom generic data for a <see cref="StatusEffect"/>.
     /// </summary>
@@ -67,20 +71,32 @@ public class StatusEffectData
     /// </summary>
     public bool SetupUserData { get; private set; } = false;
 
-    [SerializeField] private float potency;
-    [SerializeField] private int duration;
+    public bool Triggered { get; private set; } = false;
+
+    public void Setup(Target target)
+    {
+        Triggered = false;
+
+        StatusEffect.Setup(target, this);
+    }
+
+    public void Trigger()
+    {
+        Triggered = true;
+    }
 
     /// <summary>
     /// Creates and returns a copy of this <see cref="StatusEffectData"/>.
     /// </summary>
     public StatusEffectData Clone()
     {
-        return new StatusEffectData(potency, duration);
+        return new(_statusEffect, _potency, _duration);
     }
 
-    public StatusEffectData(float potency, int duration)
+    public StatusEffectData(StatusEffect statusEffect, float potency, int duration)
     {
-        this.potency = potency;
-        this.duration = duration;
+        _statusEffect = statusEffect;
+        _potency = potency;
+        _duration = duration;
     }
 }

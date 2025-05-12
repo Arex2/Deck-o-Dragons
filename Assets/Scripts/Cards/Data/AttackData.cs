@@ -1,3 +1,5 @@
+using UnityEngine;
+
 /// <summary>
 /// Data for an attack.
 /// </summary>
@@ -8,6 +10,8 @@ public class AttackData
     public bool SelfDamage { get; set; }
 
     public string NegateMessage { get; set; } = null;
+
+    public float Multiplier { get; set; } = 1;
 
     public void Negate(string messsage = null)
     {
@@ -27,7 +31,7 @@ public class AttackData
         SelfDamage = selfDamage;
     }
 
-    public static implicit operator float(AttackData data) => data.Damage;
+    public static implicit operator float(AttackData data) => data.Damage * data.Multiplier;
 
     public static AttackData operator +(AttackData data, float value)
     {
@@ -51,5 +55,10 @@ public class AttackData
     {
         data.Damage /= value;
         return data;
+    }
+
+    public override string ToString()
+    {
+        return Mathf.Round(Damage * Multiplier).ToString();
     }
 }
