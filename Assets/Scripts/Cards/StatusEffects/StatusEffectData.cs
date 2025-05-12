@@ -93,6 +93,22 @@ public class StatusEffectData
         return new(_statusEffect, _potency, _duration);
     }
 
+    public void Merge(StatusEffectData newData)
+    {
+        float newPotency = newData._potency;
+        int newDuration = newData._duration;
+
+        if (newPotency > _potency)
+        {
+            _potency = newPotency;
+        }
+
+        if (newDuration > _duration)
+        {
+            _duration = newDuration;
+        }
+    }
+
     public StatusEffectData(StatusEffect statusEffect, float potency, int duration)
     {
         _statusEffect = statusEffect;

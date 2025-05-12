@@ -16,5 +16,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   displayName: Shield
   description: Absorbs {POTENCY} damage. Disappears after {DURATION} turns.
+  hidden: 0
   isDebuff: 0
+  stackable: 1
   potencyIsPercent: 0

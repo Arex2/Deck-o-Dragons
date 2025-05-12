@@ -387,30 +387,6 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     {
         KillTweens(_transformInHandTweens, 3);
 
-        // TEMP!
-        void DO_ERROR_IF_INVALID(float value)
-        {
-            if (float.IsNaN(value) || float.IsInfinity(value) || float.IsPositiveInfinity(value) || float.IsNegativeInfinity(value))
-            {
-                throw new Exception("--TWEEN INFO-- " +
-                    "\nPosition: " + position +
-                    "\nRotation: " + rotation +
-                    "\nScale: " + scale +
-                    "\nPosition Duration: " + posDuration +
-                    "\nRotation Duration: " + rotDuration +
-                    "\nScale Duration: " + scaleDuration +
-                    "\nEase: " + ease.ToString());
-            }
-        }
-
-        DO_ERROR_IF_INVALID(position.x);
-        DO_ERROR_IF_INVALID(position.x);
-        DO_ERROR_IF_INVALID(rotation);
-        DO_ERROR_IF_INVALID(scale);
-        DO_ERROR_IF_INVALID(posDuration);
-        DO_ERROR_IF_INVALID(rotDuration);
-        DO_ERROR_IF_INVALID(scaleDuration);
-
         if (posDuration <= 0)
         {
             _posInHand = position;

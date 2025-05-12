@@ -16,5 +16,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   displayName: Healing Aura
   description: Heals {POTENCY} HP every turn for {DURATION} turns.
+  hidden: 0
   isDebuff: 0
+  stackable: 1
   potencyIsPercent: 0

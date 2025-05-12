@@ -1,6 +1,6 @@
 // https://github.com/TwoTailsGames/Unity-Built-in-Shaders/blob/master/DefaultResourcesExtra/UI/UI-Default.shader
 
-Shader "Blank UI Image"
+Shader "Custom/Blank UI Image"
 {
     Properties
     {
