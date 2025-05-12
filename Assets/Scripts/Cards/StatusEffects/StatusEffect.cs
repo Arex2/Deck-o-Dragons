@@ -43,6 +43,7 @@ public abstract class StatusEffect : GUIDScriptableObject
     [NonSerialized]
     private string _cachedDisplayName;
     public bool IsDebuff => isDebuff;
+    public bool Stackable => stackable;
     public bool PotencyIsPercent => ForcedPotencyIsPercent.HasValue ? ForcedPotencyIsPercent.Value : potencyIsPercent;
 
     [NonSerialized]
@@ -54,6 +55,7 @@ public abstract class StatusEffect : GUIDScriptableObject
     [SerializeField] private string description;
     [SerializeField] private bool hidden;
     [SerializeField] private bool isDebuff;
+    [SerializeField] private bool stackable;
     [SerializeField] private bool potencyIsPercent;
 
     public Target User { get; set; }

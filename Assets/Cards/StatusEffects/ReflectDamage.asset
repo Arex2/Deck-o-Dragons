@@ -19,4 +19,5 @@ MonoBehaviour:
     for the next {DURATION} attacks.'
   hidden: 0
   isDebuff: 0
+  stackable: 1
   potencyIsPercent: 1

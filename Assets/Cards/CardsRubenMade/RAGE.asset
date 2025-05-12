@@ -22,10 +22,10 @@ MonoBehaviour:
   category: 1
   rarity: 2
   copies: 1
-  canChangeLevel: 0
+  canChangeLevel: 1
   minLevel:
-    Enabled: 0
-    Value: 0
+    Enabled: 1
+    Value: -3
   maxLevel:
     Enabled: 0
     Value: 0
@@ -59,26 +59,26 @@ MonoBehaviour:
       stack: 1
       loopBehaviour: 1
       upgrades:
-      - value: 0
+      - value: 10
         method: 0
       downgrades:
-      - value: 0
+      - value: 10
         method: 1
       minLimit:
-        Enabled: 0
-        Value: 0
+        Enabled: 1
+        Value: 5
       maxLimit:
         Enabled: 0
         Value: 0
     duration:
-      baseValue: 3
+      baseValue: 4
       stack: 1
       loopBehaviour: 1
       upgrades:
-      - value: 0
+      - value: 1
         method: 0
       downgrades:
-      - value: 0
+      - value: 1
         method: 1
       minLimit:
         Enabled: 0

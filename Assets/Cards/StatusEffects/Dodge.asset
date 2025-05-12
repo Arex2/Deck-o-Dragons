@@ -16,5 +16,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   displayName: Dodge
   description: '{POTENCY} chance to negate all damage for the next {DURATION} attacks.'
+  hidden: 0
   isDebuff: 0
+  stackable: 1
   potencyIsPercent: 0

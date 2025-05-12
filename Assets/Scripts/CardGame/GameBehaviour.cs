@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 using DG.Tweening;
 
 public class GameBehaviour : Target
@@ -79,6 +78,13 @@ public class GameBehaviour : Target
     [SerializeField] private CanvasGroup battleOverCanvas;
     [SerializeField] private TMP_Text battleOverResultText;
 
+    [Header("Status Effects Display")]
+    [SerializeField] private RectTransform bottomHud;
+    [SerializeField] private RectTransform cardPositions;
+    private float _bottomHudStartingPosY;
+    [SerializeField] private float statusEffectDisplaySize = 40;
+    private bool _showingStatusEffectDisplay = false;
+
     //Reference to enemy script
     /*
     [SerializeField]
@@ -88,6 +94,8 @@ public class GameBehaviour : Target
     protected override void Awake()
     {
         Instance = this;
+
+        _bottomHudStartingPosY = bottomHud.anchoredPosition.y;
 
         _playerHealthFormat = playerHealthText.text;
 
@@ -204,6 +212,38 @@ public class GameBehaviour : Target
             hpSlider.value = Mathf.Lerp(startHealth, HP, elapsedTime);
         }
         yield return null;
+    }
+
+    protected override void UpdateStatusEffects()
+    {
+        base.UpdateStatusEffects();
+
+        bool hasStatusEffects = StatusEffects.Count > 0;
+
+        if (_showingStatusEffectDisplay == hasStatusEffects)
+        {
+            return;
+        }
+
+        _showingStatusEffectDisplay = hasStatusEffects;
+
+        bottomHud.DOKill();
+
+        if (hasStatusEffects)
+        {
+            bottomHud.DOAnchorPosY(_bottomHudStartingPosY + statusEffectDisplaySize, 0.5f);
+            cardPositions.sizeDelta = new Vector2(0, -statusEffectDisplaySize);
+            cardPositions.anchoredPosition = new Vector2(0, statusEffectDisplaySize / 2);
+        }
+        else
+        {
+            bottomHud.DOAnchorPosY(_bottomHudStartingPosY, 0.5f);
+            cardPositions.sizeDelta = Vector2.zero;
+            cardPositions.anchoredPosition = Vector2.zero;
+        }
+
+        cardHand.UpdateScreenPositions();
+        cardHand.UpdateCardPositions();
     }
 
     public void GainMana(int count)

@@ -18,4 +18,5 @@ MonoBehaviour:
   description: Increases damage taken by {POTENCY} for the next {DURATION} attacks.
   hidden: 0
   isDebuff: 1
+  stackable: 1
   potencyIsPercent: 1

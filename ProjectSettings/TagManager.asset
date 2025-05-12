@@ -10,6 +10,9 @@ TagManager:
   - Mouth
   - Egg
   - Dirt
+  - Hearts
+  - Glitter
+  - Dirt2
   layers:
   - Default
   - TransparentFX

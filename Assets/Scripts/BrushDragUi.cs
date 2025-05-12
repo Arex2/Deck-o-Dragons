@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections;
 using System.Collections.Generic;
 
 public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
@@ -15,19 +16,21 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private bool isBrushing = false;
     private bool isDragging = false;
-    private bool isStillOnTarget = false;  
+    private bool isStillOnTarget = false;
 
-    private Vector3 initialPosition; 
+    private Vector3 initialPosition;
 
     private List<(Vector2 position, float time)> movementHistory = new List<(Vector2, float)>();
     private float brushMovementThreshold = 10f;
     private float sampleWindow = 0.1f;
 
-    private GameObject[] dirtObjects;  
-    private bool[] dirtRemoved;       
-    private float[] dirtTimers;       
+    private GameObject[] dirtObjects;
+    private bool[] dirtRemoved;
+    private float[] dirtTimers;
 
-    private float brushingTime = 0f;  
+    private float brushingTime = 0f;
+
+    private bool glitterPlayed = false;
 
     private void Awake()
     {
@@ -52,7 +55,6 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     public void OnDrag(PointerEventData eventData)
     {
         rectTransform.position = Input.mousePosition;
-
 
         if (IsOverTarget())
         {
@@ -90,13 +92,10 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private void ResetPosition()
     {
-
         rectTransform.localPosition = initialPosition;
-
 
         if (!isDragging)
         {
-
             if (isBrushing)
             {
                 for (int i = 0; i < dirtTimers.Length; i++)
@@ -104,7 +103,7 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                     dirtTimers[i] = 0f;
                 }
 
-                brushingTime = 0f; 
+                brushingTime = 0f;
             }
         }
     }
@@ -125,15 +124,7 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         isBrushing = true;
 
-        dirtObjects = GameObject.FindGameObjectsWithTag("Dirt");
-        dirtRemoved = new bool[dirtObjects.Length];
-        dirtTimers = new float[dirtObjects.Length];
-
-
-        for (int i = 0; i < dirtTimers.Length; i++)
-        {
-            dirtTimers[i] = 0f;
-        }
+        RefreshDirt(); 
 
         if (brushAnimator != null)
             brushAnimator.SetBool("IsBrushing", true);
@@ -164,7 +155,7 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             {
                 if (dirt != null && !dirtRemoved[System.Array.IndexOf(dirtObjects, dirt)])
                 {
-                    dirt.SetActive(true); 
+                    dirt.SetActive(true);
                 }
             }
         }
@@ -201,22 +192,86 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         if (isBrushing)
         {
-            if (!isStillOnTarget)
+
+            GameObject[] currentDirt = GameObject.FindGameObjectsWithTag("Dirt");
+            if (dirtObjects == null || currentDirt.Length != dirtObjects.Length)
             {
-                brushingTime += Time.deltaTime; 
+                RefreshDirt();
             }
 
+            if (!isStillOnTarget)
+            {
+                brushingTime += Time.deltaTime;
+            }
 
             for (int i = 0; i < dirtObjects.Length; i++)
             {
-             
+                if (dirtObjects[i] == null) continue;
+
                 dirtTimers[i] += Time.deltaTime;
                 if (dirtTimers[i] >= (i + 1) && !dirtRemoved[i])
                 {
-                    dirtObjects[i].SetActive(false); 
-                    dirtRemoved[i] = true;   
+                    dirtObjects[i].SetActive(false);
+                    dirtRemoved[i] = true;
                 }
             }
+
+            if (!glitterPlayed && AllDirtRemoved())
+            {
+                glitterPlayed = true;
+                StartCoroutine(PlayGlitterEffect());
+            }
+        }
+    }
+
+    private bool AllDirtRemoved()
+    {
+        foreach (bool removed in dirtRemoved)
+        {
+            if (!removed)
+                return false;
+        }
+        return true;
+    }
+
+    private void RefreshDirt()
+    {
+
+        dirtObjects = GameObject.FindGameObjectsWithTag("Dirt");
+        dirtRemoved = new bool[dirtObjects.Length];
+        dirtTimers = new float[dirtObjects.Length];
+
+        for (int i = 0; i < dirtObjects.Length; i++)
+        {
+            dirtRemoved[i] = false;
+            dirtTimers[i] = 0f;
+            if (dirtObjects[i] != null)
+                dirtObjects[i].SetActive(true);
+        }
+
+        glitterPlayed = false;
+    }
+
+    private IEnumerator PlayGlitterEffect()
+    {
+        List<GameObject> glittersToToggle = new List<GameObject>();
+        GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.CompareTag("Glitter") && !obj.activeInHierarchy && obj.scene.IsValid())
+            {
+                obj.SetActive(true);
+                glittersToToggle.Add(obj);
+            }
+        }
+
+        yield return new WaitForSeconds(0.4f);
+
+        foreach (GameObject glitter in glittersToToggle)
+        {
+            if (glitter != null)
+                glitter.SetActive(false);
         }
     }
 }

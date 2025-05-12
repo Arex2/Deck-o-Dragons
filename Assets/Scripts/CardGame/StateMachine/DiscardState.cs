@@ -69,6 +69,7 @@ public class DiscardState : IState
             gameBehaviour.cardHand.UpdateCardPositions();
 
             gameBehaviour.StatusButton.ProceedStatus(CardgameStatusButton.ENEMY_TURN, CardgameStatusButton.PLAYER_TURN);
+            gameBehaviour.cardHand.CanPlayCards = false;
         }
 
         if (_switchState && CardVFXManager.ActiveVFXCount <= 0)

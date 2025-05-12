@@ -13,6 +13,28 @@ public class CardHand : MonoBehaviour
 
     public GameBehaviour GameBehaviour => gameBehaviour;
 
+    public bool CanPlayCards
+    {
+        get => _canPlayCards;
+        set
+        {
+            if (_canPlayCards == value)
+            {
+                return;
+            }
+
+            _canPlayCards = value;
+
+            foreach (CardObject card in cardsInHand)
+            {
+                card.ToggleDarkOverlay(!value);
+            }
+
+            UpdateCardPositions();
+        }
+    }
+    private bool _canPlayCards = true;
+
     [SerializeField]
     private GameBehaviour gameBehaviour;
 
@@ -106,7 +128,9 @@ public class CardHand : MonoBehaviour
 
     [Space]
     [SerializeField] private RectTransform cardsHeldPosition;
+    [SerializeField] private RectTransform cardsOutOfPlayPosition;
     private float _cardsHeldYPos;
+    private float _cardsOutOfPlayYPos;
 
     [Header("Selecting Multiple Cards")]
     [SerializeField]
@@ -173,7 +197,13 @@ public class CardHand : MonoBehaviour
 
         gameBehaviour.StatusButton.UpdateLooks();
 
+        UpdateScreenPositions();
+    }
+
+    public void UpdateScreenPositions()
+    {
         _cardsHeldYPos = camera.ScreenToWorldPoint(cardsHeldPosition.position).y;
+        _cardsOutOfPlayYPos = camera.ScreenToWorldPoint(cardsOutOfPlayPosition.position).y;
     }
 
     /// <summary>
@@ -242,19 +272,7 @@ public class CardHand : MonoBehaviour
         if (cardsInHand.Count <= 0)
             return;
 
-        try
-        {
-            TweenCardPositions(changeX + startPoint, 0.1f, 0.2f, 0.1f);
-        }
-        catch (Exception ex)
-        {
-
-            throw new Exception("-- INVALID VALUE DETECTED IN UpdatePositions(changeX) --" +
-                "\nChangeX: " + changeX +
-                "\nStartPoint: " + startPoint +
-                "\nCurrentIndex: " + CurrentIndex +
-                "\n\n" + ex.Message);
-        }
+        TweenCardPositions(changeX + startPoint, 0.1f, 0.2f, 0.1f);
         /*
         float spacingX = cardSpacingX;
         float spacingY = 0.1f;
@@ -290,17 +308,8 @@ public class CardHand : MonoBehaviour
         if (cardsInHand.Count <= 0)
             return;
 
-        try
-        {
-            TweenCardPositions(CurrentIndex, 0.2f, 0.2f, 0.2f);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("-- INVALID VALUE DETECTED IN SnapIntoPosition() --" +
-                "\nCurrentIndex: " + CurrentIndex +
-                "\n\n" + ex.Message);
-        }
-
+        TweenCardPositions(CurrentIndex, 0.2f, 0.2f, 0.2f);
+        
         /*
         float spacingX = cardSpacingX;
         float spacingY = 0.1f;
@@ -333,6 +342,12 @@ public class CardHand : MonoBehaviour
 
     private void TweenCardPositions(float middlePos, float posDuration, float rotDuration, float scaleDuration)
     {
+        // Murder bug from hell
+        if (float.IsNaN(middlePos) || float.IsInfinity(middlePos))
+        {
+            return;
+        }
+
         int count = cardsInHand.Count;
 
         for (int i = 0; i < count; i++)
@@ -375,7 +390,10 @@ public class CardHand : MonoBehaviour
 
         float spaceFromSelected = Mathf.Abs(i - middlePos);
         float posY = -cardSpacing.y * spaceFromSelected;
-        Vector2 newPos = new Vector2(posX, _cardsHeldYPos + posY);
+
+        posY += CanPlayCards ? _cardsHeldYPos : _cardsOutOfPlayYPos;
+
+        Vector2 newPos = new Vector2(posX, posY);
 
         //Quaternion newRot = Quaternion.LookRotation(Vector3.forward, new Vector3(0, 0, 10f * (i - middlePos)));
         //Quaternion rot = Quaternion.AngleAxis((-5f * (i - middlePos)), Vector3.forward);
@@ -383,17 +401,8 @@ public class CardHand : MonoBehaviour
 
         float newScale = Mathf.Lerp(cardSmallestSize, cardLargestSize, SampleCurve(t, cardSizeCurve));
 
-        try
-        {
-            cardObj.TweenTransformInHand(newPos, newRot, newScale, posDuration, rotDuration, scaleDuration);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("-- CARD INFO! --" +
-                    "\nCard: " + cardObj.Card.DisplayName +
-                    "\nI: " + i +
-                    "\n\n" + ex.Message);
-        }
+        cardObj.TweenTransformInHand(newPos, newRot, newScale, posDuration, rotDuration, scaleDuration);
+        
         /*
         cardObj.transform.DOKill();
         cardObj.transform.DOMove(newPos, moveDuration);
@@ -848,6 +857,11 @@ public class CardHand : MonoBehaviour
     // THIS IS CALLED WHEN THE CARD IS TAPPED ON (NOT SWIPED UP)
     private void OnCardPressed(CardObject cardObj)
     {
+        if (!CanPlayCards)
+        {
+            return;
+        }
+
         if (cardObj == CardBeingPlayed)
         {
             return;
@@ -921,22 +935,13 @@ public class CardHand : MonoBehaviour
 
     private void UpdateCardPositions(float changeX) 
     {
-        float middlePos = changeX;// = selectedIndex;
+        //float middlePos = changeX;// = selectedIndex;
 
         if (cardsInHand.Count == 0)
             return;
 
-        try
-        {
-            TweenCardPositions(changeX, 0.4f, 0.2f, 0.4f);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("-- INVALID VALUE DETECTED IN UpdateCardPositions(changeX) --" +
-                "\nchangeX: " + changeX +
-                "\n\n" + ex.Message);
-        }
-
+        TweenCardPositions(changeX, 0.4f, 0.2f, 0.4f);
+        
         /*
         float spacingX = cardSpacingX;// 0.8f;
         float spacingY = 0.1f;
