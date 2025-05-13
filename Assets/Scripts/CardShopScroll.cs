@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class CardShopScroll : MonoBehaviour
 {
+    [SerializeField] private float scrollStrength = 4;
+    [Space]
     public List<RectTransform> cardPositions = new List<RectTransform>();
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private RectTransform content;
@@ -46,18 +48,16 @@ public class CardShopScroll : MonoBehaviour
 
     public void Initialize()
     {
-        float paddingX = (cardPositions[0].sizeDelta.x * (cardPositions[0].localScale.x - 1f)) / 2;
-        float paddingY = (cardPositions[0].sizeDelta.y * (cardPositions[0].localScale.y - 1f)) / 2;
-        
-        HorizontalLayoutGroup layoutGroup = content.GetComponent<HorizontalLayoutGroup>();
-        layoutGroup.padding.top = (int) Mathf.Round(paddingY);
-        layoutGroup.padding.bottom = (int) Mathf.Round(paddingY);
-        layoutGroup.padding.left = (int) Mathf.Round(paddingX);
-        layoutGroup.padding.right = (int) Mathf.Round(paddingX);
+        float paddingX = (cardPositions[0].sizeDelta.x * (cardPositions[0].localScale.x - 1f));     
+        // HorizontalLayoutGroup layoutGroup = content.GetComponent<HorizontalLayoutGroup>();
+        // layoutGroup.padding.top = (int) Mathf.Round(paddingY);
+        // layoutGroup.padding.bottom = (int) Mathf.Round(paddingY);
+        // layoutGroup.padding.left = (int) Mathf.Round(paddingX);
+        // layoutGroup.padding.right = (int) Mathf.Round(paddingX);
 
-        layoutGroup.spacing = (int) Mathf.Round(paddingX);
+        // layoutGroup.spacing = (int) Mathf.Round(paddingX);
 
-        disctanceBetwenCards = cardPositions[0].sizeDelta.x * (cardPositions[0].localScale.x);
+        disctanceBetwenCards = paddingX + cardPositions[0].sizeDelta.x;//Mathf.Abs(cardPositions[0].position.x - cardPositions[1].position.x); //
 
         initialized = true;
     }
@@ -74,8 +74,17 @@ public class CardShopScroll : MonoBehaviour
 
     private void Snap()
     {
-        content.localPosition = Vector3.Lerp(content.localPosition, new Vector3(-1 * indexOfShortestDistance * disctanceBetwenCards, content.localPosition.y, content.localPosition.z), 4 * Time.deltaTime);
-        print(-1 * indexOfShortestDistance * disctanceBetwenCards);
+        float snapPosition = -1 * indexOfShortestDistance * disctanceBetwenCards;
+        if(snapPosition > 0)
+        {
+            snapPosition = 0;
+        }
+        else if(snapPosition <= -1 * cardPositions.Count * disctanceBetwenCards)
+        {
+            snapPosition = -1 * (cardPositions.Count - 1) * disctanceBetwenCards;
+        }
+        content.localPosition = Vector3.Lerp(content.localPosition, new Vector3(snapPosition, content.localPosition.y, content.localPosition.z), scrollStrength * Time.deltaTime);
+        print(indexOfShortestDistance);
     }
 
 
