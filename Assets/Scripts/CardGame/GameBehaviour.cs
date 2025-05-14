@@ -62,6 +62,11 @@ public class GameBehaviour : Target
 
     [SerializeField]
     private Slider hpSlider;
+    //Health slider animation variables - Harriet
+    bool updateHealthSlider;
+    float elapsedTime = 0f;
+    float desiredDuration = 0.3f;
+    float healthSliderStartPos;
 
     [SerializeField]
     public IndicatorManager indicatorManager;
@@ -120,9 +125,28 @@ public class GameBehaviour : Target
 
         hpSlider.maxValue = MaxHP;
 
+        hpSlider.value = HP;  //prevents health animation at start
+
         UpdateHP();
 
         //encounterManager.InctanceNextEncounter();
+    }
+
+
+    private void Update()
+    {
+        if (updateHealthSlider)
+        {
+            elapsedTime += Time.deltaTime;
+            float percentage = elapsedTime / desiredDuration;
+            hpSlider.value = Mathf.Lerp(healthSliderStartPos, HP, percentage);
+        }
+
+        if (updateHealthSlider && hpSlider.value == HP)
+        {
+            elapsedTime = 0;
+            updateHealthSlider = false;
+        }
     }
 
     //update status text
@@ -189,29 +213,7 @@ public class GameBehaviour : Target
         }
     }
 
-    bool updatehp;
-    float elapsedTime = 0f;
-    float duration = 3f;
-    float startPos;
-    private void Update()
-    {
-        float percentage = elapsedTime /duration;
 
-        //float startHealth = hpSlider.value;
-
-        if (updatehp)
-        {
-            elapsedTime += Time.deltaTime;
-            hpSlider.value = Mathf.Lerp(startPos, HP, percentage);
-            Debug.Log("start pos: " + startPos + "  HP:  " + HP);
-        }
-        else if(hpSlider.value == HP)
-        {
-            elapsedTime = 0;
-            updatehp = false;
-            percentage = 0;
-        }
-    }
     protected override void UpdateHP()
     {
         base.UpdateHP();
@@ -223,34 +225,18 @@ public class GameBehaviour : Target
         */
 
         //hpSlider.value = HP; 
-        //StartCoroutine(UpdateHealthBar());
-        updatehp = true;
-        startPos = hpSlider.value;
+        healthSliderStartPos = hpSlider.value;
+        updateHealthSlider = true; //controls health slider anim from update
+
         playerHealthText.text = string.Format(_playerHealthFormat, Mathf.Ceil(HP), MaxHP);
         //indicatorManager.ClearIndicators();
     }
-
-    //Verkade som att det redan var någon incrimental effekt på slidern/hpBaren
-    private IEnumerator UpdateHealthBar()
-    {
-        float duration = 3f;
-        float elapsedTime = 0f;
-        float startHealth = hpSlider.value;
-
-        while(elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            hpSlider.value = Mathf.Lerp(startHealth, HP, Time.deltaTime);
-            Debug.Log("Healing: " + hpSlider.value);
-        }
-        yield return null;
-    }
-
     //Damage text
     private void ShowFloatingText(AttackData attackData)
     {
-        GameObject obj = Instantiate(FloatingTextPrefab, new Vector3(camera.ScreenToWorldPoint(hpSlider.fillRect.transform.position).x, camera.ScreenToWorldPoint(hpSlider.fillRect.transform.position).y,0), Quaternion.identity);
+        GameObject obj = Instantiate(FloatingTextPrefab, new Vector3(camera.ScreenToWorldPoint(hpSlider.fillRect.transform.position).x, camera.ScreenToWorldPoint(hpSlider.transform.position).y, 0), Quaternion.identity);
         obj.GetComponent<TextMeshPro>().text = attackData.ToString();
+        Debug.Log("Spawn pos:  " + new Vector3(camera.ScreenToWorldPoint(hpSlider.fillRect.transform.position).x, camera.ScreenToWorldPoint(hpSlider.transform.position).y, 0));
         //obj.GetComponent<TextMeshPro>().color = Random.ColorHSV();
         obj.GetComponent<TextMeshPro>().color = Color.red;
     }
