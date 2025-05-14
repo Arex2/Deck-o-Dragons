@@ -64,7 +64,7 @@ public abstract class CardComponent : ScriptableObject
                     continue;
                 }
 
-                // Should return float
+                // Should return string
                 if (methodInfo.ReturnType != typeof(string))
                 {
                     continue;

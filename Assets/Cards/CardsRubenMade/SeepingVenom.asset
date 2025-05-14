@@ -68,8 +68,8 @@ MonoBehaviour:
   guid: d61b0f20ad161914a8459df688c76e24
   sprite: {fileID: 0}
   displayName: Seeping Venom
-  description: Increases the damage your opponent takes by {POTENCY} for {DURATION}
-    turns.
+  description: Inflict Broken Armor on your opponent, which increases the damage
+    they take by {POTENCY} for {DURATION} turns.
   cost: 4
   element: 0
   category: 1
