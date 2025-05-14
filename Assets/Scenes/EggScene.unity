@@ -534,6 +534,7 @@ GameObject:
   - component: {fileID: 409064014}
   - component: {fileID: 409064013}
   - component: {fileID: 409064012}
+  - component: {fileID: 409064015}
   m_Layer: 5
   m_Name: BackYardButton
   m_TagString: Untagged
@@ -603,19 +604,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 409064013}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 739077454}
-        m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
-        m_MethodName: SwitchToGarden
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &409064013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,6 +643,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409064010}
   m_CullTransparentMesh: 1
+--- !u!114 &409064015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409064010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ad4af2f4d37bc42a2ec55b0735ee17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scene: 2
 --- !u!1 &413642633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,7 +1038,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 739077453}
-  - component: {fileID: 739077454}
   - component: {fileID: 739077455}
   - component: {fileID: 739077457}
   - component: {fileID: 739077459}
@@ -1064,18 +1065,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &739077454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739077451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a90f9792303994a9505c8bbfaeafea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &739077455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1088,7 +1077,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5299ca830828b3c4f99ad0c6de37e0e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneSwitcher: {fileID: 739077454}
 --- !u!114 &739077457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1425,7 +1413,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 739077454}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
         m_MethodName: SwitchToBattleSelection
         m_Mode: 1
@@ -3379,6 +3367,7 @@ GameObject:
   - component: {fileID: 1769047048}
   - component: {fileID: 1769047047}
   - component: {fileID: 1769047046}
+  - component: {fileID: 1769047049}
   m_Layer: 5
   m_Name: Deck
   m_TagString: Untagged
@@ -3448,19 +3437,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1769047047}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 739077454}
-        m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
-        m_MethodName: SwitchToDeckViewer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1769047047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3499,6 +3476,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1769047044}
   m_CullTransparentMesh: 1
+--- !u!114 &1769047049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769047044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ad4af2f4d37bc42a2ec55b0735ee17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scene: 5
 --- !u!1 &1793434218
 GameObject:
   m_ObjectHideFlags: 0
@@ -3708,6 +3698,7 @@ GameObject:
   - component: {fileID: 1844597740}
   - component: {fileID: 1844597739}
   - component: {fileID: 1844597738}
+  - component: {fileID: 1844597742}
   - component: {fileID: 1844597741}
   m_Layer: 5
   m_Name: Train
@@ -3778,19 +3769,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1844597739}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 739077454}
-        m_TargetAssemblyTypeName: SceneSwitcher, Assembly-CSharp
-        m_MethodName: SwitchToBattleSelection
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1844597739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3849,6 +3828,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 2
   m_LayoutPriority: 1
+--- !u!114 &1844597742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844597736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ad4af2f4d37bc42a2ec55b0735ee17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scene: 4
 --- !u!1 &1879524852
 GameObject:
   m_ObjectHideFlags: 0
