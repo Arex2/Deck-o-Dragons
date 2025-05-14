@@ -243,7 +243,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 31.15
   m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -512,6 +512,7 @@ MonoBehaviour:
   statusButton: {fileID: 6758626986995778767}
   manaText: {fileID: 6662738168222240669}
   playerHealthText: {fileID: 530612439057878725}
+  FloatingTextPrefab: {fileID: 1274994783436772728, guid: 3027dd26962f86646872c550abfc9f7f, type: 3}
   hpSlider: {fileID: 5113567561118050214}
   indicatorManager: {fileID: 1350904861571970897}
   screenShake: {fileID: 1058481263}
