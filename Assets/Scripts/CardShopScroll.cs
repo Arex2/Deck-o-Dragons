@@ -84,7 +84,6 @@ public class CardShopScroll : MonoBehaviour
             snapPosition = -1 * (cardPositions.Count - 1) * disctanceBetwenCards;
         }
         content.localPosition = Vector3.Lerp(content.localPosition, new Vector3(snapPosition, content.localPosition.y, content.localPosition.z), scrollStrength * Time.deltaTime);
-        print(indexOfShortestDistance);
     }
 
 

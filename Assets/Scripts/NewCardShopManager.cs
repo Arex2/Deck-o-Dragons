@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NewCardShopManager : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class NewCardShopManager : MonoBehaviour
     private int _rerollsRemaining;
     private string _topTextFormat;
     [SerializeField] private TMP_Text rerollText;
+    [SerializeField] private Button rerollButton;
+    [SerializeField]
     private string _rerollTextFormat;
     private List<Card> _drawableCards = new();
     private List<Card> _cardsBeingShown = new();
@@ -57,6 +60,20 @@ public class NewCardShopManager : MonoBehaviour
         UpdateText();
         scroll.Initialize();
         
+    }
+
+    public void Reroll()
+    {
+        _rerollsRemaining--;
+
+        for(int i = 0; i < cardsToShow; i++)
+        {
+            AddCard(GetRandomCard());
+        }
+
+        rerollButton.interactable = _rerollsRemaining > 0;
+
+        UpdateText();
     }
 
     private void UpdateText()
