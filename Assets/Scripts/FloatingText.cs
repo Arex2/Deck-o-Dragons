@@ -7,8 +7,8 @@ public class FloatingText : MonoBehaviour
     //From this tutorial: https://www.youtube.com/watch?app=desktop&v=_ICCSDmLCX4&t=13s
 
     public float DestroyTime = 3f;
-    public Vector3 Offset = new Vector3 (0, 0.5f, 0);
-    public Vector3 RandomizeIntensity = new Vector3(0.5f, 0.1f,0);
+    Vector3 Offset = new Vector3 (0, 0.5f, 0);
+    Vector3 RandomizeIntensity = new Vector3(0.5f, 0.1f,0);
 
     // Start is called before the first frame update
     void Start()
