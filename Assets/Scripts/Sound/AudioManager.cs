@@ -49,8 +49,10 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(AudioClip clip)
     {
-        if (clip == null) return;
-        sfxSource.PlayOneShot(clip);
+        if (clip != null)
+        {
+            sfxSource.PlayOneShot(clip);
+        }
     }
 
     public void PlayClickSound()

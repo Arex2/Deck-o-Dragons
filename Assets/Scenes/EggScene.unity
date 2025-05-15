@@ -3841,6 +3841,71 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene: 4
+--- !u!1001 &1866030192
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -9117679756515485407, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: clickSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0aad1332e3b4bb04a9729c610c66c434, type: 3}
+    - target: {fileID: -9117679756515485407, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: startMusicOnBeginPlay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 125711605540852571, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846789905504326781, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846789905504326781, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846789905504326781, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846789905504326781, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846789905504326781, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846789905504326781, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846789905504326781, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846789905504326781, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846789905504326781, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846789905504326781, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 89649aea132d743c18d8d60e5f679270, type: 3}
 --- !u!1 &1879524852
 GameObject:
   m_ObjectHideFlags: 0
@@ -4677,9 +4742,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3253546262794484073, guid: 78f8c7ad341e4ca408711900bcf08093, type: 3}
+      propertyPath: happySound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0c75569ac55e295409bb6cbbc9e3807b, type: 3}
+    - target: {fileID: 3253546262794484073, guid: 78f8c7ad341e4ca408711900bcf08093, type: 3}
       propertyPath: targetObject
       value: 
       objectReference: {fileID: 1918811265}
+    - target: {fileID: 3253546262794484073, guid: 78f8c7ad341e4ca408711900bcf08093, type: 3}
+      propertyPath: collisionSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 1ef281e97d2222a42aecd692067c50ea, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4749,7 +4822,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetObject: {fileID: 1918811265}
-  brushingSound: {fileID: 0}
+  brushingSound: {fileID: 8300000, guid: 593bfc056d9d4644a87e82e2b844ba9b, type: 3}
+  shinySound: {fileID: 8300000, guid: 53121cc00a71acb4b88d0a53d2427c28, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4766,3 +4840,4 @@ SceneRoots:
   - {fileID: 1273869749}
   - {fileID: 2022710440}
   - {fileID: 360071472}
+  - {fileID: 1866030192}

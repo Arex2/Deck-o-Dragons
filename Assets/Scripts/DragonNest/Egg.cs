@@ -27,6 +27,7 @@ public class Egg : MonoBehaviour
 
     [SerializeField] private Sprite[] crackedSprites;
     [SerializeField] private GameObject eggInPieces;
+    [SerializeField] private AudioClip[] eggCrackSFX;
 
     private ScreenShake screenShake;
 
@@ -133,6 +134,7 @@ public class Egg : MonoBehaviour
         //om tapCurrent når över tapThreshold räknas det som 1 shake
         if(tapCurrent >= tapThreshhold)
         {
+            AudioManager.Instance.PlaySFX(eggCrackSFX[shakeCount]);
             //change sprite
             if (shakeCount < crackedSprites.Length)
             {
