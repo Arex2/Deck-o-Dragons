@@ -1131,6 +1131,8 @@ MonoBehaviour:
   - {fileID: 1527386136}
   - {fileID: 1216984800}
   - {fileID: 1246265303}
+  destroyedTowerImage: {fileID: 21300000, guid: 836c57a2b5545e24ea2f109496f0ddb7, type: 3}
+  destroyedColor: {r: 0.4528302, g: 0.36525455, b: 0.36525455, a: 1}
 --- !u!114 &1134242009
 MonoBehaviour:
   m_ObjectHideFlags: 0

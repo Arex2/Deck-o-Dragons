@@ -7,12 +7,15 @@ public class BattleButtonManager : MonoBehaviour
 {
     [SerializeField] DrawLine drawLine;
     [SerializeField] private List<Button> buttonList = new List<Button>();
+
+    [SerializeField] private Sprite destroyedTowerImage;
+    [SerializeField]private Color destroyedColor = Color.white;
     private int currentLevel;
+
+
     void Start()
     {
-        currentLevel = ProgressManager.Instance.GetCurrentLevel();
-        //currentLevel = 3;
-        Debug.Log("Current lvl: " + currentLevel);
+       currentLevel = ProgressManager.Instance.GetCurrentLevel();
         test();
     }
     private void test()
@@ -34,31 +37,15 @@ public class BattleButtonManager : MonoBehaviour
                 button.interactable = true;
                 button.image.color = Color.white;
             }
+            else if (i < currentLevel)
+            {
+                button.image.sprite = destroyedTowerImage;
+                button.image.color = destroyedColor;
+            }
             else
             {
                 button.image.color = Color.grey;
             }
-
-            //OLD
-            /*
-            //rita linje mellan
-            if(i <= currentLevel)
-            {
-                drawLine.AddButtonToLine(buttonList[i]);
-                continue;
-            }
-
-            Button button = buttonList[i];
-            ColorBlock colors = button.colors;
-            colors.normalColor = Color.black;
-            colors.highlightedColor = Color.black;
-            colors.pressedColor = Color.black;
-            colors.selectedColor = Color.black;
-            colors.disabledColor = Color.black;
-            button.colors = colors;
-            button.interactable = false;
-            */
-
         }
     }
 
