@@ -1,14 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 //using Unity.VisualScripting;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
-using UnityEngine.InputSystem.EnhancedTouch;
-using UnityEngine.InputSystem.LowLevel;
-using UnityEngine.UIElements;
-using static UnityEngine.UI.Image;
 
 enum Direction
 {
@@ -26,8 +19,6 @@ public class Controls : MonoBehaviour
 
     [SerializeField]
     CardHand hand;
-    [SerializeField]
-    SceneSwitcher sceneSwitcher;
     [SerializeField]
 #if UNITY_EDITOR // This gets rid of an annoying warning in console
     new
@@ -169,7 +160,7 @@ public class Controls : MonoBehaviour
                 {
                     Debug.Log("Switch scene");
                     //sceneSwitcher.SwitchScene(-1); 
-                    sceneSwitcher.SwitchToEgg();
+                    SceneSwitcher.SwitchToEgg();
                 }
                 else
                 {

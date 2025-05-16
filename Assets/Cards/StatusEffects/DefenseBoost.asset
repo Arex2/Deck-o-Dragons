@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: DefenseBoost
   m_EditorClassIdentifier: 
   guid: 0e8e29e52b28319468618bca2fa8faa8
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 314dd2096fc21fc4da1d6ec5b606a5e8, type: 3}
   displayName: Polished Armor
   description: Reduces damage taken by {POTENCY} for the next {DURATION} attacks.
   hidden: 0
   isDebuff: 0
+  stackable: 1
   potencyIsPercent: 1

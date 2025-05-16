@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31215ea7116ca5642a726518bbbd7941, type: 3}
-  m_Name: Bleed
+  m_Name: Poison
   m_EditorClassIdentifier: 
   guid: e4b5740aa5215674499f019b978b484a
-  icon: {fileID: 0}
-  displayName: Bleed
+  icon: {fileID: 21300000, guid: 7eaa605ea75035f4e84869532a2563ef, type: 3}
+  displayName: Poison
   description: Deals {POTENCY} damage every turn for {DURATION} turns.
+  hidden: 0
   isDebuff: 1
+  stackable: 1
   potencyIsPercent: 0

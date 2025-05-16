@@ -21,6 +21,7 @@ public class SelectionState : IState
         gameBehaviour.indicatorManager.UpdateIndicatorsForOldCard();
 
         gameBehaviour.StatusButton.ProceedStatus(CardgameStatusButton.PLAYER_TURN, CardgameStatusButton.DISCARD);
+        gameBehaviour.cardHand.CanPlayCards = true;
 
         //gameBehaviour.UpdateStatusText("Select a card");
         //player gets input

@@ -68,7 +68,7 @@ MonoBehaviour:
   guid: d61b0f20ad161914a8459df688c76e24
   sprite: {fileID: 0}
   displayName: Seeping Venom
-  description: Increases the damage your opponent takes by {POTENCY} for {DURATION}
+  description: Increase the damage your opponent takes by {POTENCY} for {DURATION}
     turns.
   cost: 4
   element: 0

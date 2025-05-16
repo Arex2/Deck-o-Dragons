@@ -9,7 +9,7 @@ public class PanelToggle : MonoBehaviour
         if (buttonPanel != null)
         {
             buttonPanel.SetActive(!buttonPanel.activeSelf);
-            Debug.Log("TogglePanel() called.");
+            AudioManager.Instance.PlayClickSound();
         }
     }
 }

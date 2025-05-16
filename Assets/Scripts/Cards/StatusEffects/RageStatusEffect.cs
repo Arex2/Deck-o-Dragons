@@ -34,14 +34,18 @@ public class RageStatusEffect : StatusEffect
 
     public override void OnAttack(Target target, AttackData attackData)
     {
-        Remove();
-
         if (!SetupUserData)
         {
             return;
         }
 
-        attackData += (int)UserData;
+        if ((int)UserData <= (int)0)
+        {
+            return;
+        }
+
+        attackData += (float)((int)UserData) * Potency;
+        UserData = (int)0;
     }
 
     /*

@@ -19,4 +19,5 @@ MonoBehaviour:
     X heals.
   hidden: 0
   isDebuff: 1
+  stackable: 0
   potencyIsPercent: 0

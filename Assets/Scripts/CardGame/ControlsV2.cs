@@ -1,20 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.IO.Pipes;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class ControlsV2 : MonoBehaviour
 {
 
     public InputSystem controls;
 
+#if UNITY_EDITOR
     [Header("Platform Settings")]
     [TextArea]
-    public string Notes = "When using the mouse to test enable, when using a touchscreen to test, diable this. \n Touchscreens will be buggy unless this is disabled.";
+    public string Notes = "When using the mouse to test enable, when using a touchscreen to test, disable this. \n Touchscreens will be buggy unless this is disabled.";
+#endif
     [SerializeField]
     public bool usingMouse;
 
@@ -46,8 +42,10 @@ public class ControlsV2 : MonoBehaviour
     private float minSwipeSize = 1f; //limit for movement being registered
     private float minReleasePower = 20f; //limit for movement being added to a release
 
+#pragma warning disable CS0414
     float leftEdgeArea = 0.15f;
     float rightEdgeArea = 0.85f;
+#pragma warning restore CS0414
 
     private bool firstContact = true;
     private bool swipingHorizontal;

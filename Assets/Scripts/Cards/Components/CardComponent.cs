@@ -64,7 +64,7 @@ public abstract class CardComponent : ScriptableObject
                     continue;
                 }
 
-                // Should return float
+                // Should return string
                 if (methodInfo.ReturnType != typeof(string))
                 {
                     continue;
@@ -119,7 +119,7 @@ public abstract class CardComponent : ScriptableObject
 
     public virtual IEnumerator PlayCoroutine(List<Target> targets)
     {
-        yield return null;
+        return null;
     }
 
     public virtual void OnAfterCardPlayed()

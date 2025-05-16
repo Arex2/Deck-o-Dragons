@@ -73,6 +73,8 @@ public abstract class Target : MonoBehaviour
 
     private ITargetCallbacks[] _targetCallbacks;
 
+    private bool _shouldUpdateStatusEffects = false;
+
     protected virtual void OnEnable()
     {
         TargetManager.AddTarget(this);
@@ -119,6 +121,18 @@ public abstract class Target : MonoBehaviour
     protected virtual void Start()
     {
 
+    }
+
+    protected virtual void LateUpdate()
+    {
+        if (!_shouldUpdateStatusEffects)
+        {
+            return;
+        }
+
+        _shouldUpdateStatusEffects = false;
+
+        UpdateStatusEffects();
     }
 
     public virtual void Hurt(Target attacker, AttackData attackData)
@@ -289,16 +303,18 @@ public abstract class Target : MonoBehaviour
         RemoveFinishedStatusEffects();
     }
 
-    private void RemoveFinishedStatusEffects()
+    private int RemoveFinishedStatusEffects()
     {
-        ClearStatusEffectsWithPredicate((data) => data.Duration <= 0);
+        return ClearStatusEffectsWithPredicate((data) => data.Duration <= 0);
     }
 
     public void AddStatusEffect(StatusEffect statusEffect, int potency, int duration) => AddStatusEffect(new(statusEffect, potency, duration));
 
     public void AddStatusEffect(StatusEffectData newData)
     {
-        if (immuneToStatusEffects.Contains(newData.StatusEffect))
+        StatusEffect statusEffect = newData.StatusEffect;
+
+        if (immuneToStatusEffects.Contains(statusEffect))
         {
             return;
         }
@@ -313,15 +329,35 @@ public abstract class Target : MonoBehaviour
             }
         }
 
-        _statusEffects.Add(newData);
+        bool containsStatusEffect = _statusEffectDictionary.ContainsKey(statusEffect);
+        bool hasStatusEffect = containsStatusEffect && _statusEffectDictionary[statusEffect].Count > 0;
 
-        StatusEffect statusEffect = newData.StatusEffect;
-
-        if (!_statusEffectDictionary.ContainsKey(statusEffect))
+        if (statusEffect.Stackable || !hasStatusEffect)
         {
-            _statusEffectDictionary.Add(statusEffect, new());
+            _statusEffects.Add(newData);
+
+            Debug.Log("ADDED STATUS EFFECT " + statusEffect.DisplayName);
+
+            if (!containsStatusEffect)
+            {
+                _statusEffectDictionary.Add(statusEffect, new());
+            }
+
+            _statusEffectDictionary[statusEffect].Add(newData);
         }
-        _statusEffectDictionary[statusEffect].Add(newData);
+        else if (!statusEffect.Stackable && hasStatusEffect)
+        {
+            foreach (StatusEffectData data in _statusEffects)
+            {
+                if (data.StatusEffect != statusEffect)
+                {
+                    continue;
+                }
+
+                data.Merge(newData);
+                break;
+            }
+        }
 
         if (_notifyStatusEffects)
         {
@@ -332,7 +368,7 @@ public abstract class Target : MonoBehaviour
 
         //data.OnChanged += UpdateStatusEffects;
 
-        RemoveFinishedStatusEffects();
+        _shouldUpdateStatusEffects = true;
     }
 
     public List<StatusEffectData> GetStatusEffectData(StatusEffect statusEffect)
@@ -374,21 +410,22 @@ public abstract class Target : MonoBehaviour
 
         _statusEffectDictionary[statusEffect].Clear();
 
-        UpdateStatusEffects();
+        _shouldUpdateStatusEffects = true;
     }
 
-    public void ClearAllDebuffs()
+    public int ClearAllDebuffs()
     {
-        ClearStatusEffectsWithPredicate((data) => data.StatusEffect.IsDebuff);
+        return ClearStatusEffectsWithPredicate((data) => data.StatusEffect.IsDebuff);
     }
 
-    public void ClearAllNonDebuffs()
+    public int ClearAllNonDebuffs()
     {
-        ClearStatusEffectsWithPredicate((data) => !data.StatusEffect.IsDebuff);
+        return ClearStatusEffectsWithPredicate((data) => !data.StatusEffect.IsDebuff);
     }
 
-    private void ClearStatusEffectsWithPredicate(Func<StatusEffectData, bool> predicate)
+    private int ClearStatusEffectsWithPredicate(Func<StatusEffectData, bool> predicate)
     {
+        int amountRemoved = 0;
         List<StatusEffectData> dataToRemove = new();
 
         foreach (StatusEffectData data in _statusEffects)
@@ -401,6 +438,8 @@ public abstract class Target : MonoBehaviour
 
                 dataToRemove.Add(data);
 
+                amountRemoved++;
+
                 //pair.Value.OnChanged -= UpdateStatusEffects;
             }
         }
@@ -411,7 +450,9 @@ public abstract class Target : MonoBehaviour
             _statusEffectDictionary[data.StatusEffect].Remove(data);
         }
 
-        UpdateStatusEffects();
+        _shouldUpdateStatusEffects = true;
+
+        return amountRemoved;
     }
 
     public void ClearAllStatusEffects()
@@ -428,6 +469,6 @@ public abstract class Target : MonoBehaviour
         _statusEffects.Clear();
         _statusEffectDictionary.Clear();
 
-        UpdateStatusEffects();
+        _shouldUpdateStatusEffects = true;
     }
 }

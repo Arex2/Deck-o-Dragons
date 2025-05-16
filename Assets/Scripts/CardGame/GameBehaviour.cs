@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 using DG.Tweening;
 
 public class GameBehaviour : Target
@@ -57,8 +56,17 @@ public class GameBehaviour : Target
     //[SerializeField]
     //private TMP_Text enemyHealthText;
 
+    //Damage text - Harriet
+    [SerializeField]
+    private GameObject FloatingTextPrefab;
+
     [SerializeField]
     private Slider hpSlider;
+    //Health slider animation variables - Harriet
+    bool updateHealthSlider;
+    float elapsedTime = 0f;
+    float desiredDuration = 0.3f;
+    float healthSliderStartPos;
 
     [SerializeField]
     public IndicatorManager indicatorManager;
@@ -79,6 +87,13 @@ public class GameBehaviour : Target
     [SerializeField] private CanvasGroup battleOverCanvas;
     [SerializeField] private TMP_Text battleOverResultText;
 
+    [Header("Status Effects Display")]
+    [SerializeField] private RectTransform bottomHud;
+    [SerializeField] private RectTransform cardPositions;
+    private float _bottomHudStartingPosY;
+    [SerializeField] private float statusEffectDisplaySize = 40;
+    private bool _showingStatusEffectDisplay = false;
+
     //Reference to enemy script
     /*
     [SerializeField]
@@ -88,6 +103,8 @@ public class GameBehaviour : Target
     protected override void Awake()
     {
         Instance = this;
+
+        _bottomHudStartingPosY = bottomHud.anchoredPosition.y;
 
         _playerHealthFormat = playerHealthText.text;
 
@@ -108,9 +125,28 @@ public class GameBehaviour : Target
 
         hpSlider.maxValue = MaxHP;
 
+        hpSlider.value = HP;  //prevents health animation at start
+
         UpdateHP();
 
         //encounterManager.InctanceNextEncounter();
+    }
+
+
+    private void Update()
+    {
+        if (updateHealthSlider)
+        {
+            elapsedTime += Time.deltaTime;
+            float percentage = elapsedTime / desiredDuration;
+            hpSlider.value = Mathf.Lerp(healthSliderStartPos, HP, percentage);
+        }
+
+        if (updateHealthSlider && hpSlider.value == HP)
+        {
+            elapsedTime = 0;
+            updateHealthSlider = false;
+        }
     }
 
     //update status text
@@ -169,11 +205,14 @@ public class GameBehaviour : Target
     {
         base.Hurt(attackData);
 
+        ShowFloatingText(attackData);
+
         if (attackData > 0)
         {
             screenShake.StartShake();
         }
     }
+
 
     protected override void UpdateHP()
     {
@@ -185,25 +224,53 @@ public class GameBehaviour : Target
         }
         */
 
-        hpSlider.value = HP; 
-        //StartCoroutine(UpdateHealthBar());
+        //hpSlider.value = HP; 
+        healthSliderStartPos = hpSlider.value;
+        updateHealthSlider = true; //controls health slider anim from update
+
         playerHealthText.text = string.Format(_playerHealthFormat, Mathf.Ceil(HP), MaxHP);
         //indicatorManager.ClearIndicators();
     }
-
-    //Verkade som att det redan var någon incrimental effekt på slidern/hpBaren
-    private IEnumerator UpdateHealthBar()
+    //Damage text
+    private void ShowFloatingText(AttackData attackData)
     {
-        float duration = 1f;
-        float elapsedTime = 0f;
-        float startHealth = hpSlider.value;
+        GameObject obj = Instantiate(FloatingTextPrefab, new Vector3(camera.ScreenToWorldPoint(hpSlider.fillRect.transform.position).x, camera.ScreenToWorldPoint(hpSlider.transform.position).y, 0), Quaternion.identity);
+        obj.GetComponent<TextMeshPro>().text = attackData.ToString();
+        Debug.Log("Spawn pos:  " + new Vector3(camera.ScreenToWorldPoint(hpSlider.fillRect.transform.position).x, camera.ScreenToWorldPoint(hpSlider.transform.position).y, 0));
+        //obj.GetComponent<TextMeshPro>().color = Random.ColorHSV();
+        obj.GetComponent<TextMeshPro>().color = Color.red;
+    }
 
-        while(elapsedTime < duration)
+    protected override void UpdateStatusEffects()
+    {
+        base.UpdateStatusEffects();
+
+        bool hasStatusEffects = StatusEffects.Count > 0;
+
+        if (_showingStatusEffectDisplay == hasStatusEffects)
         {
-            elapsedTime += Time.deltaTime;
-            hpSlider.value = Mathf.Lerp(startHealth, HP, elapsedTime);
+            return;
         }
-        yield return null;
+
+        _showingStatusEffectDisplay = hasStatusEffects;
+
+        bottomHud.DOKill();
+
+        if (hasStatusEffects)
+        {
+            bottomHud.DOAnchorPosY(_bottomHudStartingPosY + statusEffectDisplaySize, 0.5f);
+            cardPositions.sizeDelta = new Vector2(0, -statusEffectDisplaySize);
+            cardPositions.anchoredPosition = new Vector2(0, statusEffectDisplaySize / 2);
+        }
+        else
+        {
+            bottomHud.DOAnchorPosY(_bottomHudStartingPosY, 0.5f);
+            cardPositions.sizeDelta = Vector2.zero;
+            cardPositions.anchoredPosition = Vector2.zero;
+        }
+
+        cardHand.UpdateScreenPositions();
+        cardHand.UpdateCardPositions();
     }
 
     public void GainMana(int count)

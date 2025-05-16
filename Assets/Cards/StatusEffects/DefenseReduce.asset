@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: DefenseReduce
   m_EditorClassIdentifier: 
   guid: bad07d26f7a26e24aaab48d170714828
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 6f4e2017478f05542ad242e99fffb39f, type: 3}
   displayName: Broken Armor
   description: Increases damage taken by {POTENCY} for the next {DURATION} attacks.
   hidden: 0
   isDebuff: 1
+  stackable: 1
   potencyIsPercent: 1
