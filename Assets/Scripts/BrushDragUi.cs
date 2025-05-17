@@ -6,9 +6,7 @@ using System.Collections.Generic;
 public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public GameObject targetObject;
-    public AudioClip brushingSound;
 
-    private AudioSource audioSource;
     private Animator brushAnimator;
     private RectTransform rectTransform;
     private Canvas canvas;
@@ -32,12 +30,13 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private bool glitterPlayed = false;
 
+    [SerializeField] private AudioClip brushingSound, shinySound;
+
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
-        audioSource = GetComponent<AudioSource>();
         brushAnimator = GetComponent<Animator>();
 
         initialPosition = rectTransform.localPosition;
@@ -124,17 +123,12 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         isBrushing = true;
 
-        RefreshDirt(); 
+        RefreshDirt();
 
         if (brushAnimator != null)
             brushAnimator.SetBool("IsBrushing", true);
 
-        if (audioSource != null && brushingSound != null && !audioSource.isPlaying)
-        {
-            audioSource.loop = true;
-            audioSource.clip = brushingSound;
-            audioSource.Play();
-        }
+
     }
 
     private void StopBrushing()
@@ -145,9 +139,6 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         if (brushAnimator != null)
             brushAnimator.SetBool("IsBrushing", false);
-
-        if (audioSource != null && audioSource.isPlaying)
-            audioSource.Stop();
 
         if (dirtObjects != null && dirtObjects.Length > 0)
         {
@@ -192,7 +183,6 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         if (isBrushing)
         {
-
             GameObject[] currentDirt = GameObject.FindGameObjectsWithTag("Dirt");
             if (dirtObjects == null || currentDirt.Length != dirtObjects.Length)
             {
@@ -236,7 +226,6 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private void RefreshDirt()
     {
-
         dirtObjects = GameObject.FindGameObjectsWithTag("Dirt");
         dirtRemoved = new bool[dirtObjects.Length];
         dirtTimers = new float[dirtObjects.Length];
@@ -254,6 +243,7 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private IEnumerator PlayGlitterEffect()
     {
+        AudioManager.Instance.PlaySFX(shinySound);
         List<GameObject> glittersToToggle = new List<GameObject>();
         GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
@@ -273,5 +263,11 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             if (glitter != null)
                 glitter.SetActive(false);
         }
+    }
+
+
+    public void PlayBrushingSound()
+    {
+        AudioManager.Instance.PlaySFX(brushingSound);
     }
 }

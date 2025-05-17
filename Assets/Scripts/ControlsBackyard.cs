@@ -15,9 +15,11 @@ public class ControlsBackyard : MonoBehaviour
     Direction swipeDirection;
 
     [SerializeField]
-    SceneSwitcher sceneSwitcher;
-    [SerializeField]
+#if UNITY_EDITOR // This gets rid of an annoying warning in console
+    new
+#endif
     Camera camera;
+
     float leftEdgeArea = 0.20f;
     float rightEdgeArea = 0.80f;
 
@@ -146,7 +148,7 @@ public class ControlsBackyard : MonoBehaviour
                 {
                     Debug.Log("Switch scene");
                     //sceneSwitcher.SwitchScene(+1);
-                    sceneSwitcher.SwitchToEgg();
+                    SceneSwitcher.SwitchToEgg();
                 }
                 SetToZero();
                 break;

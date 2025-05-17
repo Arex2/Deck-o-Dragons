@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class EnemyBoss : Target
 {
@@ -11,7 +12,12 @@ public class EnemyBoss : Target
      */
 
     [Space]
-    [SerializeField] private Slider healthSlider;
+    [SerializeField] private UnityEngine.UI.Slider healthSlider;
+    //Health slider animation variables - Harriet
+    bool updateHealthSlider;
+    float elapsedTime = 0f;
+    float desiredDuration = 0.3f;
+    float healthSliderStartPos;
     /*
     [SerializeField] private IncomingDamageIndicator indicatorDMG;
     [SerializeField] private IncomingHealingIndicator indicatorHEAL;
@@ -63,7 +69,9 @@ public class EnemyBoss : Target
         healthSlider.maxValue = MaxHP;
 
         HP = MaxHP;
+        healthSlider.value = HP;
         UpdateHP();
+
         originalPosition = transform.localPosition;
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -76,6 +84,22 @@ public class EnemyBoss : Target
                 spriteRenderer.sprite = enemySprites[level];
                 nameText.text = enemyNames[level];
             }
+        }
+    }
+
+    private void Update()
+    {
+        if (updateHealthSlider)
+        {
+            elapsedTime += Time.deltaTime;
+            float percentage = elapsedTime / desiredDuration;
+            healthSlider.value = Mathf.Lerp(healthSliderStartPos, HP, percentage);
+        }
+
+        if (updateHealthSlider && healthSlider.value == HP)
+        {
+            elapsedTime = 0;
+            updateHealthSlider = false;
         }
     }
 
@@ -172,7 +196,9 @@ public class EnemyBoss : Target
     protected override void UpdateHP()
     {
         base.UpdateHP();
-        healthSlider.value = HP;
+        //healthSlider.value = HP;
+        healthSliderStartPos = healthSlider.value;
+        updateHealthSlider = true;
         healthText.text = string.Format(healthTextFormat, Mathf.Ceil(HP), MaxHP);
     }
 

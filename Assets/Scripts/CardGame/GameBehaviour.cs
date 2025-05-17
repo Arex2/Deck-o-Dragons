@@ -56,8 +56,17 @@ public class GameBehaviour : Target
     //[SerializeField]
     //private TMP_Text enemyHealthText;
 
+    //Damage text - Harriet
+    [SerializeField]
+    private GameObject FloatingTextPrefab;
+
     [SerializeField]
     private Slider hpSlider;
+    //Health slider animation variables - Harriet
+    bool updateHealthSlider;
+    float elapsedTime = 0f;
+    float desiredDuration = 0.3f;
+    float healthSliderStartPos;
 
     [SerializeField]
     public IndicatorManager indicatorManager;
@@ -116,9 +125,28 @@ public class GameBehaviour : Target
 
         hpSlider.maxValue = MaxHP;
 
+        hpSlider.value = HP;  //prevents health animation at start
+
         UpdateHP();
 
         //encounterManager.InctanceNextEncounter();
+    }
+
+
+    private void Update()
+    {
+        if (updateHealthSlider)
+        {
+            elapsedTime += Time.deltaTime;
+            float percentage = elapsedTime / desiredDuration;
+            hpSlider.value = Mathf.Lerp(healthSliderStartPos, HP, percentage);
+        }
+
+        if (updateHealthSlider && hpSlider.value == HP)
+        {
+            elapsedTime = 0;
+            updateHealthSlider = false;
+        }
     }
 
     //update status text
@@ -177,11 +205,14 @@ public class GameBehaviour : Target
     {
         base.Hurt(attackData);
 
+        ShowFloatingText(attackData);
+
         if (attackData > 0)
         {
             screenShake.StartShake();
         }
     }
+
 
     protected override void UpdateHP()
     {
@@ -193,25 +224,21 @@ public class GameBehaviour : Target
         }
         */
 
-        hpSlider.value = HP; 
-        //StartCoroutine(UpdateHealthBar());
+        //hpSlider.value = HP; 
+        healthSliderStartPos = hpSlider.value;
+        updateHealthSlider = true; //controls health slider anim from update
+
         playerHealthText.text = string.Format(_playerHealthFormat, Mathf.Ceil(HP), MaxHP);
         //indicatorManager.ClearIndicators();
     }
-
-    //Verkade som att det redan var någon incrimental effekt på slidern/hpBaren
-    private IEnumerator UpdateHealthBar()
+    //Damage text
+    private void ShowFloatingText(AttackData attackData)
     {
-        float duration = 1f;
-        float elapsedTime = 0f;
-        float startHealth = hpSlider.value;
-
-        while(elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            hpSlider.value = Mathf.Lerp(startHealth, HP, elapsedTime);
-        }
-        yield return null;
+        GameObject obj = Instantiate(FloatingTextPrefab, new Vector3(camera.ScreenToWorldPoint(hpSlider.fillRect.transform.position).x, camera.ScreenToWorldPoint(hpSlider.transform.position).y, 0), Quaternion.identity);
+        obj.GetComponent<TextMeshPro>().text = attackData.ToString();
+        Debug.Log("Spawn pos:  " + new Vector3(camera.ScreenToWorldPoint(hpSlider.fillRect.transform.position).x, camera.ScreenToWorldPoint(hpSlider.transform.position).y, 0));
+        //obj.GetComponent<TextMeshPro>().color = Random.ColorHSV();
+        obj.GetComponent<TextMeshPro>().color = Color.red;
     }
 
     protected override void UpdateStatusEffects()

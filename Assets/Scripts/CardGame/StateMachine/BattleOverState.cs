@@ -6,9 +6,10 @@ using UnityEngine.InputSystem.Interactions;
 
 public class BattleOverState : IState
 {
-    bool temp = false; //ANV�NDS F�R ATT K�NNA N�R WAITTIME �R DONE
+    bool coroutineOver = false; //ANV�NDS F�R ATT K�NNA N�R WAITTIME �R DONE
 
     GameBehaviour gameBehaviour;
+    private bool loadingScene;
     public virtual IState Enter(GameBehaviour gameBehaviour)
     {
         Debug.Log("BATTLE OVER");
@@ -30,7 +31,7 @@ public class BattleOverState : IState
         //Debug.Log("Wait start " + Time.time);
         yield return new WaitForSeconds(2f);
         //Debug.Log("Wait over " + Time.time);
-        temp = true;
+        coroutineOver = true;
     }
 
     public virtual IEnumerator PlayEffects(GameBehaviour gameBehaviour)
@@ -40,7 +41,7 @@ public class BattleOverState : IState
 
     public virtual IState Execute()
     {
-        if (temp)
+        if (coroutineOver && !loadingScene)
         {
             
             //LOSE
@@ -48,8 +49,7 @@ public class BattleOverState : IState
             {
                 //end game
                 //åk tillbaka till ägg scenen
-                gameBehaviour.SwitchToEggScene();
-                return null;
+                SceneSwitcher.SwitchToEgg();
             }
             //Debug.Log("New Encounter");
             //gameBehaviour.NewEncounter();
@@ -57,8 +57,10 @@ public class BattleOverState : IState
             else
             {
                 // Card shop scene
-                UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+                SceneSwitcher.SwitchToCardShop();
             }
+
+            loadingScene = true;
         }
         return null;
     }

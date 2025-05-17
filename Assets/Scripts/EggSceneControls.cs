@@ -13,9 +13,6 @@ public class EggSceneControls : MonoBehaviour
     Vector2 dragDir;
     EggSceneDirection swipeDirection;
 
-    [SerializeField]
-    SceneSwitcher sceneSwitcher;
-
     float minSwipeSize = 10f;
     float leftEdgeArea = 0.20f;
     float rightEdgeArea = 0.80f;
@@ -74,7 +71,7 @@ public class EggSceneControls : MonoBehaviour
                 if (startPos2 < leftEdgeArea)
                 {
                     Debug.Log("Swipe right from left edge � switching to Garden");
-                    sceneSwitcher.SwitchToGarden();
+                    SceneSwitcher.SwitchToGarden();
                 }
                 break;
 
@@ -82,7 +79,7 @@ public class EggSceneControls : MonoBehaviour
                 if (startPos2 > rightEdgeArea)
                 {
                     Debug.Log("Swipe left from right edge � switching to Card Game");
-                   // sceneSwitcher.SwitchToCardGame();
+                   // SceneSwitcher.SwitchToCardGame();
                 }
                 break;
 

@@ -6,12 +6,13 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 {
     public GameObject targetObject; 
     public AudioClip collisionSound; 
-    private AudioSource audioSource; 
     private Animator meatballAnimator;  
     private RectTransform rectTransform;
     private Canvas canvas;
     private Vector3 initialPosition; 
-    private CanvasGroup canvasGroup; 
+    private CanvasGroup canvasGroup;
+
+    [SerializeField] private AudioClip happySound;
 
     private void Awake()
     {
@@ -19,7 +20,6 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
         initialPosition = rectTransform.localPosition;
-        audioSource = GetComponent<AudioSource>();
         meatballAnimator = GetComponent<Animator>();
     }
 
@@ -46,8 +46,7 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             if (meatballAnimator != null)
                 meatballAnimator.SetTrigger("CollisionAnimation");
 
-            if (audioSource != null && collisionSound != null)
-                audioSource.PlayOneShot(collisionSound);
+            AudioManager.Instance.PlaySFX(collisionSound);
 
             StartCoroutine(ResetAfterAnimation());
         }
@@ -98,6 +97,7 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         GameObject hearts = FindInactiveHeartWithTag();
         if (hearts != null)
         {
+            AudioManager.Instance.PlaySFX(happySound);
             StartCoroutine(ActivateHeartTemporarily(hearts));
         }
         else
@@ -108,6 +108,7 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private IEnumerator ActivateHeartTemporarily(GameObject heart)
     {
+       
         heart.SetActive(true);
         yield return new WaitForSeconds(0.7f);
         heart.SetActive(false);

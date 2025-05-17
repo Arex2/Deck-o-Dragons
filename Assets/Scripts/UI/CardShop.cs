@@ -44,10 +44,6 @@ public class CardShop : MonoBehaviour
     [SerializeField] private GameObject regularUIParent;
     [SerializeField] private GameObject selectedCardUIParent;
 
-    [Space]
-    [SerializeField] private int exitScene;
-    [SerializeField] private SceneSwitcher sceneSwitcher;
-
     public CardShopButton Selected { get; private set; }
 
     private CardShopButton[] _cardShopButtons;
@@ -301,10 +297,5 @@ public class CardShop : MonoBehaviour
 
             cardCostText.text = string.Format(_cardCostFormat, card.Cost);
         }
-    }
-
-    public void Exit()
-    {
-        SceneManager.LoadScene(exitScene);
     }
 }

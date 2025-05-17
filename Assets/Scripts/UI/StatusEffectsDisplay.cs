@@ -16,9 +16,6 @@ public class StatusEffectsDisplay : MonoBehaviour, ITargetCallbacks
 
     [Space]
     [SerializeField] private RectTransform layoutGroup;
-    [SerializeField] private float spacing = 45;
-
-    private Coroutine _rebuildCoroutine;
 
     private Dictionary<StatusEffectData, StatusEffectsDisplayItem> _activeItems = new();
     private ObjectPool<StatusEffectsDisplayItem> _pool;
@@ -79,13 +76,6 @@ public class StatusEffectsDisplay : MonoBehaviour, ITargetCallbacks
 
     private void UpdateStatusEffectsDisplay()
     {
-        /*
-        if (_rebuildCoroutine != null)
-        {
-            StopCoroutine(_rebuildCoroutine);
-        }
-        */
-
         HashSet<StatusEffectsDisplayItem> removeList = new(_activeItems.Values);
         _itemsAddedThisFrame.Clear();
 
@@ -124,28 +114,5 @@ public class StatusEffectsDisplay : MonoBehaviour, ITargetCallbacks
             StatusEffectsDisplayItem capturedItem = item;
             item.Disappear(false, () => _pool.Release(capturedItem));
         }
-
-        //_rebuildCoroutine = StartCoroutine(RebuildCoroutine());
     }
-
-    /*
-    private IEnumerator RebuildCoroutine()
-    {
-        for (int i = 0; i < 2; i++)
-        {
-            yield return null;
-            Rebuild();
-        }
-    }
-
-    private void Rebuild()
-    {
-        LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGroup);
-
-        foreach (StatusEffectsDisplayItem item in _itemsAddedThisFrame)
-        {
-            item.Teleport();
-        }
-    }
-    */
 }
