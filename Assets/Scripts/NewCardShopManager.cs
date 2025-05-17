@@ -8,9 +8,12 @@ using DG.Tweening;
 
 public class NewCardShopManager : MonoBehaviour
 {
+    [SerializeField] private bool takeAllCards = true;
     [SerializeField] private int cardsToTake = 3;
     [SerializeField] private int cardsToShow = 6;
     [SerializeField] private int amountOfRerolls = 1;
+    [SerializeField] private float timeToZoomIn = 0.6f;
+    [SerializeField] private float timeToZoomOut = 0.3f;
     
     [Header("Components")]
     [SerializeField] private GameObject contentContainer;
@@ -26,6 +29,7 @@ public class NewCardShopManager : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private Button rerollButton;
     [SerializeField] private Button addButton;
+    [SerializeField] private Button exitButton;
 
     
     private Vector2 _screenSpaceEnd;
@@ -33,7 +37,8 @@ public class NewCardShopManager : MonoBehaviour
     private Vector2 _screenSpaceStart;
     private float _scaleStart;
 
-    private int _cardsRemaining;
+    private int _cardsToTake;
+    private int _cardsTaken;
     private int _rerollsRemaining;
     private string _rerollTextFormat;
     private string _topTextFormat;
@@ -48,21 +53,23 @@ public class NewCardShopManager : MonoBehaviour
         _rerollTextFormat = rerollText.text;
 
         _rerollsRemaining = amountOfRerolls;
+        _cardsTaken = 0;
 
         _deckManager = DeckManager.Instance;
 
         PopulateCards();
+
+        _cardsToTake = _drawableCards.Count < cardsToTake ? _drawableCards.Count : cardsToTake;
+
         UpdateText();
         //Do check for no cards to chose
 
         scroll.Initialize();
 
-        //Setup for the zoom card
-        _screenSpaceEnd = zoomCardRectTransform.position;
-        _scaleEnd = zoomCardRectTransform.localScale.x;
+        if(takeAllCards) exitButton.interactable = false;
 
-        _screenSpaceStart = scroll.cardPositions[0].position;
-        _scaleStart = scroll.cardPositions[0].localScale.x;
+        //Setup for the zoom card
+        StartCoroutine(SetCardPosition());
     }
 
     public void Reroll()
@@ -79,7 +86,7 @@ public class NewCardShopManager : MonoBehaviour
 
     private void UpdateText()
     {
-        topText.text = string.Format(_topTextFormat, _cardsRemaining, cardsToTake);
+        topText.text = string.Format(_topTextFormat, _cardsTaken, _cardsToTake);
         rerollText.text = string.Format(_rerollTextFormat, _rerollsRemaining);
     }
 
@@ -153,6 +160,16 @@ public class NewCardShopManager : MonoBehaviour
         _cardsBeingShown.Clear();
     }
 
+    IEnumerator SetCardPosition()
+    {
+        yield return new WaitForSeconds(0.2f);
+        _screenSpaceEnd = zoomCardRectTransform.position;
+        _scaleEnd = zoomCardRectTransform.localScale.x;
+
+        _screenSpaceStart = scroll.cardPositions[0].position;
+        _scaleStart = scroll.cardPositions[0].localScale.x;
+    }
+
     public void ZoomOnCard()
     {
         if(!isZoomed)
@@ -163,9 +180,9 @@ public class NewCardShopManager : MonoBehaviour
             zoomCardRectTransform.localScale = Vector3.one * _scaleStart;
             zoomCardRectTransform.position = _screenSpaceStart;
 
-            zoomCardViewInctance.setNewCard(_cardsBeingShown[0]);
-            zoomCardRectTransform.DOMove(_screenSpaceEnd, 1.2f);
-            zoomCardRectTransform.DOScale(_scaleEnd, 1.2f);
+            zoomCardViewInctance.setNewCard(_cardsBeingShown[scroll.indexOfShortestDistance]);
+            zoomCardRectTransform.DOMove(_screenSpaceEnd, timeToZoomIn);
+            zoomCardRectTransform.DOScale(_scaleEnd, timeToZoomIn);
         }
     }
 
@@ -175,9 +192,35 @@ public class NewCardShopManager : MonoBehaviour
         {
             isZoomed = false;
 
-            zoomCardRectTransform.DOMove(_screenSpaceEnd, 1.2f);
-            zoomCardRectTransform.DOScale(_scaleEnd, 1.2f);
-            
+            zoomCardRectTransform.DOMove(_screenSpaceStart, timeToZoomOut);
+            zoomCardRectTransform.DOScale(_scaleStart, timeToZoomOut);
+            Invoke("CloseZoomWindow", timeToZoomOut);
         }
+    }
+
+    private void CloseZoomWindow()
+    {
+        zoomCardPanel.SetActive(false);
+    }
+
+    public void AddCardToDeck()
+    {
+        isZoomed = false;
+
+        _cardsTaken++;
+        Card cardToAdd = _cardsBeingShown[scroll.indexOfShortestDistance];
+        DeckManager.Instance.AddCardToDeck(cardToAdd, 1);
+        _cardsBeingShown.Remove(cardToAdd);
+        scroll.RemoveCurrentCard();
+
+        if(_cardsTaken >= _cardsToTake)
+        {
+            addButton.interactable = false;
+            exitButton.interactable = true;
+        }
+
+        UpdateText();
+
+        Invoke("CloseZoomWindow", 0.2f);
     }
 }

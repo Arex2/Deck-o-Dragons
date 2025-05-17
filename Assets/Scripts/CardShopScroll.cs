@@ -16,7 +16,7 @@ public class CardShopScroll : MonoBehaviour
     private float disctanceBetwenCards;
     private bool initialized = false;
     private bool scrolling;
-    private int indexOfShortestDistance;
+    public int indexOfShortestDistance {private set; get;}
     private float cennterX;
     void Start()
     {
@@ -70,6 +70,13 @@ public class CardShopScroll : MonoBehaviour
     public void EndDrag()
     {
         scrolling = false;
+    }
+
+    public void RemoveCurrentCard()
+    {
+        RectTransform cardToRemove = cardPositions[indexOfShortestDistance];
+        cardPositions.Remove(cardToRemove);
+        Destroy(cardToRemove.gameObject);
     }
 
     private void Snap()

@@ -1154,7 +1154,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 839895926}
-  - component: {fileID: 839895927}
   - component: {fileID: 839895928}
   m_Layer: 0
   m_Name: Scripts
@@ -1178,18 +1177,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &839895927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 839895924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a90f9792303994a9505c8bbfaeafea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &839895928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1202,9 +1189,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94278279264fad24eb7702d50adbc04c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  takeAllCards: 1
   cardsToTake: 3
   cardsToShow: 6
   amountOfRerolls: 1
+  timeToZoomIn: 0.6
+  timeToZoomOut: 0.3
   contentContainer: {fileID: 142522621}
   scroll: {fileID: 874828825}
   cardPrefab: {fileID: 891566545}
@@ -1214,7 +1204,8 @@ MonoBehaviour:
   rerollText: {fileID: 1772910340}
   topText: {fileID: 931205166}
   rerollButton: {fileID: 190749346}
-  addButton: {fileID: 0}
+  addButton: {fileID: 857635240}
+  exitButton: {fileID: 793262462}
 --- !u!1 &857635238
 GameObject:
   m_ObjectHideFlags: 0
@@ -1297,7 +1288,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 857635241}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 839895928}
+        m_TargetAssemblyTypeName: NewCardShopManager, Assembly-CSharp
+        m_MethodName: AddCardToDeck
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &857635241
 MonoBehaviour:
   m_ObjectHideFlags: 0
