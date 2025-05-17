@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public GameObject targetObject;
-   
 
     private Animator brushAnimator;
     private RectTransform rectTransform;
@@ -124,12 +123,12 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         isBrushing = true;
 
-        RefreshDirt(); 
+        RefreshDirt();
 
         if (brushAnimator != null)
             brushAnimator.SetBool("IsBrushing", true);
 
-        AudioManager.Instance.PlaySFX(brushingSound);
+
     }
 
     private void StopBrushing()
@@ -184,7 +183,6 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         if (isBrushing)
         {
-
             GameObject[] currentDirt = GameObject.FindGameObjectsWithTag("Dirt");
             if (dirtObjects == null || currentDirt.Length != dirtObjects.Length)
             {
@@ -228,7 +226,6 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private void RefreshDirt()
     {
-
         dirtObjects = GameObject.FindGameObjectsWithTag("Dirt");
         dirtRemoved = new bool[dirtObjects.Length];
         dirtTimers = new float[dirtObjects.Length];
@@ -266,5 +263,11 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             if (glitter != null)
                 glitter.SetActive(false);
         }
+    }
+
+
+    public void PlayBrushingSound()
+    {
+        AudioManager.Instance.PlaySFX(brushingSound);
     }
 }

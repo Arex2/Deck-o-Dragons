@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;  
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections;
 
-public class BallBouncer : MonoBehaviour
+public class BallBouncer : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public GameObject ballPrefab;
+    public GameObject ballPrefab;         
     private GameObject ballInstance;
 
     private Transform activeCharacter;
@@ -19,19 +20,49 @@ public class BallBouncer : MonoBehaviour
     private bool isBouncing = false;
     private float timer = 0f;
     private int bounceCount = 0;
+    private float ballLifetime = 6f;
 
-    private float ballLifetime = 6f;  
+    public RectTransform draggableBallUI;
+    public RectTransform dropTargetArea;
+    private Vector3 initialBallUIPosition;
+    private Canvas canvas;
 
-    public Button bounceButton; 
+    public float bounceDuration = 4.5f;
+
+
+    public AudioClip[] bounceSounds;
+    private AudioSource audioSource;
+    private int currentSoundIndex = 0;
+
+
+    public float soundLeadTime = 0.5f;
+    private float bouncePeriod;
+    private bool soundPlayedThisBounce = false;
 
     void Start()
     {
         StartCoroutine(WaitForCharacterInstantiation());
 
-        if (bounceButton != null)
+        if (draggableBallUI != null)
         {
-            bounceButton.onClick.AddListener(StartBouncing);  
+            initialBallUIPosition = draggableBallUI.localPosition;
+            canvas = draggableBallUI.GetComponentInParent<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("BallBouncer: Canvas not found in parents of draggableBallUI.");
+            }
         }
+        else
+        {
+            Debug.LogError("BallBouncer: Assign draggableBallUI in inspector.");
+        }
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.playOnAwake = false;
     }
 
     void Update()
@@ -45,6 +76,31 @@ public class BallBouncer : MonoBehaviour
         {
             timer += Time.deltaTime;
 
+            bouncePeriod = 2 * Mathf.PI / bounceSpeed;
+
+            float cycleTime = timer % bouncePeriod;
+
+
+            float lowestPointTime = (3 * Mathf.PI / 2) / bounceSpeed;
+
+
+            float soundPlayTime = lowestPointTime - soundLeadTime;
+            if (soundPlayTime < 0)
+                soundPlayTime += bouncePeriod; 
+
+
+            if (!soundPlayedThisBounce && cycleTime >= soundPlayTime)
+            {
+                PlayBounceSound();
+                soundPlayedThisBounce = true;
+            }
+            else if (cycleTime < soundPlayTime)
+            {
+
+                soundPlayedThisBounce = false;
+            }
+
+
             float ballY = ballAnchor.position.y + Mathf.Sin(timer * bounceSpeed) * ballBounceHeight;
             ballInstance.transform.position = new Vector3(ballAnchor.position.x, ballY, ballAnchor.position.z);
 
@@ -55,22 +111,25 @@ public class BallBouncer : MonoBehaviour
 
             activeCharacter.localPosition = new Vector3(activeCharacter.localPosition.x, targetY, activeCharacter.localPosition.z);
 
-
-            if (Mathf.Abs(Mathf.Sin(timer * bounceSpeed)) < 0.01f)
+            if (timer >= bounceDuration)
             {
-                bounceCount++;
-
-                if (bounceCount >= 3)
-                {
-                    StopBouncing();
-                    ResetCharacterToNormal();
-                }
+                StopBouncing();
+                ResetCharacterToNormal();
             }
 
             if (timer >= ballLifetime)
             {
                 DestroyBallInstance();
             }
+        }
+    }
+
+    private void PlayBounceSound()
+    {
+        if (audioSource != null && bounceSounds != null && bounceSounds.Length > 0)
+        {
+            audioSource.PlayOneShot(bounceSounds[currentSoundIndex]);
+            currentSoundIndex = (currentSoundIndex + 1) % bounceSounds.Length;  
         }
     }
 
@@ -109,7 +168,7 @@ public class BallBouncer : MonoBehaviour
         Animator animator = activeCharacter.GetComponent<Animator>();
         if (animator != null)
         {
-            animator.applyRootMotion = false;  
+            animator.applyRootMotion = false;
         }
     }
 
@@ -140,6 +199,8 @@ public class BallBouncer : MonoBehaviour
         isBouncing = true;
         timer = 0f;
         bounceCount = 0;
+        soundPlayedThisBounce = false;
+        currentSoundIndex = 0; 
     }
 
     public void StopBouncing()
@@ -165,7 +226,6 @@ public class BallBouncer : MonoBehaviour
         }
     }
 
-
     private void DestroyBallInstance()
     {
         if (ballInstance != null)
@@ -175,4 +235,60 @@ public class BallBouncer : MonoBehaviour
         }
     }
 
+    private Vector2 pointerOffset;
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (draggableBallUI == null || canvas == null)
+            return;
+
+        RectTransform parentRect = draggableBallUI.parent as RectTransform;
+
+        Vector2 localPointerPosition;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            parentRect,
+            eventData.position,
+            canvas.worldCamera,
+            out localPointerPosition))
+        {
+            pointerOffset = (Vector2)draggableBallUI.localPosition - localPointerPosition;
+        }
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (draggableBallUI == null || canvas == null)
+            return;
+
+        RectTransform parentRect = draggableBallUI.parent as RectTransform;
+
+        Vector2 localPointerPosition;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            parentRect,
+            eventData.position,
+            canvas.worldCamera,
+            out localPointerPosition))
+        {
+            draggableBallUI.localPosition = localPointerPosition + pointerOffset;
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (draggableBallUI == null || dropTargetArea == null || canvas == null)
+            return;
+
+        Vector2 pointerPos = eventData.position;
+
+        if (RectTransformUtility.RectangleContainsScreenPoint(dropTargetArea, pointerPos, canvas.worldCamera))
+        {
+            StartBouncing();
+
+            draggableBallUI.localPosition = initialBallUIPosition;
+        }
+        else
+        {
+            draggableBallUI.localPosition = initialBallUIPosition;
+        }
+    }
 }
