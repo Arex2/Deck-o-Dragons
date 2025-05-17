@@ -387,7 +387,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 190749347}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 839895928}
+        m_TargetAssemblyTypeName: NewCardShopManager, Assembly-CSharp
+        m_MethodName: Reroll
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &190749347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,8 +525,9 @@ GameObject:
   - component: {fileID: 510441370}
   - component: {fileID: 510441372}
   - component: {fileID: 510441371}
+  - component: {fileID: 510441374}
   m_Layer: 5
-  m_Name: Add Panel
+  m_Name: Zoom Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -578,6 +591,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 510441369}
   m_CullTransparentMesh: 1
+--- !u!114 &510441374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510441369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 507b9d4c0bbb2c1419e77f7af86868e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardRectTransform: {fileID: 0}
+  cardViewInctance: {fileID: 1480038320}
+  screenSpaceStart: {x: 0, y: 0}
+  scaleStart: 0
 --- !u!1 &565323858
 GameObject:
   m_ObjectHideFlags: 0
@@ -1173,14 +1202,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94278279264fad24eb7702d50adbc04c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contentContainer: {fileID: 142522621}
-  scroll: {fileID: 874828825}
-  cardPrefab: {fileID: 891566545}
-  topText: {fileID: 931205166}
   cardsToTake: 3
   cardsToShow: 6
   amountOfRerolls: 1
+  contentContainer: {fileID: 142522621}
+  scroll: {fileID: 874828825}
+  cardPrefab: {fileID: 891566545}
+  zoomCardRectTransform: {fileID: 1480038319}
+  zoomCardViewInctance: {fileID: 1480038320}
+  zoomCardPanel: {fileID: 510441369}
   rerollText: {fileID: 1772910340}
+  topText: {fileID: 931205166}
+  rerollButton: {fileID: 190749346}
+  addButton: {fileID: 0}
 --- !u!1 &857635238
 GameObject:
   m_ObjectHideFlags: 0
@@ -2097,6 +2131,7 @@ GameObject:
   - component: {fileID: 1347288304}
   - component: {fileID: 1347288306}
   - component: {fileID: 1347288305}
+  - component: {fileID: 1347288307}
   m_Layer: 5
   m_Name: Bottom Panel
   m_TagString: Untagged
@@ -2164,6 +2199,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1347288303}
   m_CullTransparentMesh: 1
+--- !u!95 &1347288307
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347288303}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1471743388
 GameObject:
   m_ObjectHideFlags: 0
@@ -2492,7 +2548,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1623736026}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 839895928}
+        m_TargetAssemblyTypeName: NewCardShopManager, Assembly-CSharp
+        m_MethodName: ZoomOut
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1623736026
 MonoBehaviour:
   m_ObjectHideFlags: 0
