@@ -24,10 +24,6 @@ public class ControlsV2 : MonoBehaviour
 #endif
     Camera camera;
 
-
-    [SerializeField]
-    SceneSwitcher sceneSwitcher;
-
     private Vector2 startContactPoint;
     private Vector2 latestEdgeContactPoint;
     private Vector2 currentContactPoint;
@@ -85,6 +81,11 @@ public class ControlsV2 : MonoBehaviour
 
     private void Update()
     {
+        if (float.IsNaN(currentMoveVelocity))
+        {
+            currentMoveVelocity = 0;
+        }
+
         if (addReleaseMovement)
         {
             elapsedTime += Time.deltaTime;

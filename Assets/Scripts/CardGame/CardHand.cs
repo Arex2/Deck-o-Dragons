@@ -345,6 +345,9 @@ public class CardHand : MonoBehaviour
         // Murder bug from hell
         if (float.IsNaN(middlePos) || float.IsInfinity(middlePos))
         {
+#if UNITY_EDITOR
+            Debug.LogError("A NaN or Infinite middle pos was used for card tweening!");
+#endif
             return;
         }
 
