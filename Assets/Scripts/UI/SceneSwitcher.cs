@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityScene = UnityEngine.SceneManagement.Scene;
 using DG.Tweening;
 
 [SingletonMode(true)]
@@ -11,20 +12,27 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
 {
     public static int CurrentSceneBuildIndex => SceneManager.GetActiveScene().buildIndex;
 
+    public static bool SwitchingScene { get; private set; }
+
     [CacheComponent] [SerializeField] private CanvasGroup canvasGroup;
+
+    public Vector2 WholeScreenSize => wholeScreenRect.rect.size;
 
     [Header("Transition")]
     [SerializeField] private RectTransform wholeScreenRect;
-    [SerializeField] private Image transitionImage;
-    private RectTransform _transitionImageRect;
-    [SerializeField] private float safeArea;
-
-    private float _bigScale;
 
     [Space]
     [SerializeField] private float duration;
     [SerializeField] private Ease inEase;
     [SerializeField] private Ease outEase;
+
+    [Space]
+    [SerializeField] private SceneSwitcherCutout defaultCutout;
+
+    public SceneSwitcherCutout CurrentCutout => _currentCutout != null ? _currentCutout : defaultCutout;
+    private SceneSwitcherCutout _currentCutout;
+
+    private Dictionary<int, SceneSwitcherCutout> _cutoutDictionary = new();
 
     [Header("Scenes")]
     [SerializeField] private SceneReference mainMenuScene;
@@ -41,23 +49,34 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
     [SerializeField] private SceneReference cardGameScene;
     [SerializeField] private SceneReference cardShopScene;
 
-    private Vector2Int _oldScreenSize;
+    [Header("Sounds")]
+    [SerializeField] private AudioClip transitionSoundClip;
 
     protected override void Awake()
     {
         base.Awake();
 
-        if (transitionImage == null || wholeScreenRect == null)
+        foreach (SceneSwitcherCutout cutout in GetComponentsInChildren<SceneSwitcherCutout>(true))
         {
-            return;
+            cutout.ImageEnabled = false;
+            cutout.CalculateCutoutScale();
+            cutout.SetToScale();
+
+            if (cutout == defaultCutout)
+            {
+                continue;
+            }
+
+            foreach (Scene scene in cutout.Scenes)
+            {
+                _cutoutDictionary[GetSceneInternal(scene).BuildIndex] = cutout;
+            }
         }
 
-        _transitionImageRect = transitionImage.transform as RectTransform;
-        OnResolutionChanged();
+        SetCurrentCutout(CurrentSceneBuildIndex);
+        CurrentCutout.RectTransform.localScale = Vector3.zero;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
-
-        _transitionImageRect.localScale = Vector3.zero;
     }
 
     private IEnumerator Start()
@@ -72,58 +91,7 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void Update()
-    {
-        if (_oldScreenSize.x == Screen.width && _oldScreenSize.y == Screen.height)
-        {
-            return;
-        }
-
-        OnResolutionChanged();
-    }
-
-    private void OnResolutionChanged()
-    {
-        _oldScreenSize.x = Screen.width;
-        _oldScreenSize.y = Screen.height;
-
-        Sprite transitionSprite = transitionImage.sprite;
-
-        Rect rect = wholeScreenRect.rect;
-
-        float spriteWidth = transitionSprite.texture.width;
-        float spriteHeight = transitionSprite.texture.height;
-
-        Vector2 size = rect.size;
-
-        float spriteRatio = spriteWidth / spriteHeight;
-        float rectRatio = size.x / size.y;
-
-        float scale;
-
-        // Too Tall
-        if (spriteRatio > rectRatio)
-        {
-            float oldHeight = size.y;
-
-            size.y = size.x * (1f / spriteRatio);
-
-            scale = oldHeight / size.y;
-        }
-        // Too Wide
-        else
-        {
-            float oldWidth = size.x;
-
-            size.x = size.y * spriteRatio;
-
-            scale = oldWidth / size.x;
-        }
-
-        _bigScale = scale + safeArea;
-    }
-
-    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode loadSceneMode)
+    private void OnSceneLoaded(UnityScene scene, LoadSceneMode loadSceneMode)
     {
         IntroAnim();
     }
@@ -135,13 +103,11 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = false;
 
-        _transitionImageRect.DOKill();
-
-        _transitionImageRect.DOScale(_bigScale, duration).SetEase(inEase).onComplete = () =>
+        CurrentCutout.DoTransitionOut(duration, outEase, () =>
         {
             canvasGroup.alpha = 0;
             canvasGroup.blocksRaycasts = false;
-        };
+        });
     }
 
     public static void SwitchScene(int sceneIndex, Action onFinish = null)
@@ -151,10 +117,24 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
 
     private IEnumerator SwitchSceneCoroutine(int sceneIndex, Action onFinish = null)
     {
+        if (SwitchingScene)
+        {
+            yield break;
+        }
+
+        SwitchingScene = true;
+
+        SetCurrentCutout(sceneIndex);
+
         if (sceneIndex == eggScene.BuildIndex)
         {
             //viktig
             DragonActive.doCheck = true;
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(transitionSoundClip);
         }
 
         EventSystem.current.SetSelectedGameObject(null);
@@ -162,13 +142,11 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = true;
 
-        _transitionImageRect.DOKill();
-
         bool tweenComplete = false;
-        _transitionImageRect.DOScale(Vector2.zero, duration).SetEase(outEase).onComplete = () =>
+        CurrentCutout.DoTransitionIn(duration, inEase, () =>
         {
             tweenComplete = true;
-        };
+        });
 
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
 
@@ -182,6 +160,24 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
         asyncOperation.allowSceneActivation = true;
 
         onFinish?.Invoke();
+
+        SwitchingScene = false;
+    }
+
+    private void SetCurrentCutout(int buildIndex)
+    {
+        CurrentCutout.ImageEnabled = false;
+
+        if (buildIndex < 0)
+        {
+            _currentCutout = null;
+        }
+        else
+        {
+            _cutoutDictionary.TryGetValue(buildIndex, out _currentCutout);
+        }
+
+        CurrentCutout.ImageEnabled = true;
     }
 
     public static void SwitchToMainMenu(Action onFinish = null) => SwitchScene(Instance.mainMenuScene, onFinish);
@@ -226,98 +222,4 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
         CardGame,
         CardShop,
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        if (Application.isPlaying)
-        {
-            return;
-        }
-
-        DrawGizmos();
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (!Application.isPlaying)
-        {
-            return;
-        }
-
-        DrawGizmos();
-    }
-
-    private void DrawGizmos()
-    {
-        if (transitionImage == null)
-        {
-            return;
-        }
-
-        if (wholeScreenRect == null)
-        {
-            return;
-        }
-
-        Sprite transitionSprite = transitionImage.sprite;
-
-        if (transitionSprite == null)
-        {
-            return;
-        }
-
-        Rect rect = wholeScreenRect.rect;
-
-        float spriteWidth = transitionSprite.texture.width;
-        float spriteHeight = transitionSprite.texture.height;
-
-        Vector2 size = rect.size;
-
-        float spriteRatio = spriteWidth / spriteHeight;
-        float rectRatio = size.x / size.y;
-        float scale;
-
-        // Too Tall
-        if (spriteRatio > rectRatio)
-        {
-            float oldHeight = size.y;
-
-            size.y = size.x * (1f / spriteRatio);
-
-            scale = oldHeight / size.y;
-        }
-        // Too Wide
-        else
-        {
-            float oldWidth = size.x;
-
-            size.x = size.y * spriteRatio;
-
-            scale = oldWidth / size.x;
-        }
-
-        Matrix4x4 startMatrix = Gizmos.matrix;
-
-        Gizmos.matrix = wholeScreenRect.localToWorldMatrix;
-
-        // Draw regular cube
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(Vector3.zero, size);
-
-        // Draw safe area cube
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(Vector3.zero, size - (size * safeArea));
-
-        // Draw scaled cube
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(Vector3.zero, size * scale);
-
-        // Draw scaled cube with safe area
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(Vector3.zero, size * (scale + safeArea));
-
-        Gizmos.matrix = startMatrix;
-    }
-#endif
 }
