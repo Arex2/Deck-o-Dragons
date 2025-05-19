@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityScene = UnityEngine.SceneManagement.Scene;
@@ -12,14 +13,17 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
 {
     public static int CurrentSceneBuildIndex => SceneManager.GetActiveScene().buildIndex;
 
-    public static bool SwitchingScene { get; private set; }
+    public static bool DoingTransition { get; private set; }
 
     [CacheComponent] [SerializeField] private CanvasGroup canvasGroup;
 
-    public Vector2 WholeScreenSize => wholeScreenRect.rect.size;
+    public Vector2 WholeScreenSize => screenOverlay.rectTransform.rect.size;
+
+    public CanvasGroup CanvasGroup => canvasGroup;
+    public Image ScreenOverlay => screenOverlay;
 
     [Header("Transition")]
-    [SerializeField] private RectTransform wholeScreenRect;
+    [SerializeField] private Image screenOverlay;
 
     [Space]
     [SerializeField] private float duration;
@@ -27,12 +31,12 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
     [SerializeField] private Ease outEase;
 
     [Space]
-    [SerializeField] private SceneSwitcherCutout defaultCutout;
+    [SerializeField] private SceneSwitcherTransition defaultTransition;
 
-    public SceneSwitcherCutout CurrentCutout => _currentCutout != null ? _currentCutout : defaultCutout;
-    private SceneSwitcherCutout _currentCutout;
+    public SceneSwitcherTransition CurrentTransition => _currentTransition != null ? _currentTransition : defaultTransition;
+    private SceneSwitcherTransition _currentTransition;
 
-    private Dictionary<int, SceneSwitcherCutout> _cutoutDictionary = new();
+    private Dictionary<int, SceneSwitcherTransition> _transitionDictionary = new();
 
     [Header("Scenes")]
     [SerializeField] private SceneReference mainMenuScene;
@@ -56,25 +60,26 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
     {
         base.Awake();
 
-        foreach (SceneSwitcherCutout cutout in GetComponentsInChildren<SceneSwitcherCutout>(true))
-        {
-            cutout.ImageEnabled = false;
-            cutout.CalculateCutoutScale();
-            cutout.SetToScale();
+        ScreenOverlay.enabled = false;
 
-            if (cutout == defaultCutout)
+        foreach (SceneSwitcherTransition transition in GetComponentsInChildren<SceneSwitcherTransition>(true))
+        {
+            transition.Initialize();
+
+            if (transition == defaultTransition)
             {
                 continue;
             }
 
-            foreach (Scene scene in cutout.Scenes)
+            foreach (Scene scene in transition.Scenes)
             {
-                _cutoutDictionary[GetSceneInternal(scene).BuildIndex] = cutout;
+                _transitionDictionary[GetSceneInternal(scene).BuildIndex] = transition;
             }
         }
 
-        SetCurrentCutout(CurrentSceneBuildIndex);
-        CurrentCutout.RectTransform.localScale = Vector3.zero;
+        SetCurrentTransition(CurrentSceneBuildIndex, true);
+        CurrentTransition.Appear(0);
+        //CurrentTransition.RectTransform.localScale = Vector3.zero;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -103,10 +108,14 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = false;
 
-        CurrentCutout.DoTransitionOut(duration, outEase, () =>
+        DoingTransition = true;
+
+        CurrentTransition.Disappear(duration, outEase, () =>
         {
             canvasGroup.alpha = 0;
             canvasGroup.blocksRaycasts = false;
+
+            DoingTransition = false;
         });
     }
 
@@ -117,14 +126,14 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
 
     private IEnumerator SwitchSceneCoroutine(int sceneIndex, Action onFinish = null)
     {
-        if (SwitchingScene)
+        if (DoingTransition)
         {
             yield break;
         }
 
-        SwitchingScene = true;
+        DoingTransition = true;
 
-        SetCurrentCutout(sceneIndex);
+        SetCurrentTransition(sceneIndex);
 
         if (sceneIndex == eggScene.BuildIndex)
         {
@@ -143,7 +152,7 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
         canvasGroup.blocksRaycasts = true;
 
         bool tweenComplete = false;
-        CurrentCutout.DoTransitionIn(duration, inEase, () =>
+        CurrentTransition.Appear(duration, inEase, () =>
         {
             tweenComplete = true;
         });
@@ -160,24 +169,25 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
         asyncOperation.allowSceneActivation = true;
 
         onFinish?.Invoke();
-
-        SwitchingScene = false;
     }
 
-    private void SetCurrentCutout(int buildIndex)
+    private void SetCurrentTransition(int buildIndex, bool isInit = false)
     {
-        CurrentCutout.ImageEnabled = false;
+        if (!isInit)
+        {
+            CurrentTransition.Disable();
+        }
 
         if (buildIndex < 0)
         {
-            _currentCutout = null;
+            _currentTransition = null;
         }
         else
         {
-            _cutoutDictionary.TryGetValue(buildIndex, out _currentCutout);
+            _transitionDictionary.TryGetValue(buildIndex, out _currentTransition);
         }
 
-        CurrentCutout.ImageEnabled = true;
+        CurrentTransition.Enable();
     }
 
     public static void SwitchToMainMenu(Action onFinish = null) => SwitchScene(Instance.mainMenuScene, onFinish);

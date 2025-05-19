@@ -1,25 +1,20 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class SceneSwitcherCutout : MonoBehaviour
+public class SceneSwitcherCutout : SceneSwitcherTransition
 {
-    [CacheComponent(CacheMethod.InParent)]
-    [SerializeField] private SceneSwitcher sceneSwitcher;
     [CacheComponent]
     [SerializeField] private Image image;
 
     [Space]
     [SerializeField] private float extraScale;
-    [Space]
-    [SerializeField] private SceneSwitcher.Scene[] scenes;
 
 #if UNITY_EDITOR
     [Space]
     [SerializeField] private bool showEditorImagePreview = false;
 #endif
-
-    public SceneSwitcher.Scene[] Scenes => scenes;
 
     public RectTransform RectTransform
     {
@@ -34,20 +29,78 @@ public class SceneSwitcherCutout : MonoBehaviour
     }
     private RectTransform _rectTransform;
 
-    public bool ImageEnabled
-    {
-        get => image.enabled;
-        set => image.enabled = value;
-    }
-
     private float _scale;
 
-    public void SetToScale()
+    public override void Initialize()
     {
-        RectTransform.localScale = (_scale + extraScale) * Vector3.one;
+        CalculateCutoutScale(out _);
+
+        // Instantly disappear
+        Disappear(0);
+
+        Disable();
     }
 
-    public void CalculateCutoutScale() => CalculateCutoutScale(out _);
+    public override void Enable()
+    {
+        // Toggle image
+        image.enabled = true;
+    }
+
+    public override void Disable()
+    {
+        // Toggle image
+        image.enabled = false;
+    }
+
+    public override void Appear(float duration, Ease ease = Ease.Unset, Action onFinish = null)
+    {
+        // Kill tweens
+        RectTransform.DOKill();
+
+        SceneSwitcher.ScreenOverlay.enabled = true;
+
+        // 0 or below means instant
+        if (duration <= 0)
+        {
+            // Instantly set scale
+            RectTransform.localScale = Vector2.zero;
+            onFinish?.Invoke();
+        }
+        else
+        {
+            // Use DOTween for scaling
+            SceneSwitcher.ScreenOverlay.enabled = true;
+
+            RectTransform.DOScale(0, duration).SetEase(ease).onComplete = new TweenCallback(onFinish);
+        }
+    }
+
+    public override void Disappear(float duration, Ease ease = Ease.Unset, Action onFinish = null)
+    {
+        // Kill tweens
+        RectTransform.DOKill();
+
+        // 0 or below means instant
+        if (duration <= 0)
+        {
+            // Instantly set scale
+            RectTransform.localScale = _scale * Vector2.one;
+            onFinish?.Invoke();
+        }
+        else
+        {
+            // Use DOTween for scaling
+            SceneSwitcher.ScreenOverlay.enabled = true;
+
+            RectTransform.DOScale(_scale, duration).SetEase(ease).onComplete = () =>
+            {
+                SceneSwitcher.ScreenOverlay.enabled = false;
+
+                onFinish?.Invoke();
+            };
+        }
+    }
 
     public void CalculateCutoutScale(out Vector2 size)
     {
@@ -56,7 +109,7 @@ public class SceneSwitcherCutout : MonoBehaviour
         float spriteWidth = transitionSprite == null ? RectTransform.rect.width : transitionSprite.texture.width;
         float spriteHeight = transitionSprite == null ? RectTransform.rect.height : transitionSprite.texture.height;
 
-        size = sceneSwitcher.WholeScreenSize;
+        size = SceneSwitcher.WholeScreenSize;
 
         float spriteRatio = spriteWidth / spriteHeight;
         float rectRatio = size.x / size.y;
@@ -79,39 +132,15 @@ public class SceneSwitcherCutout : MonoBehaviour
 
             _scale = oldWidth / size.x;
         }
-    }
 
-    public void DoTransitionOut(float duration, Ease outEase, TweenCallback onComplete = null)
-    {
-        RectTransform.DOKill();
-        Tween tween = RectTransform.DOScale(_scale + extraScale, duration).SetEase(outEase);
-
-        if (onComplete != null)
-        {
-            tween.onComplete = onComplete;
-        }
-    }
-
-    public void DoTransitionIn(float duration, Ease inEase, TweenCallback onComplete = null)
-    {
-        RectTransform.DOKill();
-        Tween tween = RectTransform.DOScale(0, duration).SetEase(inEase);
-
-        if (onComplete != null)
-        {
-            tween.onComplete = onComplete;
-        }
+        // Add extra scaling
+        _scale += extraScale;
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        DrawGizmos();
-    }
-
-    private void DrawGizmos()
-    {
-        if (sceneSwitcher == null)
+        if (SceneSwitcher == null)
         {
             return;
         }
@@ -127,16 +156,19 @@ public class SceneSwitcherCutout : MonoBehaviour
         Matrix4x4 noScaleMatrix = Matrix4x4.TRS(RectTransform.transform.position, Quaternion.identity, Vector2.one);
         Gizmos.matrix = noScaleMatrix;
 
-        // Draw scaled cube
+        // Draw cube
         Gizmos.color = Color.blue;
-        DrawCube(size * (_scale + extraScale));
+        DrawCube(size * _scale);
 
+        // Draw editor image preview
         if (image.sprite != null && showEditorImagePreview)
         {
-            Vector2 spriteSize = size * (_scale + extraScale);
+            Vector2 spriteSize = size * _scale;
 
             Vector2 rectPos = (Vector2)RectTransform.transform.position - spriteSize / 2;
             Vector2 rectSize = spriteSize;
+
+            // For some reason the image is upside down??? (this fixes it)
             rectPos.y += spriteSize.y;
             rectSize.y *= -1;
 
@@ -152,7 +184,7 @@ public class SceneSwitcherCutout : MonoBehaviour
 
         Gizmos.matrix = noScaleMatrix;
 
-        // Draw regular cube
+        // Draw regular no scaling cube
         Gizmos.color = Color.yellow;
         DrawCube(size);
 
