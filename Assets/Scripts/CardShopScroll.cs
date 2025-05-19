@@ -16,7 +16,7 @@ public class CardShopScroll : MonoBehaviour
     private float disctanceBetwenCards;
     private bool initialized = false;
     private bool scrolling;
-    public int indexOfShortestDistance {private set; get;}
+    public int indexOfShortestDistance { private set; get; }
     private float cennterX;
     void Start()
     {
@@ -24,21 +24,11 @@ public class CardShopScroll : MonoBehaviour
     }
     void Update()
     {
-        if(!initialized) return;
+        if (!initialized) return;
 
-        if(scrolling)
+        if (scrolling)
         {
-            float shortestDistance = 1000; //An arbetrary number
-            indexOfShortestDistance = -1;
-            foreach (RectTransform cardPosition in cardPositions)
-            {
-                float cardDistance = Mathf.Abs(cennterX - cardPosition.position.x);
-                if(cardDistance < shortestDistance)
-                {
-                    shortestDistance = cardDistance;
-                    indexOfShortestDistance = cardPositions.IndexOf(cardPosition);
-                }
-            }
+            UppdateScrollPosition();
         }
         else
         {
@@ -48,7 +38,7 @@ public class CardShopScroll : MonoBehaviour
 
     public void Initialize()
     {
-        float paddingX = (cardPositions[0].sizeDelta.x * (cardPositions[0].localScale.x - 1f));     
+        float paddingX = (cardPositions[0].sizeDelta.x * (cardPositions[0].localScale.x - 1f));
         // HorizontalLayoutGroup layoutGroup = content.GetComponent<HorizontalLayoutGroup>();
         // layoutGroup.padding.top = (int) Mathf.Round(paddingY);
         // layoutGroup.padding.bottom = (int) Mathf.Round(paddingY);
@@ -77,21 +67,35 @@ public class CardShopScroll : MonoBehaviour
         RectTransform cardToRemove = cardPositions[indexOfShortestDistance];
         cardPositions.Remove(cardToRemove);
         Destroy(cardToRemove.gameObject);
+        UppdateScrollPosition();
     }
 
     private void Snap()
     {
         float snapPosition = -1 * indexOfShortestDistance * disctanceBetwenCards;
-        if(snapPosition > 0)
+        if (snapPosition > 0)
         {
             snapPosition = 0;
         }
-        else if(snapPosition <= -1 * cardPositions.Count * disctanceBetwenCards)
+        else if (snapPosition <= -1 * cardPositions.Count * disctanceBetwenCards)
         {
             snapPosition = -1 * (cardPositions.Count - 1) * disctanceBetwenCards;
         }
         content.localPosition = Vector3.Lerp(content.localPosition, new Vector3(snapPosition, content.localPosition.y, content.localPosition.z), scrollStrength * Time.deltaTime);
     }
 
-
+    private void UppdateScrollPosition()
+    {
+        float shortestDistance = 1000; //An arbetrary number
+        indexOfShortestDistance = -1;
+        foreach (RectTransform cardPosition in cardPositions)
+        {
+            float cardDistance = Mathf.Abs(cennterX - cardPosition.position.x);
+            if (cardDistance < shortestDistance)
+            {
+                shortestDistance = cardDistance;
+                indexOfShortestDistance = cardPositions.IndexOf(cardPosition);
+            }
+        }
+    }
 }
