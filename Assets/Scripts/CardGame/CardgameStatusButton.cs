@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class CardgameStatusButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    public const string INTRO = "Battle Start";
     public const string PLAYER_TURN = "Your Turn";
     public const string ENEMY_TURN = "Enemy Turn";
     public const string DISCARD = "Discard";

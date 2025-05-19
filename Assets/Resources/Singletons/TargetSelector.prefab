@@ -180,6 +180,7 @@ MonoBehaviour:
   button: {fileID: 7274738134892461456}
   canvasGroup: {fileID: 4451990439039453241}
   image: {fileID: 6442817843922410153}
+  mask: {fileID: 9986087780694432}
 --- !u!114 &7274738134892461456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1047,8 +1048,8 @@ MonoBehaviour:
   buttonTemplate: {fileID: 3147213134637943820}
   startingCount: 2
   teamSelectGroup: {fileID: 4776788281104620257}
-  playerTeamButton: {fileID: 0}
-  enemyTeamButton: {fileID: 0}
+  playerTeamButton: {fileID: 7391502302092983730}
+  enemyTeamButton: {fileID: 2446299056093448521}
   fadeTime: 0.2
 --- !u!223 &5166231747215651969
 Canvas:

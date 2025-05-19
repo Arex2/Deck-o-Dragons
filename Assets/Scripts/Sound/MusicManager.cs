@@ -7,45 +7,6 @@ using UnityEngine.SceneManagement;
 [SingletonMode(true)]
 public class MusicManager : Singleton<MusicManager>
 {
-    /*
-    [SerializeField] private bool playOnStart = true;
-
-    [Space]
-    [SerializeField] private Song song;
-    [SerializeField] private float fadeTime = 0.5f;
-    [SerializeField] private string style;
-
-    private void Start()
-    {
-        if (!song.Loaded)
-        {
-            song.Load();
-        }
-
-        if (playOnStart)
-        {
-            PlaySong();
-        }
-    }
-
-    public void PlaySong()
-    {
-        StartCoroutine(PlaySongAfterLoad());
-    }
-
-    private IEnumerator PlaySongAfterLoad()
-    {
-        yield return new WaitUntil(() => song.Loaded);
-
-        InstantPlay();
-    }
-
-    private void InstantPlay()
-    {
-        MusicPlayer.PlaySong(song, fadeTime, true, style);
-    }
-    */
-
     [SerializeField] private SongEntry[] data;
 
     private Dictionary<int, Song> _songs = new();
@@ -62,7 +23,6 @@ public class MusicManager : Singleton<MusicManager>
                 SceneReference sceneReference = SceneSwitcher.GetScene(scene);
 
                 _songs[sceneReference.BuildIndex] = entry.Song;
-                Debug.Log(sceneReference.BuildIndex + " = " + entry.Song);
             }
         }
 

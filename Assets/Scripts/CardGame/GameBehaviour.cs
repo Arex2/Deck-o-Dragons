@@ -81,6 +81,7 @@ public class GameBehaviour : Target
         new
 #endif
         Camera camera;
+
     [SerializeField] private RectTransform hitPositionRect;
 
     [Header("Battle Over")]

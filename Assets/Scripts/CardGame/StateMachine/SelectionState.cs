@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class SelectionState : IState
 {
     protected ControlsV2 controls;
     GameBehaviour gameBehaviour;
     float battleOverCheckTimer;
-    public virtual IState Enter(GameBehaviour gameBehaviour)
+    public void Enter(GameBehaviour gameBehaviour)
     {
         this.gameBehaviour = gameBehaviour;
         this.controls = gameBehaviour.controls;
@@ -27,15 +24,9 @@ public class SelectionState : IState
         //player gets input
         //Wait();
         controls.controls.Enable();
-        return null;
     }
 
-    public virtual IEnumerator PlayEffects(GameBehaviour gameBehaviour)
-    {
-        return null;
-    }
-
-    public virtual IState Execute()
+    public IState Execute()
     {
         //Added check here since enemy now can die after card has finished playing - Harriet 
         // Check only once per 0.1 seconds, every frame is a bit excessive - Ruben
@@ -43,11 +34,9 @@ public class SelectionState : IState
         {
             battleOverCheckTimer = 0.1f;
 
-            BattleOverState battleOver = BattleOverState.BattleOverCheck();
-
-            if (battleOver != null)
+            if (BattleOverState.BattleOverCheck(out Team winningTeam))
             {
-                return battleOver;
+                return new BattleOverState(winningTeam);
             }
         }
         else
@@ -90,11 +79,10 @@ public class SelectionState : IState
         return null;
     }
 
-    public virtual IState Exit()
+    public void Exit()
     {
         gameBehaviour.DisableButton();
         controls.controls.Disable();
-        return null;
     }
 
     /*

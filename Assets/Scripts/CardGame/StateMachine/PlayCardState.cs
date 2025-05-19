@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayCardState : IState
 {
     GameBehaviour gameBehaviour;
     CardHand cardHand;
     ControlsV2 controls;
-    public virtual IState Enter(GameBehaviour gameBehaviour)
+    public void Enter(GameBehaviour gameBehaviour)
     {
         Debug.Log("PLAY CARD!!");
         this.gameBehaviour = gameBehaviour;
@@ -18,15 +15,9 @@ public class PlayCardState : IState
         //gameBehaviour.UpdateStatusText("Card playing");
 
         controls.controls.Enable();
-        return null;
     }
 
-    public virtual IEnumerator PlayEffects(GameBehaviour gameBehaviour)
-    {
-        return null;
-    }
-
-    public virtual IState Execute()
+    public IState Execute()
     {
         if (!cardHand.IsPlayingCard)
         {
@@ -37,11 +28,9 @@ public class PlayCardState : IState
             //if enemy hp <= 0 return gameWon
             //else return selectionState
 
-            BattleOverState battleOver = BattleOverState.BattleOverCheck();
-
-            if (battleOver != null)
+            if (BattleOverState.BattleOverCheck(out Team winningTeam))
             {
-                return new BattleOverState();
+                return new BattleOverState(winningTeam);
             }
             else
             {
@@ -56,9 +45,8 @@ public class PlayCardState : IState
         return null;
     }
 
-    public virtual IState Exit()
+    public void Exit()
     {
         controls.controls.Disable();
-        return null;
     }
 }

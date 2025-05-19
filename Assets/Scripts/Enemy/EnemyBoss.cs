@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,9 @@ public class EnemyBoss : Target
     /*
      * Mana and health variables
      */
+
+    public Sprite Sprite => spriteRenderer.sprite;
+    public string Name { get; private set; } = "Boss";
 
     [Space]
     [SerializeField] private UnityEngine.UI.Slider healthSlider;
@@ -48,6 +52,9 @@ public class EnemyBoss : Target
     [SerializeField] private TMP_Text nameText;
     private SpriteRenderer spriteRenderer;
 
+    [Space]
+    [SerializeField] private Animator bushes;
+
     //Damage text - Harriet
     [SerializeField]
     private GameObject FloatingTextPrefab;
@@ -71,6 +78,8 @@ public class EnemyBoss : Target
         UpdateHP();
 
         originalPosition = transform.localPosition;
+        transform.localPosition = new Vector3(0, -6);
+
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (ProgressManager.Instance != null)
@@ -80,9 +89,26 @@ public class EnemyBoss : Target
             if (enemySprites.Count - 1 > level)
             {
                 spriteRenderer.sprite = enemySprites[level];
-                nameText.text = enemyNames[level];
+
+                Name = enemyNames[level];
+                nameText.text = "???";
             }
         }
+    }
+
+    public void Appear()
+    {
+        transform.DOLocalMove(originalPosition, 1).SetEase(Ease.OutExpo).onComplete = () =>
+        {
+            spriteRenderer.sortingLayerName = "Default";
+        };
+
+        if (bushes != null)
+        {
+            bushes.enabled = true;
+        }
+
+        nameText.text = Name;
     }
 
     private void Update()

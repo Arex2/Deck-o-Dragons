@@ -8,7 +8,7 @@ public class DragonController : MonoBehaviour
     private Slider evolutionSlider;
     [SerializeField] private Vector2 eggStart = Vector2.zero;
 
-    private void Awake()
+    private void Start()
     {
         dragonActive = GameObject.Find("DragonActive").GetComponent<DragonActive>();
         evolutionSlider = GameObject.Find("EvolutionSlider").GetComponent<Slider>();
@@ -17,7 +17,7 @@ public class DragonController : MonoBehaviour
         evolutionSlider.maxValue = 3;
         evolutionSlider.value = DragonActive.evolutionProcess;
 
-        DragonActive.currentDragon = this;
+        DragonActive.CurrentDragon = this;
     }
 
     void Update()

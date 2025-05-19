@@ -1,6 +1,3 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SelectCardsToAffectState : IState
@@ -13,7 +10,7 @@ public class SelectCardsToAffectState : IState
     private bool requireExactAmount;
     private bool cancelled;
 
-    public virtual IState Enter(GameBehaviour gameBehaviour)
+    public void Enter(GameBehaviour gameBehaviour)
     {
         Debug.Log("Selecting card(s) to affect");
         this.gameBehaviour = gameBehaviour;
@@ -41,16 +38,9 @@ public class SelectCardsToAffectState : IState
         }
 
         gameBehaviour.EnableButton();
-
-        return null;
     }
 
-    public virtual IEnumerator PlayEffects(GameBehaviour gameBehaviour)
-    {
-        return null;
-    }
-
-    public virtual IState Execute()
+    public IState Execute()
     {
         if (requireExactAmount)
         {
@@ -77,9 +67,8 @@ public class SelectCardsToAffectState : IState
         return null;
     }
 
-    public virtual IState Exit()
+    public void Exit()
     {
-
         //gameBehaviour.cardHand.PlayCard(gameBehaviour.cardHand.CardBeingPlayed);
         //Target.TurnStart.Invoke(Team.Player);
 
@@ -104,6 +93,5 @@ public class SelectCardsToAffectState : IState
         cardHand.OnExitSelectingCards();
 
         controls.controls.Disable();
-        return null;
     }
 }
