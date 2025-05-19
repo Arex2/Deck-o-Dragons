@@ -55,6 +55,10 @@ public class DragonController : MonoBehaviour
                 {
                     SaveDragons.Instance.SaveDragonToFile(DragonActive.dragonName, DragonActive.index);
                 }
+
+                //Reset the game
+                ProgressManager.Instance.ResetProgress();
+                EnemyScalingManager.Instance.ResetScaling();
             }
 
             if (DragonActive.dragonName != null && DragonBookContents.GetDragonsActiveInBackyard().Count < DragonBookContents.LimitOfDragons)

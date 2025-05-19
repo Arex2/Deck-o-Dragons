@@ -36,4 +36,9 @@ public class ProgressManager : MonoBehaviour
         currentLevel++;
         WonLastBattle = true;
     }
+
+    public void ResetProgress()
+    {
+        currentLevel = 0;
+    }
 }
