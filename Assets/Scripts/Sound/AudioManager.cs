@@ -1,31 +1,18 @@
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+[SingletonMode(true)]
+public class AudioManager : Singleton<AudioManager>
 {
-    public static AudioManager Instance { get; private set; }
-
     [Header("Audio Sources")]
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource sfxSource;
 
     [Header("Audio Clips")]
-    [SerializeField] AudioClip backgroundMusic;
+    //[SerializeField] AudioClip backgroundMusic;
     [SerializeField] AudioClip clickSound;
-    [SerializeField] bool startMusicOnBeginPlay;
+    //[SerializeField] bool startMusicOnBeginPlay;
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
+    /*
     void Start()
     {
         if (startMusicOnBeginPlay)
@@ -46,6 +33,7 @@ public class AudioManager : MonoBehaviour
     {
         musicSource.Stop();
     }
+    */
 
     public void PlaySFX(AudioClip clip)
     {
@@ -60,6 +48,7 @@ public class AudioManager : MonoBehaviour
         PlaySFX(clickSound);
     }
 
+    /*
     public void SetMusicVolume(float volume)
     {
         musicSource.volume = Mathf.Clamp01(volume);
@@ -69,4 +58,5 @@ public class AudioManager : MonoBehaviour
     {
         sfxSource.volume = Mathf.Clamp01(volume);
     }
+    */
 }

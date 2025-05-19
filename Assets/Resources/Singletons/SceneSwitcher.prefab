@@ -425,12 +425,12 @@ MonoBehaviour:
   creditsScene:
     sceneName: Credits
     scenePath: Assets/Scenes/Credits.unity
-    buildIndex: 8
+    buildIndex: 7
     sceneAsset: {fileID: 102900000, guid: 2e258da2dba30ea4bb74371dc3042a03, type: 3}
   gardenScene:
     sceneName: Backyard
     scenePath: Assets/Scenes/Backyard.unity
-    buildIndex: 5
+    buildIndex: 4
     sceneAsset: {fileID: 102900000, guid: fa6ccb6abd17d4460baf0d10f99d6a4b, type: 3}
   eggScene:
     sceneName: EggScene
@@ -440,22 +440,22 @@ MonoBehaviour:
   battleSelectionScene:
     sceneName: BattleSelection
     scenePath: Assets/Scenes/BattleSelection.unity
-    buildIndex: 7
+    buildIndex: 6
     sceneAsset: {fileID: 102900000, guid: 30c8479f950ac454eaa412f12b3a13e2, type: 3}
   deckViewerScene:
     sceneName: DeckViewer
     scenePath: Assets/Scenes/DeckViewer.unity
-    buildIndex: 3
+    buildIndex: 2
     sceneAsset: {fileID: 102900000, guid: f74f7f5e30884224297342216a19fae8, type: 3}
   cardGameScene:
     sceneName: CardgameScene
     scenePath: Assets/Scenes/CardgameScene.unity
-    buildIndex: 4
+    buildIndex: 3
     sceneAsset: {fileID: 102900000, guid: da4305056c0b2de44a35d515687195f8, type: 3}
   cardShopScene:
     sceneName: NewCardShop
     scenePath: Assets/Scenes/NewCardShop.unity
-    buildIndex: 7
+    buildIndex: 5
     sceneAsset: {fileID: 102900000, guid: 4d459aa20d1f4dc4896814758729b8a1, type: 3}
   transitionSoundClip: {fileID: 8300000, guid: c79b818f24f805a4789cc68d4ff7f8f6, type: 3}
 --- !u!223 &8931613324127840382

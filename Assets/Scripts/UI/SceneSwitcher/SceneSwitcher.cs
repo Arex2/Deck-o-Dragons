@@ -15,6 +15,8 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
 
     public static bool DoingTransition { get; private set; }
 
+    public static Action<int> OnSwitchScene { get; set; }
+
     [CacheComponent] [SerializeField] private CanvasGroup canvasGroup;
 
     public Vector2 WholeScreenSize => screenOverlay.rectTransform.rect.size;
@@ -132,6 +134,8 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
         }
 
         DoingTransition = true;
+
+        OnSwitchScene?.Invoke(sceneIndex);
 
         SetCurrentTransition(sceneIndex);
 
