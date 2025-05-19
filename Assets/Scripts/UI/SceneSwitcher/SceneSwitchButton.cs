@@ -15,7 +15,11 @@ public class SceneSwitchButton : MonoBehaviour
 
     public void Switch()
     {
-        //AudioManager.Instance.PlayClickSound();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayClickSound();
+        }
+
         SceneSwitcher.SwitchScene(SceneSwitcher.GetScene(scene));
     }
 }
