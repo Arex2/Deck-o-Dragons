@@ -70,7 +70,7 @@ MonoBehaviour:
       Enabled: 0
       Value: 0
   attackAmount:
-    baseValue: 0
+    baseValue: 1
     stack: 1
     loopBehaviour: 1
     upgrades:
