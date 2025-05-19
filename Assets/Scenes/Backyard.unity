@@ -3385,6 +3385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dragonCollection: {fileID: 1815612644}
   dragonLimitText: {fileID: 2019747271}
+  openBookSFX: {fileID: 8300000, guid: 172eeaf570128eb4aae4b3c281f71d5c, type: 3}
   buttons:
   - {fileID: 325425349}
   - {fileID: 163363230}
@@ -3583,7 +3584,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1884467413
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f1eebca9737733749a282c8c3deeef2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

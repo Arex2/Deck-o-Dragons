@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,10 +19,8 @@ public class EnemyBoss : Target
     float elapsedTime = 0f;
     float desiredDuration = 0.3f;
     float healthSliderStartPos;
-    /*
-    [SerializeField] private IncomingDamageIndicator indicatorDMG;
-    [SerializeField] private IncomingHealingIndicator indicatorHEAL;
-    */
+
+    
 
     [Space]
     [SerializeField] private TMP_Text healthText;
@@ -42,7 +41,7 @@ public class EnemyBoss : Target
     /*
      * Audio
      */
-    [SerializeField] private AudioClip damageTakenSound;
+    [SerializeField] private AudioClip[] damageTakenSound;
 
     [SerializeField] private List<Sprite> enemySprites;
     [SerializeField] private List<string> enemyNames;
@@ -58,7 +57,6 @@ public class EnemyBoss : Target
     protected override void Awake()
     {
         base.Awake();
-
         if (EnemyScalingManager.Instance != null)
         {
             maxMana = EnemyScalingManager.Instance.GetScaledMana();
@@ -209,7 +207,8 @@ public class EnemyBoss : Target
         StartCoroutine(ShakeCoroutine());
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlaySFX(damageTakenSound);
+            int randomIndex = Random.Range(0, damageTakenSound.Length);
+            AudioManager.Instance.PlaySFX(damageTakenSound[randomIndex]);
         }
 
         if(FloatingTextPrefab)
