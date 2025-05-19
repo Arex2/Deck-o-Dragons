@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem.Interactions;
 
@@ -9,13 +10,18 @@ public class BattleOverState : IState
     bool coroutineOver = false; //ANV�NDS F�R ATT K�NNA N�R WAITTIME �R DONE
 
     GameBehaviour gameBehaviour;
+    private ControlsV2 controls;
     private bool loadingScene;
     public virtual IState Enter(GameBehaviour gameBehaviour)
     {
         Debug.Log("BATTLE OVER");
         this.gameBehaviour = gameBehaviour;
+        controls = gameBehaviour.controls;
         //gameBehaviour.NewTurn();
         //gameBehaviour.UpdateStatusText("BATTLE OVER");
+
+        //stäng av controls
+        controls.controls.Disable();
 
         gameBehaviour.StartCoroutine(Wait()); //s�tter temp till true
 
