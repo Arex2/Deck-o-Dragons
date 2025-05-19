@@ -12,6 +12,7 @@ public class DragonBook : MonoBehaviour
 {
     [SerializeField] private GameObject dragonCollection;
     [SerializeField] private GameObject dragonLimitText;
+    [SerializeField] private AudioClip openBookSFX;
     //[SerializeField] private GameObject AskToAddDragonPanel;
     //[SerializeField] private GameObject AskForDragonCloseButton;
 
@@ -195,6 +196,7 @@ public class DragonBook : MonoBehaviour
 
     public void ShowDragonCollection()
     {
+        AudioManager.Instance.PlaySFX(openBookSFX);
         dragonCollection.SetActive(true);
         closeButton.SetActive(true);
     }
