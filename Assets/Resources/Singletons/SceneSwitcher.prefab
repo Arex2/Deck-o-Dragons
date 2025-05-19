@@ -453,10 +453,10 @@ MonoBehaviour:
     buildIndex: 4
     sceneAsset: {fileID: 102900000, guid: da4305056c0b2de44a35d515687195f8, type: 3}
   cardShopScene:
-    sceneName: CardShop
-    scenePath: Assets/Scenes/CardShop.unity
-    buildIndex: 6
-    sceneAsset: {fileID: 102900000, guid: 004b320ce2aa9564c99a5ff38d58cbb5, type: 3}
+    sceneName: NewCardShop
+    scenePath: Assets/Scenes/NewCardShop.unity
+    buildIndex: 7
+    sceneAsset: {fileID: 102900000, guid: 4d459aa20d1f4dc4896814758729b8a1, type: 3}
   transitionSoundClip: {fileID: 8300000, guid: c79b818f24f805a4789cc68d4ff7f8f6, type: 3}
 --- !u!223 &8931613324127840382
 Canvas:
