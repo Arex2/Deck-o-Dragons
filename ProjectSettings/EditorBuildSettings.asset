@@ -23,9 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Backyard.unity
     guid: fa6ccb6abd17d4460baf0d10f99d6a4b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CardShop.unity
     guid: 004b320ce2aa9564c99a5ff38d58cbb5
+  - enabled: 1
+    path: Assets/Scenes/NewCardShop.unity
+    guid: 4d459aa20d1f4dc4896814758729b8a1
   - enabled: 1
     path: Assets/Scenes/BattleSelection.unity
     guid: 30c8479f950ac454eaa412f12b3a13e2
