@@ -36,15 +36,15 @@ public abstract class UpgradeableBase<T, Level>
     {
         get
         {
-            if (!_downgradesLength.HasValue)
+            if (!_downgradeAmount.HasValue)
             {
-                _downgradesLength = upgrades.Length;
+                _downgradeAmount = upgrades.Length;
             }
 
-            return _downgradesLength.Value;
+            return _downgradeAmount.Value;
         }
     }
-    private int? _downgradesLength;
+    private int? _downgradeAmount;
 
     public T this[int level] => GetValue(level);
 
@@ -88,35 +88,38 @@ public abstract class UpgradeableBase<T, Level>
 
         T result = baseValue;
 
-        int limit = level;
-
-        if (loopBehaviour == LoopBehaviour.Clamp)
+        if (length > 0)
         {
-            limit = Mathf.Min(level, length - 1);
-        }
+            int limit = level;
 
-        for (int i = 0; i <= limit; i++)
-        {
-            int index = i;
-
-            if (index > length - 1)
+            if (loopBehaviour == LoopBehaviour.Clamp)
             {
-                switch (loopBehaviour)
-                {
-                    default:
-                        index = length - 1;
-                        break;
-
-                    case LoopBehaviour.Reset:
-                        if (length != 0)
-                        {
-                            level %= length;
-                        }
-                        break;
-                }
+                limit = Mathf.Min(level, length - 1);
             }
 
-            result = GetLevelValue(array[index], result);
+            for (int i = 0; i <= limit; i++)
+            {
+                int index = i;
+
+                if (index > length - 1)
+                {
+                    switch (loopBehaviour)
+                    {
+                        default:
+                            index = length - 1;
+                            break;
+
+                        case LoopBehaviour.Reset:
+                            if (length != 0)
+                            {
+                                level %= length;
+                            }
+                            break;
+                    }
+                }
+
+                result = GetLevelValue(array[index], result);
+            }
         }
 
         return ModifyGetValueResult(result);

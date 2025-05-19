@@ -33,39 +33,46 @@ public class DragonController : MonoBehaviour
         evolutionSlider.value++;
         DragonActive.evolutionProcess++;
 
-        if (evolutionSlider.value >= 3)
+        if (evolutionSlider.value >= 3 && DragonActive.age < 3)
         {
-            // Special case for adults
-            if (DragonActive.age == 3)
-            {
-                DragonActive.statusText.text = "Congratulations! " + DragonActive.dragonName + " has completed their training and will be added to your registry!";
 
-                if(DragonActive.dragonName != null)
-                {
-                    DragonBookContents.SetNewDragonNameAndTypeInBook(DragonActive.dragonName, DragonActive.index);
-                    if(SaveDragons.Instance != null)
-                    {
-                        SaveDragons.Instance.SaveDragonToFile(DragonActive.dragonName, DragonActive.index);
-                    }
-                }
+            SpawnNewDragon();
 
-                if(DragonActive.dragonName != null && DragonBookContents.GetDragonsActiveInBackyard().Count < DragonBookContents.LimitOfDragons)
-                {
-                    DragonBookContents.SetNewDragonNamesAndElementsActiveInBackyard(DragonActive.dragonName, DragonActive.index);
-                }
-
-                DragonActive.isDragonActive = false;
-                Invoke("SpawnNewDragon", 4f);
-            }
-            else
-            {
-                SpawnNewDragon();
-            }
 
             evolutionSlider.value = 0;
             DragonActive.evolutionProcess = 0;
         }
-    }
+
+        // Special case for adults
+        else if (DragonActive.age == 3 && evolutionSlider.value >= 2)
+        {
+            DragonActive.statusText.text = "Congratulations! " + DragonActive.dragonName + " has completed their training and will be added to your registry!";
+
+            if (DragonActive.dragonName != null)
+            {
+                DragonBookContents.SetNewDragonNameAndTypeInBook(DragonActive.dragonName, DragonActive.index);
+                if (SaveDragons.Instance != null)
+                {
+                    SaveDragons.Instance.SaveDragonToFile(DragonActive.dragonName, DragonActive.index);
+                }
+
+                //Reset the game
+                ProgressManager.Instance.ResetProgress();
+                EnemyScalingManager.Instance.ResetScaling();
+            }
+
+            if (DragonActive.dragonName != null && DragonBookContents.GetDragonsActiveInBackyard().Count < DragonBookContents.LimitOfDragons)
+            {
+                DragonBookContents.SetNewDragonNamesAndElementsActiveInBackyard(DragonActive.dragonName, DragonActive.index);
+            }
+
+            DragonActive.isDragonActive = false;
+            Invoke("SpawnNewDragon", 4f);
+            evolutionSlider.value = 0;
+            DragonActive.evolutionProcess = 0;
+        }
+    
+}
 
     public void SpawnNewDragon()
     {

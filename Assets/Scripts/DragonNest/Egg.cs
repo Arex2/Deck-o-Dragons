@@ -22,7 +22,7 @@ public class Egg : MonoBehaviour
     private int shakeCount = 0;
     private bool isHatching;
 
-    private float shakeTreshold = 2.0f * 2.0f;
+    private float shakeTreshold = 2.0f;// * 2.0f;
     private Vector3 lowPassValue;
 
     [SerializeField] private Sprite[] crackedSprites;
