@@ -33,7 +33,7 @@ public class CardAttack : CardComponent
     /// <summary>
     /// How many attacks this will do.
     /// </summary>
-    public int AttackAmount => attackAmount[Level];
+    public int AttackAmount => Mathf.Max(1, attackAmount[Level]);
 
     public override TargetFilter TargetFilter => targetFilter;
     [SerializeField] private TargetFilter targetFilter = new(TargetFilter.FilterTeam.Opponent, TargetFilter.FilterMode.Chosen);

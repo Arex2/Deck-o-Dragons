@@ -10,6 +10,11 @@ public class IncomingDamageIndicator : MonoBehaviour
     [SerializeField]
     private Slider hpSlider;
 
+    //[SerializeField]
+    //private Image hpFill;
+    [SerializeField]
+    private Image damageFill;
+
     [SerializeField]
     float currentHp;
     [SerializeField]
@@ -35,5 +40,11 @@ public class IncomingDamageIndicator : MonoBehaviour
         if (hp == 0) return 0;
 
         return damage/hp;
+    }
+
+    public void ChangeOpacity(float newOpacity)
+    {
+        //hpFill.color = new Color(hpFill.color.r, hpFill.color.g, hpFill.color.b, newOpacity);
+        damageFill.color = new Color(damageFill.color.r, damageFill.color.g, damageFill.color.b, newOpacity);
     }
 }

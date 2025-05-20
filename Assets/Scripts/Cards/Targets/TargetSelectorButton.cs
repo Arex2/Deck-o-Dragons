@@ -20,6 +20,7 @@ public class TargetSelectorButton : MonoBehaviour
 
     [Space]
     [SerializeField] private Image image;
+    [SerializeField] private Image mask;
 
     private RectTransform _rectTransform;
 
@@ -68,6 +69,9 @@ public class TargetSelectorButton : MonoBehaviour
 
         image.DOKill();
 
+        image.enabled = true;
+        mask.enabled = true;
+
         if (fadeInTime <= 0)
         {
             canvasGroup.blocksRaycasts = true;
@@ -82,6 +86,9 @@ public class TargetSelectorButton : MonoBehaviour
             image.DOFade(1, fadeInTime).onComplete = () =>
             {
                 canvasGroup.blocksRaycasts = true;
+
+                image.enabled = true;
+                mask.enabled = true;
             };
         }
     }
@@ -105,14 +112,23 @@ public class TargetSelectorButton : MonoBehaviour
             image.color = color;
 
             Visible = false;
+
+            image.enabled = false;
+            mask.enabled = false;
         }
         else
         {
+            image.enabled = true;
+            mask.enabled = true;
+
             Visible = true;
             image.DOFade(0, fadeInTime).onComplete = () =>
             {
                 canvasGroup.blocksRaycasts = false;
                 Visible = false;
+
+                image.enabled = false;
+                mask.enabled = false;
             };
         }
     }

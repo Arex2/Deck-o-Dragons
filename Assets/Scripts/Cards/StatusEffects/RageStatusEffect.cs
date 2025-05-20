@@ -21,6 +21,11 @@ public class RageStatusEffect : StatusEffect
             return;
         }
 
+        if (attackData.SelfDamage)
+        {
+            return;
+        }
+
         if (!SetupUserData)
         {
             UserData = (int)1;
@@ -35,6 +40,11 @@ public class RageStatusEffect : StatusEffect
     public override void OnAttack(Target target, AttackData attackData)
     {
         if (!SetupUserData)
+        {
+            return;
+        }
+
+        if (attackData.SelfDamage)
         {
             return;
         }

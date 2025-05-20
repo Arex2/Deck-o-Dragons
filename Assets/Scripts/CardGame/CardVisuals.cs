@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
-using System.Net;
 using System.Text;
+using System;
+using Random = UnityEngine.Random;
 
 public class CardVisuals : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class CardVisuals : MonoBehaviour
 
     public Canvas Canvas => canvas;
     public CanvasGroup CanvasGroup => canvasGroup;
-    public UIDissolve Dissolve => dissolve;
+    public UIDissolve UIDissolve => uiDissolve;
 
     public Image Background => background;
     public Image CostBackground => costBackground;
@@ -35,7 +34,8 @@ public class CardVisuals : MonoBehaviour
     [CacheComponent]
     [SerializeField] private CanvasGroup canvasGroup;
     [CacheComponent]
-    [SerializeField] private UIDissolve dissolve;
+    [UnityEngine.Serialization.FormerlySerializedAs("dissolve")]
+    [SerializeField] private UIDissolve uiDissolve;
     [SerializeField] private UIDissolve dissolveForEffects;
 
     [Space]
@@ -58,25 +58,25 @@ public class CardVisuals : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (dissolveForEffects == null || dissolve == null)
+        if (dissolveForEffects == null || uiDissolve == null)
         {
             return;
         }
 
-        dissolveForEffects.DissolveAmount = dissolve.DissolveAmount;
+        dissolveForEffects.DissolveAmount = uiDissolve.DissolveAmount;
     }
 
     public void RandomizeDissolve()
     {
-        if (dissolveForEffects == null || dissolve == null)
+        if (dissolveForEffects == null || uiDissolve == null)
         {
             return;
         }
         
-        dissolve.Rotation = Random.Range(0, 360f);
+        uiDissolve.Rotation = Random.Range(0, 360f);
 
-        dissolveForEffects.RotationRadians = dissolve.RotationRadians;
-        dissolveForEffects.Scale = dissolve.Scale;
+        dissolveForEffects.RotationRadians = uiDissolve.RotationRadians;
+        dissolveForEffects.Scale = uiDissolve.Scale;
     }
 
     public void UpdateCardLook()
@@ -178,6 +178,13 @@ public class CardVisuals : MonoBehaviour
     public void UpdateTagText()
     {
         tagsText.text = GetTagsString(cardObject == null ? Card.Tags : cardObject.TagData);
+    }
+
+    public void Dissolve(Action onFinish)
+    {
+        // Card dies AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        uiDissolve.TweenDissolveAmount(1, 1).onComplete = new TweenCallback(onFinish);
+
     }
 
     private static readonly StringBuilder _tagsStringBuilder = new();

@@ -250,7 +250,8 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         }
 
         _doingDissolveAnimation = true;
-        cardVisuals.Dissolve.TweenDissolveAmount(1, 1).onComplete = () => _doingDissolveAnimation = false;
+
+        cardVisuals.Dissolve(() => _doingDissolveAnimation = false);
     }
 
     public void Spawn()
@@ -258,8 +259,8 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         _coroutine = null;
         _doingDissolveAnimation = false;
 
-        cardVisuals.Dissolve.DOKill();
-        cardVisuals.Dissolve.DissolveAmount = 0;
+        cardVisuals.UIDissolve.DOKill();
+        cardVisuals.UIDissolve.DissolveAmount = 0;
         cardVisuals.CanvasGroup.blocksRaycasts = true;
 
         cardVisuals.RandomizeDissolve();

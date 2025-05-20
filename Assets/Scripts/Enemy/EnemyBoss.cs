@@ -1,5 +1,7 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +13,9 @@ public class EnemyBoss : Target
      * Mana and health variables
      */
 
+    public Sprite Sprite => spriteRenderer.sprite;
+    public string Name { get; private set; } = "Boss";
+
     [Space]
     [SerializeField] private UnityEngine.UI.Slider healthSlider;
     //Health slider animation variables - Harriet
@@ -18,10 +23,9 @@ public class EnemyBoss : Target
     float elapsedTime = 0f;
     float desiredDuration = 0.3f;
     float healthSliderStartPos;
-    /*
-    [SerializeField] private IncomingDamageIndicator indicatorDMG;
-    [SerializeField] private IncomingHealingIndicator indicatorHEAL;
-    */
+
+    //indicatorManager for health slider - Harriet
+    [SerializeField] IndicatorManager indicatorManager;
 
     [Space]
     [SerializeField] private TMP_Text healthText;
@@ -42,12 +46,15 @@ public class EnemyBoss : Target
     /*
      * Audio
      */
-    [SerializeField] private AudioClip damageTakenSound;
+    [SerializeField] private AudioClip[] damageTakenSound;
 
     [SerializeField] private List<Sprite> enemySprites;
     [SerializeField] private List<string> enemyNames;
     [SerializeField] private TMP_Text nameText;
     private SpriteRenderer spriteRenderer;
+
+    [Space]
+    [SerializeField] private Animator bushes;
 
     //Damage text - Harriet
     [SerializeField]
@@ -58,7 +65,6 @@ public class EnemyBoss : Target
     protected override void Awake()
     {
         base.Awake();
-
         if (EnemyScalingManager.Instance != null)
         {
             maxMana = EnemyScalingManager.Instance.GetScaledMana();
@@ -73,6 +79,8 @@ public class EnemyBoss : Target
         UpdateHP();
 
         originalPosition = transform.localPosition;
+        transform.localPosition = new Vector3(0, -6);
+
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (ProgressManager.Instance != null)
@@ -82,9 +90,26 @@ public class EnemyBoss : Target
             if (enemySprites.Count - 1 > level)
             {
                 spriteRenderer.sprite = enemySprites[level];
-                nameText.text = enemyNames[level];
+
+                Name = enemyNames[level];
+                nameText.text = "???";
             }
         }
+    }
+
+    public void Appear()
+    {
+        transform.DOLocalMove(originalPosition, 1).SetEase(Ease.OutExpo).onComplete = () =>
+        {
+            spriteRenderer.sortingLayerName = "Default";
+        };
+
+        if (bushes != null)
+        {
+            bushes.enabled = true;
+        }
+
+        nameText.text = Name;
     }
 
     private void Update()
@@ -94,6 +119,10 @@ public class EnemyBoss : Target
             elapsedTime += Time.deltaTime;
             float percentage = elapsedTime / desiredDuration;
             healthSlider.value = Mathf.Lerp(healthSliderStartPos, HP, percentage);
+            float indicatorOpacity = Mathf.Lerp(1, 0, percentage);
+            //update health indicator
+            indicatorManager.UpdateIndicatorsForOldCard();
+            indicatorManager.ChangeIndicatorOpacity(indicatorOpacity);
         }
 
         if (updateHealthSlider && healthSlider.value == HP)
@@ -209,7 +238,8 @@ public class EnemyBoss : Target
         StartCoroutine(ShakeCoroutine());
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlaySFX(damageTakenSound);
+            int randomIndex = Random.Range(0, damageTakenSound.Length);
+            AudioManager.Instance.PlaySFX(damageTakenSound[randomIndex]);
         }
 
         if(FloatingTextPrefab)

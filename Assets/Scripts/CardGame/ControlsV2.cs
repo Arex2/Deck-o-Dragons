@@ -81,11 +81,6 @@ public class ControlsV2 : MonoBehaviour
 
     private void Update()
     {
-        if (float.IsNaN(currentMoveVelocity))
-        {
-            currentMoveVelocity = 0;
-        }
-
         if (addReleaseMovement)
         {
             elapsedTime += Time.deltaTime;
@@ -100,8 +95,15 @@ public class ControlsV2 : MonoBehaviour
             }
             else
             {
+                float oldMoveVelocity = currentMoveVelocity;
                 //lerp change
                 currentMoveVelocity = Mathf.Lerp(0, additionalMoveVelocity, curve.Evaluate(percentageComplete));
+
+                if (float.IsNaN(currentMoveVelocity))
+                {
+                    currentMoveVelocity = oldMoveVelocity;
+                }
+
                 //shiftcards
                 hand.ShiftCards(currentMoveVelocity);
             }

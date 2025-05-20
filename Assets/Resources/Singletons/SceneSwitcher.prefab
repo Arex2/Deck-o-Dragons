@@ -31,7 +31,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 4059390064939367744}
+  m_Father: {fileID: 7557309344667036761}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -89,9 +89,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneSwitcher: {fileID: 7994584959686858032}
+  scenes: 0500000007000000
   image: {fileID: 6390492880951826543}
   extraScale: 0.5
-  scenes: 0500000007000000
   showEditorImagePreview: 0
 --- !u!1 &3105241602075303393
 GameObject:
@@ -119,12 +119,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3105241602075303393}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 4059390064939367744}
+  m_Father: {fileID: 7557309344667036761}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -182,9 +182,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneSwitcher: {fileID: 7994584959686858032}
+  scenes: 03000000
   image: {fileID: 5953324431474969186}
   extraScale: 0.8
-  scenes: 03000000
   showEditorImagePreview: 0
 --- !u!1 &3210205836649448805
 GameObject:
@@ -212,12 +212,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3210205836649448805}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 4059390064939367744}
+  m_Father: {fileID: 7557309344667036761}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -275,9 +275,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneSwitcher: {fileID: 7994584959686858032}
+  scenes: 
   image: {fileID: 8572870787190924311}
   extraScale: 0.3
-  scenes: 
   showEditorImagePreview: 0
 --- !u!1 &3635728244855745387
 GameObject:
@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 3848845916412222797}
   - component: {fileID: 2613407896678487463}
   m_Layer: 0
-  m_Name: Overlay
+  m_Name: Overlay Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,12 +304,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3635728244855745387}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4059390064939367744}
+  m_Father: {fileID: 7557309344667036761}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -364,6 +364,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7557309344667036761}
   - component: {fileID: 7994584959686858032}
+  - component: {fileID: 8931613324127840382}
+  - component: {fileID: 8087456376591779220}
+  - component: {fileID: 6094453846399525894}
+  - component: {fileID: 2098099905447868125}
   m_Layer: 0
   m_Name: SceneSwitcher
   m_TagString: Untagged
@@ -371,22 +375,30 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7557309344667036761
-Transform:
+--- !u!224 &7557309344667036761
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4712362490150132803}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4059390064939367744}
+  - {fileID: 72826595551207702}
+  - {fileID: 3202248076549667749}
+  - {fileID: 2715080640576022423}
+  - {fileID: 912303518703055940}
+  - {fileID: 8059253662609182482}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &7994584959686858032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,12 +411,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6a90f9792303994a9505c8bbfaeafea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 1688101451109489657}
-  wholeScreenRect: {fileID: 8059253662609182482}
+  canvasGroup: {fileID: 2098099905447868125}
+  screenOverlay: {fileID: 2613407896678487463}
   duration: 0.5
   inEase: 3
   outEase: 2
-  defaultCutout: {fileID: 7943980576555295827}
+  defaultTransition: {fileID: 7943980576555295827}
   mainMenuScene:
     sceneName: MainMenu
     scenePath: Assets/Scenes/MainMenu.unity
@@ -413,12 +425,12 @@ MonoBehaviour:
   creditsScene:
     sceneName: Credits
     scenePath: Assets/Scenes/Credits.unity
-    buildIndex: 8
+    buildIndex: 7
     sceneAsset: {fileID: 102900000, guid: 2e258da2dba30ea4bb74371dc3042a03, type: 3}
   gardenScene:
     sceneName: Backyard
     scenePath: Assets/Scenes/Backyard.unity
-    buildIndex: 5
+    buildIndex: 4
     sceneAsset: {fileID: 102900000, guid: fa6ccb6abd17d4460baf0d10f99d6a4b, type: 3}
   eggScene:
     sceneName: EggScene
@@ -428,75 +440,31 @@ MonoBehaviour:
   battleSelectionScene:
     sceneName: BattleSelection
     scenePath: Assets/Scenes/BattleSelection.unity
-    buildIndex: 7
+    buildIndex: 6
     sceneAsset: {fileID: 102900000, guid: 30c8479f950ac454eaa412f12b3a13e2, type: 3}
   deckViewerScene:
     sceneName: DeckViewer
     scenePath: Assets/Scenes/DeckViewer.unity
-    buildIndex: 3
+    buildIndex: 2
     sceneAsset: {fileID: 102900000, guid: f74f7f5e30884224297342216a19fae8, type: 3}
   cardGameScene:
     sceneName: CardgameScene
     scenePath: Assets/Scenes/CardgameScene.unity
-    buildIndex: 4
+    buildIndex: 3
     sceneAsset: {fileID: 102900000, guid: da4305056c0b2de44a35d515687195f8, type: 3}
   cardShopScene:
-    sceneName: CardShop
-    scenePath: Assets/Scenes/CardShop.unity
-    buildIndex: 6
-    sceneAsset: {fileID: 102900000, guid: 004b320ce2aa9564c99a5ff38d58cbb5, type: 3}
+    sceneName: NewCardShop
+    scenePath: Assets/Scenes/NewCardShop.unity
+    buildIndex: 5
+    sceneAsset: {fileID: 102900000, guid: 4d459aa20d1f4dc4896814758729b8a1, type: 3}
   transitionSoundClip: {fileID: 8300000, guid: c79b818f24f805a4789cc68d4ff7f8f6, type: 3}
---- !u!1 &5135391328542578654
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4059390064939367744}
-  - component: {fileID: 5389408429474701513}
-  - component: {fileID: 1934502007733865141}
-  - component: {fileID: 1021031898750358974}
-  - component: {fileID: 1688101451109489657}
-  m_Layer: 0
-  m_Name: Canvas
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4059390064939367744
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5135391328542578654}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 72826595551207702}
-  - {fileID: 3202248076549667749}
-  - {fileID: 2715080640576022423}
-  - {fileID: 912303518703055940}
-  - {fileID: 8059253662609182482}
-  m_Father: {fileID: 7557309344667036761}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
---- !u!223 &5389408429474701513
+--- !u!223 &8931613324127840382
 Canvas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5135391328542578654}
+  m_GameObject: {fileID: 4712362490150132803}
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
@@ -513,14 +481,14 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 32767
   m_TargetDisplay: 0
---- !u!114 &1934502007733865141
+--- !u!114 &8087456376591779220
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5135391328542578654}
-  m_Enabled: 0
+  m_GameObject: {fileID: 4712362490150132803}
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
@@ -536,13 +504,13 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &1021031898750358974
+--- !u!114 &6094453846399525894
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5135391328542578654}
+  m_GameObject: {fileID: 4712362490150132803}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
@@ -553,13 +521,13 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!225 &1688101451109489657
+--- !u!225 &2098099905447868125
 CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5135391328542578654}
+  m_GameObject: {fileID: 4712362490150132803}
   m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
@@ -591,12 +559,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6220662456207590803}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 4059390064939367744}
+  m_Father: {fileID: 7557309344667036761}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -654,7 +622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneSwitcher: {fileID: 7994584959686858032}
+  scenes: 0400000006000000
   image: {fileID: 7207575519668281079}
   extraScale: 8.2
-  scenes: 0400000006000000
   showEditorImagePreview: 0

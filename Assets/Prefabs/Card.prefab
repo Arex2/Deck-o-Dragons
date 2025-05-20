@@ -90,9 +90,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dissolveAmount: 0
   invert: 0
-  width: 1
-  softness: 1
-  edgeColor: {r: 1, g: 0, b: 0, a: 1}
+  width: 0.45
+  softness: 0.65
+  edgeColor: {r: 0.6097647, g: 0.6540651, b: 0.8352941, a: 1}
   edgeColorMode: 4
   transitionTexture: {fileID: 2800000, guid: 8444f143b97f36c49be1728c33faacc5, type: 3}
   effectArea: 0
@@ -973,7 +973,7 @@ MonoBehaviour:
   cardObject: {fileID: 8516024351872141201}
   canvas: {fileID: 4459943584956271137}
   canvasGroup: {fileID: 3051301943282854235}
-  dissolve: {fileID: 8577762920750871824}
+  uiDissolve: {fileID: 8577762920750871824}
   dissolveForEffects: {fileID: 1125448412716149253}
   background: {fileID: 621791495841254705}
   costBackground: {fileID: 2533958816963221087}
@@ -1364,8 +1364,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1.81, y: -0.428}
-  m_SizeDelta: {x: 0.7199999, y: 0.7499999}
+  m_AnchoredPosition: {x: 1.8, y: -0.428}
+  m_SizeDelta: {x: 0.72, y: 0.7499999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5766724733451530071
 CanvasRenderer:
@@ -1388,7 +1388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.078431375, g: 0.37254903, b: 0.6745098, a: 1}
+  m_Color: {r: 0, g: 0, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

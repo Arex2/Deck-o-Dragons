@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FirstBite
   m_EditorClassIdentifier: 
   guid: cdb42eeca89d95442a4a627eb6d583f5
-  sprite: {fileID: 21300000, guid: e5a92e17626245948a180803fce08d51, type: 3}
+  sprite: {fileID: 21300000, guid: c68f1a8812513314db64e75e073e629d, type: 3}
   displayName: First Bite
   description: Deal {ATTACK} damage.
   cost: 1

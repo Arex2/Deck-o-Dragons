@@ -1,18 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
     [SerializeField]
     GameBehaviour gameBehaviour;
-    IState activeState = new SetupState(); //state man bör börja med
+    IState activeState = new IntroState(); //state man bör börja med
 
     public IState ActiveState => activeState;
 
     void Start()
     {
-        activeState.Enter(gameBehaviour);
+        EnterState(activeState);
     }
 
     void Update()
@@ -34,11 +33,20 @@ public class StateMachine : MonoBehaviour
             activeState.Exit();
         }
         activeState = newState;
-        activeState.Enter(gameBehaviour);
+        EnterState(activeState);
     }
 
+    private void EnterState(IState state)
+    {
+        state.Enter(gameBehaviour);
 
+        IEnumerator coroutine = state.Coroutine();
 
+        if (coroutine != null)
+        {
+            StartCoroutine(coroutine);
+        }
+    }
 
     /*
     protected IState State;

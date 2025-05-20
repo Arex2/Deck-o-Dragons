@@ -1,26 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public interface IState
 {
+    public void Enter(GameBehaviour gameBehaviour);
 
-    public virtual IState Enter(GameBehaviour gameBehaviour)
-    {
-        return null;
-    }
+    public IState Execute();
 
-    public virtual IEnumerator PlayEffects(GameBehaviour gameBehaviour)
-    {
-        return null;
-    }
+    public void Exit();
 
-    public virtual IState Execute()
-    {
-        return null;
-    }
-
-    public virtual IState Exit()
+    public IEnumerator Coroutine()
     {
         return null;
     }

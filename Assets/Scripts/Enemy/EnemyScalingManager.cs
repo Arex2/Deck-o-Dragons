@@ -42,4 +42,10 @@ public class EnemyScalingManager : MonoBehaviour
         currentHealthIncrease += healthIncrease;
         currentManaIncrease += manaIncrease;
     }
+
+    public void ResetScaling()
+    {
+        currentHealthIncrease = 0;
+        currentManaIncrease = 0;
+    }
 }

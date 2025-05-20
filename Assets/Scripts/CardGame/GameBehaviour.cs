@@ -81,6 +81,7 @@ public class GameBehaviour : Target
         new
 #endif
         Camera camera;
+
     [SerializeField] private RectTransform hitPositionRect;
 
     [Header("Battle Over")]
@@ -140,12 +141,19 @@ public class GameBehaviour : Target
             elapsedTime += Time.deltaTime;
             float percentage = elapsedTime / desiredDuration;
             hpSlider.value = Mathf.Lerp(healthSliderStartPos, HP, percentage);
+
+            float indicatorOpacity = Mathf.Lerp(1, 0, percentage);
+            //update health indicator
+            indicatorManager.UpdateIndicatorsForOldCard();
+            indicatorManager.ChangeIndicatorOpacity(indicatorOpacity);
         }
 
         if (updateHealthSlider && hpSlider.value == HP)
         {
             elapsedTime = 0;
             updateHealthSlider = false;
+            //update health indicator
+            //indicatorManager.UpdateIndicatorsForOldCard();
         }
     }
 

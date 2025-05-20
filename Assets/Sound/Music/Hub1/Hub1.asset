@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8182492757167383286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b16f547148b9d43bce31ac2cb6bf92, type: 3}
+  m_Name: Base Melody
+  m_EditorClassIdentifier: 
+  song: {fileID: 11400000}
+  intro: {fileID: 8300000, guid: f498d79b53f383f4ea14760d593e64e4, type: 3}
+  loop: {fileID: 8300000, guid: e8e215e99c28a22429d227e00f4d4b75, type: 3}
+--- !u!114 &-1407016685306044435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b16f547148b9d43bce31ac2cb6bf92, type: 3}
+  m_Name: Fire Layer
+  m_EditorClassIdentifier: 
+  song: {fileID: 11400000}
+  intro: {fileID: 8300000, guid: a77596bbdc365934e91deaf3f33417a4, type: 3}
+  loop: {fileID: 8300000, guid: 96ede75a6e6e51c4c97ae7da894714f1, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,14 +45,29 @@ MonoBehaviour:
   layers:
   - {fileID: 6460181745216915272}
   - {fileID: 9044496262593945899}
+  - {fileID: -8182492757167383286}
+  - {fileID: -1407016685306044435}
+  - {fileID: 8963159035781695220}
   styles:
   - name: Default
     layers:
     - {fileID: 6460181745216915272}
     - {fileID: 9044496262593945899}
-  - name: No Drums
+    - {fileID: -8182492757167383286}
+  - name: Default No Drums
     layers:
     - {fileID: 6460181745216915272}
+    - {fileID: -8182492757167383286}
+  - name: Fire
+    layers:
+    - {fileID: 6460181745216915272}
+    - {fileID: 9044496262593945899}
+    - {fileID: -1407016685306044435}
+  - name: Water
+    layers:
+    - {fileID: 6460181745216915272}
+    - {fileID: 9044496262593945899}
+    - {fileID: 8963159035781695220}
 --- !u!114 &6460181745216915272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,11 +78,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02b16f547148b9d43bce31ac2cb6bf92, type: 3}
-  m_Name: Base Layer
+  m_Name: Base
   m_EditorClassIdentifier: 
   song: {fileID: 11400000}
   intro: {fileID: 8300000, guid: ca8b6a0eadc37e347b2caf437a8a9307, type: 3}
   loop: {fileID: 8300000, guid: 567aa937fa3a0124482708a5deac594f, type: 3}
+--- !u!114 &8963159035781695220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b16f547148b9d43bce31ac2cb6bf92, type: 3}
+  m_Name: Water Layer
+  m_EditorClassIdentifier: 
+  song: {fileID: 11400000}
+  intro: {fileID: 8300000, guid: 3d4fe0a3fb4241d4099a2ed313c084cf, type: 3}
+  loop: {fileID: 8300000, guid: 32f0f267e2553444bb40b0d5d0c972f9, type: 3}
 --- !u!114 &9044496262593945899
 MonoBehaviour:
   m_ObjectHideFlags: 0

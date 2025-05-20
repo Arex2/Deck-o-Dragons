@@ -8,9 +8,9 @@ using TMPro;
 
 public class DragonActive : MonoBehaviour
 {
-    [Header ("Script instances")]
-    private static DragonActive DrActInstance;
-    public static DragonController currentDragon;
+    // Script instances
+    public static DragonActive Instance { get; private set; }
+    public static DragonController CurrentDragon { get; set; }
 
     [Header ("Dragon collection lists (prefabs)")]
     [SerializeField] public GameObject egg;
@@ -29,9 +29,9 @@ public class DragonActive : MonoBehaviour
 
     void Awake()
     {
-        if (DrActInstance == null)
+        if (Instance == null)
         {
-            DrActInstance = this;
+            Instance = this;
         }
         else
         {
@@ -54,7 +54,7 @@ public class DragonActive : MonoBehaviour
             {
                 CheckForEggOrDragon();
                 doCheck = false;
-                currentDragon = FindObjectOfType<DragonController>();
+                CurrentDragon = FindObjectOfType<DragonController>();
             }
         }
     }
@@ -63,7 +63,7 @@ public class DragonActive : MonoBehaviour
     {
         if(dragonName != null)
         {
-            currentDragon.StepProgress();
+            CurrentDragon.StepProgress();
         }
     }
 
@@ -77,23 +77,25 @@ public class DragonActive : MonoBehaviour
         else if(isDragonActive)
         {
             //Instantiate(TextInputManager.dragonName, new UnityEngine.Vector3(0, 1000, 0), UnityEngine.Quaternion.identity);
-            SpawnDragons();
+            SpawnDragon();
         }
     }
 
-    public void SpawnDragons()
+    public GameObject SpawnDragon()
     {
         if (age == 1)
         {
-            Instantiate(babyDragons[index], new UnityEngine.Vector3(0, -3, 0), UnityEngine.Quaternion.identity);
+            return Instantiate(babyDragons[index], new UnityEngine.Vector3(0, -3, 0), UnityEngine.Quaternion.identity);
         }
         else if (age == 2)
         {
-            Instantiate(teenDragons[index], new UnityEngine.Vector3(0, -3, 0), UnityEngine.Quaternion.identity);
+            return Instantiate(teenDragons[index], new UnityEngine.Vector3(0, -3, 0), UnityEngine.Quaternion.identity);
         }
         else if (age == 3)
         {
-            Instantiate(adultDragons[index], new UnityEngine.Vector3(0, -4, 0), UnityEngine.Quaternion.identity);
+            return Instantiate(adultDragons[index], new UnityEngine.Vector3(0, -4, 0), UnityEngine.Quaternion.identity);
         }
+
+        return null;
     }
 }

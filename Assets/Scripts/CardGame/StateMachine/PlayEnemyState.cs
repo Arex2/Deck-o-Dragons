@@ -1,41 +1,30 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayEnemyState : IState
 {
-    bool temp = false; //ANVÄNDS FÖR ATT KÄNNA NÄR WAITTIME ÄR DONE
+    bool coroutineOver = false; //ANVÄNDS FÖR ATT KÄNNA NÄR WAITTIME ÄR DONE
 
     GameBehaviour gameBehaviour;
-    public virtual IState Enter(GameBehaviour gameBehaviour)
+    public void Enter(GameBehaviour gameBehaviour)
     {
         Debug.Log("ENEMY TURN!!");
         this.gameBehaviour = gameBehaviour;
         //gameBehaviour.UpdateStatusText("Enemy Turn");
         Target.TurnStart.Invoke(Team.Enemy);
-
-        //play card effect
-        gameBehaviour.StartCoroutine(Wait()); //sätter temp till true
-
-        return null;
     }
 
-    IEnumerator Wait()
+    public IEnumerator Coroutine()
     {
         //Debug.Log("Wait start " + Time.time);
         yield return new WaitForSeconds(1);
         //Debug.Log("Wait over " + Time.time);
-        temp = true;
+        coroutineOver = true;
     }
 
-    public virtual IEnumerator PlayEffects(GameBehaviour gameBehaviour)
+    public IState Execute()
     {
-        return null;
-    }
-
-    public virtual IState Execute()
-    {
-        if (temp && CardVFXManager.ActiveVFXCount <= 0)
+        if (coroutineOver && CardVFXManager.ActiveVFXCount <= 0)
         {
 
             //CARDS PLAY THEMSELVES
@@ -48,23 +37,21 @@ public class PlayEnemyState : IState
             //check player hp
             //if player hp <= 0, return gameLost
 
-            BattleOverState battleOverState = BattleOverState.BattleOverCheck();
-
-            if (battleOverState != null)
+            if (BattleOverState.BattleOverCheck(out Team? winningTeam))
             {
-                return battleOverState;
+                return new BattleOverState(winningTeam);
             }
             else
             {
                 Target.TurnEnd.Invoke(Team.Enemy);
-                return new SetupState();
+                return new NewTurnState();
             }
         }
         else return null;
     }
 
-    public virtual IState Exit()
+    public void Exit()
     {
-        return null;
+
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DiscardState : IState
@@ -30,7 +29,7 @@ public class DiscardState : IState
         return CardFilterResult.Success();
     }
 
-    public virtual IState Enter(GameBehaviour gameBehaviour)
+    public void Enter(GameBehaviour gameBehaviour)
     {
         Debug.Log("DISCARDING CARDS");
         this.gameBehaviour = gameBehaviour;
@@ -44,16 +43,9 @@ public class DiscardState : IState
         gameBehaviour.StatusButton.ProceedStatus(CardgameStatusButton.DISCARD, CardgameStatusButton.ENEMY_TURN);
 
         controls.controls.Enable();
-
-        return null;
     }
 
-    public virtual IEnumerator PlayEffects(GameBehaviour gameBehaviour)
-    {
-        return null;
-    }
-
-    public virtual IState Execute()
+    public IState Execute()
     {
         if (gameBehaviour.ButtonPressed)
         {
@@ -74,11 +66,9 @@ public class DiscardState : IState
 
         if (_switchState && CardVFXManager.ActiveVFXCount <= 0)
         {
-            BattleOverState battleOverState = BattleOverState.BattleOverCheck();
-
-            if (battleOverState != null)
+            if (BattleOverState.BattleOverCheck(out Team? winningTeam))
             {
-                return battleOverState;
+                return new BattleOverState(winningTeam);
             }
 
             return new PlayEnemyState();
@@ -96,9 +86,8 @@ public class DiscardState : IState
         _switchState = true;
     }
 
-    public virtual IState Exit()
+    public void Exit()
     {
         controls.controls.Disable();
-        return null;
     }
 }

@@ -3398,6 +3398,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dragonCollection: {fileID: 1815612644}
   dragonLimitText: {fileID: 2019747271}
+  openBookSFX: {fileID: 8300000, guid: 172eeaf570128eb4aae4b3c281f71d5c, type: 3}
   buttons:
   - {fileID: 325425349}
   - {fileID: 163363230}

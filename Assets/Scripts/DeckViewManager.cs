@@ -16,7 +16,6 @@ public class DeckViewManager : MonoBehaviour
             newCard.transform.parent = contentContainer.transform;
             newCard.transform.localScale = new Vector3(1,1,1);
         }
-        print("yup");
         
     }
 }

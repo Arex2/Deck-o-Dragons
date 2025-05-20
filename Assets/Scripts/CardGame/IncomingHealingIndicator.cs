@@ -12,6 +12,9 @@ public class IncomingHealingIndicator : MonoBehaviour
     private Slider hpSlider;
 
     [SerializeField]
+    private Image hpFill;
+
+    [SerializeField]
     float incomingHealing;
 
     public void Test()
@@ -37,5 +40,10 @@ public class IncomingHealingIndicator : MonoBehaviour
         if(healing == 0) return 0;
 
         return (hp + healing)/sliderMaxHP;
+    }
+
+    public void ChangeOpacity(float newOpacity)
+    {
+        hpFill.color = new Color(hpFill.color.r, hpFill.color.g, hpFill.color.b, newOpacity);
     }
 }

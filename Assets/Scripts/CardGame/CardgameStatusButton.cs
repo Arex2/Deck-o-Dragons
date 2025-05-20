@@ -5,9 +5,12 @@ using DG.Tweening;
 
 public class CardgameStatusButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    public const string INTRO = "Battle Start";
     public const string PLAYER_TURN = "Your Turn";
     public const string ENEMY_TURN = "Enemy Turn";
     public const string DISCARD = "Discard";
+
+    public bool ForcedOff { get; set; }
 
     [SerializeField] private RectTransform rotationTransform;
 
@@ -252,6 +255,13 @@ public class CardgameStatusButton : MonoBehaviour, IPointerDownHandler, IPointer
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        eventData.Use();
+
+        if (ForcedOff)
+        {
+            return;
+        }
+
         _heldTimer = 0;
 
         _pressed = true;
@@ -269,6 +279,7 @@ public class CardgameStatusButton : MonoBehaviour, IPointerDownHandler, IPointer
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        eventData.Use();
         EndPress(false);
     }
 
@@ -280,6 +291,11 @@ public class CardgameStatusButton : MonoBehaviour, IPointerDownHandler, IPointer
         }
 
         _pressed = false;
+
+        if (ForcedOff)
+        {
+            return;
+        }
 
         pressRadialFill.DOKill();
         transform.DOKill();

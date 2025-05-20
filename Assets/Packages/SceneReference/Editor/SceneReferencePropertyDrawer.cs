@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ using UnityEngine;
 [CustomPropertyDrawer(typeof(SceneReference))]
 public class SceneReferencePropertyDrawer : PropertyDrawer
 {
+    private HashSet<string> _initialSet = new();
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         // Begin property
@@ -20,8 +23,15 @@ public class SceneReferencePropertyDrawer : PropertyDrawer
         assetProp.objectReferenceValue = EditorGUI.ObjectField(position, label, assetProp.objectReferenceValue, typeof(SceneAsset), false);
 
         // On change field
-        if (EditorGUI.EndChangeCheck())
+        bool inInitialSet = _initialSet.Contains(property.propertyPath);
+
+        if (EditorGUI.EndChangeCheck() || !inInitialSet)
         {
+            if (!inInitialSet)
+            {
+                _initialSet.Add(property.propertyPath);
+            }
+
             SceneAsset asset = assetProp.objectReferenceValue as SceneAsset;
 
             // Set "sceneName" and "scenePath"

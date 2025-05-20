@@ -1,32 +1,39 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
-
 
 public class BattleOverState : IState
 {
     bool coroutineOver = false; //ANV�NDS F�R ATT K�NNA N�R WAITTIME �R DONE
 
     GameBehaviour gameBehaviour;
+    private ControlsV2 controls;
     private bool loadingScene;
-    public virtual IState Enter(GameBehaviour gameBehaviour)
+    private Team? winningTeam;
+
+    public BattleOverState() { }
+
+    public BattleOverState(Team? winningTeam) : this()
+    {
+        this.winningTeam = winningTeam;
+    }
+
+    public void Enter(GameBehaviour gameBehaviour)
     {
         Debug.Log("BATTLE OVER");
         this.gameBehaviour = gameBehaviour;
+        controls = gameBehaviour.controls;
         //gameBehaviour.NewTurn();
         //gameBehaviour.UpdateStatusText("BATTLE OVER");
 
-        gameBehaviour.StartCoroutine(Wait()); //s�tter temp till true
-
-        return null;
+        //stäng av controls
+        controls.controls.Disable();
     }
 
-    IEnumerator Wait()
+    public IEnumerator Coroutine()
     {
         yield return new WaitForSeconds(1f);
 
-        gameBehaviour.BattleOver(gameBehaviour.HP <= 0 ? "You lost..." : "You won!");
+        gameBehaviour.BattleOver(winningTeam.HasValue ? (winningTeam.Value == Team.Player ? "You won!" : "You lost...") : "It's a draw...");
 
         //Debug.Log("Wait start " + Time.time);
         yield return new WaitForSeconds(2f);
@@ -34,44 +41,40 @@ public class BattleOverState : IState
         coroutineOver = true;
     }
 
-    public virtual IEnumerator PlayEffects(GameBehaviour gameBehaviour)
-    {
-        return null;
-    }
-
-    public virtual IState Execute()
+    public IState Execute()
     {
         if (coroutineOver && !loadingScene)
         {
-            
+            //Debug.Log("New Encounter");
+            //gameBehaviour.NewEncounter();
+
+            //WIN
+            if (winningTeam.HasValue && winningTeam.Value == Team.Player)
+            {
+                // Card shop scene
+                SceneSwitcher.SwitchToCardShop();
+            }
             //LOSE
-            if(gameBehaviour.HP <= 0)
+            else
             {
                 //end game
                 //åk tillbaka till ägg scenen
                 SceneSwitcher.SwitchToEgg();
-            }
-            //Debug.Log("New Encounter");
-            //gameBehaviour.NewEncounter();
-            //WIN
-            else
-            {
-                // Card shop scene
-                SceneSwitcher.SwitchToCardShop();
             }
 
             loadingScene = true;
         }
         return null;
     }
-    public virtual IState Exit()
+
+    public void Exit()
     {
-        return null;
+
     }
 
-    public static BattleOverState BattleOverCheck()
+    public static bool BattleOverCheck(out Team? winningTeam)
     {
-        HashSet<Team> aliveTeams = new();
+        Team? aliveTeam = null;
 
         foreach (Target target in TargetManager.AllTargets)
         {
@@ -82,24 +85,26 @@ public class BattleOverState : IState
 
             Team team = target.Team;
 
-            if (aliveTeams.Contains(team))
+            // There are multiple teams alive. All need to be dead except one in order for a battle to be over
+            if (aliveTeam.HasValue && aliveTeam.Value != team)
             {
-                continue;
+                winningTeam = null;
+                return false;
             }
 
-            aliveTeams.Add(team);
+            // This is the team that is alive
+            aliveTeam = team;
         }
 
-        foreach (Team team in Teams.AllTeams)
+        if (aliveTeam.HasValue)
         {
-            if (aliveTeams.Contains(team))
-            {
-                continue;
-            }
+            winningTeam = aliveTeam.Value;
 
-            return new BattleOverState();
+            return true;
         }
 
-        return null;
+        // All teams are dead
+        winningTeam = null;
+        return true;
     }
 }

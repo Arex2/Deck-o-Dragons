@@ -86,6 +86,7 @@ public class IndicatorManager : MonoBehaviour
         indicatorHEAL.ShowIncomingHealing(currentHP, healData, maxHP);
     }
 
+
     public void ClearIndicators()
     {
         //reset values
@@ -95,10 +96,24 @@ public class IndicatorManager : MonoBehaviour
         healToPlayer = 0;
         healToEnemy = 0;
 
+        HideIndicators();
+    }
 
+    public void HideIndicators()
+    {
+        HidePlayerIndicators();
+
+        HideEnemyIndicators();
+    }
+
+    public void HidePlayerIndicators()
+    {
         indicatorDMG.Hide();
         indicatorHEAL.Hide();
+    }
 
+    public void HideEnemyIndicators()
+    {
         enemyIndicatorDMG.Hide();
         enemyIndicatorHEAL.Hide();
     }
@@ -215,5 +230,14 @@ public class IndicatorManager : MonoBehaviour
             }
         }
     }
+
+
+    public void ChangeIndicatorOpacity(float newOpacity)
+    {
+        //indicatorDMG.ChangeOpacity(newOpacity);
+        //indicatorHEAL.ChangeOpacity(newOpacity);
+    }
+
+
 
 }
