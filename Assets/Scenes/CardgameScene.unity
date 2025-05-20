@@ -243,7 +243,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 35.25
   m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2779,6 +2779,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1312216979}
     - target: {fileID: 2377750389797549624, guid: 800ca899b08213c45a0362e97a33a0d9, type: 3}
+      propertyPath: indicatorManager
+      value: 
+      objectReference: {fileID: 1350904861571970897}
+    - target: {fileID: 2377750389797549624, guid: 800ca899b08213c45a0362e97a33a0d9, type: 3}
       propertyPath: FloatingTextPrefab
       value: 
       objectReference: {fileID: 1274994783436772728, guid: 3027dd26962f86646872c550abfc9f7f, type: 3}
@@ -3847,6 +3851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSlider: {fileID: 662685068}
   hpSlider: {fileID: 2044360072}
+  damageFill: {fileID: 1157495240}
   currentHp: 0
   incomingDMG: 0
 --- !u!114 &662685068
@@ -7086,6 +7091,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healingSlider: {fileID: 1312216980}
   hpSlider: {fileID: 2044360072}
+  hpFill: {fileID: 1738114305}
   incomingHealing: 0
 --- !u!114 &1312216980
 MonoBehaviour:
@@ -7597,6 +7603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSlider: {fileID: 1449320962}
   hpSlider: {fileID: 1130256040}
+  damageFill: {fileID: 0}
   currentHp: 0
   incomingDMG: 0
 --- !u!114 &1449320962
@@ -9311,6 +9318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healingSlider: {fileID: 1841419248}
   hpSlider: {fileID: 1130256040}
+  hpFill: {fileID: 0}
   incomingHealing: 0
 --- !u!114 &1841419248
 MonoBehaviour:
@@ -10911,6 +10919,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healingSlider: {fileID: 8811737199147465002}
   hpSlider: {fileID: 5113567561118050214}
+  hpFill: {fileID: 507998538317864769}
   incomingHealing: 0
 --- !u!222 &1029643807411662031
 CanvasRenderer:
@@ -12528,6 +12537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSlider: {fileID: 1963103764861754465}
   hpSlider: {fileID: 5113567561118050214}
+  damageFill: {fileID: 919592273926421718}
   currentHp: 0
   incomingDMG: 0
 --- !u!114 &4320576759375459769

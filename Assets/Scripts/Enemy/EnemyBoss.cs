@@ -24,7 +24,8 @@ public class EnemyBoss : Target
     float desiredDuration = 0.3f;
     float healthSliderStartPos;
 
-    
+    //indicatorManager for health slider - Harriet
+    [SerializeField] IndicatorManager indicatorManager;
 
     [Space]
     [SerializeField] private TMP_Text healthText;
@@ -118,6 +119,10 @@ public class EnemyBoss : Target
             elapsedTime += Time.deltaTime;
             float percentage = elapsedTime / desiredDuration;
             healthSlider.value = Mathf.Lerp(healthSliderStartPos, HP, percentage);
+            float indicatorOpacity = Mathf.Lerp(1, 0, percentage);
+            //update health indicator
+            indicatorManager.UpdateIndicatorsForOldCard();
+            indicatorManager.ChangeIndicatorOpacity(indicatorOpacity);
         }
 
         if (updateHealthSlider && healthSlider.value == HP)
