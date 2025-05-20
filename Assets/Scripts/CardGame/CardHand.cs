@@ -2,8 +2,6 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using TMPro;
 using UnityEngine;
 
@@ -27,6 +25,11 @@ public class CardHand : MonoBehaviour
 
             foreach (CardObject card in cardsInHand)
             {
+                if (card == CardBeingPlayed)
+                {
+                    continue;
+                }
+
                 card.ToggleDarkOverlay(!value);
             }
 
@@ -34,6 +37,8 @@ public class CardHand : MonoBehaviour
         }
     }
     private bool _canPlayCards = true;
+
+    public bool LockedInTutorial { get; set; }
 
     [SerializeField]
     private GameBehaviour gameBehaviour;
@@ -507,11 +512,22 @@ public class CardHand : MonoBehaviour
 
     public void UseCurrentCard()
     {
+        if (!CanPlayCards)
+        {
+            return;
+        }
+
         int count = cardsInHand.Count;
         if (count <= 0 || CurrentIndex < 0 || CurrentIndex >= count)
             return;
 
         CardObject cardObj = cardsInHand[CurrentIndex];
+
+        if (LockedInTutorial && CardgameTutorialManager.InTutorial)
+        {
+            DoCardMiniBounce(cardObj);
+            return;
+        }
 
         if (SelectingCards)
         {
@@ -825,21 +841,31 @@ public class CardHand : MonoBehaviour
 
         // Draw cards in sorted order
         List<Card> cardsToDraw = new();
+        int actualCount;
 
-        int cardsToDrawCount = Mathf.Max(amountToDraw - count, amountSelectedForDiscard);
-        int actualCount = 0;
-        for (int i = 0; i < cardsToDrawCount; i++)
+        if (CardgameTutorialManager.InTutorial && CardgameTutorialManager.TutorialStep <= 5) // tutorial stuff
         {
-            if (!deck.CanDrawNext())
+            cardsToDraw.AddRange(CardgameTutorialManager.Instance.TutorialCards);
+            actualCount = cardsToDraw.Count;
+        }
+        else
+        {
+            int cardsToDrawCount = Mathf.Max(amountToDraw - count, amountSelectedForDiscard);
+            actualCount = 0;
+
+            for (int i = 0; i < cardsToDrawCount; i++)
             {
-                break;
+                if (!deck.CanDrawNext())
+                {
+                    break;
+                }
+
+                cardsToDraw.Add(deck.DrawNext());
+                actualCount++;
             }
 
-            cardsToDraw.Add(deck.DrawNext());
-            actualCount++;
+            cardsToDraw.Sort(CardSorter.Instance);
         }
-
-        cardsToDraw.Sort(CardSorter.Instance);
 
         for (int i = 0; i < actualCount; i++)
         {
@@ -873,6 +899,11 @@ public class CardHand : MonoBehaviour
         DoCardMiniBounce(cardObj);
 
         MoveCardToCenter(cardObj);
+
+        if (LockedInTutorial && CardgameTutorialManager.InTutorial)
+        {
+            return;
+        }
 
         if (SelectingCards)
         {
@@ -1139,8 +1170,11 @@ public class CardHand : MonoBehaviour
         selectingCardsOverlayBg.DOKill();
         selectingCardsOverlayBg.DOFade(0.7f, 0.5f);
 
-        selectingCardsText.DOKill();
-        selectingCardsText.DOFade(1, 0.5f);
+        if (!CardgameTutorialManager.InTutorial)
+        {
+            selectingCardsText.DOKill();
+            selectingCardsText.DOFade(1, 0.5f);
+        }
 
         CurrentSelectedCardsLimit = selectedCardsLimit.HasValue ? selectedCardsLimit.Value : defaultSelectedCardsLimit;
 

@@ -37,7 +37,7 @@ public class PlayEnemyState : IState
             //check player hp
             //if player hp <= 0, return gameLost
 
-            if (BattleOverState.BattleOverCheck(out Team winningTeam))
+            if (BattleOverState.BattleOverCheck(out Team? winningTeam))
             {
                 return new BattleOverState(winningTeam);
             }

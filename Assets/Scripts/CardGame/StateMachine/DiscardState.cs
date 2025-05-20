@@ -66,7 +66,7 @@ public class DiscardState : IState
 
         if (_switchState && CardVFXManager.ActiveVFXCount <= 0)
         {
-            if (BattleOverState.BattleOverCheck(out Team winningTeam))
+            if (BattleOverState.BattleOverCheck(out Team? winningTeam))
             {
                 return new BattleOverState(winningTeam);
             }

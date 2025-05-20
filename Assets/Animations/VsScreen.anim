@@ -140,7 +140,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_AnchoredPosition.x
-    path: LeftScreenSplit/LeftSide/LeftPoint
+    path: LeftScreenSplit/SafeArea/LeftSide/LeftPoint
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -188,7 +188,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_AnchoredPosition.x
-    path: RightScreenSplit/RightSide/RightPoint
+    path: RightScreenSplit/SafeArea/RightSide/RightPoint
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -365,7 +365,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_fontColor.a
-    path: RightScreenSplit/RightSide/RightName
+    path: RightScreenSplit/SafeArea/RightSide/RightName
     classID: 114
     script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
     flags: 0
@@ -404,7 +404,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_fontColor.a
-    path: LeftScreenSplit/LeftSide/LeftName
+    path: LeftScreenSplit/SafeArea/LeftSide/LeftName
     classID: 114
     script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
     flags: 0
@@ -660,7 +660,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3404144325
+      path: 2294016978
       attribute: 4185109675
       script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
       typeID: 114
@@ -669,7 +669,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1685138845
+      path: 1196065839
       attribute: 4185109675
       script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
       typeID: 114
@@ -806,7 +806,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_AnchoredPosition.x
-    path: LeftScreenSplit/LeftSide/LeftPoint
+    path: LeftScreenSplit/SafeArea/LeftSide/LeftPoint
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -1106,7 +1106,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_AnchoredPosition.x
-    path: RightScreenSplit/RightSide/RightPoint
+    path: RightScreenSplit/SafeArea/RightSide/RightPoint
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -1283,7 +1283,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_fontColor.a
-    path: RightScreenSplit/RightSide/RightName
+    path: RightScreenSplit/SafeArea/RightSide/RightName
     classID: 114
     script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
     flags: 0
@@ -1322,7 +1322,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_fontColor.a
-    path: LeftScreenSplit/LeftSide/LeftName
+    path: LeftScreenSplit/SafeArea/LeftSide/LeftName
     classID: 114
     script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
     flags: 0

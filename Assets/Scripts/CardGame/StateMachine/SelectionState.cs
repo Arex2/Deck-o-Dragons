@@ -34,7 +34,7 @@ public class SelectionState : IState
         {
             battleOverCheckTimer = 0.1f;
 
-            if (BattleOverState.BattleOverCheck(out Team winningTeam))
+            if (BattleOverState.BattleOverCheck(out Team? winningTeam))
             {
                 return new BattleOverState(winningTeam);
             }

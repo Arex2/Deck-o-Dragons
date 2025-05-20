@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class IntroState : IState
 {
+    private static bool _askedForTutorial = false;
+    
     private GameBehaviour gameBehaviour;
     private CardgameIntroSequence introSequence;
 
@@ -80,15 +82,28 @@ public class IntroState : IState
         _enemyBoss.Appear();
 
         // Tutorial popup
+        if (!_askedForTutorial)
+        {
+            _askedForTutorial = true;
 
-        /*
-        PopupWindow.Open(
-            "Need some help?", 
-            "This seems like your first time in a BATTLE!\n\nWant to do the BATTLE Tutorial?", 
-            ("Yes", () => _doTutorial = true), 
-            ("No", () => _doTutorial = false)
-            );
-        */
+            yield return new WaitForSeconds(0.75f);
+
+            PopupWindow.Open(
+                "Need some help?",
+                "This seems like your first time in a BATTLE!\n\nWant to do the BATTLE Tutorial?",
+                ("Yes", () => _doTutorial = true),
+                ("No", () => _doTutorial = false)
+                );
+
+            yield return new WaitUntil(() => _doTutorial.HasValue);
+
+            if (_doTutorial.Value)
+            {
+                CardgameTutorialManager.StartTutorial();
+
+                yield return new WaitUntil(() => CardgameTutorialManager.TutorialStep >= 1);
+            }
+        }
 
         _nextState = true;
     }

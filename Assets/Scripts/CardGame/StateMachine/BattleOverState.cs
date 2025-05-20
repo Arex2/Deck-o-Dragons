@@ -12,7 +12,7 @@ public class BattleOverState : IState
 
     public BattleOverState() { }
 
-    public BattleOverState(Team winningTeam) : this()
+    public BattleOverState(Team? winningTeam) : this()
     {
         this.winningTeam = winningTeam;
     }
@@ -33,7 +33,7 @@ public class BattleOverState : IState
     {
         yield return new WaitForSeconds(1f);
 
-        gameBehaviour.BattleOver(winningTeam.HasValue ? (winningTeam.Value == Team.Player ? "You won!" : "You lost...") : "No one wins???");
+        gameBehaviour.BattleOver(winningTeam.HasValue ? (winningTeam.Value == Team.Player ? "You won!" : "You lost...") : "It's a draw...");
 
         //Debug.Log("Wait start " + Time.time);
         yield return new WaitForSeconds(2f);
@@ -45,21 +45,21 @@ public class BattleOverState : IState
     {
         if (coroutineOver && !loadingScene)
         {
-            
+            //Debug.Log("New Encounter");
+            //gameBehaviour.NewEncounter();
+
+            //WIN
+            if (winningTeam.HasValue && winningTeam.Value == Team.Player)
+            {
+                // Card shop scene
+                SceneSwitcher.SwitchToCardShop();
+            }
             //LOSE
-            if(gameBehaviour.HP <= 0)
+            else
             {
                 //end game
                 //åk tillbaka till ägg scenen
                 SceneSwitcher.SwitchToEgg();
-            }
-            //Debug.Log("New Encounter");
-            //gameBehaviour.NewEncounter();
-            //WIN
-            else
-            {
-                // Card shop scene
-                SceneSwitcher.SwitchToCardShop();
             }
 
             loadingScene = true;
@@ -72,7 +72,7 @@ public class BattleOverState : IState
 
     }
 
-    public static bool BattleOverCheck(out Team winningTeam)
+    public static bool BattleOverCheck(out Team? winningTeam)
     {
         Team? aliveTeam = null;
 
@@ -88,11 +88,11 @@ public class BattleOverState : IState
             // There are multiple teams alive. All need to be dead except one in order for a battle to be over
             if (aliveTeam.HasValue && aliveTeam.Value != team)
             {
-                winningTeam = default;
+                winningTeam = null;
                 return false;
             }
 
-            // THis is the team that is alive
+            // This is the team that is alive
             aliveTeam = team;
         }
 
@@ -103,7 +103,8 @@ public class BattleOverState : IState
             return true;
         }
 
-        winningTeam = default;
-        return false;
+        // All teams are dead
+        winningTeam = null;
+        return true;
     }
 }

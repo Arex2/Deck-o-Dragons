@@ -28,7 +28,7 @@ public class PlayCardState : IState
             //if enemy hp <= 0 return gameWon
             //else return selectionState
 
-            if (BattleOverState.BattleOverCheck(out Team winningTeam))
+            if (BattleOverState.BattleOverCheck(out Team? winningTeam))
             {
                 return new BattleOverState(winningTeam);
             }

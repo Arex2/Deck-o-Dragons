@@ -72,7 +72,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 9a10dafffb6744e4c8d829d039d9f0e2, type: 3}
   displayName: Airborne Sacrifice
   description: Take {Attack} damage and draw {CARD_AMOUNT}.
-  cost: 2
+  cost: 0
   element: 3
   category: 4
   rarity: 1
@@ -107,7 +107,7 @@ MonoBehaviour:
   disableOnStart: 0
   tag: {fileID: 0}
   amount:
-    baseValue: 4
+    baseValue: 3
     stack: 1
     loopBehaviour: 1
     upgrades:
