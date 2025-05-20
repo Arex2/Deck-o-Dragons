@@ -45,7 +45,7 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlayClickSound()
     {
-        PlaySFX(clickSound);
+        //PlaySFX(clickSound);
     }
 
     /*
