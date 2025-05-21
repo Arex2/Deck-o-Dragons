@@ -70,7 +70,7 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         if (meatballAnimator != null)
         {
-            // Wait until the animation starts playing
+
             yield return null;
             AnimatorStateInfo stateInfo = meatballAnimator.GetCurrentAnimatorStateInfo(0);
             float timeout = 0.5f;
@@ -82,7 +82,7 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 elapsed += Time.deltaTime;
             }
 
-            // Wait until the animation is finished
+
             while (stateInfo.IsName("CollisionAnimation") && stateInfo.normalizedTime < 1f)
             {
                 yield return null;
@@ -90,10 +90,10 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             }
         }
 
-        // Reset meatball position immediately
+
         ResetPosition();
 
-        // Then handle the heart activation separately
+
         GameObject hearts = FindInactiveHeartWithTag();
         if (hearts != null)
         {
