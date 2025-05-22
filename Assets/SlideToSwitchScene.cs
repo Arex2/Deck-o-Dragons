@@ -8,12 +8,13 @@ public class SlideToSwitchScene : MonoBehaviour, IDragHandler, IBeginDragHandler
     [SerializeField] private AudioClip dragSound;
     [SerializeField] private float minDragDistance = 30f;
 
-
     private RectTransform rectTransform;
     private Canvas canvas;
-    private Vector3 initialPosition;
+    private Vector2 initialPosition;
     private CanvasGroup canvasGroup;
     private bool hasSwitched = false;
+    private bool dragSoundPlayed = false;
+    private AudioSource audioSource;
 
     private Vector2 dragOffset;
 
@@ -22,7 +23,13 @@ public class SlideToSwitchScene : MonoBehaviour, IDragHandler, IBeginDragHandler
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
-        initialPosition = rectTransform.localPosition;
+        audioSource = GetComponent<AudioSource>();
+        initialPosition = rectTransform.anchoredPosition;
+
+        if (audioSource == null)
+        {
+            Debug.LogWarning("SlideToSwitchScene: Ingen AudioSource hittades på objektet. Ett krävs för att spela upp ljud.");
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -31,7 +38,7 @@ public class SlideToSwitchScene : MonoBehaviour, IDragHandler, IBeginDragHandler
             canvasGroup.blocksRaycasts = false;
 
         hasSwitched = false;
-
+        dragSoundPlayed = false;
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform,
@@ -47,7 +54,6 @@ public class SlideToSwitchScene : MonoBehaviour, IDragHandler, IBeginDragHandler
     {
         if (hasSwitched) return;
 
-
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform,
             eventData.position,
@@ -55,23 +61,29 @@ public class SlideToSwitchScene : MonoBehaviour, IDragHandler, IBeginDragHandler
             out Vector2 localPoint
         );
 
-        rectTransform.anchoredPosition = localPoint + dragOffset;
-
+        float newX = localPoint.x + dragOffset.x;
+        rectTransform.anchoredPosition = new Vector2(newX, initialPosition.y);
 
         float screenWidth = Screen.width;
         float currentX = rectTransform.position.x;
         float dragPercent = currentX / screenWidth;
 
-
-        float dragDistance = Vector3.Distance(rectTransform.localPosition, initialPosition);
+        float dragDistance = Mathf.Abs(rectTransform.anchoredPosition.x - initialPosition.x);
 
         if (dragPercent >= triggerDistancePercent && dragDistance >= minDragDistance)
         {
             hasSwitched = true;
             SwitchScene();
         }
-    }
 
+        // Spela ljud vid första drag
+        if (!dragSoundPlayed && dragSound != null && audioSource != null)
+        {
+            audioSource.clip = dragSound;
+            audioSource.Play();
+            dragSoundPlayed = true;
+        }
+    }
 
     public void OnEndDrag(PointerEventData eventData)
     {
@@ -80,7 +92,7 @@ public class SlideToSwitchScene : MonoBehaviour, IDragHandler, IBeginDragHandler
 
         if (!hasSwitched)
         {
-            rectTransform.localPosition = initialPosition;
+            rectTransform.anchoredPosition = initialPosition;
         }
     }
 
