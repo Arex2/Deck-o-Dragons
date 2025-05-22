@@ -2,10 +2,16 @@ using UnityEngine;
 
 public class EggChecker : MonoBehaviour
 {
-    public GameObject panelButton;
-    public GameObject meny;
-    public GameObject block;
-    public GameObject button;
+    public GameObject sword;
+    public GameObject ball;
+    public GameObject meatball;
+    public GameObject meatball2;
+    public GameObject meatball3;
+    public GameObject meatball4;
+    public GameObject brush;
+    public GameObject settings;
+    public GameObject bowl;
+    public GameObject bowl2;
 
     void Update()
     {
@@ -13,17 +19,30 @@ public class EggChecker : MonoBehaviour
 
         if (egg != null)
         {
-            panelButton.SetActive(false);
-            block.SetActive(true);
-            meny.SetActive(false);
-            button.SetActive(false);
+            sword.SetActive(false);
+            ball.SetActive(false);
+            brush.SetActive(false);
+            settings.SetActive(false);
+            bowl.SetActive(false);
+            bowl2.SetActive(false);
+            meatball.SetActive(false);
+            meatball2.SetActive(false);
+            meatball3.SetActive(false);
+            meatball4.SetActive(false);
         }
         else
         {
-            panelButton.SetActive(true);
-            block.SetActive(false);
-            meny.SetActive(true);
-            button.SetActive(true);
+            sword.SetActive(true);
+            ball.SetActive(true);
+            brush.SetActive(true);
+            settings.SetActive(true);
+            bowl.SetActive(true);
+            bowl2.SetActive(true);
+            meatball.SetActive(true);
+            meatball2.SetActive(true);
+            meatball3.SetActive(true);
+            meatball4.SetActive(true);
+
         }
     }
 }
