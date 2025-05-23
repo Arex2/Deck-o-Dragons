@@ -62,10 +62,10 @@ MonoBehaviour:
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 20
+    - value: 40
       method: 1
     downgrades:
-    - value: 20
+    - value: 10
       method: 0
     minLimit:
       Enabled: 0
@@ -76,6 +76,34 @@ MonoBehaviour:
   vfx:
     tag: 
     vfxs: []
+--- !u!114 &-2331402340836912096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0300cc77e48abb3469ed2a5014895409, type: 3}
+  m_Name: MANA
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 2
+  card: {fileID: 11400000}
+  disableOnStart: 0
+  manaAmount:
+    baseValue: 2
+    stack: 1
+    loopBehaviour: 1
+    upgrades: []
+    downgrades: []
+    minLimit:
+      Enabled: 0
+      Value: 0
+    maxLimit:
+      Enabled: 0
+      Value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,11 +119,14 @@ MonoBehaviour:
   guid: 9f6a71bf88d32634681c9df4bc542c4d
   sprite: {fileID: 21300000, guid: 77e8d93c7f197f4469f0058c3fea8bd3, type: 3}
   displayName: Mutualism
-  description: Heal yourself by {PLAYER_HEAL}, heal the enemy by {ENEMY_HEAL}
-  cost: 2
+  description: 'Heal yourself by {PLAYER_HEAL}, heal the enemy by {ENEMY_HEAL}.
+
+    Gain
+    {MANA} mana.'
+  cost: 0
   element: 0
   category: 4
-  rarity: 1
+  rarity: 0
   copies: 2
   canChangeLevel: 1
   minLevel:
@@ -109,3 +140,4 @@ MonoBehaviour:
   cardComponents:
   - {fileID: -6312520684244580643}
   - {fileID: -3550741167993179428}
+  - {fileID: -2331402340836912096}

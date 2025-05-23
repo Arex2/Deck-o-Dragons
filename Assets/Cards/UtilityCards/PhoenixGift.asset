@@ -17,10 +17,10 @@ MonoBehaviour:
   displayName: Phoenix Gift
   description: Discard your entire hand and draw {CARD_AMOUNT}.
   cost: 2
-  element: 2
+  element: 1
   category: 4
   rarity: 0
-  copies: 1
+  copies: 2
   canChangeLevel: 1
   minLevel:
     Enabled: 1
@@ -29,7 +29,9 @@ MonoBehaviour:
     Enabled: 0
     Value: 0
   tags:
-    data: []
+    data:
+    - tag: {fileID: 11400000, guid: 1089c1e228cde7447943e612cd6462fc, type: 2}
+      potency: 2
   cardComponents:
   - {fileID: 4250661183866793492}
   - {fileID: 4436496413160806555}

@@ -232,6 +232,31 @@ public class Card : GUIDScriptableObject
         _playTagData = null;
     }
 
+    public int? GetCardSelfDamageCost()
+    {
+        if (!TryGetCardComponents(out CardAttack[] cardAttacks))
+        {
+            return null;
+        }
+
+        float totalSelfDamage = 0;
+
+        foreach (CardAttack attack in cardAttacks)
+        {
+            if (attack.TargetFilter.Team == TargetFilter.FilterTeam.Own)
+            {
+                totalSelfDamage += attack.TotalDamage;
+            }
+        }
+
+        if (totalSelfDamage <= 0)
+        {
+            return null;
+        }
+
+        return Mathf.RoundToInt(totalSelfDamage);
+    }
+
     /// <summary>
     /// Returns whether or not this card has the given card <paramref name="tag"/>.
     /// </summary>

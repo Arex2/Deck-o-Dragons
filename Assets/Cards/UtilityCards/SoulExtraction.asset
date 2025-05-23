@@ -10,29 +10,62 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: FirstBite
+  m_Name: SoulExtraction
   m_EditorClassIdentifier: 
-  guid: cdb42eeca89d95442a4a627eb6d583f5
-  sprite: {fileID: 21300000, guid: c68f1a8812513314db64e75e073e629d, type: 3}
-  displayName: First Bite
-  description: Deal {ATTACK} damage.
-  cost: 1
+  guid: eb7b3378b0ea55147993e5c08d2b3012
+  sprite: {fileID: 21300000, guid: 512d74040a6006a449d6e548c7aa29ec, type: 3}
+  displayName: Soul Extraction
+  description: Gain {MANA} mana.
+  cost: 0
   element: 0
-  category: 1
+  category: 4
   rarity: 0
-  copies: 4
+  copies: 3
   canChangeLevel: 1
   minLevel:
     Enabled: 1
-    Value: -1
+    Value: -2
   maxLevel:
     Enabled: 0
     Value: 0
   tags:
     data: []
   cardComponents:
-  - {fileID: 6375763638406167516}
---- !u!114 &6375763638406167516
+  - {fileID: 7144947775711830294}
+  - {fileID: 2087682446850053287}
+--- !u!114 &2087682446850053287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0300cc77e48abb3469ed2a5014895409, type: 3}
+  m_Name: ModifyMana
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 1
+  card: {fileID: 11400000}
+  disableOnStart: 0
+  manaAmount:
+    baseValue: 3
+    stack: 1
+    loopBehaviour: 1
+    upgrades:
+    - value: 1
+      method: 0
+    downgrades:
+    - value: 1
+      method: 1
+    minLimit:
+      Enabled: 0
+      Value: 0
+    maxLimit:
+      Enabled: 0
+      Value: 0
+--- !u!114 &7144947775711830294
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,21 +82,23 @@ MonoBehaviour:
   card: {fileID: 11400000}
   disableOnStart: 0
   targetFilter:
-    team: 0
-    mode: 1
+    team: 1
+    mode: 0
   damage:
-    baseValue: 15
+    baseValue: 10
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 7
-      method: 0
-    downgrades:
-    - value: 7
+    - value: 5
       method: 1
+    - value: 2
+      method: 1
+    downgrades:
+    - value: 5
+      method: 0
     minLimit:
-      Enabled: 0
-      Value: 0
+      Enabled: 1
+      Value: 1
     maxLimit:
       Enabled: 0
       Value: 0

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3980041350234233680
+--- !u!114 &-3435640499591242949
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,16 +20,16 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 40
+    baseValue: 20
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 20
+    - value: 0
       method: 0
     downgrades:
-    - value: 15
+    - value: 10
       method: 1
-    - value: 15
+    - value: 3
       method: 1
     minLimit:
       Enabled: 0
@@ -38,14 +38,16 @@ MonoBehaviour:
       Enabled: 0
       Value: 0
   attackAmount:
-    baseValue: 1
+    baseValue: 3
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 0
+    - value: 1
       method: 0
     downgrades:
     - value: 0
+      method: 1
+    - value: 1
       method: 1
     minLimit:
       Enabled: 0
@@ -66,17 +68,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: Claw Swipe
+  m_Name: PrimalFlury
   m_EditorClassIdentifier: 
-  guid: 9cc527b6d0cc85547b021d492a15161f
-  sprite: {fileID: 21300000, guid: 4723526870ef0294581be421e8738e1d, type: 3}
-  displayName: Claw Swipe
-  description: 'Deal {DAMAGE} damage '
-  cost: 3
+  guid: 391dd47343e7986488677edfff97eb51
+  sprite: {fileID: 21300000, guid: 7a8bd0b88ffa24044be4ef323c96da4b, type: 3}
+  displayName: Primal Flury
+  description: Deal {ATTACK} damage.
+  cost: 5
   element: 0
   category: 1
   rarity: 0
-  copies: 4
+  copies: 3
   canChangeLevel: 1
   minLevel:
     Enabled: 1
@@ -87,4 +89,4 @@ MonoBehaviour:
   tags:
     data: []
   cardComponents:
-  - {fileID: -3980041350234233680}
+  - {fileID: -3435640499591242949}

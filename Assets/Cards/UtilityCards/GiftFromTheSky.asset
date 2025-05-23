@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1664057210514653765
+--- !u!114 &-8725289150417003504
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,46 +9,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 822a222e4a0d9b542865244da1dd501e, type: 3}
-  m_Name: Opponent_Attack
+  m_Script: {fileID: 11500000, guid: 8b888421e62510a48adb350e950ed80b, type: 3}
+  m_Name: Heal
   m_EditorClassIdentifier: 
   expandedInEditor: 1
   orderInEditor: 1
   card: {fileID: 11400000}
   disableOnStart: 0
   targetFilter:
-    team: 0
-    mode: 1
-  damage:
-    baseValue: 60
+    team: 1
+    mode: 0
+  healing:
+    baseValue: 25
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 15
+    - value: 10
       method: 0
     downgrades:
     - value: 10
       method: 1
     minLimit:
-      Enabled: 0
-      Value: 0
-    maxLimit:
-      Enabled: 0
-      Value: 0
-  attackAmount:
-    baseValue: 1
-    stack: 1
-    loopBehaviour: 1
-    upgrades: []
-    downgrades: []
-    minLimit:
-      Enabled: 0
+      Enabled: 1
       Value: 0
     maxLimit:
       Enabled: 0
       Value: 0
   vfx:
-    tag: Attack
+    tag: Heal
     vfxs: []
 --- !u!114 &11400000
 MonoBehaviour:
@@ -60,30 +48,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: Reckless Charge
+  m_Name: GiftFromTheSky
   m_EditorClassIdentifier: 
-  guid: 9f65d50d3cd838748934cfdcdd670adb
-  sprite: {fileID: 21300000, guid: c828c86e8ee15b643ad5b6e113543ccc, type: 3}
-  displayName: Reckless Charge
-  description: Deal {OPPONENT_ATTACK} damage, take {OWN_ATTACK} damage
-  cost: 2
-  element: 0
-  category: 1
-  rarity: 1
+  guid: 0d6f53dc7d5f61e4c8fd6fcbff74bb2e
+  sprite: {fileID: 21300000, guid: 2448b13a0d2eda54f9451242e9cd0b2a, type: 3}
+  displayName: Gift From the Sky
+  description: Draw {CARD_AMOUNT} and heal {HEAL}.
+  cost: 3
+  element: 3
+  category: 4
+  rarity: 2
   copies: 2
   canChangeLevel: 1
   minLevel:
     Enabled: 1
-    Value: -3
+    Value: -2
   maxLevel:
     Enabled: 0
     Value: 0
   tags:
     data: []
   cardComponents:
-  - {fileID: 6048581319076399096}
-  - {fileID: -1664057210514653765}
---- !u!114 &6048581319076399096
+  - {fileID: 8844600729371645363}
+  - {fileID: -8725289150417003504}
+--- !u!114 &8844600729371645363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,44 +80,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 822a222e4a0d9b542865244da1dd501e, type: 3}
-  m_Name: Own_Attack
+  m_Script: {fileID: 11500000, guid: bfa0ce210d39eae47ac0fdb6ceb48e2d, type: 3}
+  m_Name: DrawCard
   m_EditorClassIdentifier: 
   expandedInEditor: 1
   orderInEditor: 0
   card: {fileID: 11400000}
   disableOnStart: 0
-  targetFilter:
-    team: 1
-    mode: 1
-  damage:
-    baseValue: 20
+  tag: {fileID: 0}
+  amount:
+    baseValue: 3
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 5
-      method: 1
-    downgrades:
-    - value: 5
+    - value: 1
       method: 0
+    downgrades:
+    - value: 1
+      method: 1
     minLimit:
-      Enabled: 0
+      Enabled: 1
       Value: 0
     maxLimit:
       Enabled: 0
       Value: 0
-  attackAmount:
-    baseValue: 1
-    stack: 1
-    loopBehaviour: 1
-    upgrades: []
-    downgrades: []
-    minLimit:
-      Enabled: 0
-      Value: 0
-    maxLimit:
-      Enabled: 0
-      Value: 0
-  vfx:
-    tag: Attack
-    vfxs: []
+  cardsToAlwaysDraw: []

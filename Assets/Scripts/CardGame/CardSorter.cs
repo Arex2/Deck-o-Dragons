@@ -9,11 +9,11 @@ public class CardSorter : IComparer<CardObject>, IComparer<Card>
 
     public int Compare(CardObject a, CardObject b)
     {
-        int manaComparison = a.Cost.CompareTo(b.Cost);
+        int costComparison = CompareCardCost(a.Card, b.Card, a.Cost, b.Cost);
 
-        if (manaComparison != 0 || a.Card == null || b.Card == null)
+        if (costComparison != 0)
         {
-            return manaComparison;
+            return costComparison;
         }
 
         int nameComparison = a.Card.DisplayName.CompareTo(b.Card.DisplayName);
@@ -28,13 +28,65 @@ public class CardSorter : IComparer<CardObject>, IComparer<Card>
 
     public int Compare(Card a, Card b)
     {
-        int manaComparison = a.Cost.CompareTo(b.Cost);
+        int costComparison = CompareCardCost(a, b);
 
-        if (manaComparison != 0)
+        if (costComparison != 0)
         {
-            return manaComparison;
+            return costComparison;
         }
 
         return a.DisplayName.CompareTo(b.DisplayName);
+    }
+
+    public int CompareCardCost(Card a, Card b, int? manaCostA = null, int? manaCostB = null)
+    {
+        if (a == null && b == null)
+        {
+            return 0;
+        }
+        else if (a != null && b == null)
+        {
+            return 1;
+        }
+        else if (a == null && b != null)
+        {
+            return -1;
+        }
+
+        int GetCost(int cost, Card card, out bool useSelfDmg)
+        {
+            if (cost <= 0)
+            {
+                int? selfDamageCost = card.GetCardSelfDamageCost();
+                useSelfDmg = selfDamageCost.HasValue;
+
+                if (useSelfDmg)
+                {
+                    cost = selfDamageCost.Value;
+                }
+            }
+            else
+            {
+                useSelfDmg = false;
+            }
+
+            return cost;
+        }
+
+        int costA = GetCost(manaCostA.HasValue ? manaCostA.Value : a.Cost, a, out bool useSelfDmgA);
+        int costB = GetCost(manaCostB.HasValue ? manaCostB.Value : b.Cost, b, out bool useSelfDmgB);
+
+        if (useSelfDmgA && !useSelfDmgB)
+        {
+            return 1;
+        }
+        else if (!useSelfDmgA && useSelfDmgB)
+        {
+            return -1;
+        }
+        else
+        {
+            return costA.CompareTo(costB);
+        }
     }
 }

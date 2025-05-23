@@ -14,10 +14,6 @@ public class DiscardState : IState
         {
             return CardFilterResult.Failure("Binding cards can't be discarded.");
         }
-        if (cardObject.HasTag(CardManager.SlipperyTag))
-        {
-            return CardFilterResult.Failure("Slippery cards will be auto-discarded.");
-        }
         if (cardObject.TryGetTagPotency(CardManager.VanishingTag, out float potency))
         {
             if (potency <= 1)

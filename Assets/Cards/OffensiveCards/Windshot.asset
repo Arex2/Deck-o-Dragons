@@ -10,62 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: SoulExtraction
+  m_Name: Windshot
   m_EditorClassIdentifier: 
-  guid: eb7b3378b0ea55147993e5c08d2b3012
-  sprite: {fileID: 21300000, guid: 512d74040a6006a449d6e548c7aa29ec, type: 3}
-  displayName: Soul Extraction
-  description: Take {ATTACK} damage and gain {MANA} mana.
-  cost: 0
-  element: 0
-  category: 4
+  guid: 3d994b6e153fc8d4b81359942a3e2156
+  sprite: {fileID: 21300000, guid: b8546eedabb09d240913c305d3e44f02, type: 3}
+  displayName: Windshot
+  description: Deal {DAMAGE} damage.
+  cost: 4
+  element: 3
+  category: 1
   rarity: 0
-  copies: 2
+  copies: 3
   canChangeLevel: 1
   minLevel:
     Enabled: 1
-    Value: -2
+    Value: -3
   maxLevel:
     Enabled: 0
     Value: 0
   tags:
-    data: []
+    data:
+    - tag: {fileID: 11400000, guid: 7a64935662935214796f0f6d78b32650, type: 2}
+      potency: 0
   cardComponents:
-  - {fileID: 7144947775711830294}
-  - {fileID: 2087682446850053287}
---- !u!114 &2087682446850053287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0300cc77e48abb3469ed2a5014895409, type: 3}
-  m_Name: ModifyMana
-  m_EditorClassIdentifier: 
-  expandedInEditor: 1
-  orderInEditor: 1
-  card: {fileID: 11400000}
-  disableOnStart: 0
-  manaAmount:
-    baseValue: 3
-    stack: 1
-    loopBehaviour: 1
-    upgrades:
-    - value: 1
-      method: 0
-    downgrades:
-    - value: 1
-      method: 1
-    minLimit:
-      Enabled: 0
-      Value: 0
-    maxLimit:
-      Enabled: 0
-      Value: 0
---- !u!114 &7144947775711830294
+  - {fileID: 5793708038661123117}
+--- !u!114 &5793708038661123117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -82,10 +51,10 @@ MonoBehaviour:
   card: {fileID: 11400000}
   disableOnStart: 0
   targetFilter:
-    team: 1
-    mode: 0
+    team: 0
+    mode: 1
   damage:
-    baseValue: 10
+    baseValue: 25
     stack: 1
     loopBehaviour: 1
     upgrades:
@@ -95,13 +64,13 @@ MonoBehaviour:
     - value: 10
       method: 1
     minLimit:
-      Enabled: 1
+      Enabled: 0
       Value: 0
     maxLimit:
       Enabled: 0
       Value: 0
   attackAmount:
-    baseValue: 1
+    baseValue: 2
     stack: 1
     loopBehaviour: 1
     upgrades:

@@ -70,11 +70,11 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 732a5394a728d6047b020cb258262bab, type: 3}
   displayName: Leech
   description: Deal {ATTACK} damage and heal {HEALING}.
-  cost: 6
+  cost: 5
   element: 0
-  category: 0
+  category: 1
   rarity: 0
-  copies: 2
+  copies: 3
   canChangeLevel: 1
   minLevel:
     Enabled: 1

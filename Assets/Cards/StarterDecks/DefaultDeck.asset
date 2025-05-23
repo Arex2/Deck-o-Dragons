@@ -12,12 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b389f39861ca3641ae13261956cbdaa, type: 3}
   m_Name: DefaultDeck
   m_EditorClassIdentifier: 
-  cards:
-  - {fileID: 11400000, guid: cdb42eeca89d95442a4a627eb6d583f5, type: 2}
-  - {fileID: 11400000, guid: 439881303f08dc641bade804432640d2, type: 2}
-  - {fileID: 11400000, guid: 9791da2016067ce4fa914ffcde32e218, type: 2}
-  - {fileID: 11400000, guid: 9cc527b6d0cc85547b021d492a15161f, type: 2}
-  - {fileID: 11400000, guid: c17ab45f4ed7fd144b6a6e4fdc7f69c0, type: 2}
-  - {fileID: 11400000, guid: 9f6a71bf88d32634681c9df4bc542c4d, type: 2}
-  - {fileID: 11400000, guid: 391dd47343e7986488677edfff97eb51, type: 2}
-  - {fileID: 11400000, guid: ce92a4cd8d0265a4b8ef6d7710d80c66, type: 2}
+  entries:
+  - card: {fileID: 11400000, guid: cdb42eeca89d95442a4a627eb6d583f5, type: 2}
+    copies: 3
+  - card: {fileID: 11400000, guid: 9791da2016067ce4fa914ffcde32e218, type: 2}
+    copies: 2
+  - card: {fileID: 11400000, guid: 9cc527b6d0cc85547b021d492a15161f, type: 2}
+    copies: 2
+  - card: {fileID: 11400000, guid: c17ab45f4ed7fd144b6a6e4fdc7f69c0, type: 2}
+    copies: 2
+  - card: {fileID: 11400000, guid: 9f6a71bf88d32634681c9df4bc542c4d, type: 2}
+    copies: 1
+  - card: {fileID: 11400000, guid: 391dd47343e7986488677edfff97eb51, type: 2}
+    copies: 1
+  - card: {fileID: 11400000, guid: ce92a4cd8d0265a4b8ef6d7710d80c66, type: 2}
+    copies: 2
+  - card: {fileID: 11400000, guid: e3ae0944914a0584fb54faae81077112, type: 2}
+    copies: 1
+  - card: {fileID: 11400000, guid: 439881303f08dc641bade804432640d2, type: 2}
+    copies: 1

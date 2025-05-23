@@ -28,7 +28,6 @@ public class CardManager : Singleton<CardManager>
     [SerializeField] private CardTag bullseyeTag;
     [SerializeField] private CardTag unplayableTag;
     [SerializeField] private CardTag bindingTag;
-    [SerializeField] private CardTag slipperyTag;
     [SerializeField] private CardTag returningTag;
     [SerializeField] private CardTag vanishingTag;
     [SerializeField] private CardTag thornsTag;
@@ -36,7 +35,6 @@ public class CardManager : Singleton<CardManager>
     public static CardTag BullseyeTag => Instance.bullseyeTag;
     public static CardTag UnplayableTag => Instance.unplayableTag;
     public static CardTag BindingTag => Instance.bindingTag;
-    public static CardTag SlipperyTag => Instance.slipperyTag;
     public static CardTag ReturningTag => Instance.returningTag;
     public static CardTag VanishingTag => Instance.vanishingTag;
     public static CardTag ThornsTag => Instance.thornsTag;
