@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Name: FalseRock
   m_EditorClassIdentifier: 
   guid: 7bbdc292d07d7d54e8c7b8194d049ccf
-  sprite: {fileID: 21300000, guid: 244c3536a21a06e45a09517edbf73646, type: 3}
+  sprite: {fileID: 21300000, guid: 3eb2b855f3ef2e14596baae57b277869, type: 3}
   displayName: False Rock
   description: Draw {CARD_AMOUNT} and gain {MANA} mana.
   cost: 0
