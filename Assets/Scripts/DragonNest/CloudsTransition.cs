@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CloudsTransition : MonoBehaviour
+public class CloudsTransition : SceneSwitcherTransition
 {
+    /*
     private bool showClouds;
     private bool eggMoveRight;
     private bool eggMoveLeft;
@@ -27,7 +30,7 @@ public class CloudsTransition : MonoBehaviour
                 {
                     transform.Translate(-Vector3.left * 1f * Time.deltaTime);
                 }
-                while (transform.position.x < 1027);*/
+                while (transform.position.x < 1027);* /
             }
 
             if (SceneManager.GetActiveScene().buildIndex == 5)
@@ -38,7 +41,7 @@ public class CloudsTransition : MonoBehaviour
                 /*while (transform.position.x < 1027)
                 {
                     transform.Translate(-Vector3.right * 1f * Time.deltaTime);
-                }*/
+                }* /
             }
         }
     }
@@ -106,7 +109,7 @@ public class CloudsTransition : MonoBehaviour
             /*while (transform.position.x < 1027)
             {
                 transform.Translate(-Vector3.right * 1f * Time.deltaTime);
-            }*/
+            }* /
         }
     }
 
@@ -119,7 +122,7 @@ public class CloudsTransition : MonoBehaviour
             /*while (transform.position.x < 3000)
             {
                 transform.Translate(-Vector3.left * 100f * Time.deltaTime);
-            }*/
+            }* /
         }
 
         if (SceneManager.GetActiveScene().buildIndex == 5)
@@ -130,7 +133,97 @@ public class CloudsTransition : MonoBehaviour
             /*while (transform.position.x < 1027)
             {
                 transform.Translate(-Vector3.left * 1f * Time.deltaTime);
-            }*/
+            }* /
+        }
+    }
+    */
+
+    private RectTransform rectTransform => transform as RectTransform;
+
+    private bool goRight;
+
+    [SerializeField] private CanvasGroup canvasGroup;
+
+    public override void Initialize()
+    {
+        SceneSwitcher.OnSwitchScene += OnSwitchScene;
+
+        Disable();
+    }
+
+    private void OnSwitchScene(int buildIndex)
+    {
+        goRight = buildIndex == SceneSwitcher.GetScene(SceneSwitcher.Scene.Garden);
+    }
+
+    public override void Enable()
+    {
+        canvasGroup.alpha = 1;
+        canvasGroup.blocksRaycasts = true;
+
+        float halfSizeX = rectTransform.sizeDelta.x / 2;
+
+        if (goRight)
+        {
+            // START AT LEFT
+            rectTransform.anchoredPosition = new Vector2(-halfSizeX, 0);
+            rectTransform.anchorMin = new Vector2(0, 0);
+            rectTransform.anchorMax = new Vector2(0, 1);
+        }
+        else
+        {
+            // START AT RIGHT
+            rectTransform.anchoredPosition = new Vector2(halfSizeX, 0);
+            rectTransform.anchorMin = new Vector2(1, 0);
+            rectTransform.anchorMax = new Vector2(1, 1);
+        }
+    }
+
+    public override void Disable()
+    {
+        canvasGroup.alpha = 0;
+        canvasGroup.blocksRaycasts = false;
+    }
+
+    public override void Appear(float duration, Ease ease = Ease.Unset, Action onFinish = null)
+    {
+        rectTransform.DOKill();
+
+        // ALWAYS GO TO THE MIDDLE
+        rectTransform.DOAnchorMin(new Vector2(0.5f, 0), duration).SetEase(ease);
+        rectTransform.DOAnchorMax(new Vector2(0.5f, 1), duration).SetEase(ease);
+        Tween tween = rectTransform.DOAnchorPos(Vector2.zero, duration).SetEase(ease);
+
+        if (onFinish != null)
+        {
+            tween.onComplete = new TweenCallback(onFinish);
+        }
+    }
+
+    public override void Disappear(float duration, Ease ease = Ease.Unset, Action onFinish = null)
+    {
+        float halfSizeX = rectTransform.sizeDelta.x / 2;
+
+        rectTransform.DOKill();
+
+        Tween tween;
+
+        if (goRight)
+        {
+            rectTransform.DOAnchorMin(new Vector2(1, 0), duration).SetEase(ease);
+            rectTransform.DOAnchorMax(new Vector2(1, 1), duration).SetEase(ease);
+            tween = rectTransform.DOAnchorPos(new Vector2(halfSizeX, 0), duration).SetEase(ease);
+        }
+        else
+        {
+            rectTransform.DOAnchorMin(new Vector2(0, 0), duration).SetEase(ease);
+            rectTransform.DOAnchorMax(new Vector2(0, 1), duration).SetEase(ease);
+            tween = rectTransform.DOAnchorPos(new Vector2(-halfSizeX, 0), duration).SetEase(ease);
+        }
+
+        if (onFinish != null)
+        {
+            tween.onComplete = new TweenCallback(onFinish);
         }
     }
 }
