@@ -110,7 +110,7 @@ public class CardVisuals : MonoBehaviour
                 titleText.text += suffix;
             }
         }
-        UpdateCostWhole();
+        UpdateCost();
         UpdateTagText();
 
         if (cardObject == null)
@@ -131,48 +131,32 @@ public class CardVisuals : MonoBehaviour
     //makes card look like you CAN play it
     public void UpdateCardAvailableLook()
     {
-        UpdateCostWhole();
+        UpdateCost();
     }
 
-    private void UpdateCostWhole()
+    public void UpdateCost()
     {
-        if (Card.Cost > 0 || Card.GetCardComponents<CardAttack>() == null)
-        {
-            //MANA
-            costBackground.color = Color.blue;
-            UpdateCostText();
-            return;
-        }
+        int cost = cardObject == null ? Card.Cost : cardObject.Cost;
 
-        float totalSelfDamage = 0;
+        bool useSelfDamageCost;
 
-        foreach (CardAttack attack in Card.GetCardComponents<CardAttack>())
+        if (cost <= 0)
         {
-            if (attack.TargetFilter.Team == TargetFilter.FilterTeam.Own)
+            int? selfDamageCost = Card.GetCardSelfDamageCost();
+            useSelfDamageCost = selfDamageCost.HasValue;
+
+            if (useSelfDamageCost)
             {
-                totalSelfDamage += attack.TotalDamage;
+                cost = selfDamageCost.Value;
             }
-        }
-
-        if(totalSelfDamage > 0)
-        {
-            //HP
-            Debug.LogWarning("THis card uses hp to play");
-            costBackground.color = Color.red;
-            costText.text = totalSelfDamage.ToString();
         }
         else
         {
-            //MANA
-            Debug.Log("THis card uses MANA to play");
-            costBackground.color = Color.blue;
-            UpdateCostText();
+            useSelfDamageCost = false;
         }
-    }
 
-    public void UpdateCostText()
-    {
-        costText.text = (cardObject == null ? Card.Cost : cardObject.Cost).ToString();
+        costBackground.color = useSelfDamageCost ? Color.red : Color.blue;
+        costText.text = cost.ToString();
     }
 
     public void UpdateTagText()

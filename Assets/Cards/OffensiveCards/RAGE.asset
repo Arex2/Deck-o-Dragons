@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
+  m_Name: RAGE
+  m_EditorClassIdentifier: 
+  guid: 0cc7e97ed4276e54aa94256577c2cbe2
+  sprite: {fileID: 0}
+  displayName: RAGE
+  description: For the next {DURATION} turns, every hit you receive will add +{POTENCY}
+    damage to your next attack.
+  cost: 6
+  element: 0
+  category: 1
+  rarity: 2
+  copies: 2
+  canChangeLevel: 1
+  minLevel:
+    Enabled: 1
+    Value: -3
+  maxLevel:
+    Enabled: 0
+    Value: 0
+  tags:
+    data: []
+  cardComponents:
+  - {fileID: 6838582294445352149}
+--- !u!114 &6838582294445352149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2661a869bf44484c88ac4dfde045f6d, type: 3}
+  m_Name: GiveStatusEffect
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 0
+  card: {fileID: 11400000}
+  disableOnStart: 0
+  targetFilter:
+    team: 1
+    mode: 0
+  statusEffect:
+    statusEffect: {fileID: 11400000, guid: e8b8c4c919ad29148844cdb3f68f171e, type: 2}
+    potency:
+      baseValue: 10
+      stack: 1
+      loopBehaviour: 1
+      upgrades:
+      - value: 10
+        method: 0
+      downgrades:
+      - value: 10
+        method: 1
+      minLimit:
+        Enabled: 1
+        Value: 5
+      maxLimit:
+        Enabled: 0
+        Value: 0
+    duration:
+      baseValue: 4
+      stack: 1
+      loopBehaviour: 1
+      upgrades:
+      - value: 1
+        method: 0
+      downgrades:
+      - value: 1
+        method: 1
+      minLimit:
+        Enabled: 0
+        Value: 0
+      maxLimit:
+        Enabled: 0
+        Value: 0

@@ -48,6 +48,8 @@ public class EnemyBoss : Target
      */
     [SerializeField] private AudioClip[] damageTakenSound;
 
+    private GameObject currentEnemy;
+    [SerializeField] private List<GameObject> enemies;
     [SerializeField] private List<Sprite> enemySprites;
     [SerializeField] private List<string> enemyNames;
     [SerializeField] private TMP_Text nameText;
@@ -89,6 +91,10 @@ public class EnemyBoss : Target
 
             if (enemySprites.Count - 1 > level)
             {
+
+                currentEnemy = Instantiate(enemies[level], transform);
+                currentEnemy.transform.position = new Vector2(0, -8);
+                currentEnemy.GetComponentInChildren<SpriteRenderer>().sortingLayerName = "Background";
                 spriteRenderer.sprite = enemySprites[level];
 
                 Name = enemyNames[level];
@@ -101,7 +107,7 @@ public class EnemyBoss : Target
     {
         transform.DOLocalMove(originalPosition, 1).SetEase(Ease.OutExpo).onComplete = () =>
         {
-            spriteRenderer.sortingLayerName = "Default";
+            currentEnemy.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
         };
 
         if (bushes != null)

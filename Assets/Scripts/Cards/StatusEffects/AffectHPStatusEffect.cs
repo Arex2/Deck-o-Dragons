@@ -10,33 +10,18 @@ public class AffectHPStatusEffect : StatusEffect
     public override bool HasPotency => true;
 
     public override string PotencyName => IsDebuff ? "Damage" : "Healing";
-    //public override string DurationName => "Turns";
-
-    public override void OnTurnStart()
-    {
-        if (IsDebuff)
-        {
-            return;
-        }
-
-        User.Heal(new(Potency));
-
-        Trigger();
-
-        //Duration--;
-    }
 
     public override void OnTurnEnd()
     {
-        if (!IsDebuff)
+        if (IsDebuff)
         {
-            return;
+            User.Hurt(new(Potency));
+        }
+        else
+        {
+            User.Heal(new(Potency));
         }
 
-        User.Hurt(new(Potency));
-
         Trigger();
-
-        //Duration--;
     }
 }

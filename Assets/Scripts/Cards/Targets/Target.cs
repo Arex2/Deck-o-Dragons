@@ -70,6 +70,7 @@ public abstract class Target : MonoBehaviour
 
     private List<StatusEffectData> _statusEffects = new();
     private Dictionary<StatusEffect, List<StatusEffectData>> _statusEffectDictionary = new();
+    private HashSet<StatusEffectData> _statusEffectsAddedThisTurn = new();
 
     private ITargetCallbacks[] _targetCallbacks;
 
@@ -257,6 +258,11 @@ public abstract class Target : MonoBehaviour
             data.Setup(this);
 
             data.StatusEffect.OnTurnStart();
+
+            if (!_statusEffectsAddedThisTurn.Contains(data))
+            {
+                data.Duration--;
+            }
         }
 
         foreach (ITargetCallbacks callbacks in _targetCallbacks)
@@ -274,13 +280,13 @@ public abstract class Target : MonoBehaviour
             return;
         }
 
+        _statusEffectsAddedThisTurn.Clear();
+
         foreach (StatusEffectData data in _statusEffects)
         {
             data.Setup(this);
 
             data.StatusEffect.OnTurnEnd();
-
-            data.Duration--;
         }
 
         foreach (ITargetCallbacks callbacks in _targetCallbacks)
@@ -335,8 +341,7 @@ public abstract class Target : MonoBehaviour
         if (statusEffect.Stackable || !hasStatusEffect)
         {
             _statusEffects.Add(newData);
-
-            Debug.Log("ADDED STATUS EFFECT " + statusEffect.DisplayName);
+            _statusEffectsAddedThisTurn.Add(newData);
 
             if (!containsStatusEffect)
             {

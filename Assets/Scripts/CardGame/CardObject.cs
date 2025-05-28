@@ -203,7 +203,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     //Method to update mana cost text when mana affecting cards have been played
     public void UpdateCostLook()
     {
-        cardVisuals.UpdateCostText();
+        cardVisuals.UpdateCost();
     }
 
     public void SetCard(Card card)
@@ -296,11 +296,6 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public bool OnKeptAfterDiscard()
     {
-        if (HasTag(CardManager.SlipperyTag))
-        {
-            return false;
-        }
-
         bool updateCardLook = false;
 
         if (DecreaseTagPotency(CardManager.BindingTag))

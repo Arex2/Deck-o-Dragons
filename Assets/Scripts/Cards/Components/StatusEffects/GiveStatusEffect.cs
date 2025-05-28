@@ -39,12 +39,12 @@ public class GiveStatusEffect : CardComponent
     [ReplaceDescriptionKeyword("DURATION")]
     private string ReplaceDurationKeyword()
     {
-        return statusEffect.GetDuration(Level).ToString();
+        return UpgradeablesManager.ColorBasedOnLevel(statusEffect.GetDuration(Level).ToString(), Level);
     }
 
     [ReplaceDescriptionKeyword("POTENCY")]
     private string ReplacePotencyKeyword()
     {
-        return StatusEffect.GetPotencyString(statusEffect.GetPotency(Level), statusEffect.StatusEffect.PotencyIsPercent);
+        return UpgradeablesManager.ColorBasedOnLevel(StatusEffect.GetPotencyString(statusEffect.GetPotency(Level), statusEffect.StatusEffect.PotencyIsPercent), Level);
     }
 }

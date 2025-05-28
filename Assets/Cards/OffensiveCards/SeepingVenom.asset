@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2529633927629803154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2661a869bf44484c88ac4dfde045f6d, type: 3}
+  m_Name: GiveStatusEffect
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 0
+  card: {fileID: 11400000}
+  disableOnStart: 0
+  targetFilter:
+    team: 0
+    mode: 0
+  statusEffect:
+    statusEffect: {fileID: 11400000, guid: bad07d26f7a26e24aaab48d170714828, type: 2}
+    potency:
+      baseValue: 0.3
+      stack: 1
+      loopBehaviour: 1
+      upgrades:
+      - value: 0.1
+        method: 0
+      downgrades:
+      - value: 0.1
+        method: 1
+      minLimit:
+        Enabled: 1
+        Value: 0
+      maxLimit:
+        Enabled: 1
+        Value: 1
+    duration:
+      baseValue: 3
+      stack: 1
+      loopBehaviour: 1
+      upgrades:
+      - value: 0
+        method: 0
+      downgrades:
+      - value: 0
+        method: 1
+      minLimit:
+        Enabled: 0
+        Value: 0
+      maxLimit:
+        Enabled: 0
+        Value: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
+  m_Name: SeepingVenom
+  m_EditorClassIdentifier: 
+  guid: d61b0f20ad161914a8459df688c76e24
+  sprite: {fileID: 21300000, guid: aa4fa274314ba384c8e6a47016fa7f37, type: 3}
+  displayName: Seeping Venom
+  description: Increase the damage your opponent takes by {POTENCY} for {DURATION}
+    turns.
+  cost: 4
+  element: 0
+  category: 1
+  rarity: 0
+  copies: 3
+  canChangeLevel: 1
+  minLevel:
+    Enabled: 1
+    Value: -2
+  maxLevel:
+    Enabled: 0
+    Value: 0
+  tags:
+    data: []
+  cardComponents:
+  - {fileID: -2529633927629803154}
