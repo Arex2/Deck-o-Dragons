@@ -9,13 +9,13 @@ public class DeckViewManager : MonoBehaviour
 
     void Start()
     {
-        foreach(Card card in DeckManager.Instance.Deck)
+        foreach (Card card in DeckManager.Instance.Deck)
         {
             CardViewInctance newCard = Instantiate(cardPrefab);
             newCard.setNewCard(card);
             newCard.transform.parent = contentContainer.transform;
-            newCard.transform.localScale = new Vector3(1,1,1);
+            newCard.transform.localScale = new Vector3(1, 1, 1);
         }
-        
+
     }
 }
