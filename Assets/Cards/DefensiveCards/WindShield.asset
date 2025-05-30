@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4438221862117748522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2661a869bf44484c88ac4dfde045f6d, type: 3}
+  m_Name: GiveStatusEffect
+  m_EditorClassIdentifier: 
+  expandedInEditor: 1
+  orderInEditor: 0
+  card: {fileID: 11400000}
+  disableOnStart: 0
+  targetFilter:
+    team: 1
+    mode: 0
+  statusEffect:
+    statusEffect: {fileID: 11400000, guid: 16ba90fb52a19994db458b602200049d, type: 2}
+    potency:
+      baseValue: 0.25
+      stack: 1
+      loopBehaviour: 1
+      upgrades:
+      - value: 0.05
+        method: 0
+      - value: 0.1
+        method: 0
+      - value: 0
+        method: 0
+      downgrades:
+      - value: 0.05
+        method: 1
+      - value: 0.05
+        method: 1
+      minLimit:
+        Enabled: 0
+        Value: 0
+      maxLimit:
+        Enabled: 0
+        Value: 0
+    duration:
+      baseValue: 2
+      stack: 1
+      loopBehaviour: 1
+      upgrades:
+      - value: 1
+        method: 0
+      - value: 0
+        method: 0
+      - value: 1
+        method: 0
+      downgrades: []
+      minLimit:
+        Enabled: 0
+        Value: 0
+      maxLimit:
+        Enabled: 0
+        Value: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
+  m_Name: WindShield
+  m_EditorClassIdentifier: 
+  guid: 41325e363626c2f4087a327adcff8f8d
+  sprite: {fileID: 21300000, guid: 5662df0727e82df41b4e193b19e8574f, type: 3}
+  displayName: Wind Shield
+  description: "\rFor the next {DURATION} turns you will have a {POTENCY} chance
+    to dodge an attack, negating all damage."
+  cost: 4
+  element: 3
+  category: 2
+  rarity: 1
+  copies: 2
+  canChangeLevel: 1
+  minLevel:
+    Enabled: 1
+    Value: -2
+  maxLevel:
+    Enabled: 0
+    Value: 0
+  tags:
+    data: []
+  cardComponents:
+  - {fileID: -4438221862117748522}
