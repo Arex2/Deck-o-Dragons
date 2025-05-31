@@ -5,17 +5,18 @@ using UnityEngine.UI;
 public class DragonController : MonoBehaviour
 {
     private DragonActive dragonActive;
-    private Slider evolutionSlider;
     [SerializeField] private Vector2 eggStart = Vector2.zero;
 
     private void Start()
     {
         dragonActive = GameObject.Find("DragonActive").GetComponent<DragonActive>();
+        /*
         evolutionSlider = GameObject.Find("EvolutionSlider").GetComponent<Slider>();
 
         evolutionSlider.minValue = 0;
         evolutionSlider.maxValue = 3;
         evolutionSlider.value = DragonActive.evolutionProcess;
+        */
 
         DragonActive.CurrentDragon = this;
     }
@@ -30,35 +31,33 @@ public class DragonController : MonoBehaviour
 
     public void StepProgress()
     {
-        evolutionSlider.value++;
         DragonActive.evolutionProcess++;
 
-        if (evolutionSlider.value >= 3 && DragonActive.age < 3)
+        if (DragonActive.evolutionProcess >= 3 && DragonActive.age < 3)
         {
-
             SpawnNewDragon();
 
-
-            evolutionSlider.value = 0;
             DragonActive.evolutionProcess = 0;
         }
 
         // Special case for adults
-        else if (DragonActive.age == 3 && evolutionSlider.value >= 2)
+        else if (DragonActive.age == 3 && DragonActive.evolutionProcess >= 2)
         {
             DragonActive.statusText.text = "Congratulations! " + DragonActive.dragonName + " has completed their training and will be added to your registry!";
 
             if (DragonActive.dragonName != null)
             {
                 DragonBookContents.SetNewDragonNameAndTypeInBook(DragonActive.dragonName, DragonActive.index);
+                /*
                 if (SaveDragons.Instance != null)
                 {
                     SaveDragons.Instance.SaveDragonToFile(DragonActive.dragonName, DragonActive.index);
                 }
+                */
 
                 //Reset the game
                 ProgressManager.Instance.ResetProgress();
-                EnemyScalingManager.Instance.ResetScaling();
+                DeckManager.Instance.InitializeDeck(DeckManager.Instance.DefaultStarterDeck);
             }
 
             if (DragonActive.dragonName != null && DragonBookContents.GetDragonsActiveInBackyard().Count < DragonBookContents.LimitOfDragons)
@@ -68,11 +67,9 @@ public class DragonController : MonoBehaviour
 
             DragonActive.isDragonActive = false;
             Invoke("SpawnNewDragon", 4f);
-            evolutionSlider.value = 0;
             DragonActive.evolutionProcess = 0;
         }
-    
-}
+    }
 
     public void SpawnNewDragon()
     {

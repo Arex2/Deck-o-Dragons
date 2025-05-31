@@ -7,7 +7,7 @@ public class ProgressManager : MonoBehaviour
 {
     public static ProgressManager Instance { get; private set; }
 
-    private int currentLevel = 0;
+    public static int currentLevel = 0;
     public bool WonLastBattle { get; set; }
 
 
@@ -23,12 +23,6 @@ public class ProgressManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-   
-
-    public int GetCurrentLevel()
-    {
-        return currentLevel;
     }
 
     public void IncreaseLevel()
