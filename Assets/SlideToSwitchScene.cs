@@ -14,7 +14,6 @@ public class SlideToSwitchScene : MonoBehaviour, IDragHandler, IBeginDragHandler
     private CanvasGroup canvasGroup;
     private bool hasSwitched = false;
     private bool dragSoundPlayed = false;
-    private AudioSource audioSource;
 
     private Vector2 dragOffset;
 
@@ -23,13 +22,9 @@ public class SlideToSwitchScene : MonoBehaviour, IDragHandler, IBeginDragHandler
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
-        audioSource = GetComponent<AudioSource>();
         initialPosition = rectTransform.anchoredPosition;
 
-        if (audioSource == null)
-        {
-            Debug.LogWarning("SlideToSwitchScene: Ingen AudioSource hittades på objektet. Ett krävs för att spela upp ljud.");
-        }
+        
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -77,10 +72,9 @@ public class SlideToSwitchScene : MonoBehaviour, IDragHandler, IBeginDragHandler
         }
 
         // Spela ljud vid första drag
-        if (!dragSoundPlayed && dragSound != null && audioSource != null)
+        if (!dragSoundPlayed && dragSound != null)
         {
-            audioSource.clip = dragSound;
-            audioSource.Play();
+            AudioManager.Instance.PlaySFX(dragSound);
             dragSoundPlayed = true;
         }
     }

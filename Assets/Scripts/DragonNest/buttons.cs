@@ -20,4 +20,17 @@ public class buttons : MonoBehaviour
         isToggled = !isToggled;
         buttonImage.sprite = isToggled ? spriteOff : spriteOn;
     }
+
+    public void MuteMusic()
+    {
+        ToggleSprite();
+        MusicPlayer.Testing();
+    }
+
+    public void SetSFXMute()
+    {
+        ToggleSprite();
+        AudioManager.Instance.SetVolumeSFX(isToggled);
+        
+    }
 }

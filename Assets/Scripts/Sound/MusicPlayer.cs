@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using System;
 
 [SingletonMode(true)]
 public class MusicPlayer : Singleton<MusicPlayer>
@@ -14,6 +15,7 @@ public class MusicPlayer : Singleton<MusicPlayer>
     private static HashSet<Song> _songsPlaying = new HashSet<Song>();
     private static HashSet<MusicTrack> _activeMusicTracks = new HashSet<MusicTrack>();
     private static int _createdMusicTracks;
+    private static bool muted = false;
 
     private static ObjectPool<MusicTrack> _musicTrackPool;
 
@@ -45,12 +47,23 @@ public class MusicPlayer : Singleton<MusicPlayer>
         return _songsPlaying.Contains(song);
     }
 
+    public static void Testing()
+    {
+        muted = !muted;
+
+        
+            foreach (MusicTrack track in _activeMusicTracks)
+            {
+            track.SourceVolume = muted ? 0 : 1;
+            }
+        
+    }
+
     public static void PlaySong(Song song, float fadeTime = 0, bool instantIfNotAlreadyPlaying = true, string style = null)
     {
         _songsPlaying.Add(song);
 
         bool tracksAlreadyPlayingSong = false;
-
         foreach (MusicTrack track in _activeMusicTracks)
         {
             if (track.IsPlaying && track.Song == song)
@@ -76,8 +89,8 @@ public class MusicPlayer : Singleton<MusicPlayer>
             track.KillAllTweens();
 
             track.SetSongLayer(layer);
-
             track.Play(instantIfNotAlreadyPlaying ? 0 : fadeTime);
+            track.SourceVolume = muted ? 0 : 1;
             track.LayerVolume = 0;
         }
 
