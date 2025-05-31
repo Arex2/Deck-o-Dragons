@@ -2,25 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UIElements;
+
+
+public enum Rotations
+{
+    Direction,
+    Target,
+    Spinn
+}
 
 public class AttackEffect : MonoBehaviour, ICardVFXComponent
 {
+
+    public Rotations startRotationType = Rotations.Spinn;
+    public Rotations endRotationType = Rotations.Direction;
+    private Rotations rotationType;
+
     [SerializeField]
-    Vector2 a, b, c, d;
-    [SerializeField]
-    GameObject enemy;
-    Vector2 enemyPos;
-    public Vector2 EnemyPos { set { enemyPos = value; d = enemyPos; } }
+    Vector2 a, b, c, d; //a is startPos, d is targetPos
+
 
     [SerializeField]
     float desiredDuration = 1f;
-    float elapsedTime;
     float percentageComplete;
     [SerializeField]
     Ease ease;
 
-    //[SerializeField]
-    //Vector3[] path;
+
     /*
     [SerializeField]
     ParticleSystem explosion;
@@ -29,59 +38,48 @@ public class AttackEffect : MonoBehaviour, ICardVFXComponent
     [SerializeField]
     CardVFXReference deathVFX;
 
-    private bool once;
-
-    /*
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        a = gameObject.transform.position;
-        b = new Vector2(Random.Range(-5, 5), Random.Range(-2, 2));
-        c = new Vector2(Random.Range(-5,5), Random.Range(2,5));
-        //d = enemy.transform.position;
-        d = GameObject.Find("EnemyBoss").transform.position;
-        //if(enemyPos != null)
-        //d = enemyPos;
-
-        //transform.DOPath(path, desiredDuration, PathType.CatmullRom);
+        rotationType = startRotationType;
     }
-    */
 
     // Update is called once per frame
     void Update()
     {
-        //transform.position = Vector2.Lerp(a, b, percentageComplete);
+        Vector3 newPos = Bezier(a, b, c, d, percentageComplete);
 
-        transform.position = Bezier(a, b, c, d, percentageComplete);
 
-        //transform.DOJump(Vector3 endValue, float jumpPower, int numJumps, float duration, bool snapping)
-        //transform.DOJump(b, 2, 5, desiredDuration);
-        //, PathType.CatmullRom);
-        /*
-        if (new Vector2(transform.position.x, transform.position.y) == b)
+        //switch rotation type on 50% complete
+        if(percentageComplete > 0.5)
         {
-            //DestroySelf();
+            Debug.Log("Switched rotation");
+            rotationType = endRotationType;
         }
-        if(elapsedTime >= 1 && !once)//desiredDuration)
+
+
+        //rotate depending on selected rotation type
+        switch (rotationType)
         {
-            DestroySelf();
-            once = true;
+            case Rotations.Spinn:
+                //rotation chaos
+                RotateChaosSpinn(newPos);
+                break;
+            case Rotations.Target:
+                //projectile rotates to look at target
+                RotateToFaceTarget();
+                break;
+            case Rotations.Direction:
+            default:
+                //projectile rotates in movement direction
+                RotateTowardsDirection(newPos);
+                break;
+
         }
-        */
+
+        transform.position = newPos;
+
     }
-    /*
-    private void GeneratePath(Vector3 startPos, Vector3 endPos)
-    {
-        path = new Vector3[6];
-        for(int i = 0; i < path.Length; i++)
-        {
-            if(i == 0)
-                path[i] = startPos;
-            else
-            path[i] = path[i-1] + new Vector3(0, 0, 0);
-        }
-    }
-    */
+
     Vector2 Bezier(Vector2 a, Vector2 b, float t)
     {
         return Vector2.Lerp(a, b, t);
@@ -97,9 +95,43 @@ public class AttackEffect : MonoBehaviour, ICardVFXComponent
         return Vector2.Lerp(Bezier(a, b, c, t), Bezier(b, c, d, t), t);
     }
 
-    private void MoveTowards(Vector3 endPos)
+    void RotateChaosSpinn(Vector3 dir)
     {
+        //makes projectiles spin wildly
+        
+        float angle = Mathf.Atan2((d.y - transform.position.y), (d.x - transform.position.x)) * Mathf.Rad2Deg;
+        Quaternion lookRotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
 
+        Vector3 diff = dir.normalized - transform.position.normalized;
+        Quaternion targetRot = Quaternion.LookRotation(transform.forward, diff);
+        Quaternion moveRotation = Quaternion.RotateTowards(transform.rotation, targetRot, 720 * Time.deltaTime);
+
+        transform.rotation = lookRotation * moveRotation;
+    }
+
+    private void RotateToFaceTarget()
+    {
+        //projectile rotates to look at target
+        float angle = Mathf.Atan2((d.y - transform.position.y), (d.x - transform.position.x)) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0,0,angle -90));
+    }
+
+    private void RotateTowardsDirection(Vector3 dir)
+    {
+        //old version, un-smooth rotation
+        /*
+        Vector3 diff = dir.normalized - transform.position.normalized;
+        Debug.Log(diff);
+        Quaternion targetRot = Quaternion.LookRotation(transform.forward,diff);
+        Quaternion rotation = Quaternion.RotateTowards(transform.rotation, targetRot, 720 * Time.deltaTime);
+
+        transform.rotation = rotation;
+        */
+
+        //new version, smooth rotation towards move direction
+        float angle2 = Mathf.Atan2((dir.y - transform.position.y), (dir.x - transform.position.x)) * Mathf.Rad2Deg;
+
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle2 - 90));
     }
 
     /*

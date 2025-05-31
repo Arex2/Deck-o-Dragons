@@ -10,15 +10,36 @@ public class BattleButtonManager : MonoBehaviour
 
     [SerializeField] private Sprite destroyedTowerImage;
     [SerializeField]private Color destroyedColor = Color.white;
+
     private int currentLevel;
+
+
+    [Header("Only Testing, doesn't affect actual current level")] 
+
+    private int testLevel = 0;
+
+    [SerializeField]
+    public bool progressOneTestLevel; //only for testing
+
+    private void FixedUpdate()
+    {
+        if (progressOneTestLevel)
+        {
+            progressOneTestLevel = false;
+            testLevel++;
+            drawLine.AddButtonToLine(buttonList[testLevel]);
+
+        }
+
+    }
 
 
     void Start()
     {
-       currentLevel = ProgressManager.Instance.GetCurrentLevel();
-        test();
+        currentLevel = ProgressManager.Instance.GetCurrentLevel();
+        LoadProgressDisplay();
     }
-    private void test()
+    private void LoadProgressDisplay()
     {
         for (int i = 0; i < buttonList.Count; i++)
         {
