@@ -32,12 +32,12 @@ public class DragonBookContents : MonoBehaviour
 
         DontDestroyOnLoad(this);
 
-        /*SetNewDragonNameAndTypeInBook("bobo", 0);
+        SetNewDragonNameAndTypeInBook("bobo", 0);
         SetNewDragonNameAndTypeInBook("rawr", 1);
         SetNewDragonNameAndTypeInBook("0123456789", 2);
         SetNewDragonNameAndTypeInBook("drake", 3);
         SetNewDragonNameAndTypeInBook("hello", 1);
-        SetNewDragonNameAndTypeInBook("kjbfkbd", 3);*/
+        SetNewDragonNameAndTypeInBook("kjbfkbd", 3);
     }
 
     public static void SetNewDragonNameAndTypeInBook(string name, int type) //Används i DragonController

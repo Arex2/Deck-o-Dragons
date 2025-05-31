@@ -89,7 +89,7 @@ public class DragonBook : MonoBehaviour
 
     private void Update()
     {
-        DragonBookContents.testprint();
+        //DragonBookContents.testprint();
 
         if(addDragonsToBook)
         {
@@ -143,6 +143,8 @@ public class DragonBook : MonoBehaviour
 
     private void AddDragonLoop(Button button, int indexOfDragonToAdd)
     {
+        Debug.Log("Loop");
+
         button.interactable = true;
         button.transform.GetChild(0).GetComponent<TMP_Text>().text = DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd);
         //buttons[j].transform.image = DragonBookContents.GetDragonTypes().ElementAt(i);

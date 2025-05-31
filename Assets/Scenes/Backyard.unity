@@ -4773,6 +4773,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625526229}
   m_CullTransparentMesh: 1
+--- !u!1 &1626685303 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 180032, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
+  m_PrefabInstance: {fileID: 989358435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1663801026
 GameObject:
   m_ObjectHideFlags: 0
@@ -5180,6 +5185,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 22425882, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
   m_PrefabInstance: {fileID: 989358435}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1740929741 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11403584, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
+  m_PrefabInstance: {fileID: 989358435}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1815612644
 GameObject:
   m_ObjectHideFlags: 0
@@ -5442,8 +5458,9 @@ MonoBehaviour:
   dragonCollection: {fileID: 965064031}
   dragonLimitText: {fileID: 2019747271}
   openBookSFX: {fileID: 8300000, guid: 172eeaf570128eb4aae4b3c281f71d5c, type: 3}
-  activeLeftPage: {fileID: 0}
-  activeRightPage: {fileID: 0}
+  ControlledBook: {fileID: 1626685303}
+  activeLeftPage: {fileID: 1977415732}
+  activeRightPage: {fileID: 1740929741}
   buttons:
   - {fileID: 610901115}
   - {fileID: 1435448938}
@@ -5457,6 +5474,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 22447776, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
   m_PrefabInstance: {fileID: 989358435}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1977415732 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11430880, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
+  m_PrefabInstance: {fileID: 989358435}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1997091611
 GameObject:
   m_ObjectHideFlags: 0
