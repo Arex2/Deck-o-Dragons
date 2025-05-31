@@ -83,6 +83,8 @@ MonoBehaviour:
     Enabled: 0
     Value: 0
   tags:
-    data: []
+    data:
+    - tag: {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
+      potency: 0
   cardComponents:
   - {fileID: -463966842060125003}
