@@ -29,9 +29,7 @@ MonoBehaviour:
     Enabled: 0
     Value: 0
   tags:
-    data:
-    - tag: {fileID: 11400000, guid: 1089c1e228cde7447943e612cd6462fc, type: 2}
-      potency: 2
+    data: []
   cardComponents:
   - {fileID: 4250661183866793492}
   - {fileID: 4436496413160806555}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class SaveDragons : MonoBehaviour
 {
+    /*
     public static SaveDragons Instance { get; private set; }
 
     void Awake()
@@ -75,4 +76,5 @@ public class SaveDragons : MonoBehaviour
     {
         public List<Dragon> dragons = new List<Dragon>();  
     }
+    */
 }

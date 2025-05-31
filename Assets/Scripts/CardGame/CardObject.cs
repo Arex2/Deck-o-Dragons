@@ -148,29 +148,6 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         pos += _offset;
 
-        /*
-        // For some reason, positions become either NaN or Infinity so this should fix that (?)
-        void FixValue(ref float value, float fixValue)
-        {
-            // "I'm normal" said the float
-            if (!float.IsNaN(value) && !float.IsInfinity(value))
-            {
-                // And it was correct
-                return;
-            }
-
-            // But it lied, for it was evil float all along
-            // Exterminate evil floats
-            value = fixValue;
-        }
-
-        FixValue(ref pos.x, _currentPos.x);
-        FixValue(ref pos.y, _currentPos.y);
-
-        FixValue(ref rot, _currentRot);
-        FixValue(ref scale, _currentScale);
-        */
-
         if (_currentPos != pos)
         {
             _currentPos = pos;

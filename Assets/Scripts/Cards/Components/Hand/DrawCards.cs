@@ -12,7 +12,7 @@ public class DrawCards : CardComponent
     [SerializeField] private UpgradeableInt amount = new(1);
 
     [Space]
-    [SerializeField] private Card[] cardsToAlwaysDraw;
+    [SerializeField] private CardCopyData[] cardsToAlwaysDraw;
 
     private CardHand _cardHand;
     private DeckManager _deckManager;
@@ -57,9 +57,12 @@ public class DrawCards : CardComponent
             }
         }
 
-        foreach (Card card in cardsToAlwaysDraw)
+        foreach (CardCopyData cardCopyData in cardsToAlwaysDraw)
         {
-            _cardHand.DrawCard(card);
+            foreach (Card card in cardCopyData)
+            {
+                _cardHand.DrawCard(card);
+            }
         }
     }
 

@@ -50,7 +50,6 @@ public class MusicPlayer : Singleton<MusicPlayer>
         _songsPlaying.Add(song);
 
         bool tracksAlreadyPlayingSong = false;
-
         foreach (MusicTrack track in _activeMusicTracks)
         {
             if (track.IsPlaying && track.Song == song)
@@ -76,7 +75,6 @@ public class MusicPlayer : Singleton<MusicPlayer>
             track.KillAllTweens();
 
             track.SetSongLayer(layer);
-
             track.Play(instantIfNotAlreadyPlaying ? 0 : fadeTime);
             track.LayerVolume = 0;
         }

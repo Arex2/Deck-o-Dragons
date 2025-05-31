@@ -11,9 +11,6 @@ public class EnemyScalingManager : MonoBehaviour
     [SerializeField] private int healthIncrease = 10;
     [SerializeField] private int manaIncrease = 3;
 
-    private int currentHealthIncrease;
-    private int currentManaIncrease;
-
     private void Awake()
     {
         if (Instance == null)
@@ -29,23 +26,11 @@ public class EnemyScalingManager : MonoBehaviour
 
     public int GetScaledHealth()
     {
-        return baseHealth + currentHealthIncrease;
+        return baseHealth + healthIncrease * ProgressManager.currentLevel;
     }
 
     public int GetScaledMana()
     {
-        return baseMana + currentManaIncrease;
-    }
-
-    public void AdvanceScaling()
-    {
-        currentHealthIncrease += healthIncrease;
-        currentManaIncrease += manaIncrease;
-    }
-
-    public void ResetScaling()
-    {
-        currentHealthIncrease = 0;
-        currentManaIncrease = 0;
+        return baseMana + manaIncrease * ProgressManager.currentLevel;
     }
 }

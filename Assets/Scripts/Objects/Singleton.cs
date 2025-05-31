@@ -104,9 +104,11 @@ public class SingletonModeAttribute : Attribute
                 }
             }
         }
+
+        InitCreateOnInitializeMethods();
     }
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
     private static void InitCreateOnInitializeMethods()
     {
         foreach (var pair in Attributes)

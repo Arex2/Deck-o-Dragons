@@ -31,7 +31,6 @@ public class BallBouncer : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 
     public AudioClip[] bounceSounds;
-    private AudioSource audioSource;
     private int currentSoundIndex = 0;
 
 
@@ -56,13 +55,6 @@ public class BallBouncer : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             Debug.LogError("BallBouncer: Assign draggableBallUI in inspector.");
         }
-
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
-        audioSource.playOnAwake = false;
     }
 
     void Update()
@@ -126,9 +118,9 @@ public class BallBouncer : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     private void PlayBounceSound()
     {
-        if (audioSource != null && bounceSounds != null && bounceSounds.Length > 0)
+        if (bounceSounds != null && bounceSounds.Length > 0)
         {
-            audioSource.PlayOneShot(bounceSounds[currentSoundIndex]);
+            AudioManager.Instance.PlaySFX(bounceSounds[currentSoundIndex]);
             currentSoundIndex = (currentSoundIndex + 1) % bounceSounds.Length;  
         }
     }
