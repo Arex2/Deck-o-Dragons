@@ -40,6 +40,18 @@ public class LoadDragons : MonoBehaviour
             DragonBookContents.SetNewDragonNameAndTypeInBook(dragon.name, dragon.type);
         }
     }
+    public SaveVariables LoadSaveVariablesFromFile()
+    {
+        string filePath = Path.Combine(Application.persistentDataPath, "saveVariables.json");
+
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            return JsonUtility.FromJson<SaveVariables>(json);
+        }
+        return null;
+    }
+
 
     [System.Serializable]
     public class Dragon
@@ -54,4 +66,12 @@ public class LoadDragons : MonoBehaviour
         public List<Dragon> dragons;
     }
 
+    [System.Serializable]
+    public class SaveVariables
+    {
+        public string dragonName;
+        public int dragonType;
+        public int level;
+        public bool hasDoneTutorial;
+    }
 }
