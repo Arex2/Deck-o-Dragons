@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: RecklessCharge
   m_EditorClassIdentifier: 
   guid: 9f65d50d3cd838748934cfdcdd670adb
-  sprite: {fileID: 21300000, guid: c828c86e8ee15b643ad5b6e113543ccc, type: 3}
+  sprite: {fileID: 21300000, guid: 5cb7d8b0ff02c7545bb689eeb91840bb, type: 3}
   displayName: Reckless Charge
   description: Deal {OPPONENT_ATTACK} damage
   cost: 0
