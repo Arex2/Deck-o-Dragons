@@ -36,7 +36,7 @@ public class BattleButtonManager : MonoBehaviour
 
     void Start()
     {
-        currentLevel = ProgressManager.Instance.GetCurrentLevel();
+        currentLevel = ProgressManager.currentLevel;
         LoadProgressDisplay();
     }
     private void LoadProgressDisplay()

@@ -17,16 +17,8 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    
-
     public void PlayClickSound()
     {
         PlaySFX(clickSound);
-    }
-
-    public void SetVolumeSFX(bool value)
-    {
-
-        sfxSource.volume = value ? 0 : 1;
     }
 }

@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0300cc77e48abb3469ed2a5014895409, type: 3}
-  m_Name: MANA
+  m_Name: MANA_BUFF
   m_EditorClassIdentifier: 
   expandedInEditor: 1
   orderInEditor: 2
@@ -122,7 +122,7 @@ MonoBehaviour:
   description: 'Heal yourself by {PLAYER_HEAL}, heal the enemy by {ENEMY_HEAL}.
 
     Gain
-    {MANA} mana.'
+    {MANA_BUFF} mana.'
   cost: 0
   element: 0
   category: 4

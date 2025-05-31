@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class LoadDragons : MonoBehaviour
 {
+    /*
     private DragonList dragonList;
     public static LoadDragons Instance { get; private set; }
     void Awake()
@@ -53,5 +54,5 @@ public class LoadDragons : MonoBehaviour
     {
         public List<Dragon> dragons;
     }
-
+    */
 }
