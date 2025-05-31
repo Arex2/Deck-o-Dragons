@@ -79,7 +79,7 @@ public class SceneSwitcher : Singleton<SceneSwitcher>
             }
         }
 
-        SetCurrentTransition(CurrentSceneBuildIndex, true);
+        SetCurrentTransition(-999, true);
         CurrentTransition.Appear(0);
         //CurrentTransition.RectTransform.localScale = Vector3.zero;
 
