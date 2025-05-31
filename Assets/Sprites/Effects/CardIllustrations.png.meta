@@ -1,0 +1,1025 @@
+fileFormatVersion: 2
+guid: c733f02e09942ed42a455d08a8c35bde
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Spike1
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 535
+        width: 43
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1996f26a9ff36ce4e858132fcc360761
+      internalID: -353405858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Star1
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 543
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b02472e4dd1dc224884064aa454e7ee5
+      internalID: 689319918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardIllustrations_12
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 548
+        width: 8
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16dfaf59fbccc5842b3fc7b119e4a2ea
+      internalID: 882923177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blob1
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 542
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26cde3429a01e9f45b39ea8b48972c5f
+      internalID: 2089266846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardIllustrations_14
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 549
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1855640e1af16624fa02d48e7a694ca1
+      internalID: 207692752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardIllustrations_15
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 551
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eef49977518f8c24584162797a832224
+      internalID: 652304413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarThin1
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 543
+        width: 17
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eaf52c872425d4143a2ee0c3d3facf8c
+      internalID: -2017113530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cross1
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 544
+        width: 24
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6ea06fec1945ee4ea45185275cdf6d3
+      internalID: 1123756193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leaf1
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 548
+        width: 18
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f742779d01ba745489d94e21085365eb
+      internalID: -643961581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lightning
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 525
+        width: 20
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68fc3d9e250a1ba4c837c3ca1a8ab086
+      internalID: -1480387519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dragon
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 525
+        width: 34
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5149b1ec562e2054ba8ce7eb2883be87
+      internalID: -1632749183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike2
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 499
+        width: 33
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00a5be6b0fa81f0468074ecf2b3d4454
+      internalID: -851995252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Star2
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 515
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71ec955d56d28e74e834cffda9e5ba38
+      internalID: 1821408770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardIllustrations_24
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 512
+        width: 8
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2264c585515cbd428e060cda01c9942
+      internalID: -1739071844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blob2
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 515
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c652a2436b315f40870601ffbe0e6e9
+      internalID: -1542209846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardIllustrations_26
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 515
+        width: 14
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90b67d138002bae46b152f84ded35de0
+      internalID: -829772210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardIllustrations_27
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 516
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a46590a633ea0b648a078811614057e6
+      internalID: 1548372871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarThin2
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 518
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 587e2d208e77a134fafcf88c7ba0c74f
+      internalID: -1026167355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cross2
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 520
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40121051ef82fb74da17c7eac647dd97
+      internalID: -1992084529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leaf2
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 523
+        width: 20
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d7bac28d6ef1b64c8ed03839b61176a
+      internalID: -1433680282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Star3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 491
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d950c61aebfd894592b1e6dd0b82449
+      internalID: 2001334890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardIllustrations_35
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 498
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6dde6b6c515f624fbee98b196245b68
+      internalID: 972665466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blob3
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 493
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff8ead249bfa62546a2f04a0a7a0c24c
+      internalID: 1151428334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardIllustrations_37
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 488
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75084ae102a139540b7ee601071621eb
+      internalID: 1518727299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StarThin3
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 500
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ec90a2e850aaab4d9af7693bfb442df
+      internalID: 1587377024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cross3
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 495
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d675158fab88a344bf1e67495eef883
+      internalID: -9599930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leaf
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 478
+        width: 33
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26cc25ad670a37c4488ca0fa51459f71
+      internalID: 1513633709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Drop
+      rect:
+        serializedVersion: 2
+        x: 377
+        y: 491
+        width: 14
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e1b6d47bc0b5b54cb51bc8402a62ea6
+      internalID: 724304192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike3
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 464
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4ddcc615f83fca4a83f8cd0e35b8ee1
+      internalID: -828346458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardIllustrations_44
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 484
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 424a5d4f54edfe248bc918337bc5f8ec
+      internalID: -1926743786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardIllustrations_47
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 356
+        width: 30
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4a019685b429b8449e127705e517bf6
+      internalID: 1586493629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CircleBig
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 415
+        width: 55
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3047b5fc8dc6b49408c8a3ade2a55e8a
+      internalID: -60404615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spike4
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 440
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 369eeab8d2008734c851079407543eeb
+      internalID: 1267132966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlobBig1
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 339
+        width: 99
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78564d16b1add6449ab40c592f12f673
+      internalID: -1967740761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpikeBig1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 312
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8019aa5678f8db40884f52c420ea589
+      internalID: 1653388126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlobBig2
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 244
+        width: 80
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ba56c4dac6403b4eabd63f5fc5974d0
+      internalID: -1876509125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpikeBig2
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 156
+        width: 86
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4538d619589ee5d4cb1cdf2676ca5213
+      internalID: -1118979110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpikeBig3
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 26
+        width: 101
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92a8533a22977604097910690df89898
+      internalID: 1490038479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Blob1: 2089266846
+      Blob2: -1542209846
+      Blob3: 1151428334
+      BlobBig1: -1967740761
+      BlobBig2: -1876509125
+      CardIllustrations_0: -315212241
+      CardIllustrations_1: 321022533
+      CardIllustrations_12: 882923177
+      CardIllustrations_14: 207692752
+      CardIllustrations_15: 652304413
+      CardIllustrations_2: 1940045969
+      CardIllustrations_21: -516072350
+      CardIllustrations_24: -1739071844
+      CardIllustrations_26: -829772210
+      CardIllustrations_27: 1548372871
+      CardIllustrations_3: 1074104465
+      CardIllustrations_31: 1969753893
+      CardIllustrations_32: -1975230032
+      CardIllustrations_33: 1303531837
+      CardIllustrations_35: 972665466
+      CardIllustrations_37: 1518727299
+      CardIllustrations_4: -1214592162
+      CardIllustrations_42: 635441376
+      CardIllustrations_44: -1926743786
+      CardIllustrations_45: 289236469
+      CardIllustrations_46: -1185632868
+      CardIllustrations_47: 1586493629
+      CardIllustrations_49: 995715972
+      CardIllustrations_5: -1629675795
+      CardIllustrations_50: -1540990667
+      CardIllustrations_52: 979755125
+      CardIllustrations_53: -1782220998
+      CardIllustrations_54: 343086405
+      CardIllustrations_55: 184905108
+      CardIllustrations_58: 1685689481
+      CardIllustrations_59: 1140347051
+      CardIllustrations_6: 60139824
+      CardIllustrations_60: 1220095681
+      CardIllustrations_61: 1857172740
+      CardIllustrations_62: -984712774
+      CardIllustrations_64: -2027846751
+      CardIllustrations_65: 1094254767
+      CardIllustrations_66: -341859142
+      CardIllustrations_67: -1233935193
+      CardIllustrations_68: 488823124
+      CardIllustrations_69: 1115371342
+      CardIllustrations_7: 357319978
+      CardIllustrations_70: -2124302645
+      CardIllustrations_71: 1849844320
+      CardIllustrations_73: -924028117
+      CardIllustrations_74: 579152855
+      CardIllustrations_75: 2050665056
+      CardIllustrations_76: 1307649036
+      CardIllustrations_77: -415128947
+      CardIllustrations_78: 457385264
+      CardIllustrations_79: -548425267
+      CardIllustrations_8: 355804989
+      CardIllustrations_80: -30312683
+      CardIllustrations_81: -1354799962
+      CardIllustrations_82: 173779842
+      CardIllustrations_83: -1743541716
+      CardIllustrations_84: 1074026676
+      CardIllustrations_85: 1279784297
+      CardIllustrations_87: -1876743917
+      CardIllustrations_88: -1667762988
+      CardIllustrations_89: 1854337807
+      CardIllustrations_9: -767590245
+      CardIllustrations_90: 1258347968
+      CardIllustrations_91: -1124008684
+      CardIllustrations_92: -1565000293
+      CardIllustrations_93: -2022061444
+      CardIllustrations_94: -95590226
+      CardIllustrations_95: -1066065497
+      CardIllustrations_96: 1737866762
+      CardIllustrations_97: -656910956
+      CardIllustrations_98: 190652099
+      CardIllustrations_99: 622453601
+      CircleBig: -60404615
+      Cross1: 1123756193
+      Cross2: -1992084529
+      Cross3: -9599930
+      Dragon: -1632749183
+      Drop: 724304192
+      Leaf: 1513633709
+      Leaf1: -643961581
+      Leaf2: -1433680282
+      Lightning: -1480387519
+      Spike1: -353405858
+      Spike2: -851995252
+      Spike3: -828346458
+      Spike4: 1267132966
+      SpikeBig1: 1653388126
+      SpikeBig2: -1118979110
+      SpikeBig3: 1490038479
+      Star1: 689319918
+      Star2: 1821408770
+      Star3: 2001334890
+      StarThin1: -2017113530
+      StarThin2: -1026167355
+      StarThin3: 1587377024
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
