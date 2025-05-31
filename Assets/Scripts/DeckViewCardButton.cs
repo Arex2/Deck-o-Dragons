@@ -7,9 +7,29 @@ public class DeckViewCardButton : MonoBehaviour
 {
     [SerializeField] private CardVisuals cardVisuals;
     [SerializeField] private Image deselectOverlay;
+    [Space]
+    [SerializeField] private float deselectAlpha = 0.3f;
 
-    private Card _card;
+    private Card card;
 
     private bool isInActiveDeck;
+    
+
+    public void Initialize(Card card)
+    {
+        this.card = card;
+
+    }
+    private void SetUnselected()
+    {
+
+    }
+
+    private void SetSelected()
+    {
+
+    }
+
+
 
 }

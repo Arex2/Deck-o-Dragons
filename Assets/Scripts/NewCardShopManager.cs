@@ -43,10 +43,13 @@ public class NewCardShopManager : MonoBehaviour
     private List<Card> _drawableCards = new();
     private List<Card> _cardsBeingShown = new();
     private DeckManager _deckManager;
-    private bool isZoomed = false;
+    private bool isZoomed;
 
     void Start()
     {
+        zoomCardPanel.SetActive(false);
+        isZoomed = false;
+        
         _topTextFormat = topText.text;
 
         _rerollsRemaining = amountOfRerolls;

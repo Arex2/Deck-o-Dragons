@@ -1034,6 +1034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardVisuals: {fileID: 0}
   deselectOverlay: {fileID: 0}
+  deselectAlpha: 255
 --- !u!1 &897968455
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,8 @@ public class DeckManager : Singleton<DeckManager>
     public static Action OnUpdateDiscardPile { get; set; }
     public static Action OnUpdateDeck { get; set; }
 
+    private List<Card> BlackListCards;
+
     protected override void Awake()
     {
         base.Awake();
@@ -27,6 +29,7 @@ public class DeckManager : Singleton<DeckManager>
         DiscardPile = new LinkedList<Card>();
         Deck = new List<Card>();
         DrawPile = new Stack<Card>();
+        BlackListCards = new List<Card>();
 
         InitializeDeck(defaultStarterDeck);
     }
@@ -42,7 +45,7 @@ public class DeckManager : Singleton<DeckManager>
     public void ResetDeck()
     {
         DrawPile.Clear();
-        ShuffleDrawFromList(new List<Card>(Deck));
+        ShuffleDrawFromList(new List<Card>(Deck.Except(BlackListCards)));
         DiscardPile.Clear();
 
         OnUpdateDrawPile?.Invoke();
@@ -177,6 +180,19 @@ public class DeckManager : Singleton<DeckManager>
         foreach(Card c in drawPileHead)
         {
             DrawPile.Push(c);
+        }
+    }
+
+    public void AddToBlackList(Card card)
+    {
+        BlackListCards.Add(card);
+    }
+
+    public void RemoveFromBlackList(Card card)
+    {
+        if(BlackListCards.Contains(card))
+        {
+            BlackListCards.Remove(card);
         }
     }
 
