@@ -22,7 +22,7 @@ public class DragonActive : MonoBehaviour
     public static TMP_Text statusText;
     public static string dragonName;
     public static bool isDragonActive;  //används i Egg & TextInputManager
-    public static bool doCheck;         //används i SceneSwitcher
+    public static bool doCheck;         //används i         SetNewDragonNameAndTypeInBook("bobo", 1);
     public static int index;            //element
     public static int age;
     public static int evolutionProcess; //sliderprogress

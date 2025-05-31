@@ -9,7 +9,7 @@ public class DragonBookContents : MonoBehaviour
     private static DragonBookContents drBookCont;
 
     [Header ("Dragons shown in book related")]
-    private const int DRAGONS_PER_PAGE = 6;
+    private const int DRAGONS_PER_PAGE = 3;
     private static List<int> pagesInBook = new List<int>();
     private static List<string> dragonNamesInBook = new List<string>();
     private static List<int> dragonTypesInBook = new List<int>();
@@ -31,6 +31,13 @@ public class DragonBookContents : MonoBehaviour
         }
 
         DontDestroyOnLoad(this);
+
+        /*SetNewDragonNameAndTypeInBook("bobo", 0);
+        SetNewDragonNameAndTypeInBook("rawr", 1);
+        SetNewDragonNameAndTypeInBook("0123456789", 2);
+        SetNewDragonNameAndTypeInBook("drake", 3);
+        SetNewDragonNameAndTypeInBook("hello", 1);
+        SetNewDragonNameAndTypeInBook("kjbfkbd", 3);*/
     }
 
     public static void SetNewDragonNameAndTypeInBook(string name, int type) //Används i DragonController
@@ -63,7 +70,16 @@ public class DragonBookContents : MonoBehaviour
 
     public static List<string> GetDragonNamesInBook() //Används i DragonBook && NativeKeyboardInputManager
     {
+
         return dragonNamesInBook;
+    }
+
+    public static void testprint()
+    {
+        foreach (string name in dragonNamesInBook)
+        {
+            Debug.Log(name);
+        }
     }
 
     public static List<int> GetDragonTypesInBook() //Används i DragonBook

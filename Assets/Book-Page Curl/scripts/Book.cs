@@ -11,18 +11,21 @@ public enum FlipMode
     RightToLeft,
     LeftToRight
 }
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 
 public class Book : MonoBehaviour {
     public Canvas canvas;
     [SerializeField]
     RectTransform BookPanel;
     public Sprite background;
+    public Sprite leftPage;
+    public Sprite rightPage;
     public Sprite[] bookPages;
     public bool interactable = true;
     public bool enableShadowEffect = true;
     //represent the index of the sprite shown in the right page
     public int currentPage = 0;
+    public bool addPage = false; //lagt till
     public int TotalPageCount
     {
         get { return bookPages.Length; }
@@ -68,6 +71,13 @@ public class Book : MonoBehaviour {
     //current flip mode
     FlipMode mode;
 
+    public void OnEnable()
+    {
+        //har lagt till så den bläddrar fram en sida så att man startar i rätt position (sida 1)
+        TweenForward();
+        //DragonBook.addDragonsToBook = true;
+    }
+
     void Start()
     {
         if (!canvas) canvas=GetComponentInParent<Canvas>();
@@ -95,6 +105,46 @@ public class Book : MonoBehaviour {
         ShadowLTR.rectTransform.sizeDelta = new Vector2(pageWidth, shadowPageHeight);
         ShadowLTR.rectTransform.pivot = new Vector2(0, (pageWidth / 2) / shadowPageHeight);
 
+        //TweenForward();
+    }
+
+    //har lagt till för att testa i inspectorn
+    private void FixedUpdate()
+    {
+        if (addPage)
+        {
+            AddBookPage();
+            addPage = false;
+        }
+
+    }
+
+    //lagt till
+    public void AddBookPage()
+    {
+        //skapar temp array
+        Sprite[] temp = new Sprite[bookPages.Length];
+        bookPages.CopyTo(temp, 0); //och kopierar över current pages till temp array
+
+        //gör ny bookPages array med större längd
+        bookPages = new Sprite[bookPages.Length + 1];
+
+        //lägger in gamla pages i nya array
+        temp.CopyTo(bookPages, 0);
+
+        Debug.Log(bookPages.Length);
+
+        //assignear sprite till nya sidan
+        if(bookPages.Length % 2 == 0)
+        {
+            bookPages[bookPages.Length - 1] = leftPage;
+        }
+        else
+        {
+            bookPages[bookPages.Length - 1] = rightPage;
+        }
+
+        //bookPages[bookPages.Length - 1] = background; //sätt background till left/right sprite
     }
 
     private void CalcCurlCriticalPoints()
@@ -277,7 +327,11 @@ public class Book : MonoBehaviour {
     }
     public void DragRightPageToPoint(Vector3 point)
     {
-        if (currentPage >= bookPages.Length) return;
+        //lagt till så det hindrar bläddrande i slutet av boken så att man inte når ställe där det inte finns sista sidan
+        if (currentPage + 2 >= bookPages.Length) return;
+
+        //if (currentPage >= bookPages.Length) return;
+
         pageDragging = true;
         mode = FlipMode.RightToLeft;
         f = point;
@@ -312,7 +366,11 @@ public class Book : MonoBehaviour {
     }
     public void DragLeftPageToPoint(Vector3 point)
     {
-        if (currentPage <= 0) return;
+        //lagt till block för att inte kunna bläddra till 01 positionen
+        if (currentPage <= 2) return;
+
+        //if (currentPage <= 0) return;
+
         pageDragging = true;
         mode = FlipMode.LeftToRight;
         f = point;
@@ -367,7 +425,7 @@ public class Book : MonoBehaviour {
     Coroutine currentCoroutine;
     void UpdateSprites()
     {
-        LeftNext.sprite= (currentPage > 0 && currentPage <= bookPages.Length) ? bookPages[currentPage-1] : background;
+        //LeftNext.sprite= (currentPage > 0 && currentPage <= bookPages.Length) ? bookPages[currentPage-1] : background;
         RightNext.sprite=(currentPage>=0 &&currentPage<bookPages.Length) ? bookPages[currentPage] : background;
     }
     public void TweenForward()
@@ -380,9 +438,16 @@ public class Book : MonoBehaviour {
     void Flip()
     {
         if (mode == FlipMode.RightToLeft)
+        {
             currentPage += 2;
+            DragonBook.addDragonsToBook = true;
+        }
         else
+        {
             currentPage -= 2;
+            DragonBook.addDragonsToBook = true;
+        }
+
         LeftNext.transform.SetParent(BookPanel.transform, true);
         Left.transform.SetParent(BookPanel.transform, true);
         LeftNext.transform.SetParent(BookPanel.transform, true);
