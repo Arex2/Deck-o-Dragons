@@ -38,6 +38,10 @@ public class DragonBookContents : MonoBehaviour
         SetNewDragonNameAndTypeInBook("drake", 3);
         SetNewDragonNameAndTypeInBook("hello", 1);
         SetNewDragonNameAndTypeInBook("kjbfkbd", 3);
+        SetNewDragonNameAndTypeInBook("new 1", 2);
+        SetNewDragonNameAndTypeInBook("2is", 3);
+        SetNewDragonNameAndTypeInBook("tree", 1);
+        SetNewDragonNameAndTypeInBook("flour", 0);
     }
 
     public static void SetNewDragonNameAndTypeInBook(string name, int type) //Används i DragonController

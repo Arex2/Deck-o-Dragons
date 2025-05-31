@@ -67,14 +67,17 @@ public class Book : MonoBehaviour {
     Vector3 ebl;
     //follow point 
     Vector3 f;
-    bool pageDragging = false;
+    public bool pageDragging = false;
     //current flip mode
-    FlipMode mode;
+    public FlipMode mode;
 
     public void OnEnable()
     {
         //har lagt till så den bläddrar fram en sida så att man startar i rätt position (sida 1)
-        TweenForward();
+        if (currentPage == 0)
+        {
+            TweenForward();
+        }
         //DragonBook.addDragonsToBook = true;
     }
 
@@ -191,6 +194,11 @@ public class Book : MonoBehaviour {
     {
         if (pageDragging && interactable)
         {
+            if(!DragonBook.addDragonsToBookOnFlipPage)
+            {
+                DragonBook.addDragonsToBookOnFlipPage = true;
+            }
+
             UpdateBook();
         }
     }
@@ -420,6 +428,8 @@ public class Book : MonoBehaviour {
                 TweenBack();
             else
                 TweenForward();
+
+            DragonBook.pageRelease = true;
         }
     }
     Coroutine currentCoroutine;

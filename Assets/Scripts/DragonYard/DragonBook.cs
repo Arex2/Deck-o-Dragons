@@ -15,10 +15,14 @@ public class DragonBook : MonoBehaviour
     [SerializeField] private AudioClip openBookSFX;
 
     private Book Book;
-    [SerializeField] private GameObject ControlledBook;
+    [SerializeField] private GameObject controlledBook;
     [SerializeField] private Image activeLeftPage;
     [SerializeField] private Image activeRightPage;
+    [SerializeField] private Image leftPageOnTurn;
+    [SerializeField] private Image rightPageOnTurn;
     public static bool addDragonsToBook = false;
+    public static bool addDragonsToBookOnFlipPage = false;
+    public static bool pageRelease;
 
     //[SerializeField] private GameObject AskToAddDragonPanel;
     //[SerializeField] private GameObject AskForDragonCloseButton;
@@ -59,8 +63,6 @@ public class DragonBook : MonoBehaviour
 
     public void Start()
     {
-        DragonBookContents.SetNewDragonNameAndTypeInBook("bobo", 0);
-        DragonBookContents.SetNewDragonNameAndTypeInBook("rawr", 1);
         /*SetNewDragonNameAndTypeInBook("0123456789", 2);
         SetNewDragonNameAndTypeInBook("drake", 3);
         SetNewDragonNameAndTypeInBook("hello", 1);
@@ -96,55 +98,90 @@ public class DragonBook : MonoBehaviour
             AddDragonsToBookPages();
             addDragonsToBook = false;
         }
+
+        if(pageRelease)
+        {
+            AddDragonsToBookPages();
+            pageRelease = false;
+        }
+
+        if(controlledBook.GetComponent<Book>().pageDragging)
+        {
+            if(addDragonsToBookOnFlipPage)
+            {
+                if (controlledBook.GetComponent<Book>().mode == FlipMode.RightToLeft)
+                {
+                    //activeLeftPage = normal;
+
+                    //activeRightPage = currentPage += 2;
+                    int indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage + 1) * DragonBookContents.GetDragonsPerPageAmount();
+                    AddButtonsToAPage(activeRightPage, indexOfDragonToAdd);
+
+                    //leftPageOnTurn = activeRightPage;
+                    indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 1) * DragonBookContents.GetDragonsPerPageAmount();
+                    AddButtonsToAPage(leftPageOnTurn, indexOfDragonToAdd);
+
+                    //rightPageOnTurn = currentPage += 1;
+                    indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage) * DragonBookContents.GetDragonsPerPageAmount();
+                    AddButtonsToAPage(rightPageOnTurn, indexOfDragonToAdd);
+                }
+                else
+                {
+                    //activeRightPage = normal;
+
+                    //activeLeftPage = currentPage -= 4;
+                    int indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 4) * DragonBookContents.GetDragonsPerPageAmount();
+                    AddButtonsToAPage(activeLeftPage, indexOfDragonToAdd);
+
+                    //rightPageOnTurn = activeLeftPage;
+                    indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 2) * DragonBookContents.GetDragonsPerPageAmount();
+                    AddButtonsToAPage(rightPageOnTurn, indexOfDragonToAdd);
+
+                    //leftPageOnTurn = currentPage -= 3;
+                    indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 3) * DragonBookContents.GetDragonsPerPageAmount();
+                    AddButtonsToAPage(leftPageOnTurn, indexOfDragonToAdd);
+                }
+
+                addDragonsToBookOnFlipPage = false;
+            }
+        }
     }
 
     private void AddDragonsToBookPages()
     {
         //int indexOfDragonToAdd = currentPage * DragonBookContents.GetDragonsPerPageAmount();
-        int indexOfDragonToAdd = (ControlledBook.GetComponent<Book>().currentPage - 2) * DragonBookContents.GetDragonsPerPageAmount();
+        int indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 2) * DragonBookContents.GetDragonsPerPageAmount();
+        AddButtonsToAPage(activeLeftPage, indexOfDragonToAdd);
 
-        for(int i = 0; i < DragonBookContents.GetDragonsPerPageAmount(); i++)
+        indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 1) * DragonBookContents.GetDragonsPerPageAmount();
+        AddButtonsToAPage(activeRightPage, indexOfDragonToAdd);
+    }
+
+    private void AddButtonsToAPage(Image page, int indexOfDragonToAdd)
+    {
+        for (int i = 0; i < DragonBookContents.GetDragonsPerPageAmount(); i++)
         {
-            Button button = activeLeftPage.transform.GetChild(i).GetComponent<Button>();
+            Button button = page.transform.GetChild(i).GetComponent<Button>();
             //Button rightButton = activeRightPage.transform.GetChild(i).GetComponent<Button>();
 
             //if (DragonBookContents.GetDragonNamesInBook().Count <= i) //DragonBookContents.GetDragonNames().ElementAt(i) == null)
-            if(DragonBookContents.GetDragonNamesInBook().Count <= i || DragonBookContents.GetDragonNamesInBook().Count >= indexOfDragonToAdd)
+            if (DragonBookContents.GetDragonNamesInBook().Count <= i || DragonBookContents.GetDragonNamesInBook().Count <= indexOfDragonToAdd)
             {
+                //AddDragonLoop(button, indexOfDragonToAdd);
                 button.interactable = false;
                 button.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
             }
             else if (DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd) != null)
             {
-                AddDragonLoop(button, indexOfDragonToAdd);
-            }
-
-            indexOfDragonToAdd++;
-        }
-
-        for (int i = 0; i < DragonBookContents.GetDragonsPerPageAmount(); i++)
-        {
-            Button button = activeRightPage.transform.GetChild(i).GetComponent<Button>();
-            //Button rightButton = activeRightPage.transform.GetChild(i).GetComponent<Button>();
-
-            if (DragonBookContents.GetDragonNamesInBook().Count <= i || DragonBookContents.GetDragonNamesInBook().Count >= indexOfDragonToAdd)
-            {
-                button.interactable = false;
-                button.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
-            }
-            else if (DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd) != null)
-            {
-                AddDragonLoop(button, indexOfDragonToAdd);
+                AddDragonInfoToButtons(button, indexOfDragonToAdd);
             }
 
             indexOfDragonToAdd++;
         }
     }
 
-    private void AddDragonLoop(Button button, int indexOfDragonToAdd)
+    private void AddDragonInfoToButtons(Button button, int indexOfDragonToAdd)
     {
-        Debug.Log("Loop");
-
         button.interactable = true;
         button.transform.GetChild(0).GetComponent<TMP_Text>().text = DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd);
         //buttons[j].transform.image = DragonBookContents.GetDragonTypes().ElementAt(i);
