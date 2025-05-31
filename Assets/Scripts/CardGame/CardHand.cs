@@ -631,7 +631,13 @@ public class CardHand : MonoBehaviour
         */
     }
 
-    public void DiscardCard(CardObject cardObj) => DiscardCard(cardObj.Card);
+    public void DiscardCard(CardObject cardObj)
+    {
+        cardsInHand.Remove(cardObj);
+        UpdateCardPositions();
+
+        DiscardCard(cardObj.Card);
+    }
 
     public void DiscardCard(Card card)
     {
@@ -942,7 +948,7 @@ public class CardHand : MonoBehaviour
             cardObj.Canvas.sortingOrder -= startSortingOrder;
             cardObj.OnCardPressed -= OnCardPressed;
 
-            DiscardCard(cardObj);
+            DiscardCard(cardObj.Card);
             cardObj.Dissolve();
             cardObj.Destroy();
 

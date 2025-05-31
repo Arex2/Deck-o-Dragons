@@ -50,7 +50,7 @@ public class DragonActive : MonoBehaviour
     {
         if(doCheck)
         {
-            if(SceneManager.GetActiveScene().buildIndex == 1)
+            if(SceneManager.GetActiveScene().buildIndex == SceneSwitcher.GetScene(SceneSwitcher.Scene.Egg))
             {
                 CheckForEggOrDragon();
                 doCheck = false;

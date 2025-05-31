@@ -87,7 +87,7 @@ public class EnemyBoss : Target
 
         if (ProgressManager.Instance != null)
         {
-            int level = ProgressManager.Instance.GetCurrentLevel();
+            int level = ProgressManager.currentLevel;
 
             if (enemySprites.Count - 1 > level)
             {
@@ -257,11 +257,16 @@ public class EnemyBoss : Target
     public override void OnDeath()
     {
         base.OnDeath();
-        if (EnemyScalingManager.Instance != null && ProgressManager.Instance != null)
+        if (ProgressManager.Instance != null)
         {
             ProgressManager.Instance.IncreaseLevel();
-            EnemyScalingManager.Instance.AdvanceScaling();
         }
+
+        foreach (Animator animator in GetComponentsInChildren<Animator>())
+        {
+            animator.enabled = false;
+        }
+        
         StartCoroutine(RotateOverTime(Quaternion.Euler(0, 0, 90), 0.3f));
     }
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RAGE
   m_EditorClassIdentifier: 
   guid: 0cc7e97ed4276e54aa94256577c2cbe2
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 4a70a989932c3a0439758ab8da79592e, type: 3}
   displayName: RAGE
   description: For the next {DURATION} turns, every hit you receive will add +{POTENCY}
     damage to your next attack.
