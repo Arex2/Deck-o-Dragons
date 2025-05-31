@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-463966842060125003
+--- !u!114 &-4438221862117748522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,16 +20,22 @@ MonoBehaviour:
     team: 1
     mode: 0
   statusEffect:
-    statusEffect: {fileID: 11400000, guid: 2d1008ec180491442b85af8a9fd1d5bf, type: 2}
+    statusEffect: {fileID: 11400000, guid: 16ba90fb52a19994db458b602200049d, type: 2}
     potency:
-      baseValue: 0
+      baseValue: 0.25
       stack: 1
       loopBehaviour: 1
       upgrades:
+      - value: 0.05
+        method: 0
+      - value: 0.1
+        method: 0
       - value: 0
         method: 0
       downgrades:
-      - value: 0
+      - value: 0.05
+        method: 1
+      - value: 0.05
         method: 1
       minLimit:
         Enabled: 0
@@ -38,15 +44,17 @@ MonoBehaviour:
         Enabled: 0
         Value: 0
     duration:
-      baseValue: 3
+      baseValue: 2
       stack: 1
       loopBehaviour: 1
       upgrades:
       - value: 1
         method: 0
-      downgrades:
+      - value: 0
+        method: 0
       - value: 1
-        method: 1
+        method: 0
+      downgrades: []
       minLimit:
         Enabled: 0
         Value: 0
@@ -63,16 +71,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6d1e61fd74166a41944d934cc1176a8, type: 3}
-  m_Name: MirrorMagic
+  m_Name: WindShield
   m_EditorClassIdentifier: 
-  guid: e7166f9b18750a44cad110b613464879
-  sprite: {fileID: 21300000, guid: e5a0df0893cdc0643a2f81ffce385574, type: 3}
-  displayName: Mirror Magic
-  description: For the next {DURATION} turns, any Status Effect you receive will
-    also be applied to your opponent.
-  cost: 2
-  element: 0
-  category: 4
+  guid: 41325e363626c2f4087a327adcff8f8d
+  sprite: {fileID: 21300000, guid: 5662df0727e82df41b4e193b19e8574f, type: 3}
+  displayName: Wind Shield
+  description: "\rFor the next {DURATION} turns you will have a {POTENCY} chance
+    to dodge an attack, negating all damage."
+  cost: 4
+  element: 3
+  category: 2
   rarity: 1
   copies: 2
   canChangeLevel: 1
@@ -83,8 +91,6 @@ MonoBehaviour:
     Enabled: 0
     Value: 0
   tags:
-    data:
-    - tag: {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
-      potency: 0
+    data: []
   cardComponents:
-  - {fileID: -463966842060125003}
+  - {fileID: -4438221862117748522}
