@@ -13,7 +13,8 @@ public enum FlipMode
 }
 //[ExecuteInEditMode]
 
-public class Book : MonoBehaviour {
+public class Book : MonoBehaviour
+{
     public Canvas canvas;
     [SerializeField]
     RectTransform BookPanel;
@@ -108,7 +109,11 @@ public class Book : MonoBehaviour {
         ShadowLTR.rectTransform.sizeDelta = new Vector2(pageWidth, shadowPageHeight);
         ShadowLTR.rectTransform.pivot = new Vector2(0, (pageWidth / 2) / shadowPageHeight);
 
-        //TweenForward();
+        for (int i = 0; i < DragonBookContents.GetPagesInBook(); i++)
+        {
+            //Debug.Log("Pages in book: " + DragonBookContents.GetPagesInBook());
+            AddBookPage();
+        }
     }
 
     //har lagt till för att testa i inspectorn

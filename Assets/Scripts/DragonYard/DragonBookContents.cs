@@ -10,9 +10,11 @@ public class DragonBookContents : MonoBehaviour
 
     [Header ("Dragons shown in book related")]
     private const int DRAGONS_PER_PAGE = 3;
-    private static List<int> pagesInBook = new List<int>();
+    //private static List<int> pagesInBook = new List<int>();
     private static List<string> dragonNamesInBook = new List<string>();
     private static List<int> dragonTypesInBook = new List<int>();
+    private static int pagesInBook = 1;
+    //private static int dragonCounter;
 
     [Header ("Dragons shown in background related")]
     public static int LimitOfDragons = 8;
@@ -24,6 +26,9 @@ public class DragonBookContents : MonoBehaviour
         if (drBookCont == null)
         {
             drBookCont = this;
+            dragonNamesInBook.Clear();
+            dragonTypesInBook.Clear();
+            pagesInBook = 1;
         }
         else
         {
@@ -42,12 +47,35 @@ public class DragonBookContents : MonoBehaviour
         SetNewDragonNameAndTypeInBook("2is", 3);
         SetNewDragonNameAndTypeInBook("tree", 1);
         SetNewDragonNameAndTypeInBook("flour", 0);
+        SetNewDragonNameAndTypeInBook("firth", 1);
+        SetNewDragonNameAndTypeInBook("sith", 0);
     }
 
     public static void SetNewDragonNameAndTypeInBook(string name, int type) //Används i DragonController
     {
         dragonNamesInBook.Add(name);
         dragonTypesInBook.Add(type);
+
+        if ((dragonNamesInBook.Count - 1) % 3 == 0)
+        {
+            if(dragonNamesInBook.Count % 2 == 0)
+            {
+                return;
+            }
+
+            pagesInBook += 2;
+            Debug.Log("increase pages");
+            Debug.Log(dragonNamesInBook.Count);
+        }
+
+        /*Debug.Log("dragonCounter: " + dragonCounter);
+
+        if (dragonCounter >= 4)
+        {
+            pagesInBook++;
+            dragonCounter = 0;
+            Debug.Log("increase pages");
+        }*/
     }
 
     public static void SetNewDragonNamesAndElementsActiveInBackyard(string name, int element) //Används i DragonBook && DragonController
@@ -96,6 +124,10 @@ public class DragonBookContents : MonoBehaviour
         return DRAGONS_PER_PAGE;
     }
 
+    public static int GetPagesInBook()
+    {
+        return pagesInBook;
+    }
     /*public static void toString()
     {
         string names = "Names: ";
