@@ -85,7 +85,7 @@ MonoBehaviour:
     team: 1
     mode: 0
   damage:
-    baseValue: 10
+    baseValue: 15
     stack: 1
     loopBehaviour: 1
     upgrades:

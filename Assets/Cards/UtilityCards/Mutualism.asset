@@ -23,12 +23,8 @@ MonoBehaviour:
     baseValue: 50
     stack: 1
     loopBehaviour: 1
-    upgrades:
-    - value: 20
-      method: 0
-    downgrades:
-    - value: 20
-      method: 1
+    upgrades: []
+    downgrades: []
     minLimit:
       Enabled: 0
       Value: 0
@@ -62,7 +58,9 @@ MonoBehaviour:
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 40
+    - value: 35
+      method: 1
+    - value: 15
       method: 1
     downgrades:
     - value: 10
@@ -93,7 +91,7 @@ MonoBehaviour:
   card: {fileID: 11400000}
   disableOnStart: 0
   manaAmount:
-    baseValue: 2
+    baseValue: 3
     stack: 1
     loopBehaviour: 1
     upgrades: []
