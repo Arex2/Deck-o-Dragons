@@ -10,6 +10,9 @@ public class DeckViewCardButton : MonoBehaviour
     [SerializeField] private float deselectAlpha = 0.3f;
     [Space]
     [SerializeField] private int minNumberOfCardsInDeck = 12;
+    [Space]
+    [SerializeField] private AudioClip selectSFX;
+    [SerializeField] private AudioClip minDeckSFX;
 
     private Card card;
     private bool isInActiveDeck;
@@ -31,19 +34,23 @@ public class DeckViewCardButton : MonoBehaviour
 
     public void ButtonHandle()
     {
-        isInActiveDeck = !isInActiveDeck;
-        if (isInActiveDeck)
+        if (!isInActiveDeck)
         {
             DeckManager.Instance.RemoveFromBlackList(card);
             SetSelected();
+            AudioManager.Instance.PlaySFX(selectSFX);
+            isInActiveDeck = true;
         }
         else if (DeckManager.Instance.Deck.Count - DeckManager.Instance.BlackListCards.Count > minNumberOfCardsInDeck)
         {
             DeckManager.Instance.AddToBlackList(card);
             SetDeselected();
+            AudioManager.Instance.PlaySFX(selectSFX);
+            isInActiveDeck = false;
         }
         else
         {
+            AudioManager.Instance.PlaySFX(minDeckSFX);
             popup.Popup();
         }
     }
