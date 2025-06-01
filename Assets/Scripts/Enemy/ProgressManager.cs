@@ -23,12 +23,18 @@ public class ProgressManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
    
 
     public int GetCurrentLevel()
     {
         return currentLevel;
+    }
+
+    public void SetCurrentLevel(int level)
+    {
+        currentLevel = level;
     }
 
     public void IncreaseLevel()

@@ -32,6 +32,7 @@ public class DragonActive : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            ReadFromSaveFile();
         }
         else
         {
@@ -42,10 +43,10 @@ public class DragonActive : MonoBehaviour
         statusText.text = "";
 
         doCheck = true;
-
+        
         DontDestroyOnLoad(this);
     }
-
+    
     void LateUpdate()
     {
         if(doCheck)
@@ -64,6 +65,8 @@ public class DragonActive : MonoBehaviour
         if(dragonName != null)
         {
             CurrentDragon.StepProgress();
+            SaveDragons.Instance.SaveActiveDragonToFile(dragonName, index,
+          age, evolutionProcess, ProgressManager.Instance.GetCurrentLevel(), true);
         }
     }
 
@@ -97,5 +100,20 @@ public class DragonActive : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void ReadFromSaveFile()
+    {
+        LoadDragons.SaveVariables save = LoadDragons.Instance.LoadSaveVariablesFromFile();
+
+        if(save.dragonName != string.Empty)
+        {
+            dragonName = save.dragonName;
+            index = save.dragonType;
+            age = save.level;
+            evolutionProcess = save.currentEvolution;
+            isDragonActive = true;
+            ProgressManager.Instance.SetCurrentLevel(save.currentBattleLevel);
+        }
     }
 }

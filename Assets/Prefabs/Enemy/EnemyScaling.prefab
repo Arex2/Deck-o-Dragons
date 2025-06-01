@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21b262e1b8ea41ee8b31fcdad2fc547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHealth: 200
+  baseHealth: 1
   baseMana: 5
-  healthIncrease: 30
+  healthIncrease: 1
   manaIncrease: 1

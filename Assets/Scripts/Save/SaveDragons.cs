@@ -57,9 +57,10 @@ public class SaveDragons : MonoBehaviour
         File.WriteAllText(filePath, updatedJson);
     }
 
-    public void SaveActiveDragonToFile(string dragonName, int dragonType, int level, bool hasDoneTutorial)
+    public void SaveActiveDragonToFile(string dragonName, int dragonType, int level, int currentEvolution, int currentBattleLevel, bool hasDoneTutorial)
     {
-        SaveVariables saveVariables = new SaveVariables(dragonName, dragonType, level, hasDoneTutorial);
+        
+        SaveVariables saveVariables = new SaveVariables(dragonName, dragonType, level, currentEvolution, currentBattleLevel, hasDoneTutorial);
         string filePath = Path.Combine(Application.persistentDataPath, "saveVariables.json");
 
         string json = JsonUtility.ToJson(saveVariables, true);
@@ -94,14 +95,20 @@ public class SaveDragons : MonoBehaviour
         public string dragonName;
         public int dragonType;
         public int level;
+        public int currentEvolution;
+        public int currentBattleLevel;
         public bool hasDoneTutorial;
 
-        public SaveVariables(string dragonName, int dragonType, int level, bool hasDoneTutorial)
+
+        public SaveVariables(string dragonName, int dragonType, int level, int currentEvolution, int currentBattleLevel, bool hasDoneTutorial)
         {
             this.dragonName = dragonName;
             this.dragonType = dragonType;
             this.level = level;
+            this.currentEvolution = currentEvolution;
+            this.currentBattleLevel = currentBattleLevel;
             this.hasDoneTutorial = hasDoneTutorial;
+
         }
     }
 }

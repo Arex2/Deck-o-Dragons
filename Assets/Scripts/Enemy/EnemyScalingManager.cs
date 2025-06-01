@@ -25,6 +25,7 @@ public class EnemyScalingManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        SetScalingStart();
     }
 
     public int GetScaledHealth()
@@ -41,6 +42,12 @@ public class EnemyScalingManager : MonoBehaviour
     {
         currentHealthIncrease += healthIncrease;
         currentManaIncrease += manaIncrease;
+    }
+
+    public void SetScalingStart()
+    {
+        currentHealthIncrease = healthIncrease * ProgressManager.Instance.GetCurrentLevel();
+        currentManaIncrease = manaIncrease * ProgressManager.Instance.GetCurrentLevel();
     }
 
     public void ResetScaling()

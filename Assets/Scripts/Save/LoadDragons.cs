@@ -72,6 +72,8 @@ public class LoadDragons : MonoBehaviour
         public string dragonName;
         public int dragonType;
         public int level;
+        public int currentEvolution;
+        public int currentBattleLevel;
         public bool hasDoneTutorial;
     }
 }
