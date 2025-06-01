@@ -68,6 +68,7 @@ public class DrawLine : MonoBehaviour
 
 
     //för att skapa kurva mellan två punkter:
+    //parts från detta: https://discussions.unity.com/t/how-to-get-a-smooth-curved-line-between-two-points-like-those-present-between-the-nodes-of-bolt-visual-scripting/246143/2
     Vector2 Bezier(Vector2 a, Vector2 b, float t)
     {
         return Vector2.Lerp(a, b, t);
