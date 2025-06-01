@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 2676673371402437761}
   - component: {fileID: -762217286064236674}
   - component: {fileID: 2908225147602148661}
+  - component: {fileID: 4397603599518877794}
   m_Layer: 0
   m_Name: Egg
   m_TagString: Egg
@@ -244,6 +245,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2eb303c15e18e1e44a882bf9baf545ac, type: 3}
   - {fileID: 8300000, guid: 2eb303c15e18e1e44a882bf9baf545ac, type: 3}
   - {fileID: 8300000, guid: 2eb303c15e18e1e44a882bf9baf545ac, type: 3}
+  hatchSFX: {fileID: 8300000, guid: 8477df30ea499bc4fa3cc544c11ac952, type: 3}
+  animator: {fileID: 4397603599518877794}
+  landSFX: {fileID: 8300000, guid: 35c37dc35d6221341a74cd5c26618abb, type: 3}
+  canBeCracked: 1
 --- !u!61 &-762217286064236674
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -344,6 +349,27 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+--- !u!95 &4397603599518877794
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257647025133526901}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9837304546e8434fb306e244605d6c0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3802510666039649062
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,7 +462,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 64
   m_fontSizeBase: 0
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -568,6 +594,7 @@ GameObject:
   - component: {fileID: 1966041023800258422}
   - component: {fileID: 6396324652890619518}
   - component: {fileID: 3365587530602970296}
+  - component: {fileID: 2138786816137546766}
   m_Layer: 5
   m_Name: Popup (1)
   m_TagString: Untagged
@@ -694,6 +721,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &2138786816137546766
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4586539215542847958}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &7828738040938944403
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,6 +747,7 @@ GameObject:
   - component: {fileID: 4783468050514021286}
   - component: {fileID: 4049559946308890524}
   - component: {fileID: 36173707422020806}
+  - component: {fileID: 4401363565635405133}
   m_Layer: 5
   m_Name: Popup
   m_TagString: Untagged
@@ -834,6 +874,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &4401363565635405133
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7828738040938944403}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &8959634781092116518
 GameObject:
   m_ObjectHideFlags: 0
