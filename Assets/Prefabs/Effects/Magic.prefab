@@ -4881,8 +4881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b66c4c31aa7f2af4c8dd265a250d7bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vfxTags:
-  - Attack
+  vfxTags: []
   triggersActions: 1
   spawnDelay: 0
   autoDestroyTimer: 0

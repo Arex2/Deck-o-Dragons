@@ -45,6 +45,16 @@ public class CardAttack : CardComponent
     [Space]
     [SerializeField] private CardVFXReference vfx = new("Attack");
 
+
+    //harriet---
+    //change cardVFX through script
+    public void ChangeVFX(string vfx)
+    {
+        this.vfx = new(vfx);
+    }
+
+
+
     public override void Play(List<Target> targets)
     {
 
