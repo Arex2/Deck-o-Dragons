@@ -64,6 +64,7 @@ public class DragonController : MonoBehaviour
                 //Reset the game
                 ProgressManager.Instance.ResetProgress();
                 DeckManager.Instance.InitializeDeck(DeckManager.Instance.DefaultStarterDeck);
+                DeckManager.Instance.BlackListCards.Clear();
             }
 
             if (DragonActive.dragonName != null && DragonBookContents.GetDragonsActiveInBackyard().Count < DragonBookContents.LimitOfDragons)

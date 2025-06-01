@@ -122,6 +122,22 @@ public class SaveManager : Singleton<SaveManager>
         }
 
         // Load cards
+        if (_data.blacklistedCardGuids.Count > 0)
+        {
+            DeckManager.Instance.BlackListCards.Clear();
+
+            foreach (string cardGuid in _data.blacklistedCardGuids)
+            {
+                Card card = CardManager.GetCardByGUID(cardGuid);
+
+                if (card == null)
+                {
+                    continue;
+                }
+
+                DeckManager.Instance.BlackListCards.Add(card);
+            }
+        }
         if (_data.cardGuids.Count > 0)
         {
             IEnumerable<Card> LoadCards()
@@ -188,6 +204,13 @@ public class SaveManager : Singleton<SaveManager>
             _data.cardGuids.Add(card.GUID);
         }
 
+        _data.blacklistedCardGuids.Clear();
+
+        foreach (Card card in DeckManager.Instance.BlackListCards)
+        {
+            _data.blacklistedCardGuids.Add(card.GUID);
+        }
+
         File.WriteAllText(GetSavePath(), JsonUtility.ToJson(_data));
     }
 
@@ -211,6 +234,7 @@ public class SaveManager : Singleton<SaveManager>
         public List<Dragon> dragonsInBook = new();
         public List<Dragon> dragonsActiveInBackyard = new();
         public List<string> cardGuids = new();
+        public List<string> blacklistedCardGuids = new();
 
         [Serializable]
         public class Dragon

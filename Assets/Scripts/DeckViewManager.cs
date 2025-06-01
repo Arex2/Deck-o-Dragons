@@ -13,7 +13,11 @@ public class DeckViewManager : MonoBehaviour
     void Start()
     {
         List<Card> BlackListTemp = new List<Card>(DeckManager.Instance.BlackListCards);
-        foreach (Card card in DeckManager.Instance.Deck)
+
+        List<Card> cards = new(DeckManager.Instance.Deck);
+        cards.Sort(CardSorter.Instance);
+
+        foreach (Card card in cards)
         {
             CardViewInctance newCard = Instantiate(cardPrefab);
             DeckViewCardButton cardButton = newCard.GetComponent<DeckViewCardButton>();

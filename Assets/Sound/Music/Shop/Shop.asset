@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d27eaec16e60447ad1a4fbbede9423, type: 3}
+  m_Name: Shop
+  m_EditorClassIdentifier: 
+  layers:
+  - {fileID: 7927354644771241594}
+  styles:
+  - name: Default
+    layers:
+    - {fileID: 7927354644771241594}
+--- !u!114 &7927354644771241594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b16f547148b9d43bce31ac2cb6bf92, type: 3}
+  m_Name: Base
+  m_EditorClassIdentifier: 
+  song: {fileID: 11400000}
+  intro: {fileID: 8300000, guid: efa6eae4e9970514eac4f75caee80350, type: 3}
+  loop: {fileID: 8300000, guid: 4c7fe319f6372b34d83374306937a57b, type: 3}

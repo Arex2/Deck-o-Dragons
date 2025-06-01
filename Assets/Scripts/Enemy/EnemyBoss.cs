@@ -93,7 +93,7 @@ public class EnemyBoss : Target
             {
 
                 currentEnemy = Instantiate(enemies[level], transform);
-                currentEnemy.transform.position = new Vector2(0, -8);
+                currentEnemy.transform.position = new Vector2(0, -10);
                 currentEnemy.GetComponentInChildren<SpriteRenderer>().sortingLayerName = "Background";
                 spriteRenderer.sprite = enemySprites[level];
 
