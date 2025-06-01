@@ -682,6 +682,8 @@ GameObject:
   - component: {fileID: 409064011}
   - component: {fileID: 409064012}
   - component: {fileID: 409064015}
+  - component: {fileID: 409064017}
+  - component: {fileID: 409064016}
   m_Layer: 5
   m_Name: BackYardButton
   m_TagString: Untagged
@@ -767,6 +769,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene: 2
+--- !u!225 &409064016
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409064010}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &409064017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409064010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e026186974c0844bb7d08856f3afa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 409064016}
+  checkTimer: 0.5
 --- !u!1 &413642633
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,7 +908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a7f930a781c49c494f64fedbf78285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  egg: {fileID: 1257647025133526901, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
+  egg: {fileID: 2676673371402437761, guid: 40d91b5fb9d191c408e03e2c50c8285f, type: 3}
   babyDragons:
   - {fileID: 6771297126257577066, guid: d9099f9722687184aa01f393290e88d5, type: 3}
   - {fileID: 1517316571791907419, guid: 633318ed241085a429ea3e3e44089dbe, type: 3}
@@ -2667,7 +2695,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 15, y: -15.000122}
+  m_AnchoredPosition: {x: 15, y: -15}
   m_SizeDelta: {x: 705.4556, y: 705.4556}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1329199271
