@@ -682,6 +682,8 @@ GameObject:
   - component: {fileID: 409064011}
   - component: {fileID: 409064012}
   - component: {fileID: 409064015}
+  - component: {fileID: 409064017}
+  - component: {fileID: 409064016}
   m_Layer: 5
   m_Name: BackYardButton
   m_TagString: Untagged
@@ -767,6 +769,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene: 2
+--- !u!225 &409064016
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409064010}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &409064017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409064010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e026186974c0844bb7d08856f3afa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 409064016}
+  checkTimer: 0.5
 --- !u!1 &413642633
 GameObject:
   m_ObjectHideFlags: 0
