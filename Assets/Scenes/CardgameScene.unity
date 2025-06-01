@@ -243,7 +243,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 23.55
   m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -13163,6 +13163,17 @@ MonoBehaviour:
     ({0}/{1})'
   affectSingleCardTextFormat: Choose a card to affect.
   affectUnlimitedCardsTextFormat: Choose the cards to affect.
+  playCard:
+  - {fileID: 8300000, guid: 49b0a5b1cef184e41930cb55fe699b36, type: 3}
+  drawCard:
+  - {fileID: 8300000, guid: e31d0ce2caea5514cb4005f29cd6ab2b, type: 3}
+  - {fileID: 8300000, guid: c0dfbd7b5ba6c4b48aafba2cab0466e3, type: 3}
+  - {fileID: 8300000, guid: 785168863217df74b844a19da5857b4d, type: 3}
+  moveCard:
+  - {fileID: 8300000, guid: 42d9d698079a1c045918ceaed661ce70, type: 3}
+  - {fileID: 8300000, guid: ca436c93ba20ba44a8604c2ba52c9fe6, type: 3}
+  - {fileID: 8300000, guid: e32799ac4235d274c8162a241513d50b, type: 3}
+  - {fileID: 8300000, guid: e00012b6eda52a54696b7091c9e3dd62, type: 3}
 --- !u!224 &3702806461244636456
 RectTransform:
   m_ObjectHideFlags: 0
