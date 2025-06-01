@@ -2,6 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// NO LONGER USED SCRIPT!!!!!!!
+/// Swiping to switch scene is no longer needed.
+/// </summary>
+
 enum EggSceneDirection
 {
     Right, Left, Up, Down

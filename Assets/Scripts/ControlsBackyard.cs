@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
+
+/// <summary>
+/// NO LONGER USED SCRIPT!!!!!!!
+/// Swiping to switch scene is no longer needed.
+/// </summary>
+
+
 public class ControlsBackyard : MonoBehaviour
 {
     public bool swipeActions;

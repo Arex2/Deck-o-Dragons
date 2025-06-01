@@ -21,8 +21,8 @@ public class GameBehaviour : Target
     public bool ButtonPressed => buttonPressed;
     private bool buttonPressed;
 
-    //player stats, should maybe be moved? or script renamed
-    //OBS MaxHP and HP is instead used from Target superclass
+    //player stats
+    //OBS MaxHP and HP is used from Target superclass
     private int mana;
     private int maxMana = 8;
 

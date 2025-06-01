@@ -3,6 +3,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
+
+/// <summary>
+/// NO LONGER USED SCRIPT!!!!!!!
+/// This script is outdated,
+/// it was the previously used version for the cardgame scene
+/// but has since been changed drastically
+/// and is now ControlsV2.
+/// </summary>
+
 enum Direction
 {
     Right, Left, Up, Down
