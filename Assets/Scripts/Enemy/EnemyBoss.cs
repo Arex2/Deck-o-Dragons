@@ -170,6 +170,37 @@ public class EnemyBoss : Target
             {
                 currentMana -= currentCard.Cost;
 
+
+                //Harriet ------------------------------
+
+                //if card is attack card
+                if (currentCard.GetCardComponent<CardAttack>() != null )
+                {
+
+                    //switch vfx according to current enemy
+                    switch (Name)
+                    {
+                        case "Archer":
+                            currentCard.GetCardComponent<CardAttack>().ChangeVFX("ArrowAttack");
+                            break;
+                        case "Guard":
+                            currentCard.GetCardComponent<CardAttack>().ChangeVFX("SpearAttack");
+                            break;
+                        case "Jester":
+                            currentCard.GetCardComponent<CardAttack>().ChangeVFX("PoisonAttack");
+                            break;
+                        case "Princess":
+                            currentCard.GetCardComponent<CardAttack>().ChangeVFX("MagicAttack");
+                            break;
+                        default:
+                        case "Knight":
+                            currentCard.GetCardComponent<CardAttack>().ChangeVFX("Attack");
+                            break;
+
+                    }
+                }
+                //---------------------------------------------
+
                 currentCard.VFXSpawnOrigin = transform.position;
                 StartCoroutine(currentCard.Play(this));
             }
@@ -216,6 +247,7 @@ public class EnemyBoss : Target
 
     private void EndTurn()
     {
+
         /*
          * Code to end turn here
          */
