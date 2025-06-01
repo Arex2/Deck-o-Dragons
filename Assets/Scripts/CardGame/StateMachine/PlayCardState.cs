@@ -21,13 +21,6 @@ public class PlayCardState : IState
     {
         if (!cardHand.IsPlayingCard)
         {
-            //gameBehaviour.EnemyTakeDamage(5);  //DET H�R H�NDER VARJE FRAME HELA TIDEN
-
-            //when played effect is done // could possibly be a cooldown timer have timer in gameBehaviour and return? would that work?
-            //check enemy hp,
-            //if enemy hp <= 0 return gameWon
-            //else return selectionState
-
             if (BattleOverState.BattleOverCheck(out Team? winningTeam))
             {
                 return new BattleOverState(winningTeam);
