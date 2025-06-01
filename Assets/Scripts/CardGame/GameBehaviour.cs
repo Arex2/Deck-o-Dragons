@@ -242,9 +242,11 @@ public class GameBehaviour : Target
     //Damage text
     private void ShowFloatingText(AttackData attackData)
     {
-        GameObject obj = Instantiate(FloatingTextPrefab, new Vector3(camera.ScreenToWorldPoint(hpSlider.fillRect.transform.position).x, camera.ScreenToWorldPoint(hpSlider.transform.position).y, 0), Quaternion.identity);
+        //GetComponent<GameObject>().GetChi
+        Vector3 spawnPos = hpSlider.fillRect.transform.GetChild(1).transform.position;
+        GameObject obj = Instantiate(FloatingTextPrefab, new Vector3(camera.ScreenToWorldPoint(spawnPos).x, camera.ScreenToWorldPoint(spawnPos).y, 0), Quaternion.identity);
         obj.GetComponent<TextMeshPro>().text = attackData.ToString();
-        Debug.Log("Spawn pos:  " + new Vector3(camera.ScreenToWorldPoint(hpSlider.fillRect.transform.position).x, camera.ScreenToWorldPoint(hpSlider.transform.position).y, 0));
+        //Debug.Log("Spawn pos:  " + new Vector3(camera.ScreenToWorldPoint(spawnPos).x, camera.ScreenToWorldPoint(spawnPos).y, 0));
         //obj.GetComponent<TextMeshPro>().color = Random.ColorHSV();
         obj.GetComponent<TextMeshPro>().color = Color.red;
     }
