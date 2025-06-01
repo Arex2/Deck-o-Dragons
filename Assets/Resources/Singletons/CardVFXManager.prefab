@@ -47,8 +47,19 @@ MonoBehaviour:
   tags:
   - Attack
   - Heal
+  - FireAttack
+  - ArrowAttack
+  - SpearAttack
+  - PoisonAttack
+  - MagicAttack
   cardVFXPrefabs:
+  - {fileID: 3467240841848256987, guid: e41766f67daf2df4295251cb9ab208db, type: 3}
   - {fileID: 8529259432028219167, guid: 33c33183e98d67d42a5f7d4e5e46ae64, type: 3}
   - {fileID: 102398844963847324, guid: d2b2b04b7e2c6a241a1afa54185e45c2, type: 3}
+  - {fileID: 7110235199367414527, guid: 96e939b0dc1719d4f8d3c452e1b0b8cb, type: 3}
   - {fileID: 2405398319983216021, guid: 4787cc505c9d37948b7b1ccb031ed8d1, type: 3}
+  - {fileID: 1054048531730966016, guid: 9597e7cd835c9b74bbcd03fcc6f76af4, type: 3}
+  - {fileID: 3472015632407963271, guid: dff325399a256a742adf84e87d9a26bf, type: 3}
   - {fileID: 295284891178577247, guid: 5e67d0d4bc8115441b7a814d50b4569c, type: 3}
+  - {fileID: 4723882574551051287, guid: 47c9065d08a1a064c917bc3432b2fe94, type: 3}
+  - {fileID: 5946902917070384221, guid: 1f08768c951536a4f94f6afe57d23cb0, type: 3}
