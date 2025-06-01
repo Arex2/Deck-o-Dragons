@@ -285,8 +285,9 @@ MonoBehaviour:
   - {fileID: 3536669405657997382, guid: bc19e323528dbc34d9293e5fb6208e16, type: 3}
   - {fileID: 6000442729658798948, guid: 2ee7f531270b0344f91c64f2289e2f53, type: 3}
   - {fileID: 304436070348277213, guid: 907d8d28fb0b1a44a8cc7bdd28eae2cc, type: 3}
-  - {fileID: 7658606401716522177, guid: c24e0862ce2b6114f8ad529de3f999a0, type: 3}
-  - {fileID: 7658606401716522177, guid: c24e0862ce2b6114f8ad529de3f999a0, type: 3}
+  - {fileID: 2952245506983850822, guid: dbd9dc1bf3151d149994f47781b4b60a, type: 3}
+  - {fileID: 7982012564683334103, guid: 1c04409ceebba744dacd1cb046082f51, type: 3}
+  - {fileID: 3641901964518867971, guid: e41c231e5878c2c4d8b9a74509c4135d, type: 3}
   - {fileID: 7658606401716522177, guid: c24e0862ce2b6114f8ad529de3f999a0, type: 3}
   - {fileID: 7658606401716522177, guid: c24e0862ce2b6114f8ad529de3f999a0, type: 3}
   enemySprites:
@@ -294,8 +295,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 11d6b67cb5e24d44ebeb8b64322d3362, type: 3}
   - {fileID: 21300000, guid: 74d31a0986b1394448f97e34163969d8, type: 3}
   - {fileID: 21300000, guid: c6e1420baf3179e4b8142954385e4d1f, type: 3}
-  - {fileID: 21300000, guid: 31f8b9cef0585d64e9bfc3d5504a4564, type: 3}
-  - {fileID: 21300000, guid: 31f8b9cef0585d64e9bfc3d5504a4564, type: 3}
+  - {fileID: -5151495820218622489, guid: edfaffd066f257740a23e26d3e9e5e5c, type: 3}
+  - {fileID: -3020465197467173391, guid: 3e36a20d5b2c78c45a89e7ad72a335a2, type: 3}
+  - {fileID: -1009267698921882843, guid: 3ee04756a51d861418549bae9de23bd2, type: 3}
   - {fileID: 21300000, guid: 31f8b9cef0585d64e9bfc3d5504a4564, type: 3}
   - {fileID: 21300000, guid: 31f8b9cef0585d64e9bfc3d5504a4564, type: 3}
   enemyNames:
@@ -303,8 +305,9 @@ MonoBehaviour:
   - Guard
   - Jester
   - Knight
-  - Princess
-  - Princess
+  - Guard
+  - Archer
+  - Knight
   - Princess
   - Princess
   nameText: {fileID: 0}
