@@ -29,6 +29,11 @@ public class NewCardShopManager : MonoBehaviour
     [SerializeField] private Button rerollButton;
     [SerializeField] private Button addButton;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip selectSFX;
+    [SerializeField] private AudioClip addSFX;
+    [SerializeField] private AudioClip disolveSFX;
+
     private SceneSwitcher _sceneSwitcher;
     private Vector2 _screenSpaceEnd;
     private float _scaleEnd;
@@ -113,7 +118,7 @@ public class NewCardShopManager : MonoBehaviour
         if (card == null) return;
 
         CardViewInctance newCard = Instantiate(cardPrefab);
-        newCard.setNewCard(card);
+        newCard.SetNewCard(card);
         newCard.transform.parent = contentContainer.transform;
         newCard.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
 
@@ -180,9 +185,10 @@ public class NewCardShopManager : MonoBehaviour
             zoomCardRectTransform.localScale = Vector3.one * _scaleStart;
             zoomCardRectTransform.position = _screenSpaceStart;
 
-            zoomCardViewInctance.setNewCard(_cardsBeingShown[scroll.indexOfShortestDistance]);
+            zoomCardViewInctance.SetNewCard(_cardsBeingShown[scroll.indexOfShortestDistance]);
             zoomCardRectTransform.DOMove(_screenSpaceEnd, timeToZoomIn);
             zoomCardRectTransform.DOScale(_scaleEnd, timeToZoomIn);
+            AudioManager.Instance.PlaySFX(selectSFX);
         }
     }
 
@@ -195,17 +201,19 @@ public class NewCardShopManager : MonoBehaviour
             zoomCardRectTransform.DOMove(_screenSpaceStart, timeToZoomOut);
             zoomCardRectTransform.DOScale(_scaleStart, timeToZoomOut);
             Invoke("CloseZoomWindow", timeToZoomOut);
+            AudioManager.Instance.PlaySFX(selectSFX);
         }
     }
 
     private void CloseZoomWindow()
     {
+        zoomCardViewInctance.SetVisible();
         zoomCardPanel.SetActive(false);
     }
 
     public void AddCardToDeck()
     {
-        isZoomed = false;
+        if (!isZoomed) return;
 
         _cardsTaken++;
         Card cardToAdd = _cardsBeingShown[scroll.indexOfShortestDistance];
@@ -220,8 +228,11 @@ public class NewCardShopManager : MonoBehaviour
         }
 
         UpdateText();
+        AudioManager.Instance.PlaySFX(addSFX);
+        AudioManager.Instance.PlaySFX(disolveSFX);
+        zoomCardViewInctance.Disolve(CloseZoomWindow);
 
-        Invoke("CloseZoomWindow", 0.2f);
+        isZoomed = false;
     }
 
     private void Exit()
