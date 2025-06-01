@@ -5,29 +5,29 @@ using UnityEngine.UI;
 
 public class DeckViewCardButton : MonoBehaviour
 {
-    [SerializeField] private CardVisuals cardVisuals;
     [SerializeField] private Image deselectOverlay;
-    [Space]
     [SerializeField] private float deselectAlpha = 0.3f;
+    [Space]
 
-    private Card card;
+    public Card card;
+    public bool isInActiveDeck;
 
-    private bool isInActiveDeck;
+
+    public void ButtonHandle()
+    {
+        isInActiveDeck = !isInActiveDeck;
+        if (isInActiveDeck) SetSelected();
+        else SetDeselected();
+    }
     
-
-    public void Initialize(Card card)
-    {
-        this.card = card;
-
-    }
-    private void SetUnselected()
-    {
-
-    }
+    private void SetDeselected()
+            {
+                deselectOverlay.color = new Color(0,0,0,deselectAlpha);
+            }
 
     private void SetSelected()
     {
-
+        deselectOverlay.color = new Color(0,0,0,0);
     }
 
 

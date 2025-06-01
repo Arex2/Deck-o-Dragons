@@ -20,7 +20,7 @@ public class DeckViewManager : MonoBehaviour
 
             if(cardButton != null)
             {
-                cardButton.Initialize(card);
+                cardButton.card = card;
             }
         }
 
