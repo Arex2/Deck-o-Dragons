@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8686579473324182927, guid: edfaffd066f257740a23e26d3e9e5e5c, type: 3}
+      propertyPath: m_SortingLayer
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8686579473324182927, guid: edfaffd066f257740a23e26d3e9e5e5c, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1884467413
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
