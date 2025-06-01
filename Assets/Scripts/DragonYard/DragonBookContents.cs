@@ -64,8 +64,6 @@ public class DragonBookContents : MonoBehaviour
             }
 
             pagesInBook += 2;
-            Debug.Log("increase pages");
-            Debug.Log(dragonNamesInBook.Count);
         }
 
         /*Debug.Log("dragonCounter: " + dragonCounter);

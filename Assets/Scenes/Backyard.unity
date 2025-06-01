@@ -148,7 +148,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 129061402}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &129061404
 Camera:
   m_ObjectHideFlags: 0
@@ -1113,11 +1113,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1381,11 +1381,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1681,11 +1681,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1820,11 +1820,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3157,6 +3157,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 112622, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 120216, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -3482,22 +3486,22 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1686723730}
     - targetCorrespondingSourceObject: {fileID: 22406382, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
-      insertIndex: 0
+      insertIndex: -1
       addedObject: {fileID: 1873040171}
     - targetCorrespondingSourceObject: {fileID: 22406382, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
-      insertIndex: 1
+      insertIndex: -1
       addedObject: {fileID: 1898897000}
     - targetCorrespondingSourceObject: {fileID: 22406382, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
-      insertIndex: 2
+      insertIndex: -1
       addedObject: {fileID: 716562175}
     - targetCorrespondingSourceObject: {fileID: 22485034, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
-      insertIndex: 0
+      insertIndex: -1
       addedObject: {fileID: 360102431}
     - targetCorrespondingSourceObject: {fileID: 22485034, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
-      insertIndex: 1
+      insertIndex: -1
       addedObject: {fileID: 1939421811}
     - targetCorrespondingSourceObject: {fileID: 22485034, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
-      insertIndex: 2
+      insertIndex: -1
       addedObject: {fileID: 1086697908}
     - targetCorrespondingSourceObject: {fileID: 22447776, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       insertIndex: -1
@@ -3583,11 +3587,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -4596,11 +4600,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -4876,11 +4880,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5851,11 +5855,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -6484,11 +6488,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -6618,11 +6622,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -6752,11 +6756,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -6886,11 +6890,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
-    m_PressedColor: {r: 0.9019608, g: 0.6862745, b: 0.29411766, a: 1}
-    m_SelectedColor: {r: 0.9019608, g: 0.6862745, b: 0.29803923, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 0.79607844, g: 0.64705884, b: 0.47843137, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -6994,18 +6998,15 @@ MonoBehaviour:
   dragonCollection: {fileID: 965064031}
   dragonLimitText: {fileID: 2019747271}
   openBookSFX: {fileID: 8300000, guid: 172eeaf570128eb4aae4b3c281f71d5c, type: 3}
-  controlledBook: {fileID: 1626685303}
   activeLeftPage: {fileID: 1977415732}
   activeRightPage: {fileID: 1740929741}
   leftPageOnTurn: {fileID: 521964775}
   rightPageOnTurn: {fileID: 185867240}
-  buttons:
-  - {fileID: 610901115}
-  - {fileID: 1435448938}
-  - {fileID: 1836009904}
-  - {fileID: 1319123599}
-  - {fileID: 426455116}
-  - {fileID: 1686723732}
+  waterProfile: {fileID: 21300000, guid: 6a6e6ee3a06b0450788a1129ab0b46eb, type: 3}
+  earthProfile: {fileID: 21300000, guid: 6bd2e7ea6792f4176b156ac241791247, type: 3}
+  fireProfile: {fileID: 21300000, guid: 7bbdef2fe63ff4624af1676df644dbee, type: 3}
+  airProfile: {fileID: 21300000, guid: d38b0efb100de44d985673e3e0ffd31d, type: 3}
+  controlledBook: {fileID: 1626685303}
   closeButton: {fileID: 1089955074}
 --- !u!224 &1977415731 stripped
 RectTransform:

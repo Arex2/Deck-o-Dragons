@@ -23,7 +23,8 @@ public class Book : MonoBehaviour
     public Sprite rightPage;
     public Sprite[] bookPages;
     public bool interactable = true;
-    public bool enableShadowEffect = true;
+    private bool canUpdatePagesWhileFlipping = true;
+    private bool enableShadowEffect = true;
     //represent the index of the sprite shown in the right page
     public int currentPage = 0;
     public bool addPage = false; //lagt till
@@ -140,7 +141,7 @@ public class Book : MonoBehaviour
         //lägger in gamla pages i nya array
         temp.CopyTo(bookPages, 0);
 
-        Debug.Log(bookPages.Length);
+        //Debug.Log(bookPages.Length);
 
         //assignear sprite till nya sidan
         if(bookPages.Length % 2 == 0)
@@ -199,9 +200,10 @@ public class Book : MonoBehaviour
     {
         if (pageDragging && interactable)
         {
-            if(!DragonBook.addDragonsToBookOnFlipPage)
+            if(!DragonBook.addDragonsToBookOnFlipPage && canUpdatePagesWhileFlipping)
             {
                 DragonBook.addDragonsToBookOnFlipPage = true;
+                canUpdatePagesWhileFlipping = false;
             }
 
             UpdateBook();
@@ -368,14 +370,21 @@ public class Book : MonoBehaviour
         RightNext.sprite = (currentPage < bookPages.Length - 2) ? bookPages[currentPage + 2] : background;
 
         LeftNext.transform.SetAsFirstSibling();
+
         if (enableShadowEffect) Shadow.gameObject.SetActive(true);
         UpdateBookRTLToPoint(f);
     }
     public void OnMouseDragRightPage()
     {
         if (interactable)
-        DragRightPageToPoint(transformPoint(Input.mousePosition));
-        
+        {
+            /*if (!DragonBook.addDragonsToBookOnFlipPage)
+            {
+                DragonBook.addDragonsToBookOnFlipPage = true;
+            }*/
+
+            DragRightPageToPoint(transformPoint(Input.mousePosition));
+        }
     }
     public void DragLeftPageToPoint(Vector3 point)
     {
@@ -412,7 +421,14 @@ public class Book : MonoBehaviour
     public void OnMouseDragLeftPage()
     {
         if (interactable)
-        DragLeftPageToPoint(transformPoint(Input.mousePosition));
+        {
+            /*if (!DragonBook.addDragonsToBookOnFlipPage)
+            {
+                DragonBook.addDragonsToBookOnFlipPage = true;
+            }*/
+
+            DragLeftPageToPoint(transformPoint(Input.mousePosition));
+        }
         
     }
     public void OnMouseRelease()
@@ -434,6 +450,8 @@ public class Book : MonoBehaviour
             else
                 TweenForward();
 
+            //DragonBook.addDragonsToBook = true;
+            canUpdatePagesWhileFlipping = true;
             DragonBook.pageRelease = true;
         }
     }

@@ -93,22 +93,25 @@ public class DragonBook : MonoBehaviour
 
         //AddDragonsToBookCollectionAPageAtATime();
         AddSelectedDragonsToYardOnLoad();
-        AddDragonsToBookPages();
+        //AddDragonsToBookPages();
     }
 
     private void Update()
     {
         //DragonBookContents.testprint();
 
-        if(addDragonsToBook)
+        if(addDragonsToBook && !pageRelease)
         {
-            AddDragonsToBookPages();
+            //Debug.Log("lägger till sidor när jag släpper");
             addDragonsToBook = false;
+            AddDragonsToBookPages();
+            Debug.Log("add 1");
         }
 
-        if(pageRelease)
+        if(pageRelease && !addDragonsToBook)
         {
             AddDragonsToBookPages();
+            Debug.Log("add 2");
             pageRelease = false;
         }
 
@@ -157,11 +160,16 @@ public class DragonBook : MonoBehaviour
     private void AddDragonsToBookPages()
     {
         //int indexOfDragonToAdd = currentPage * DragonBookContents.GetDragonsPerPageAmount();
-        int indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 2) * DragonBookContents.GetDragonsPerPageAmount();
-        AddButtonsToAPage(activeLeftPage, indexOfDragonToAdd);
+        if(controlledBook.GetComponent<Book>().currentPage != 0)
+        {
+            Debug.Log(" buttons changing, at: " + Time.deltaTime);
 
-        indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 1) * DragonBookContents.GetDragonsPerPageAmount();
-        AddButtonsToAPage(activeRightPage, indexOfDragonToAdd);
+            int indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 2) * DragonBookContents.GetDragonsPerPageAmount();
+            AddButtonsToAPage(activeLeftPage, indexOfDragonToAdd);
+
+            indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 1) * DragonBookContents.GetDragonsPerPageAmount();
+            AddButtonsToAPage(activeRightPage, indexOfDragonToAdd);
+        }
     }
 
     private void AddButtonsToAPage(Image page, int indexOfDragonToAdd)
