@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class DeckViewCardButton : MonoBehaviour
 {
+    [SerializeField] private DeckLimitPopup popup;
     [SerializeField] private Image deselectOverlay;
     [SerializeField] private float deselectAlpha = 0.3f;
     [Space]
@@ -36,10 +37,14 @@ public class DeckViewCardButton : MonoBehaviour
             DeckManager.Instance.RemoveFromBlackList(card);
             SetSelected();
         }
-        else if(DeckManager.Instance.Deck.Count - DeckManager.Instance.BlackListCards.Count> minNumberOfCardsInDeck)
+        else if (DeckManager.Instance.Deck.Count - DeckManager.Instance.BlackListCards.Count > minNumberOfCardsInDeck)
         {
             DeckManager.Instance.AddToBlackList(card);
             SetDeselected();
+        }
+        else
+        {
+            popup.Popup();
         }
     }
     

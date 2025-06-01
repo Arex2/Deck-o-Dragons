@@ -30,7 +30,7 @@ public class CardShopZoomedCard : MonoBehaviour
         cardRectTransform.position = screenSpaceStart;
 
         cardViewInctance.setNewCard(card);
-        cardRectTransform.DOMove(screenSpaceEnd, 1.2f);
+        cardRectTransform.DOMove(screenSpaceEnd, duration: 1.2f);
         cardRectTransform.DOScale(scaleEnd, 1.2f);
     }
 
