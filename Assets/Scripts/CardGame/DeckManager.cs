@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,12 +16,12 @@ public class DeckManager : Singleton<DeckManager>
     public List<Card> Deck {get; private set;}
     public Stack<Card> DrawPile { get; private set; }
     public LinkedList<Card> DiscardPile { get; private set; }
+    public List<Card> BlackListCards {get; private set;}
 
     public static Action OnUpdateDrawPile { get; set; }
     public static Action OnUpdateDiscardPile { get; set; }
     public static Action OnUpdateDeck { get; set; }
 
-    private List<Card> BlackListCards;
 
     protected override void Awake()
     {
@@ -45,7 +46,24 @@ public class DeckManager : Singleton<DeckManager>
     public void ResetDeck()
     {
         DrawPile.Clear();
-        ShuffleDrawFromList(new List<Card>(Deck.Except(BlackListCards)));
+        List<Card> tempActiveDeck = new List<Card>(Deck);
+        foreach(Card card in BlackListCards)
+        {
+            tempActiveDeck.Remove(card);
+        }
+        ShuffleDrawFromList(tempActiveDeck);
+        DiscardPile.Clear();
+
+        OnUpdateDrawPile?.Invoke();
+        OnUpdateDiscardPile?.Invoke();
+
+        OnUpdateDeck?.Invoke();
+    }
+
+    public void ReshuffleDeck()
+    {
+        DrawPile.Clear();
+        ShuffleDrawFromList(new List<Card>(DiscardPile));
         DiscardPile.Clear();
 
         OnUpdateDrawPile?.Invoke();
@@ -90,7 +108,7 @@ public class DeckManager : Singleton<DeckManager>
     {
         if (DrawPile.Count <= 0)
         {
-            ResetDeck();
+            ReshuffleDeck();
         }
 
         Card card = DrawPile.Pop();
@@ -106,7 +124,7 @@ public class DeckManager : Singleton<DeckManager>
 
         if (count <= 0)
         {
-            ResetDeck();
+            ReshuffleDeck();
         }
 
         Stack<Card> tempPile = new Stack<Card>();
@@ -196,6 +214,11 @@ public class DeckManager : Singleton<DeckManager>
         }
     }
 
+    public List<Card> GetActiveDeck()
+    {
+        return Deck.Except(second: BlackListCards).ToList<Card>();
+    }
+
     private void ShuffleDrawFromList(List<Card> cards)
     {
         int count = cards.Count;
@@ -211,7 +234,7 @@ public class DeckManager : Singleton<DeckManager>
         //Make sure this is done from a temporary List
         //cards.OrderBy(card => Random.Range(minInclusive: 1f, maxInclusive: 100f));
 
-        foreach(Card card in cards)
+        foreach (Card card in cards)
         {
             DrawPile.Push(card);
         }
