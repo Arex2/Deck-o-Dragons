@@ -15,7 +15,8 @@ public class SelectionState : IState
         gameBehaviour.ResetButtonText();
         gameBehaviour.CheckCardAvailability();
         //gameBehaviour.indicatorManager.ClearIndicators();
-        gameBehaviour.indicatorManager.UpdateIndicatorsForOldCard();
+        //gameBehaviour.indicatorManager.UpdateIndicatorsForOldCard();
+        gameBehaviour.UpdateCardIndicators();
 
         gameBehaviour.StatusButton.ProceedStatus(CardgameStatusButton.PLAYER_TURN, CardgameStatusButton.DISCARD);
         gameBehaviour.cardHand.CanPlayCards = true;
