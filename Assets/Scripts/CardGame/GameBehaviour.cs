@@ -309,6 +309,11 @@ public class GameBehaviour : Target
         cardHand.CheckCardAvailability();
     }
 
+    public void UpdateCardIndicators()
+    {
+        cardHand.UpdateCardIndicator();
+    }
+
     public void SwitchToEggScene()
     {
         SceneManager.LoadScene(1);

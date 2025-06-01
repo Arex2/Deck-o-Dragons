@@ -252,11 +252,22 @@ public class CardHand : MonoBehaviour
             //om inte samma kort som precis innan, unless det är enda kortet i handen
             else if (previousIndex != currentIndex)// || cardsInHand.Count == 1)
             {
+
+                UpdateCardIndicator();
+                /*
                 if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
                 {
                     gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
-                }
+                }*/
             }
+        }
+    }
+
+    public void UpdateCardIndicator()
+    {
+        if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
+        {
+            gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
         }
     }
 
@@ -572,6 +583,12 @@ public class CardHand : MonoBehaviour
         IsPlayingCard = true;
 
         cardsInHand.RemoveAt(CurrentIndex);
+
+        //om handen blir tom, clear indicators
+        if (cardsInHand.Count == 0)
+        {
+            gameBehaviour.indicatorManager.ClearIndicators();
+        }
 
         cardObj.Canvas.sortingOrder = startSortingOrder + count + 10;
         cardObj.CardVisuals.CanvasGroup.blocksRaycasts = false;
