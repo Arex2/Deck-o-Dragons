@@ -33,6 +33,7 @@ public class NewCardShopManager : MonoBehaviour
     [SerializeField] private AudioClip selectSFX;
     [SerializeField] private AudioClip addSFX;
     [SerializeField] private AudioClip disolveSFX;
+    [SerializeField] private AudioClip rerollSFX;
 
     private SceneSwitcher _sceneSwitcher;
     private Vector2 _screenSpaceEnd;
@@ -85,6 +86,7 @@ public class NewCardShopManager : MonoBehaviour
 
         ClearCards();
         PopulateCards();
+        AudioManager.Instance.PlaySFX(rerollSFX);
 
         rerollButton.interactable = _rerollsRemaining > 0;
 
