@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
   - song: {fileID: 11400000, guid: 817f50a48945bfb46959dd4cca8da0d1, type: 2}
-    scenes: 000000000100000002000000030000000400000005000000
+    scenes: 0000000001000000020000000300000004000000
   - song: {fileID: 11400000, guid: 2a9ddd25214a10c4188e2e29f3254ad2, type: 2}
     scenes: 06000000
+  - song: {fileID: 11400000, guid: a011178add82391498d6f3509ee2030c, type: 2}
+    scenes: 0700000005000000

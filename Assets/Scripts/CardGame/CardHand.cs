@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -223,12 +222,13 @@ public class CardHand : MonoBehaviour
     /// </summary>
     private void OnDifferentCard()
     {
+        /*
         if (AudioManager.Instance != null && previousIndex != currentIndex)
         {
             int randomIndex = UnityEngine.Random.Range(0, moveCard.Length);
             AudioManager.Instance.PlaySFX(moveCard[randomIndex]);
         }
-
+        */
 
         //dont show indicators when selecting cards for other things 
         //OBS this might need to be changed to discarding phase???
@@ -248,15 +248,36 @@ public class CardHand : MonoBehaviour
                 //Debug.Log("Current index: " + currentIndex);
                 //Debug.Log("Pos 0, current card: " + c);
                 gameBehaviour.indicatorManager.UpdateIndicators(c);
+                if (AudioManager.Instance != null && previousIndex != currentIndex)
+                {
+                    int randomIndex = UnityEngine.Random.Range(0, moveCard.Length);
+                    AudioManager.Instance.PlaySFX(moveCard[randomIndex]);
+                }
             }
             //om inte samma kort som precis innan, unless det är enda kortet i handen
             else if (previousIndex != currentIndex)// || cardsInHand.Count == 1)
             {
+
+                UpdateCardIndicator();
+                if (AudioManager.Instance != null && previousIndex != currentIndex)
+                {
+                    int randomIndex = UnityEngine.Random.Range(0, moveCard.Length);
+                    AudioManager.Instance.PlaySFX(moveCard[randomIndex]);
+                }
+                /*
                 if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
                 {
                     gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
-                }
+                }*/
             }
+        }
+    }
+
+    public void UpdateCardIndicator()
+    {
+        if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
+        {
+            gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
         }
     }
 
@@ -573,6 +594,12 @@ public class CardHand : MonoBehaviour
 
         cardsInHand.RemoveAt(CurrentIndex);
 
+        //om handen blir tom, clear indicators
+        if (cardsInHand.Count == 0)
+        {
+            gameBehaviour.indicatorManager.ClearIndicators();
+        }
+
         cardObj.Canvas.sortingOrder = startSortingOrder + count + 10;
         cardObj.CardVisuals.CanvasGroup.blocksRaycasts = false;
 
@@ -878,6 +905,26 @@ public class CardHand : MonoBehaviour
 
         if (CardgameTutorialManager.InTutorial && CardgameTutorialManager.TutorialStep <= 5) // tutorial stuff
         {
+            List<Card> tempList = new(CardgameTutorialManager.Instance.TutorialCards);
+            List<Card> poppedCards = new();
+
+            while (tempList.Count > 0 && DeckManager.Instance.DrawPile.TryPop(out Card card))
+            {
+                if (tempList.Contains(card))
+                {
+                    tempList.Remove(card);
+                }
+                else
+                {
+                    poppedCards.Add(card);
+                }
+            }
+
+            foreach (Card card in poppedCards)
+            {
+                DeckManager.Instance.DrawPile.Push(card);
+            }
+
             cardsToDraw.AddRange(CardgameTutorialManager.Instance.TutorialCards);
             actualCount = cardsToDraw.Count;
         }

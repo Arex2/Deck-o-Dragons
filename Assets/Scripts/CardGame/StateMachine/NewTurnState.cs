@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NewTurnState : IState //VET EJ OM MONO BEH�VS H�R, ALTERNATIVT HA DEN I ISTATE
+public class NewTurnState : IState
 {
     GameBehaviour gameBehaviour;
     CardHand cardHand;
@@ -21,11 +21,8 @@ public class NewTurnState : IState //VET EJ OM MONO BEH�VS H�R, ALTERNATIVT 
 
         gameBehaviour.StartCoroutine(cardHand.DrawNewHand());
 
-        return new SelectionState(); //byter till selection State efter det h�r
+        return new SelectionState(); //byter till selection State efter det här
     }
 
-    public void Exit()
-    {
-
-    }
+    public void Exit(){}
 }

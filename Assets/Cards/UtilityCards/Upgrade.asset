@@ -82,7 +82,7 @@ MonoBehaviour:
   guid: 8308501f4d5c6c448961f6839a94a750
   sprite: {fileID: 21300000, guid: f83023a3d7dab6740a9172052d05203c, type: 3}
   displayName: Upgrade
-  description: Upgrades a card of your choosing by 1 level (if it can be upgraded).
+  description: Upgrades a card of your choosing by 1 level.
   cost: 1
   element: 0
   category: 4

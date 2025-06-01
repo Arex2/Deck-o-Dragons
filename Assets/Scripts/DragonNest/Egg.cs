@@ -28,6 +28,12 @@ public class Egg : MonoBehaviour
     [SerializeField] private Sprite[] crackedSprites;
     [SerializeField] private GameObject eggInPieces;
     [SerializeField] private AudioClip[] eggCrackSFX;
+    [SerializeField] private AudioClip hatchSFX;
+
+    [Header("Fall animation")]
+    public Animator animator;
+    public AudioClip landSFX;
+    public bool canBeCracked = true;
 
     private ScreenShake screenShake;
 
@@ -55,6 +61,11 @@ public class Egg : MonoBehaviour
 
     void Update()
     {
+        if (!canBeCracked)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.K))
         {
             Hatch();
@@ -106,6 +117,11 @@ public class Egg : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (!canBeCracked)
+        {
+            return;
+        }
+
         if (!isHatching && shakeCount >= 3)
         {
             //Hatch();
@@ -125,6 +141,16 @@ public class Egg : MonoBehaviour
 
     private void TapToOpen()
     {
+        if (!canBeCracked)
+        {
+            return;
+        }
+
+        if (isHatching)
+        {
+            return;
+        }
+
         //tap feedback effect
         squashAndStretch.PlaySquashAndStretch();
 
@@ -187,6 +213,9 @@ public class Egg : MonoBehaviour
 
     private void Hatch()
     {
+        AudioManager.Instance.PlaySFX(hatchSFX);
+
+        canBeCracked = false;
         isHatching = true;
 
         //TextInputManager.SpawnKeyboard();
@@ -230,7 +259,21 @@ public class Egg : MonoBehaviour
 
     private void SpawnDragon()
     {
-        int index = UnityEngine.Random.Range(0, dragonActive.babyDragons.Length);
+        int maxElement = dragonActive.babyDragons.Length;
+        int index = UnityEngine.Random.Range(0, maxElement);
+
+        int gottenElementsCount = SaveManager.DragonElementsGotten.Count;
+        if (gottenElementsCount < maxElement)
+        {
+            while (SaveManager.DragonElementsGotten.Contains(index))
+            {
+                index++;
+                index %= maxElement;
+            }
+
+            SaveManager.DragonElementsGotten.Add(index);
+        }
+
         Instantiate(dragonActive.babyDragons[index], new Vector3(0, -3, 0), Quaternion.identity);
         //DragonActive.drPref = dragons[index];
         DragonActive.index = index;
@@ -242,5 +285,15 @@ public class Egg : MonoBehaviour
     {
         BreakOpenShell();
         Destroy(gameObject);
+    }
+
+    public void DisableAnimator()
+    {
+        animator.enabled = false;
+    }
+
+    public void PlayLandSFX()
+    {
+        AudioManager.Instance.PlaySFX(landSFX);
     }
 }

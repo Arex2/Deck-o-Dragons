@@ -14,15 +14,12 @@ public class SelectionState : IState
         gameBehaviour.EnableButton();
         gameBehaviour.ResetButtonText();
         gameBehaviour.CheckCardAvailability();
-        //gameBehaviour.indicatorManager.ClearIndicators();
-        gameBehaviour.indicatorManager.UpdateIndicatorsForOldCard();
+        gameBehaviour.UpdateCardIndicators();
 
         gameBehaviour.StatusButton.ProceedStatus(CardgameStatusButton.PLAYER_TURN, CardgameStatusButton.DISCARD);
         gameBehaviour.cardHand.CanPlayCards = true;
 
         //gameBehaviour.UpdateStatusText("Select a card");
-        //player gets input
-        //Wait();
         controls.controls.Enable();
     }
 
@@ -84,13 +81,4 @@ public class SelectionState : IState
         gameBehaviour.DisableButton();
         controls.controls.Disable();
     }
-
-    /*
-    private IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(5);
-        test = true;
-    }
-    */
-
 }

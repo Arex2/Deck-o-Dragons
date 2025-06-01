@@ -10,11 +10,27 @@ public class SaveManager : Singleton<SaveManager>
 {
     public static string GetSavePath() => Path.Combine(Application.persistentDataPath, "save.txt");
 
+    public static bool SeenWelcomePopup
+    {
+        get => _data.seenWelcomePopup;
+        set => _data.seenWelcomePopup = value;
+    }
     public static bool SeenBattleTutorial
     {
         get => _data.seenBattleTutorial;
         set => _data.seenBattleTutorial = value;
     }
+    public static bool SeenEvolutionPopup
+    {
+        get => _data.seenEvolutionPopup;
+        set => _data.seenEvolutionPopup = value;
+    }
+    public static bool SeenBackyardPopup
+    {
+        get => _data.seenBackyardPopup;
+        set => _data.seenBackyardPopup = value;
+    }
+
     public static bool MusicMuted
     {
         get => _data.musicMuted;
@@ -33,6 +49,8 @@ public class SaveManager : Singleton<SaveManager>
             Instance.UpdateAudio();
         }
     }
+
+    public static List<int> DragonElementsGotten => _data.dragonElementsGotten;
 
     private static SaveData _data;
 
@@ -106,6 +124,22 @@ public class SaveManager : Singleton<SaveManager>
         }
 
         // Load cards
+        if (_data.blacklistedCardGuids.Count > 0)
+        {
+            DeckManager.Instance.BlackListCards.Clear();
+
+            foreach (string cardGuid in _data.blacklistedCardGuids)
+            {
+                Card card = CardManager.GetCardByGUID(cardGuid);
+
+                if (card == null)
+                {
+                    continue;
+                }
+
+                DeckManager.Instance.BlackListCards.Add(card);
+            }
+        }
         if (_data.cardGuids.Count > 0)
         {
             IEnumerable<Card> LoadCards()
@@ -172,13 +206,24 @@ public class SaveManager : Singleton<SaveManager>
             _data.cardGuids.Add(card.GUID);
         }
 
+        _data.blacklistedCardGuids.Clear();
+
+        foreach (Card card in DeckManager.Instance.BlackListCards)
+        {
+            _data.blacklistedCardGuids.Add(card.GUID);
+        }
+
         File.WriteAllText(GetSavePath(), JsonUtility.ToJson(_data));
     }
 
     [Serializable]
     private class SaveData
     {
+        public bool seenWelcomePopup;
         public bool seenBattleTutorial;
+        public bool seenEvolutionPopup;
+        public bool seenBackyardPopup;
+
         public bool musicMuted;
         public bool sfxMuted;
         public int currentLevel;
@@ -188,9 +233,11 @@ public class SaveManager : Singleton<SaveManager>
         public int activeDragonAge;
         public int activeDragonEvolutionProcess;
 
+        public List<int> dragonElementsGotten = new();
         public List<Dragon> dragonsInBook = new();
         public List<Dragon> dragonsActiveInBackyard = new();
         public List<string> cardGuids = new();
+        public List<string> blacklistedCardGuids = new();
 
         [Serializable]
         public class Dragon

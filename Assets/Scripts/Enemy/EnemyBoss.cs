@@ -42,6 +42,7 @@ public class EnemyBoss : Target
     [SerializeField] private float shakeDuration;
     [SerializeField] private float shakeMagnitude;
     private Vector3 originalPosition;
+    private Vector3 deathPosition;
 
     /*
      * Audio
@@ -81,7 +82,7 @@ public class EnemyBoss : Target
         UpdateHP();
 
         originalPosition = transform.localPosition;
-        transform.localPosition = new Vector3(0, -6);
+        deathPosition = transform.localPosition = new Vector3(0, -6);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -93,7 +94,7 @@ public class EnemyBoss : Target
             {
 
                 currentEnemy = Instantiate(enemies[level], transform);
-                currentEnemy.transform.position = new Vector2(0, -8);
+                currentEnemy.transform.position = new Vector2(0, -10);
                 currentEnemy.GetComponentInChildren<SpriteRenderer>().sortingLayerName = "Background";
                 spriteRenderer.sprite = enemySprites[level];
 
@@ -117,6 +118,13 @@ public class EnemyBoss : Target
 
         nameText.text = Name;
     }
+
+    public void Disappear()
+    {
+        transform.DOLocalMove(deathPosition, 1f).SetEase(Ease.InOutExpo);
+    }
+
+   
 
     private void Update()
     {
@@ -298,8 +306,8 @@ public class EnemyBoss : Target
         {
             animator.enabled = false;
         }
-        
-        StartCoroutine(RotateOverTime(Quaternion.Euler(0, 0, 90), 0.3f));
+        Disappear();
+        //StartCoroutine(RotateOverTime(Quaternion.Euler(0, 0, 90), 0.3f));
     }
 
     private IEnumerator RotateOverTime(Quaternion rotationOffset, float time)

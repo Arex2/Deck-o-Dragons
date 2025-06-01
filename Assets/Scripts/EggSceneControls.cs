@@ -2,6 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// NO LONGER USED SCRIPT!!!!!!!
+/// Swiping to switch scene is no longer needed.
+/// </summary>
+
 enum EggSceneDirection
 {
     Right, Left, Up, Down
@@ -71,6 +76,13 @@ public class EggSceneControls : MonoBehaviour
                 if (startPos2 < leftEdgeArea)
                 {
                     Debug.Log("Swipe right from left edge � switching to Garden");
+
+                    // Can only switch if the player has at least one dragon in backyard
+                    if (DragonBookContents.GetDragonNamesInBook().Count <= 0)
+                    {
+                        return;
+                    }
+
                     SceneSwitcher.SwitchToGarden();
                 }
                 break;

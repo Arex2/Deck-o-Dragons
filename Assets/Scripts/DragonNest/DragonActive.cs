@@ -13,7 +13,7 @@ public class DragonActive : MonoBehaviour
     public static DragonController CurrentDragon { get; set; }
 
     [Header ("Dragon collection lists (prefabs)")]
-    [SerializeField] public GameObject egg;
+    [SerializeField] public Egg egg;
     [SerializeField] public GameObject[] babyDragons;
     [SerializeField] public GameObject[] teenDragons;
     [SerializeField] public GameObject[] adultDragons;
@@ -26,6 +26,8 @@ public class DragonActive : MonoBehaviour
     public static int index;            //element
     public static int age;
     public static int evolutionProcess; //sliderprogress
+
+    private Egg currentEgg;
 
     void Awake()
     {
@@ -59,19 +61,23 @@ public class DragonActive : MonoBehaviour
         }
     }
 
-    public static void StepProgress()
-    {
-        if(dragonName != null)
-        {
-            CurrentDragon.StepProgress();
-        }
-    }
-
     private void CheckForEggOrDragon()
     {
         if(!isDragonActive)
         {
-            Instantiate(egg, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+            currentEgg = Instantiate(egg, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+            currentEgg.canBeCracked = false;
+            currentEgg.animator.enabled = true;
+
+            if (!SaveManager.SeenWelcomePopup)
+            {
+                Invoke(nameof(WelcomePopup), 1.2f);
+            }
+            else
+            {
+                Invoke(nameof(EggFall), 0.4f);
+            }
+
             //TextInputManager.dragonName.text = "";
         }
         else if(isDragonActive)
@@ -79,6 +85,23 @@ public class DragonActive : MonoBehaviour
             //Instantiate(TextInputManager.dragonName, new UnityEngine.Vector3(0, 1000, 0), UnityEngine.Quaternion.identity);
             SpawnDragon();
         }
+    }
+
+    private void WelcomePopup()
+    {
+        PopupWindow.Open("Welcome!",
+            "Welcome to Deck O' Dragons!\n\nYou are a DRAGONTRAINER and it's your goal to take care of and train powerful dragons.",
+            ("Let's go!", () =>
+            {
+                SaveManager.SeenWelcomePopup = true;
+                Invoke(nameof(EggFall), 0.4f);
+            }
+        ));
+    }
+
+    private void EggFall()
+    {
+        currentEgg.animator.SetTrigger("Fall");
     }
 
     public GameObject SpawnDragon()

@@ -14,7 +14,7 @@ public class NewCardShopManager : MonoBehaviour
     [SerializeField] private int amountOfRerolls = 1;
     [SerializeField] private float timeToZoomIn = 0.6f;
     [SerializeField] private float timeToZoomOut = 0.3f;
-    
+
     [Header("Components")]
     [SerializeField] private GameObject contentContainer;
     [SerializeField] private CardShopScroll scroll;
@@ -23,15 +23,19 @@ public class NewCardShopManager : MonoBehaviour
     [SerializeField] private CardViewInctance zoomCardViewInctance;
     [SerializeField] private GameObject zoomCardPanel;
     [Header("Texts")]
-    [SerializeField] private TMP_Text rerollText;
     [SerializeField] private TMP_Text topText;
 
     [Header("Buttons")]
     [SerializeField] private Button rerollButton;
     [SerializeField] private Button addButton;
-    [SerializeField] private Button exitButton;
 
-    
+    [Header("Sounds")]
+    [SerializeField] private AudioClip selectSFX;
+    [SerializeField] private AudioClip addSFX;
+    [SerializeField] private AudioClip disolveSFX;
+    [SerializeField] private AudioClip rerollSFX;
+
+    private SceneSwitcher _sceneSwitcher;
     private Vector2 _screenSpaceEnd;
     private float _scaleEnd;
     private Vector2 _screenSpaceStart;
@@ -45,17 +49,20 @@ public class NewCardShopManager : MonoBehaviour
     private List<Card> _drawableCards = new();
     private List<Card> _cardsBeingShown = new();
     private DeckManager _deckManager;
-    private bool isZoomed = false;
+    private bool isZoomed;
 
     void Start()
     {
+        zoomCardPanel.SetActive(false);
+        isZoomed = false;
+        
         _topTextFormat = topText.text;
-        _rerollTextFormat = rerollText.text;
 
         _rerollsRemaining = amountOfRerolls;
         _cardsTaken = 0;
 
         _deckManager = DeckManager.Instance;
+        _sceneSwitcher = SceneSwitcher.Instance;
 
         PopulateCards();
 
@@ -66,7 +73,8 @@ public class NewCardShopManager : MonoBehaviour
 
         scroll.Initialize();
 
-        if(takeAllCards) exitButton.interactable = false;
+        if (!takeAllCards) Exit();
+
 
         //Setup for the zoom card
         StartCoroutine(SetCardPosition());
@@ -78,16 +86,15 @@ public class NewCardShopManager : MonoBehaviour
 
         ClearCards();
         PopulateCards();
+        AudioManager.Instance.PlaySFX(rerollSFX);
 
         rerollButton.interactable = _rerollsRemaining > 0;
 
-        UpdateText();
     }
 
     private void UpdateText()
     {
         topText.text = string.Format(_topTextFormat, _cardsTaken, _cardsToTake);
-        rerollText.text = string.Format(_rerollTextFormat, _rerollsRemaining);
     }
 
     private Card GetRandomCard()
@@ -110,14 +117,14 @@ public class NewCardShopManager : MonoBehaviour
 
     private void AddCard(Card card)
     {
-        if(card == null) return;
+        if (card == null) return;
 
         CardViewInctance newCard = Instantiate(cardPrefab);
-        newCard.setNewCard(card);
+        newCard.SetNewCard(card);
         newCard.transform.parent = contentContainer.transform;
         newCard.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
 
-        newCard.gameObject.GetComponent<Button>().onClick.AddListener(delegate {ZoomOnCard();});
+        newCard.gameObject.GetComponent<Button>().onClick.AddListener(delegate { ZoomOnCard(); });
         scroll.cardPositions.Add(newCard.GetComponent<RectTransform>());
         _cardsBeingShown.Add(card);
     }
@@ -144,7 +151,7 @@ public class NewCardShopManager : MonoBehaviour
             _drawableCards[count] = value;
         }
 
-        for(int i = 0; i < cardsToShow; i++)
+        for (int i = 0; i < cardsToShow; i++)
         {
             AddCard(GetRandomCard());
         }
@@ -172,7 +179,7 @@ public class NewCardShopManager : MonoBehaviour
 
     public void ZoomOnCard()
     {
-        if(!isZoomed)
+        if (!isZoomed)
         {
             isZoomed = true;
             zoomCardPanel.SetActive(true);
@@ -180,32 +187,35 @@ public class NewCardShopManager : MonoBehaviour
             zoomCardRectTransform.localScale = Vector3.one * _scaleStart;
             zoomCardRectTransform.position = _screenSpaceStart;
 
-            zoomCardViewInctance.setNewCard(_cardsBeingShown[scroll.indexOfShortestDistance]);
+            zoomCardViewInctance.SetNewCard(_cardsBeingShown[scroll.indexOfShortestDistance]);
             zoomCardRectTransform.DOMove(_screenSpaceEnd, timeToZoomIn);
             zoomCardRectTransform.DOScale(_scaleEnd, timeToZoomIn);
+            AudioManager.Instance.PlaySFX(selectSFX);
         }
     }
 
     public void ZoomOut()
     {
-        if(isZoomed)
+        if (isZoomed)
         {
             isZoomed = false;
 
             zoomCardRectTransform.DOMove(_screenSpaceStart, timeToZoomOut);
             zoomCardRectTransform.DOScale(_scaleStart, timeToZoomOut);
             Invoke("CloseZoomWindow", timeToZoomOut);
+            AudioManager.Instance.PlaySFX(selectSFX);
         }
     }
 
     private void CloseZoomWindow()
     {
+        zoomCardViewInctance.SetVisible();
         zoomCardPanel.SetActive(false);
     }
 
     public void AddCardToDeck()
     {
-        isZoomed = false;
+        if (!isZoomed) return;
 
         _cardsTaken++;
         Card cardToAdd = _cardsBeingShown[scroll.indexOfShortestDistance];
@@ -213,14 +223,22 @@ public class NewCardShopManager : MonoBehaviour
         _cardsBeingShown.Remove(cardToAdd);
         scroll.RemoveCurrentCard();
 
-        if(_cardsTaken >= _cardsToTake)
+        if (_cardsTaken >= _cardsToTake)
         {
             addButton.interactable = false;
-            exitButton.interactable = true;
+            Invoke("Exit", 1.4f);
         }
 
         UpdateText();
+        AudioManager.Instance.PlaySFX(addSFX);
+        AudioManager.Instance.PlaySFX(disolveSFX);
+        zoomCardViewInctance.Disolve(CloseZoomWindow);
 
-        Invoke("CloseZoomWindow", 0.2f);
+        isZoomed = false;
+    }
+
+    private void Exit()
+    {
+        SceneSwitcher.SwitchScene(SceneSwitcher.GetScene(SceneSwitcher.Scene.Egg));
     }
 }

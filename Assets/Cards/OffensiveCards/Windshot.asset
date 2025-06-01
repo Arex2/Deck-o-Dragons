@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Windshot
   m_EditorClassIdentifier: 
   guid: 3d994b6e153fc8d4b81359942a3e2156
-  sprite: {fileID: 21300000, guid: b8546eedabb09d240913c305d3e44f02, type: 3}
+  sprite: {fileID: 21300000, guid: 85ba09e4fd50b9d4484bdd172d75d897, type: 3}
   displayName: Windshot
   description: Deal {Attack} damage.
   cost: 4
@@ -29,9 +29,7 @@ MonoBehaviour:
     Enabled: 0
     Value: 0
   tags:
-    data:
-    - tag: {fileID: 11400000, guid: 707f2552eeec21a4ab75cd1a69dbefe4, type: 2}
-      potency: 0
+    data: []
   cardComponents:
   - {fileID: 5793708038661123117}
 --- !u!114 &5793708038661123117
@@ -54,14 +52,14 @@ MonoBehaviour:
     team: 0
     mode: 1
   damage:
-    baseValue: 25
+    baseValue: 5
     stack: 1
     loopBehaviour: 1
     upgrades:
-    - value: 10
+    - value: 1
       method: 0
     downgrades:
-    - value: 10
+    - value: 1
       method: 1
     minLimit:
       Enabled: 0
@@ -70,7 +68,7 @@ MonoBehaviour:
       Enabled: 0
       Value: 0
   attackAmount:
-    baseValue: 2
+    baseValue: 10
     stack: 1
     loopBehaviour: 1
     upgrades:
