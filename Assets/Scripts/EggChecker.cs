@@ -10,6 +10,7 @@ public class EggChecker : MonoBehaviour
     public GameObject meatball4;
     public GameObject brush;
     public GameObject settings;
+    public GameObject deck;
     public GameObject bowl;
     public GameObject bowl2;
     public GameObject backyard;
@@ -23,6 +24,7 @@ public class EggChecker : MonoBehaviour
             ball.SetActive(false);
             brush.SetActive(false);
             settings.SetActive(false);
+            deck.SetActive(false);
             bowl.SetActive(false);
             bowl2.SetActive(false);
             meatball.SetActive(false);
@@ -37,6 +39,7 @@ public class EggChecker : MonoBehaviour
             ball.SetActive(true);
             brush.SetActive(true);
             settings.SetActive(true);
+            deck.SetActive(true);
             bowl.SetActive(true);
             bowl2.SetActive(true);
             meatball.SetActive(true);
