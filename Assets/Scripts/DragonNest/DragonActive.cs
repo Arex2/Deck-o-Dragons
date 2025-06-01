@@ -61,25 +61,21 @@ public class DragonActive : MonoBehaviour
         }
     }
 
-    public static void StepProgress()
-    {
-        if(dragonName != null)
-        {
-            CurrentDragon.StepProgress();
-        }
-    }
-
     private void CheckForEggOrDragon()
     {
         if(!isDragonActive)
         {
             currentEgg = Instantiate(egg, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+            currentEgg.canBeCracked = false;
+            currentEgg.animator.enabled = true;
 
             if (!SaveManager.SeenWelcomePopup)
             {
-                currentEgg.canBeCracked = false;
-                currentEgg.animator.enabled = true;
                 Invoke(nameof(WelcomePopup), 1.2f);
+            }
+            else
+            {
+                Invoke(nameof(EggFall), 0.4f);
             }
 
             //TextInputManager.dragonName.text = "";
@@ -94,7 +90,7 @@ public class DragonActive : MonoBehaviour
     private void WelcomePopup()
     {
         PopupWindow.Open("Welcome!",
-            "Welcome to Deck O' Dragons!\n\nYou are a DRAGONTRAINER and it's your goal to take care of and train your dragons.",
+            "Welcome to Deck O' Dragons!\n\nYou are a DRAGONTRAINER and it's your goal to take care of and train powerful dragons.",
             ("Let's go!", () =>
             {
                 SaveManager.SeenWelcomePopup = true;

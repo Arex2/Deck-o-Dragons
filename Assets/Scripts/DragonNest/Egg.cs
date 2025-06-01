@@ -259,7 +259,21 @@ public class Egg : MonoBehaviour
 
     private void SpawnDragon()
     {
-        int index = UnityEngine.Random.Range(0, dragonActive.babyDragons.Length);
+        int maxElement = dragonActive.babyDragons.Length;
+        int index = UnityEngine.Random.Range(0, maxElement);
+
+        int gottenElementsCount = SaveManager.DragonElementsGotten.Count;
+        if (gottenElementsCount < maxElement)
+        {
+            while (SaveManager.DragonElementsGotten.Contains(index))
+            {
+                index++;
+                index %= maxElement;
+            }
+
+            SaveManager.DragonElementsGotten.Add(index);
+        }
+
         Instantiate(dragonActive.babyDragons[index], new Vector3(0, -3, 0), Quaternion.identity);
         //DragonActive.drPref = dragons[index];
         DragonActive.index = index;

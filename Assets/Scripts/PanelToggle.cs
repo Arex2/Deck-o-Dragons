@@ -39,7 +39,12 @@ public class PanelToggle : MonoBehaviour
     {
         AudioManager.Instance.PlayClickSound();
 
-        toggled = !toggled;
+        SetToggle(!toggled);
+    }
+
+    public void SetToggle(bool toggle)
+    {
+        toggled = toggle;
 
         if (buttonPanel != null)
         {

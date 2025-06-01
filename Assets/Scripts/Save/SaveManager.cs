@@ -50,6 +50,8 @@ public class SaveManager : Singleton<SaveManager>
         }
     }
 
+    public static List<int> DragonElementsGotten => _data.dragonElementsGotten;
+
     private static SaveData _data;
 
     [SerializeField] private AudioMixer audioMixer;
@@ -231,6 +233,7 @@ public class SaveManager : Singleton<SaveManager>
         public int activeDragonAge;
         public int activeDragonEvolutionProcess;
 
+        public List<int> dragonElementsGotten = new();
         public List<Dragon> dragonsInBook = new();
         public List<Dragon> dragonsActiveInBackyard = new();
         public List<string> cardGuids = new();
