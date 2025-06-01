@@ -38,6 +38,8 @@ public class DragonBookContents : MonoBehaviour
 
         DontDestroyOnLoad(this);
 
+        SetNewDragonNameAndTypeInBook("JfRIzBKR", 3);
+        SetNewDragonNamesAndElementsActiveInBackyard("JfRIzBKR", 3);
         /*SetNewDragonNameAndTypeInBook("bobo", 0);
         SetNewDragonNameAndTypeInBook("rawr", 1);
         SetNewDragonNameAndTypeInBook("0123456789", 2);
