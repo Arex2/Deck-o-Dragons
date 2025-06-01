@@ -14,14 +14,23 @@ public class DragonBook : MonoBehaviour
     [SerializeField] private GameObject dragonLimitText;
     [SerializeField] private AudioClip openBookSFX;
 
-    private Book Book;
-    [SerializeField] private GameObject controlledBook;
+    [Header("Images")]
     [SerializeField] private Image activeLeftPage;
     [SerializeField] private Image activeRightPage;
     [SerializeField] private Image leftPageOnTurn;
     [SerializeField] private Image rightPageOnTurn;
-    public static bool addDragonsToBook = false;
-    public static bool addDragonsToBookOnFlipPage = false;
+
+    [Header("Sprites")]
+    [SerializeField] private Sprite waterProfile;
+    [SerializeField] private Sprite earthProfile;
+    [SerializeField] private Sprite fireProfile;
+    [SerializeField] private Sprite airProfile;
+    [SerializeField] private Sprite noProfile;
+
+    [Header("Book Rewlated")]
+    [SerializeField] private GameObject controlledBook;
+    public static bool addDragonsToBook;
+    public static bool addDragonsToBookOnFlipPage;
     public static bool pageRelease;
 
     //[SerializeField] private GameObject AskToAddDragonPanel;
@@ -32,8 +41,8 @@ public class DragonBook : MonoBehaviour
     public static int dragonElement;
 
     [Header("Buttons")]
-    [SerializeField] private Button[] buttons;
     [SerializeField] private GameObject closeButton;
+    //[SerializeField] private Button[] buttons;
     /*[SerializeField] private Button button1;
     [SerializeField] private Button button2;
     [SerializeField] private Button button3;
@@ -51,7 +60,6 @@ public class DragonBook : MonoBehaviour
     private Vector3 leftOuterBounds = new Vector3(-1.5f, 4f, 0);
     private Vector3 rightOuterBounds = new Vector3(1.5f, -4f, 0);
 
-    private int currentPage;
     //private static List<string> dragonsInBackyard = new List<string>();
     //private static List<int> dragonElementsInBackyard = new List<int>();
     /*private static List<int> pagesInBook = new List<int>();
@@ -73,35 +81,42 @@ public class DragonBook : MonoBehaviour
         dragonCollection.SetActive(false);
         closeButton.SetActive(false);
         dragonLimitText.SetActive(false);
-        //AskToAddDragonPanel.SetActive(false);
-        //AskForDragonCloseButton.SetActive(false);
+        addDragonsToBook = false;
+        addDragonsToBookOnFlipPage = false;
+        pageRelease = false;
+    //AskToAddDragonPanel.SetActive(false);
+    //AskForDragonCloseButton.SetActive(false);
 
-        //ControlledBook = GameObject.Find("Book");
+    //ControlledBook = GameObject.Find("Book");
 
-        /*if (!ControlledBook)
-        {
-            //ControlledBook = GetComponent<Book>();
-            ControlledBook = GameObject.Find("Book").GetComponent<Book>();
-        }*/
+    /*if (!ControlledBook)
+    {
+        //ControlledBook = GetComponent<Book>();
+        ControlledBook = GameObject.Find("Book").GetComponent<Book>();
+    }*/
 
-        //AddDragonsToBookCollectionAPageAtATime();
+    //AddDragonsToBookCollectionAPageAtATime();
         AddSelectedDragonsToYardOnLoad();
         AddDragonsToBookPages();
+        Debug.Log("amount of names: " + DragonBookContents.GetDragonNamesInBook().Count);
     }
 
     private void Update()
     {
         //DragonBookContents.testprint();
 
-        if(addDragonsToBook)
+        if(addDragonsToBook && !pageRelease)
         {
-            AddDragonsToBookPages();
+            //Debug.Log("lägger till sidor när jag släpper");
             addDragonsToBook = false;
+            AddDragonsToBookPages();
+            Debug.Log("add 1");
         }
 
-        if(pageRelease)
+        if(pageRelease && !addDragonsToBook)
         {
             AddDragonsToBookPages();
+            Debug.Log("add 2");
             pageRelease = false;
         }
 
@@ -150,18 +165,35 @@ public class DragonBook : MonoBehaviour
     private void AddDragonsToBookPages()
     {
         //int indexOfDragonToAdd = currentPage * DragonBookContents.GetDragonsPerPageAmount();
-        int indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 2) * DragonBookContents.GetDragonsPerPageAmount();
-        AddButtonsToAPage(activeLeftPage, indexOfDragonToAdd);
+        if(controlledBook.GetComponent<Book>().currentPage != 0)
+        {
+            Debug.Log(" buttons changing, at: " + Time.deltaTime);
 
-        indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 1) * DragonBookContents.GetDragonsPerPageAmount();
-        AddButtonsToAPage(activeRightPage, indexOfDragonToAdd);
+            int indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 2) * DragonBookContents.GetDragonsPerPageAmount();
+            AddButtonsToAPage(activeLeftPage, indexOfDragonToAdd);
+
+            indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 1) * DragonBookContents.GetDragonsPerPageAmount();
+            AddButtonsToAPage(activeRightPage, indexOfDragonToAdd);
+        }
     }
 
     private void AddButtonsToAPage(Image page, int indexOfDragonToAdd)
     {
         for (int i = 0; i < DragonBookContents.GetDragonsPerPageAmount(); i++)
         {
-            Button button = page.transform.GetChild(i).GetComponent<Button>();
+            Button button;
+
+            if (page == leftPageOnTurn || page == rightPageOnTurn)
+            {
+                Button[] buttonChildren = page.transform.GetComponentsInChildren<Button>();
+                button = buttonChildren[i].GetComponent<Button>();
+                //button = page.transform.GetChild(i + 1).GetComponent<Button>();
+            }
+            else
+            {
+                button = page.transform.GetChild(i).GetComponent<Button>();
+            }
+
             //Button rightButton = activeRightPage.transform.GetChild(i).GetComponent<Button>();
 
             //if (DragonBookContents.GetDragonNamesInBook().Count <= i) //DragonBookContents.GetDragonNames().ElementAt(i) == null)
@@ -170,6 +202,7 @@ public class DragonBook : MonoBehaviour
                 //AddDragonLoop(button, indexOfDragonToAdd);
                 button.interactable = false;
                 button.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
+                button.GetComponent<Image>().sprite = noProfile;
             }
             else if (DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd) != null)
             {
@@ -191,15 +224,19 @@ public class DragonBook : MonoBehaviour
         {
             case 0:
                 button.GetComponent<OnDragonButtonClick>().SetElementAndElementNumber(water, elementType);  //water type
+                button.GetComponent<Image>().sprite = waterProfile;
                 break;
             case 1:
                 button.GetComponent<OnDragonButtonClick>().SetElementAndElementNumber(earth, elementType);  //earth type
+                button.GetComponent<Image>().sprite = earthProfile;
                 break;
             case 2:
                 button.GetComponent<OnDragonButtonClick>().SetElementAndElementNumber(fire, elementType);   // fire type
+                button.GetComponent<Image>().sprite = fireProfile;
                 break;
             case 3:
                 button.GetComponent<OnDragonButtonClick>().SetElementAndElementNumber(air, elementType);    // air type
+                button.GetComponent<Image>().sprite = airProfile;
                 break;
             default:
                 break;

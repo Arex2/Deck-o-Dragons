@@ -71,6 +71,13 @@ public class EggSceneControls : MonoBehaviour
                 if (startPos2 < leftEdgeArea)
                 {
                     Debug.Log("Swipe right from left edge � switching to Garden");
+
+                    // Can only switch if the player has at least one dragon in backyard
+                    if (DragonBookContents.GetDragonNamesInBook().Count <= 0)
+                    {
+                        return;
+                    }
+
                     SceneSwitcher.SwitchToGarden();
                 }
                 break;

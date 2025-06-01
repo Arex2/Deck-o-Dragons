@@ -13,7 +13,8 @@ public enum FlipMode
 }
 //[ExecuteInEditMode]
 
-public class Book : MonoBehaviour {
+public class Book : MonoBehaviour
+{
     public Canvas canvas;
     [SerializeField]
     RectTransform BookPanel;
@@ -21,8 +22,9 @@ public class Book : MonoBehaviour {
     public Sprite leftPage;
     public Sprite rightPage;
     public Sprite[] bookPages;
-    public bool interactable = true;
-    public bool enableShadowEffect = true;
+    private bool interactable = true;
+    private bool canUpdatePagesWhileFlipping = true;
+    private bool enableShadowEffect = true;
     //represent the index of the sprite shown in the right page
     public int currentPage = 0;
     public bool addPage = false; //lagt till
@@ -108,7 +110,11 @@ public class Book : MonoBehaviour {
         ShadowLTR.rectTransform.sizeDelta = new Vector2(pageWidth, shadowPageHeight);
         ShadowLTR.rectTransform.pivot = new Vector2(0, (pageWidth / 2) / shadowPageHeight);
 
-        //TweenForward();
+        for (int i = 0; i < DragonBookContents.GetPagesInBook(); i++)
+        {
+            //Debug.Log("Pages in book: " + DragonBookContents.GetPagesInBook());
+            AddBookPage();
+        }
     }
 
     //har lagt till för att testa i inspectorn
@@ -135,7 +141,7 @@ public class Book : MonoBehaviour {
         //lägger in gamla pages i nya array
         temp.CopyTo(bookPages, 0);
 
-        Debug.Log(bookPages.Length);
+        //Debug.Log(bookPages.Length);
 
         //assignear sprite till nya sidan
         if(bookPages.Length % 2 == 0)
@@ -192,11 +198,14 @@ public class Book : MonoBehaviour {
     }
     void Update()
     {
+        Debug.Log("interactable: " + interactable);
+
         if (pageDragging && interactable)
         {
-            if(!DragonBook.addDragonsToBookOnFlipPage)
+            if(!DragonBook.addDragonsToBookOnFlipPage && canUpdatePagesWhileFlipping)
             {
                 DragonBook.addDragonsToBookOnFlipPage = true;
+                canUpdatePagesWhileFlipping = false;
             }
 
             UpdateBook();
@@ -363,14 +372,21 @@ public class Book : MonoBehaviour {
         RightNext.sprite = (currentPage < bookPages.Length - 2) ? bookPages[currentPage + 2] : background;
 
         LeftNext.transform.SetAsFirstSibling();
+
         if (enableShadowEffect) Shadow.gameObject.SetActive(true);
         UpdateBookRTLToPoint(f);
     }
     public void OnMouseDragRightPage()
     {
         if (interactable)
-        DragRightPageToPoint(transformPoint(Input.mousePosition));
-        
+        {
+            /*if (!DragonBook.addDragonsToBookOnFlipPage)
+            {
+                DragonBook.addDragonsToBookOnFlipPage = true;
+            }*/
+
+            DragRightPageToPoint(transformPoint(Input.mousePosition));
+        }
     }
     public void DragLeftPageToPoint(Vector3 point)
     {
@@ -407,7 +423,14 @@ public class Book : MonoBehaviour {
     public void OnMouseDragLeftPage()
     {
         if (interactable)
-        DragLeftPageToPoint(transformPoint(Input.mousePosition));
+        {
+            /*if (!DragonBook.addDragonsToBookOnFlipPage)
+            {
+                DragonBook.addDragonsToBookOnFlipPage = true;
+            }*/
+
+            DragLeftPageToPoint(transformPoint(Input.mousePosition));
+        }
         
     }
     public void OnMouseRelease()
@@ -423,13 +446,22 @@ public class Book : MonoBehaviour {
             float distanceToLeft = Vector2.Distance(c, ebl);
             float distanceToRight = Vector2.Distance(c, ebr);
             if (distanceToRight < distanceToLeft && mode == FlipMode.RightToLeft)
+            {
+                //canUpdatePagesWhileFlipping = true;
+                DragonBook.pageRelease = true;
                 TweenBack();
+            }
             else if (distanceToRight > distanceToLeft && mode == FlipMode.LeftToRight)
+            {
+                //canUpdatePagesWhileFlipping = true;
+                DragonBook.pageRelease = true;
                 TweenBack();
+            }
             else
                 TweenForward();
 
-            DragonBook.pageRelease = true;
+            //DragonBook.addDragonsToBook = true;
+            canUpdatePagesWhileFlipping = true;
         }
     }
     Coroutine currentCoroutine;

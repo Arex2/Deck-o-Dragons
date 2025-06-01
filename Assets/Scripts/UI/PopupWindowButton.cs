@@ -21,6 +21,8 @@ public class PopupWindowButton : MonoBehaviour
 
     private void OnClick()
     {
+        AudioManager.Instance.PlayClickSound();
+
         OnClicked?.Invoke();
 
         PopupWindow.Close();

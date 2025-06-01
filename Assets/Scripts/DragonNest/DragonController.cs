@@ -23,10 +23,16 @@ public class DragonController : MonoBehaviour
 
     void Update()
     {
+#if UNITY_EDITOR
         if(Input.GetKeyDown(KeyCode.Space))
         {
             SpawnNewDragon();
         }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            StepProgress();
+        }
+#endif
     }
 
     public void StepProgress()
@@ -66,9 +72,24 @@ public class DragonController : MonoBehaviour
             }
 
             DragonActive.isDragonActive = false;
-            Invoke("SpawnNewDragon", 4f);
+            Invoke(nameof(SpawnNewDragon), 4f);
+            Invoke(nameof(BackYardPopup), 2f);
             DragonActive.evolutionProcess = 0;
         }
+    }
+
+    private void BackYardPopup()
+    {
+        if (SaveManager.SeenBackyardPopup)
+        {
+            return;
+        }
+
+        SaveManager.SeenBackyardPopup = true;
+
+        PopupWindow.Open("The Backyard",
+            "When a dragon is done with it's training it'll go to your backyard.\n\nTo go to the backyard swipe to the right!",
+            ("OK", null));
     }
 
     public void SpawnNewDragon()

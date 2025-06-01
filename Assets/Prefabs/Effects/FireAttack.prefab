@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfxTags:
-  - Attack
+  - FireAttack
   triggersActions: 1
   spawnDelay: 0
   autoDestroyTimer: 0

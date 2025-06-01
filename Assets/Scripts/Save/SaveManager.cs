@@ -10,11 +10,27 @@ public class SaveManager : Singleton<SaveManager>
 {
     public static string GetSavePath() => Path.Combine(Application.persistentDataPath, "save.txt");
 
+    public static bool SeenWelcomePopup
+    {
+        get => _data.seenWelcomePopup;
+        set => _data.seenWelcomePopup = value;
+    }
     public static bool SeenBattleTutorial
     {
         get => _data.seenBattleTutorial;
         set => _data.seenBattleTutorial = value;
     }
+    public static bool SeenEvolutionPopup
+    {
+        get => _data.seenEvolutionPopup;
+        set => _data.seenEvolutionPopup = value;
+    }
+    public static bool SeenBackyardPopup
+    {
+        get => _data.seenBackyardPopup;
+        set => _data.seenBackyardPopup = value;
+    }
+
     public static bool MusicMuted
     {
         get => _data.musicMuted;
@@ -178,7 +194,11 @@ public class SaveManager : Singleton<SaveManager>
     [Serializable]
     private class SaveData
     {
+        public bool seenWelcomePopup;
         public bool seenBattleTutorial;
+        public bool seenEvolutionPopup;
+        public bool seenBackyardPopup;
+
         public bool musicMuted;
         public bool sfxMuted;
         public int currentLevel;

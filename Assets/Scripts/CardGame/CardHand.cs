@@ -174,6 +174,12 @@ public class CardHand : MonoBehaviour
     private float screenRightXPos;
     private Vector2Int oldScreenSize;
 
+
+
+    //AUDIO-----------------------------------------------
+    [SerializeField] private AudioClip[] playCard,drawCard,moveCard;
+
+
     private void Awake()
     {
         Instance = this;
@@ -217,6 +223,13 @@ public class CardHand : MonoBehaviour
     /// </summary>
     private void OnDifferentCard()
     {
+        if (AudioManager.Instance != null && previousIndex != currentIndex)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, moveCard.Length);
+            AudioManager.Instance.PlaySFX(moveCard[randomIndex]);
+        }
+
+
         //dont show indicators when selecting cards for other things 
         //OBS this might need to be changed to discarding phase???
         if (SelectingCards)
@@ -239,11 +252,22 @@ public class CardHand : MonoBehaviour
             //om inte samma kort som precis innan, unless det är enda kortet i handen
             else if (previousIndex != currentIndex)// || cardsInHand.Count == 1)
             {
+
+                UpdateCardIndicator();
+                /*
                 if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
                 {
                     gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
-                }
+                }*/
             }
+        }
+    }
+
+    public void UpdateCardIndicator()
+    {
+        if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
+        {
+            gameBehaviour.indicatorManager.UpdateIndicators(cardsInHand[currentIndex].Card);
         }
     }
 
@@ -560,6 +584,12 @@ public class CardHand : MonoBehaviour
 
         cardsInHand.RemoveAt(CurrentIndex);
 
+        //om handen blir tom, clear indicators
+        if (cardsInHand.Count == 0)
+        {
+            gameBehaviour.indicatorManager.ClearIndicators();
+        }
+
         cardObj.Canvas.sortingOrder = startSortingOrder + count + 10;
         cardObj.CardVisuals.CanvasGroup.blocksRaycasts = false;
 
@@ -576,6 +606,13 @@ public class CardHand : MonoBehaviour
 
     private IEnumerator DelayPlayCard(CardObject cardObj, bool discard)
     {
+
+        if (AudioManager.Instance != null)
+        {
+            //int randomIndex = Random.Range(0, playCard.Length);
+            AudioManager.Instance.PlaySFX(playCard[0]);
+        }
+
         yield return new WaitForSeconds(0.15f);
 
         cardObj.Dissolve();
@@ -583,6 +620,7 @@ public class CardHand : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
 
         cardObj.Play(discard);
+
     }
 
     /*
@@ -786,6 +824,12 @@ public class CardHand : MonoBehaviour
         // Insert the CardObject into the cardsInHand list in the correct order (as determined by the card sorter)
         int count = cardsInHand.Count;
         int index;
+
+        if (AudioManager.Instance != null && previousIndex != currentIndex)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, drawCard.Length);
+            AudioManager.Instance.PlaySFX(drawCard[randomIndex]);
+        }
 
         //CardObject selectedCard = count > 0 && currentIndex < count ? cardsInHand[CurrentIndex] : null;
 
