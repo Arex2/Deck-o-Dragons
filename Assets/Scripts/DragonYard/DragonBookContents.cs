@@ -25,6 +25,7 @@ public class DragonBookContents : MonoBehaviour
     {
         if (drBookCont == null)
         {
+            //Only happens if you start in egg scene
             drBookCont = this;
             dragonNamesInBook.Clear();
             dragonTypesInBook.Clear();
@@ -49,6 +50,7 @@ public class DragonBookContents : MonoBehaviour
         SetNewDragonNameAndTypeInBook("flour", 0);
         SetNewDragonNameAndTypeInBook("firth", 1);
         SetNewDragonNameAndTypeInBook("sith", 0);
+        SetNewDragonNameAndTypeInBook("special", 2);
     }
 
     public static void SetNewDragonNameAndTypeInBook(string name, int type) //Används i DragonController
@@ -58,8 +60,11 @@ public class DragonBookContents : MonoBehaviour
 
         if ((dragonNamesInBook.Count - 1) % 3 == 0)
         {
+            Debug.Log("%3 happened");
+
             if(dragonNamesInBook.Count % 2 == 0)
             {
+                Debug.Log("%2 happened");
                 return;
             }
 

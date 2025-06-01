@@ -25,6 +25,7 @@ public class DragonBook : MonoBehaviour
     [SerializeField] private Sprite earthProfile;
     [SerializeField] private Sprite fireProfile;
     [SerializeField] private Sprite airProfile;
+    [SerializeField] private Sprite noProfile;
 
     [Header("Book Rewlated")]
     [SerializeField] private GameObject controlledBook;
@@ -80,20 +81,24 @@ public class DragonBook : MonoBehaviour
         dragonCollection.SetActive(false);
         closeButton.SetActive(false);
         dragonLimitText.SetActive(false);
-        //AskToAddDragonPanel.SetActive(false);
-        //AskForDragonCloseButton.SetActive(false);
+        addDragonsToBook = false;
+        addDragonsToBookOnFlipPage = false;
+        pageRelease = false;
+    //AskToAddDragonPanel.SetActive(false);
+    //AskForDragonCloseButton.SetActive(false);
 
-        //ControlledBook = GameObject.Find("Book");
+    //ControlledBook = GameObject.Find("Book");
 
-        /*if (!ControlledBook)
-        {
-            //ControlledBook = GetComponent<Book>();
-            ControlledBook = GameObject.Find("Book").GetComponent<Book>();
-        }*/
+    /*if (!ControlledBook)
+    {
+        //ControlledBook = GetComponent<Book>();
+        ControlledBook = GameObject.Find("Book").GetComponent<Book>();
+    }*/
 
-        //AddDragonsToBookCollectionAPageAtATime();
+    //AddDragonsToBookCollectionAPageAtATime();
         AddSelectedDragonsToYardOnLoad();
-        //AddDragonsToBookPages();
+        AddDragonsToBookPages();
+        Debug.Log("amount of names: " + DragonBookContents.GetDragonNamesInBook().Count);
     }
 
     private void Update()
@@ -197,6 +202,7 @@ public class DragonBook : MonoBehaviour
                 //AddDragonLoop(button, indexOfDragonToAdd);
                 button.interactable = false;
                 button.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
+                button.GetComponent<Image>().sprite = noProfile;
             }
             else if (DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd) != null)
             {

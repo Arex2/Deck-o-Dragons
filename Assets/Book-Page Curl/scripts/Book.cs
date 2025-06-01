@@ -22,7 +22,7 @@ public class Book : MonoBehaviour
     public Sprite leftPage;
     public Sprite rightPage;
     public Sprite[] bookPages;
-    public bool interactable = true;
+    private bool interactable = true;
     private bool canUpdatePagesWhileFlipping = true;
     private bool enableShadowEffect = true;
     //represent the index of the sprite shown in the right page
@@ -198,6 +198,8 @@ public class Book : MonoBehaviour
     }
     void Update()
     {
+        Debug.Log("interactable: " + interactable);
+
         if (pageDragging && interactable)
         {
             if(!DragonBook.addDragonsToBookOnFlipPage && canUpdatePagesWhileFlipping)
@@ -444,15 +446,22 @@ public class Book : MonoBehaviour
             float distanceToLeft = Vector2.Distance(c, ebl);
             float distanceToRight = Vector2.Distance(c, ebr);
             if (distanceToRight < distanceToLeft && mode == FlipMode.RightToLeft)
+            {
+                //canUpdatePagesWhileFlipping = true;
+                DragonBook.pageRelease = true;
                 TweenBack();
+            }
             else if (distanceToRight > distanceToLeft && mode == FlipMode.LeftToRight)
+            {
+                //canUpdatePagesWhileFlipping = true;
+                DragonBook.pageRelease = true;
                 TweenBack();
+            }
             else
                 TweenForward();
 
             //DragonBook.addDragonsToBook = true;
             canUpdatePagesWhileFlipping = true;
-            DragonBook.pageRelease = true;
         }
     }
     Coroutine currentCoroutine;

@@ -3223,7 +3223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: interactable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: enableShadowEffect
@@ -7006,6 +7006,7 @@ MonoBehaviour:
   earthProfile: {fileID: 21300000, guid: 6bd2e7ea6792f4176b156ac241791247, type: 3}
   fireProfile: {fileID: 21300000, guid: 7bbdef2fe63ff4624af1676df644dbee, type: 3}
   airProfile: {fileID: 21300000, guid: d38b0efb100de44d985673e3e0ffd31d, type: 3}
+  noProfile: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   controlledBook: {fileID: 1626685303}
   closeButton: {fileID: 1089955074}
 --- !u!224 &1977415731 stripped
