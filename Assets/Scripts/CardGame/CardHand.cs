@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -906,6 +905,26 @@ public class CardHand : MonoBehaviour
 
         if (CardgameTutorialManager.InTutorial && CardgameTutorialManager.TutorialStep <= 5) // tutorial stuff
         {
+            List<Card> tempList = new(CardgameTutorialManager.Instance.TutorialCards);
+            List<Card> poppedCards = new();
+
+            while (tempList.Count > 0 && DeckManager.Instance.DrawPile.TryPop(out Card card))
+            {
+                if (tempList.Contains(card))
+                {
+                    tempList.Remove(card);
+                }
+                else
+                {
+                    poppedCards.Add(card);
+                }
+            }
+
+            foreach (Card card in poppedCards)
+            {
+                DeckManager.Instance.DrawPile.Push(card);
+            }
+
             cardsToDraw.AddRange(CardgameTutorialManager.Instance.TutorialCards);
             actualCount = cardsToDraw.Count;
         }
