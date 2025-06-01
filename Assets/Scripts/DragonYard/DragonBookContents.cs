@@ -38,7 +38,7 @@ public class DragonBookContents : MonoBehaviour
 
         DontDestroyOnLoad(this);
 
-        SetNewDragonNameAndTypeInBook("bobo", 0);
+        /*SetNewDragonNameAndTypeInBook("bobo", 0);
         SetNewDragonNameAndTypeInBook("rawr", 1);
         SetNewDragonNameAndTypeInBook("0123456789", 2);
         SetNewDragonNameAndTypeInBook("drake", 3);
@@ -50,7 +50,7 @@ public class DragonBookContents : MonoBehaviour
         SetNewDragonNameAndTypeInBook("flour", 0);
         SetNewDragonNameAndTypeInBook("firth", 1);
         SetNewDragonNameAndTypeInBook("sith", 0);
-        SetNewDragonNameAndTypeInBook("special", 2);
+        SetNewDragonNameAndTypeInBook("special", 2);*/
     }
 
     public static void SetNewDragonNameAndTypeInBook(string name, int type) //Används i DragonController
