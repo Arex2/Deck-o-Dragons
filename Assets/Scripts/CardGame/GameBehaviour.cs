@@ -68,6 +68,8 @@ public class GameBehaviour : Target
     float desiredDuration = 0.3f;
     float healthSliderStartPos;
 
+    [SerializeField] private AudioClip[] damageTakenSound;
+
     [SerializeField]
     public IndicatorManager indicatorManager;
 
@@ -218,6 +220,11 @@ public class GameBehaviour : Target
         if (attackData > 0)
         {
             screenShake.StartShake();
+            if (AudioManager.Instance != null)
+            {
+                int randomIndex = Random.Range(0, damageTakenSound.Length);
+                AudioManager.Instance.PlaySFX(damageTakenSound[randomIndex]);
+            }
         }
     }
 

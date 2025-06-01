@@ -109,6 +109,9 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     private bool _discardOnFinish;
 
+    [SerializeField]
+    private AudioClip dissolveSFX;
+
     private void Awake()
     {
         _startPos = transform.localPosition;
@@ -226,6 +229,7 @@ public class CardObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
             return;
         }
 
+        AudioManager.Instance.PlaySFX(dissolveSFX);
         _doingDissolveAnimation = true;
 
         cardVisuals.Dissolve(() => _doingDissolveAnimation = false);
