@@ -22,7 +22,7 @@ public class DeckViewManager : MonoBehaviour
             CardViewInctance newCard = Instantiate(cardPrefab);
             DeckViewCardButton cardButton = newCard.GetComponent<DeckViewCardButton>();
 
-            newCard.setNewCard(card);
+            newCard.SetNewCard(card);
             newCard.transform.SetParent(contentContainer.transform);
             newCard.transform.localScale = new Vector3(1, 1, 1);
 
