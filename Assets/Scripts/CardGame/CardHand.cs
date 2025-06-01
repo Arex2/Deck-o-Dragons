@@ -223,12 +223,13 @@ public class CardHand : MonoBehaviour
     /// </summary>
     private void OnDifferentCard()
     {
+        /*
         if (AudioManager.Instance != null && previousIndex != currentIndex)
         {
             int randomIndex = UnityEngine.Random.Range(0, moveCard.Length);
             AudioManager.Instance.PlaySFX(moveCard[randomIndex]);
         }
-
+        */
 
         //dont show indicators when selecting cards for other things 
         //OBS this might need to be changed to discarding phase???
@@ -248,12 +249,22 @@ public class CardHand : MonoBehaviour
                 //Debug.Log("Current index: " + currentIndex);
                 //Debug.Log("Pos 0, current card: " + c);
                 gameBehaviour.indicatorManager.UpdateIndicators(c);
+                if (AudioManager.Instance != null && previousIndex != currentIndex)
+                {
+                    int randomIndex = UnityEngine.Random.Range(0, moveCard.Length);
+                    AudioManager.Instance.PlaySFX(moveCard[randomIndex]);
+                }
             }
             //om inte samma kort som precis innan, unless det är enda kortet i handen
             else if (previousIndex != currentIndex)// || cardsInHand.Count == 1)
             {
 
                 UpdateCardIndicator();
+                if (AudioManager.Instance != null && previousIndex != currentIndex)
+                {
+                    int randomIndex = UnityEngine.Random.Range(0, moveCard.Length);
+                    AudioManager.Instance.PlaySFX(moveCard[randomIndex]);
+                }
                 /*
                 if (!(currentIndex >= cardsInHand.Count) && cardsInHand[currentIndex] != null)
                 {

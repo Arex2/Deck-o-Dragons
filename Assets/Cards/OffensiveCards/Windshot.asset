@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Windshot
   m_EditorClassIdentifier: 
   guid: 3d994b6e153fc8d4b81359942a3e2156
-  sprite: {fileID: 21300000, guid: b8546eedabb09d240913c305d3e44f02, type: 3}
+  sprite: {fileID: 21300000, guid: 85ba09e4fd50b9d4484bdd172d75d897, type: 3}
   displayName: Windshot
   description: Deal {Attack} damage.
   cost: 4
