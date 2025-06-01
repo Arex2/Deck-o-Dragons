@@ -12,7 +12,7 @@ public class EggChecker : MonoBehaviour
     public GameObject settings;
     public GameObject bowl;
     public GameObject bowl2;
-
+    public GameObject backyard;
     void Update()
     {
         GameObject egg = GameObject.FindWithTag("Egg");
@@ -29,6 +29,7 @@ public class EggChecker : MonoBehaviour
             meatball2.SetActive(false);
             meatball3.SetActive(false);
             meatball4.SetActive(false);
+            backyard.SetActive(false);
         }
         else
         {
@@ -42,7 +43,7 @@ public class EggChecker : MonoBehaviour
             meatball2.SetActive(true);
             meatball3.SetActive(true);
             meatball4.SetActive(true);
-
+            backyard.SetActive(true);
         }
     }
 }
