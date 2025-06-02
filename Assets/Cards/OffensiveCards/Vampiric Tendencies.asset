@@ -52,7 +52,7 @@ MonoBehaviour:
       Enabled: 0
       Value: 0
   vfx:
-    tag: Attack
+    tag: VampiricTendencies
     vfxs: []
 --- !u!114 &11400000
 MonoBehaviour:
@@ -123,5 +123,5 @@ MonoBehaviour:
       Enabled: 0
       Value: 0
   vfx:
-    tag: Heal
+    tag: 
     vfxs: []

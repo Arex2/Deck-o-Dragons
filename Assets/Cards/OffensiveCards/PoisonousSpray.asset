@@ -101,7 +101,7 @@ MonoBehaviour:
       Enabled: 0
       Value: 0
   vfx:
-    tag: Attack
+    tag: PoisonSpray
     vfxs: []
 --- !u!114 &11400000
 MonoBehaviour:
