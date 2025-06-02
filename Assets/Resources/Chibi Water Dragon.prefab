@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3843389297203267583}
   - component: {fileID: -701667786427981499}
   - component: {fileID: 6872729770068679843}
+  - component: {fileID: 875418149457141704}
   m_Layer: 0
   m_Name: Chibi Water Dragon
   m_TagString: Untagged
@@ -98,6 +99,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c12697af139304022873a3e615827c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dragonSqueals:
+  - {fileID: 8300000, guid: 5132d4fdaf60741eaa94d29beb29fdbc, type: 3}
+  - {fileID: 8300000, guid: 57c13276163434d71819b212afa34bfc, type: 3}
+  - {fileID: 8300000, guid: 660d1784890a54287a561ede97a36f24, type: 3}
+  - {fileID: 8300000, guid: 28eab2317a5c442b4b666490f565ca8c, type: 3}
+  - {fileID: 8300000, guid: b6b20a30c477f4f56858bf9a9490437d, type: 3}
+  - {fileID: 8300000, guid: bac7111b26f98493c8760e0c879ba7ce, type: 3}
+  - {fileID: 8300000, guid: 9db54907fcb4c40aa9549d1dfcd16af2, type: 3}
+  - {fileID: 8300000, guid: 5451a2fe71bad42d5b025dff73fce5c1, type: 3}
+  - {fileID: 8300000, guid: 82d6c4d4bb33645ce98c90046b2eb47e, type: 3}
+  - {fileID: 8300000, guid: 049003374c33d4fe19c1e7e78c9587d7, type: 3}
+  - {fileID: 8300000, guid: 687e7fd417e0848abbc48057b3186df5, type: 3}
   horizontalValue: 0
 --- !u!114 &6872729770068679843
 MonoBehaviour:
@@ -154,3 +167,48 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 1
   loopingDelay: 0.7
+--- !u!61 &875418149457141704
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6804997193876654853}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.16, y: 1.58}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.16, y: 1.58}
+  m_EdgeRadius: 0

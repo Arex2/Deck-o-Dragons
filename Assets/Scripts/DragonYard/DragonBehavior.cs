@@ -7,17 +7,24 @@ public class DragonBehavior : MonoBehaviour
 {
     private SpriteRenderer srend;
 
+    [Header("Dragon Noises")]
+    [SerializeField] private AudioClip[] dragonSqueals;
+
     [Header ("Movement vectors")]
     private static Vector3 leftOuterBounds = new Vector3(-1.5f, 4f, 0);
     private static Vector3 rightOuterBounds = new Vector3(1.5f, -4f, 0);
     private Vector3 currentTargetPosition;
+    private Vector3 mousePosition;
 
     [Header ("Movement related")]
-    private float moveSpeed = 1;
-    private float moveMaxTimer = 12f;
+    private float moveSpeed = 1f;
+    private float moveMaxTimer = 10f;
     private float moveMinTimer = 5f;
     private float moveTimer;
     public float horizontalValue;
+    private float zAxis = 0f;
+    private bool canMove = true;
+    public static bool canMakeNoise = true;
 
     void Start()
     {
@@ -27,7 +34,11 @@ public class DragonBehavior : MonoBehaviour
 
     void Update()
     {
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = zAxis;
         horizontalValue = transform.position.x;
+
+        CheckIfOutOfBounds();
 
         if (moveTimer <= 0)
         {
@@ -41,11 +52,61 @@ public class DragonBehavior : MonoBehaviour
         }
 
         //transform.position = Vector2.MoveTowards(transform.position, currentTarget.transform.position, moveSpeed * Time.deltaTime);
-        if(moveTimer > 0)
+        if(canMove)
         {
-            transform.position = Vector2.MoveTowards(transform.position, currentTargetPosition, moveSpeed * Time.deltaTime);
-            moveTimer -= Time.deltaTime;
+            if (moveTimer > 0)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, currentTargetPosition, moveSpeed * Time.deltaTime);
+                moveTimer -= Time.deltaTime;
+            }
         }
+    }
+
+    private void CheckIfOutOfBounds()
+    {
+        if (transform.position.x < leftOuterBounds.x)
+        {
+            transform.position = new Vector3(leftOuterBounds.x, transform.position.y, 0);
+        }
+
+        if (transform.position.x > rightOuterBounds.x)
+        {
+            transform.position = new Vector3(rightOuterBounds.x, transform.position.y, 0);
+        }
+
+        if (transform.position.y > leftOuterBounds.y)
+        {
+            transform.position = new Vector3(transform.position.x, leftOuterBounds.y, 0);
+        }
+
+        if (transform.position.y < rightOuterBounds.y)
+        {
+            transform.position = new Vector3(transform.position.x, rightOuterBounds.y, 0);
+        }
+    }
+
+    private void OnMouseDown()
+    {
+        if (canMakeNoise)
+        {
+            int randomNoise = Random.Range(0, dragonSqueals.Length);
+            AudioManager.Instance.PlayIncrVolumeSFX(dragonSqueals[randomNoise]);
+        }
+    }
+
+    private void OnMouseDrag()
+    {
+        if(canMakeNoise)
+        {
+            canMove = false;
+            Debug.Log("on mouse drag");
+            transform.position = mousePosition;
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        canMove = true;
     }
 
     private void LateUpdate()

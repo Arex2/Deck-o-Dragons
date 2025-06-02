@@ -18,6 +18,7 @@ public class Book : MonoBehaviour
     public Canvas canvas;
     [SerializeField]
     RectTransform BookPanel;
+    [SerializeField] private AudioClip openBookSFX;
     public Sprite background;
     public Sprite leftPage;
     public Sprite rightPage;
@@ -161,12 +162,18 @@ public class Book : MonoBehaviour
 
     private void CalcCurlCriticalPoints()
     {
+        sb = new Vector3(0, -BookPanel.sizeDelta.y / 2);
+        /*ebr = new Vector3(BookPanel.sizeDelta.x / 2, -BookPanel.sizeDelta.y / 2);
+        ebl = new Vector3(-BookPanel.sizeDelta.x / 2, -BookPanel.sizeDelta.y / 2);
+        st = new Vector3(0, BookPanel.sizeDelta.y / 2);*/
         sb = new Vector3(0, -BookPanel.rect.height / 2);
         ebr = new Vector3(BookPanel.rect.width / 2, -BookPanel.rect.height / 2);
         ebl = new Vector3(-BookPanel.rect.width / 2, -BookPanel.rect.height / 2);
         st = new Vector3(0, BookPanel.rect.height / 2);
         radius1 = Vector2.Distance(sb, ebr);
+        //float pageWidth = BookPanel.sizeDelta.x / 2.0f;
         float pageWidth = BookPanel.rect.width / 2.0f;
+        //float pageHeight = BookPanel.sizeDelta.y;
         float pageHeight = BookPanel.rect.height;
         radius2 = Mathf.Sqrt(pageWidth * pageWidth + pageHeight * pageHeight);
     }
@@ -201,8 +208,6 @@ public class Book : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log("interactable: " + interactable);
-
         if (pageDragging && interactable)
         {
             if(!DragonBook.addDragonsToBookOnFlipPage && canUpdatePagesWhileFlipping)
@@ -234,6 +239,7 @@ public class Book : MonoBehaviour
         Right.transform.SetParent(BookPanel.transform, true);
         Right.transform.localEulerAngles = Vector3.zero;
         LeftNext.transform.SetParent(BookPanel.transform, true);
+        LeftNext.transform.SetSiblingIndex(BookPanel.transform.childCount - 2);
 
         c = Calc_C_Position(followLocation);
         Vector3 t1;
@@ -271,6 +277,7 @@ public class Book : MonoBehaviour
         Left.transform.SetParent(BookPanel.transform, true);
         Left.transform.localEulerAngles = Vector3.zero;
         RightNext.transform.SetParent(BookPanel.transform, true);
+        RightNext.transform.SetSiblingIndex(BookPanel.transform.childCount - 2);
         c = Calc_C_Position(followLocation);
         Vector3 t1;
         float clipAngle = CalcClipAngle(c, ebr, out t1);
@@ -485,21 +492,24 @@ public class Book : MonoBehaviour
         if (mode == FlipMode.RightToLeft)
         {
             currentPage += 2;
-            DragonBook.addDragonsToBook = true;
         }
         else
         {
             currentPage -= 2;
-            DragonBook.addDragonsToBook = true;
         }
 
+        DragonBook.addDragonsToBook = true;
+        AudioManager.Instance.PlaySFX(openBookSFX);
         LeftNext.transform.SetParent(BookPanel.transform, true);
+        LeftNext.transform.SetSiblingIndex(BookPanel.transform.childCount - 2);
         Left.transform.SetParent(BookPanel.transform, true);
         LeftNext.transform.SetParent(BookPanel.transform, true);
+        LeftNext.transform.SetSiblingIndex(BookPanel.transform.childCount - 2);
         Left.gameObject.SetActive(false);
         Right.gameObject.SetActive(false);
         Right.transform.SetParent(BookPanel.transform, true);
         RightNext.transform.SetParent(BookPanel.transform, true);
+        RightNext.transform.SetSiblingIndex(BookPanel.transform.childCount - 2);
         UpdateSprites();
         Shadow.gameObject.SetActive(false);
         ShadowLTR.gameObject.SetActive(false);
@@ -515,6 +525,7 @@ public class Book : MonoBehaviour
                 {
                     UpdateSprites();
                     RightNext.transform.SetParent(BookPanel.transform);
+                    RightNext.transform.SetSiblingIndex(BookPanel.transform.childCount - 2);
                     Right.transform.SetParent(BookPanel.transform);
 
                     Left.gameObject.SetActive(false);
@@ -531,6 +542,7 @@ public class Book : MonoBehaviour
                     UpdateSprites();
 
                     LeftNext.transform.SetParent(BookPanel.transform);
+                    LeftNext.transform.SetSiblingIndex(BookPanel.transform.childCount - 2);
                     Left.transform.SetParent(BookPanel.transform);
 
                     Left.gameObject.SetActive(false);

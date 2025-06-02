@@ -71,7 +71,7 @@ public class MusicTrack : MonoBehaviour
 
         if (fadeTime <= 0)
         {
-            SourceVolume = 1;
+            SourceVolume = 0.2f;
         }
         else
         {

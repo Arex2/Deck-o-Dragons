@@ -33,6 +33,7 @@ public class DragonActive : MonoBehaviour
     {
         if (Instance == null)
         {
+            isDragonActive = false;
             Instance = this;
         }
         else

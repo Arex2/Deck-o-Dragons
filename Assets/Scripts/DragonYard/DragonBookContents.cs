@@ -29,6 +29,8 @@ public class DragonBookContents : MonoBehaviour
             drBookCont = this;
             dragonNamesInBook.Clear();
             dragonTypesInBook.Clear();
+            dragonsActiveInBackyard.Clear();
+            elementsOfDragonsActiveInBackyard.Clear();
             pagesInBook = 1;
         }
         else
@@ -38,7 +40,13 @@ public class DragonBookContents : MonoBehaviour
 
         DontDestroyOnLoad(this);
 
+<<<<<<< Updated upstream
         /*SetNewDragonNameAndTypeInBook("bobo", 0);
+=======
+        /*SetNewDragonNameAndTypeInBook("JfRIzBKR", 3);
+        SetNewDragonNamesAndElementsActiveInBackyard("JfRIzBKR", 3);
+        SetNewDragonNameAndTypeInBook("bobo", 0);
+>>>>>>> Stashed changes
         SetNewDragonNameAndTypeInBook("rawr", 1);
         SetNewDragonNameAndTypeInBook("0123456789", 2);
         SetNewDragonNameAndTypeInBook("drake", 3);
@@ -60,11 +68,8 @@ public class DragonBookContents : MonoBehaviour
 
         if ((dragonNamesInBook.Count - 1) % 3 == 0)
         {
-            Debug.Log("%3 happened");
-
             if(dragonNamesInBook.Count % 2 == 0)
             {
-                Debug.Log("%2 happened");
                 return;
             }
 

@@ -213,7 +213,7 @@ public class Egg : MonoBehaviour
 
     private void Hatch()
     {
-        AudioManager.Instance.PlaySFX(hatchSFX);
+        AudioManager.Instance.PlayDecrVolumeSFX(hatchSFX);
 
         canBeCracked = false;
         isHatching = true;
@@ -294,6 +294,6 @@ public class Egg : MonoBehaviour
 
     public void PlayLandSFX()
     {
-        AudioManager.Instance.PlaySFX(landSFX);
+        AudioManager.Instance.PlayDecrVolumeSFX(landSFX);
     }
 }
