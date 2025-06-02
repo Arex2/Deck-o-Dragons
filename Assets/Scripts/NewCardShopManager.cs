@@ -169,7 +169,7 @@ public class NewCardShopManager : MonoBehaviour
 
     IEnumerator SetCardPosition()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.6f);
         _screenSpaceEnd = zoomCardRectTransform.position;
         _scaleEnd = zoomCardRectTransform.localScale.x;
 
