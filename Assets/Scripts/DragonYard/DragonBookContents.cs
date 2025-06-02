@@ -40,19 +40,9 @@ public class DragonBookContents : MonoBehaviour
 
         DontDestroyOnLoad(this);
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        /*SetNewDragonNameAndTypeInBook("bobo", 0);
-=======
         /*SetNewDragonNameAndTypeInBook("JfRIzBKR", 3);
         SetNewDragonNamesAndElementsActiveInBackyard("JfRIzBKR", 3);
         SetNewDragonNameAndTypeInBook("bobo", 0);
->>>>>>> Stashed changes
-=======
-        /*SetNewDragonNameAndTypeInBook("JfRIzBKR", 3);
-        SetNewDragonNamesAndElementsActiveInBackyard("JfRIzBKR", 3);
-        SetNewDragonNameAndTypeInBook("bobo", 0);
->>>>>>> Stashed changes
         SetNewDragonNameAndTypeInBook("rawr", 1);
         SetNewDragonNameAndTypeInBook("0123456789", 2);
         SetNewDragonNameAndTypeInBook("drake", 3);
