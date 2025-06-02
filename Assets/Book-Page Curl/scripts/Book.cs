@@ -44,6 +44,7 @@ public class Book : MonoBehaviour
     {
         get
         {
+            //return BookPanel.sizeDelta.y;
             return BookPanel.rect.height ; 
         }
     }
@@ -93,6 +94,8 @@ public class Book : MonoBehaviour
         UpdateSprites();
         CalcCurlCriticalPoints();
 
+        //float pageWidth = BookPanel.sizeDelta.x / 2.0f;
+        //float pageHeight = BookPanel.sizeDelta.y;
         float pageWidth = BookPanel.rect.width / 2.0f;
         float pageHeight = BookPanel.rect.height;
         NextPageClip.rectTransform.sizeDelta = new Vector2(pageWidth, pageHeight + pageHeight * 2);
