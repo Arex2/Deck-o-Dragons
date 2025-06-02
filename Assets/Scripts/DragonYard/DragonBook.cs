@@ -63,14 +63,14 @@ public class DragonBook : MonoBehaviour
 
     private void Awake()
     {
-        DragonBookContents.SetNewDragonNameAndTypeInBook("drake", 3);
+        /*DragonBookContents.SetNewDragonNameAndTypeInBook("drake", 3);
         DragonBookContents.SetNewDragonNameAndTypeInBook("hello", 1);
         DragonBookContents.SetNewDragonNameAndTypeInBook("new 1", 2);
         DragonBookContents.SetNewDragonNameAndTypeInBook("2is", 3);
         DragonBookContents.SetNewDragonNameAndTypeInBook("tree", 1);
         DragonBookContents.SetNewDragonNameAndTypeInBook("flour", 0);
         DragonBookContents.SetNewDragonNameAndTypeInBook("firth", 1);
-        DragonBookContents.SetNewDragonNameAndTypeInBook("sith", 0);
+        DragonBookContents.SetNewDragonNameAndTypeInBook("sith", 0);*/
     }
 
     public void Start()
