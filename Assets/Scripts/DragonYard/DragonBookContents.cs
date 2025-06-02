@@ -64,7 +64,7 @@ public class DragonBookContents : MonoBehaviour
 
         if ((dragonNamesInBook.Count - 1) % 3 == 0)
         {
-            if(dragonNamesInBook.Count % 2 == 0)
+            if (dragonNamesInBook.Count % 2 == 0)
             {
                 return;
             }

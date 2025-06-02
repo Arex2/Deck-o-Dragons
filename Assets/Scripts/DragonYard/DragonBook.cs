@@ -61,24 +61,20 @@ public class DragonBook : MonoBehaviour
     private Vector3 leftOuterBounds = new Vector3(-1.5f, 4f, 0);
     private Vector3 rightOuterBounds = new Vector3(1.5f, -4f, 0);
 
-    //private static List<string> dragonsInBackyard = new List<string>();
-    //private static List<int> dragonElementsInBackyard = new List<int>();
-    /*private static List<int> pagesInBook = new List<int>();
-
-    public static List<string> dragonNamesInBook = new List<string>();
-    public static List<int> dragonTypesInBook = new List<int>();*/
-
-    //private int limit = 4;
+    private void Awake()
+    {
+        DragonBookContents.SetNewDragonNameAndTypeInBook("drake", 3);
+        DragonBookContents.SetNewDragonNameAndTypeInBook("hello", 1);
+        DragonBookContents.SetNewDragonNameAndTypeInBook("new 1", 2);
+        DragonBookContents.SetNewDragonNameAndTypeInBook("2is", 3);
+        DragonBookContents.SetNewDragonNameAndTypeInBook("tree", 1);
+        DragonBookContents.SetNewDragonNameAndTypeInBook("flour", 0);
+        DragonBookContents.SetNewDragonNameAndTypeInBook("firth", 1);
+        DragonBookContents.SetNewDragonNameAndTypeInBook("sith", 0);
+    }
 
     public void Start()
     {
-        /*SetNewDragonNameAndTypeInBook("0123456789", 2);
-        SetNewDragonNameAndTypeInBook("drake", 3);
-        SetNewDragonNameAndTypeInBook("hello", 1);
-        SetNewDragonNameAndTypeInBook("kjbfkbd", 3);*/
-
-        //dragonsInBackyard.Clear();
-        //dragonElementsInBackyard.Clear();
         dragonCollection.SetActive(false);
         closeButton.SetActive(false);
         dragonLimitText.SetActive(false);
@@ -87,14 +83,6 @@ public class DragonBook : MonoBehaviour
         pageRelease = false;
         //AskToAddDragonPanel.SetActive(false);
         //AskForDragonCloseButton.SetActive(false);
-
-        //ControlledBook = GameObject.Find("Book");
-
-        /*if (!ControlledBook)
-        {
-            //ControlledBook = GetComponent<Book>();
-            ControlledBook = GameObject.Find("Book").GetComponent<Book>();
-        }*/
 
         //AddDragonsToBookCollectionAPageAtATime();
         AddSelectedDragonsToYardOnLoad();
@@ -297,16 +285,6 @@ public class DragonBook : MonoBehaviour
         }
         else
         {
-            /*string hexColor = "A6A6A6";
-            if (ColorUtility.TryParseHtmlString(hexColor, out Color color))
-            {
-                button.GetComponent<Image>().color = color;
-            }
-            else
-            {
-                Debug.LogError("Invalid hex color string: " + hexColor);
-            }*/
-
             button.GetComponent<Image>().color = Color.white;
         }
     }

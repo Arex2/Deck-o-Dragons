@@ -28,7 +28,7 @@ public class Book : MonoBehaviour
     private bool enableShadowEffect = true;
     //represent the index of the sprite shown in the right page
     public int currentPage = 0;
-    public bool addPage = false; //lagt till
+    private bool addPage = true; //lagt till
     public int TotalPageCount
     {
         get { return bookPages.Length; }
@@ -122,15 +122,15 @@ public class Book : MonoBehaviour
     }
 
     //har lagt till för att testa i inspectorn
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         if (addPage)
         {
             AddBookPage();
             addPage = false;
         }
-
-    }
+        Debug.Log("add page bool:" + addPage);
+    }*/
 
     //lagt till
     public void AddBookPage()

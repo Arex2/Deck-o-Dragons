@@ -99,7 +99,6 @@ public class DragonBehavior : MonoBehaviour
         if(canMakeNoise)
         {
             canMove = false;
-            Debug.Log("on mouse drag");
             transform.position = mousePosition;
         }
     }
