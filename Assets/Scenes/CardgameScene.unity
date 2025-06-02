@@ -1124,6 +1124,7 @@ MonoBehaviour:
   playerHealthText: {fileID: 530612439057878725}
   FloatingTextPrefab: {fileID: 1274994783436772728, guid: 3027dd26962f86646872c550abfc9f7f, type: 3}
   hpSlider: {fileID: 5113567561118050214}
+  damageTakenSound: []
   indicatorManager: {fileID: 1350904861571970897}
   screenShake: {fileID: 1058481263}
   camera: {fileID: 1058481261}
@@ -2268,6 +2269,7 @@ MonoBehaviour:
   cardVisuals: {fileID: 0}
   user: {fileID: 151584345}
   pointerMoveRadius: 0
+  dissolveSFX: {fileID: 0}
 --- !u!1 &358187705
 GameObject:
   m_ObjectHideFlags: 0
@@ -3038,7 +3040,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8670319088869198574, guid: 800ca899b08213c45a0362e97a33a0d9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8670319088869198574, guid: 800ca899b08213c45a0362e97a33a0d9, type: 3}
       propertyPath: m_LocalPosition.z
