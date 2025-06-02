@@ -56,7 +56,7 @@ MonoBehaviour:
       Enabled: 0
       Value: 0
   vfx:
-    tag: Attack
+    tag: TailWhip
     vfxs: []
 --- !u!114 &11400000
 MonoBehaviour:

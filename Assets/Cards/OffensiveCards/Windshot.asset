@@ -84,5 +84,5 @@ MonoBehaviour:
       Enabled: 0
       Value: 0
   vfx:
-    tag: Attack
+    tag: Windshot
     vfxs: []

@@ -13,6 +13,9 @@ public enum Rotations
 
 public class AttackEffect : MonoBehaviour, ICardVFXComponent
 {
+    public bool dontRotate = false;
+
+
     public Rotations startRotationType = Rotations.Spinn;
     public Rotations endRotationType = Rotations.Direction;
     private Rotations rotationType;
@@ -47,30 +50,33 @@ public class AttackEffect : MonoBehaviour, ICardVFXComponent
         //calculate next position
         Vector3 newPos = Bezier(a, b, c, d, percentageComplete);
 
-        //switch rotation type on 50% complete
-        if(percentageComplete > 0.5 && rotationType != endRotationType)
+        if(!dontRotate)
         {
-            Debug.Log("Switched rotation");
-            rotationType = endRotationType;
-        }
+            //switch rotation type on 50% complete
+            if (percentageComplete > 0.5 && rotationType != endRotationType)
+            {
+                Debug.Log("Switched rotation");
+                rotationType = endRotationType;
+            }
 
-        //rotate depending on selected rotation type
-        switch (rotationType)
-        {
-            case Rotations.Spinn:
-                //rotation chaos
-                RotateChaosSpinn(newPos);
-                break;
-            case Rotations.Target:
-                //projectile rotates to look at target
-                RotateToFaceTarget();
-                break;
-            case Rotations.Direction:
-            default:
-                //projectile rotates in movement direction
-                RotateTowardsDirection(newPos);
-                break;
+            //rotate depending on selected rotation type
+            switch (rotationType)
+            {
+                case Rotations.Spinn:
+                    //rotation chaos
+                    RotateChaosSpinn(newPos);
+                    break;
+                case Rotations.Target:
+                    //projectile rotates to look at target
+                    RotateToFaceTarget();
+                    break;
+                case Rotations.Direction:
+                default:
+                    //projectile rotates in movement direction
+                    RotateTowardsDirection(newPos);
+                    break;
 
+            }
         }
 
         //move to next position

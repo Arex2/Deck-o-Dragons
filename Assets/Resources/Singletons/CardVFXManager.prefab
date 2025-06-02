@@ -52,14 +52,35 @@ MonoBehaviour:
   - SpearAttack
   - PoisonAttack
   - MagicAttack
+  - FirstBite
+  - PoisonSpray
+  - VampiricTendencies
+  - SoulExtraction
+  - AirborneSacrifice
+  - Windshot
+  - ClawStrike
+  - TailWhip
+  - RecklessCharge
   cardVFXPrefabs:
+  - {fileID: 3962933332760310015, guid: fe25ec06cf4a0f44e9f5c88be8cfdbb9, type: 3}
+  - {fileID: 4970031806643827096, guid: 2cd3dee6e6ce5744988f86a4b9aeb5c7, type: 3}
   - {fileID: 3467240841848256987, guid: e41766f67daf2df4295251cb9ab208db, type: 3}
   - {fileID: 8529259432028219167, guid: 33c33183e98d67d42a5f7d4e5e46ae64, type: 3}
-  - {fileID: 102398844963847324, guid: d2b2b04b7e2c6a241a1afa54185e45c2, type: 3}
-  - {fileID: 7110235199367414527, guid: 96e939b0dc1719d4f8d3c452e1b0b8cb, type: 3}
-  - {fileID: 2405398319983216021, guid: 4787cc505c9d37948b7b1ccb031ed8d1, type: 3}
-  - {fileID: 1054048531730966016, guid: 9597e7cd835c9b74bbcd03fcc6f76af4, type: 3}
   - {fileID: 3472015632407963271, guid: dff325399a256a742adf84e87d9a26bf, type: 3}
-  - {fileID: 295284891178577247, guid: 5e67d0d4bc8115441b7a814d50b4569c, type: 3}
   - {fileID: 4723882574551051287, guid: 47c9065d08a1a064c917bc3432b2fe94, type: 3}
   - {fileID: 5946902917070384221, guid: 1f08768c951536a4f94f6afe57d23cb0, type: 3}
+  - {fileID: 102398844963847324, guid: d2b2b04b7e2c6a241a1afa54185e45c2, type: 3}
+  - {fileID: 3411919349607160205, guid: e931789c7e824df4d92ab542d9a5a69a, type: 3}
+  - {fileID: 8462167909204311152, guid: 90d729eb70d26af41985d7b3386b6300, type: 3}
+  - {fileID: 3210176748686698355, guid: 259def5bea16a6d408d94ce95022ed74, type: 3}
+  - {fileID: 7110235199367414527, guid: 96e939b0dc1719d4f8d3c452e1b0b8cb, type: 3}
+  - {fileID: 7822834088996474817, guid: b62f9a9ea1588ca4e8fa0761a1b5eb5b, type: 3}
+  - {fileID: 2405398319983216021, guid: 4787cc505c9d37948b7b1ccb031ed8d1, type: 3}
+  - {fileID: 1054048531730966016, guid: 9597e7cd835c9b74bbcd03fcc6f76af4, type: 3}
+  - {fileID: 295284891178577247, guid: 5e67d0d4bc8115441b7a814d50b4569c, type: 3}
+  - {fileID: 1264138297520471431, guid: 1a062c98509a2964e89d72b5fcc8c968, type: 3}
+  - {fileID: 1082217384927002277, guid: c4ddbd3053867bd42a398859a97a5947, type: 3}
+  - {fileID: 4703503889939679152, guid: 93c3268b8414f1142bbbe5fe5025f39e, type: 3}
+  - {fileID: 7707543101382226127, guid: f96e39821492eca43a5cf0c029f46537, type: 3}
+  - {fileID: 7221929740504463511, guid: 0de3aadd014927547bfa95a51109afce, type: 3}
+  - {fileID: 6325505443229190306, guid: 66415f2122b529948b34b0d0327b540e, type: 3}
