@@ -33,7 +33,6 @@ public class DragonActive : MonoBehaviour
     {
         if (Instance == null)
         {
-            isDragonActive = false;
             Instance = this;
         }
         else
@@ -51,9 +50,9 @@ public class DragonActive : MonoBehaviour
 
     void LateUpdate()
     {
-        if(doCheck)
+        if (doCheck)
         {
-            if(SceneManager.GetActiveScene().buildIndex == SceneSwitcher.GetScene(SceneSwitcher.Scene.Egg))
+            if(SceneSwitcher.CurrentSceneBuildIndex == SceneSwitcher.GetScene(SceneSwitcher.Scene.Egg))
             {
                 CheckForEggOrDragon();
                 doCheck = false;
@@ -64,7 +63,7 @@ public class DragonActive : MonoBehaviour
 
     private void CheckForEggOrDragon()
     {
-        if(!isDragonActive)
+        if (!isDragonActive)
         {
             currentEgg = Instantiate(egg, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
             currentEgg.canBeCracked = false;
@@ -81,7 +80,7 @@ public class DragonActive : MonoBehaviour
 
             //TextInputManager.dragonName.text = "";
         }
-        else if(isDragonActive)
+        else if (isDragonActive)
         {
             //Instantiate(TextInputManager.dragonName, new UnityEngine.Vector3(0, 1000, 0), UnityEngine.Quaternion.identity);
             SpawnDragon();

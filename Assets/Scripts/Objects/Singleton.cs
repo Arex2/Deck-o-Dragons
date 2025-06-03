@@ -19,6 +19,8 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     /// </summary>
     public static T Instance { get; private set; }
 
+    protected bool isDestroyed { get; private set; }
+
     protected virtual void Awake()
     {
         SingletonModeAttribute attribute;
@@ -38,6 +40,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
         if (Instance != null)
         {
             Destroy(transform.root.gameObject);
+            isDestroyed = true;
             return; // Make sure to return so nothing below will happen
         }
 

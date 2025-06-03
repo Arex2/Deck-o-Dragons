@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using DG.Tweening;
 
 public class BallBouncer : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -245,6 +246,8 @@ public class BallBouncer : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         {
             pointerOffset = (Vector2)draggableBallUI.localPosition - localPointerPosition;
         }
+
+        draggableBallUI.DOKill();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -272,15 +275,19 @@ public class BallBouncer : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         Vector2 pointerPos = eventData.position;
 
+        draggableBallUI.DOKill();
+
         if (RectTransformUtility.RectangleContainsScreenPoint(dropTargetArea, pointerPos, canvas.worldCamera))
         {
             StartBouncing();
 
-            draggableBallUI.localPosition = initialBallUIPosition;
+            draggableBallUI.localPosition = initialBallUIPosition + Vector3.down * 500;
+
+            draggableBallUI.DOLocalMove(initialBallUIPosition, 0.8f).SetEase(Ease.OutExpo).SetDelay(0.2f);
         }
         else
         {
-            draggableBallUI.localPosition = initialBallUIPosition;
+            draggableBallUI.DOLocalMove(initialBallUIPosition, 0.5f).SetEase(Ease.OutExpo);
         }
     }
 }

@@ -1,16 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ProgressManager : MonoBehaviour
 {
     public static ProgressManager Instance { get; private set; }
 
     public static int currentLevel = 0;
-    public bool WonLastBattle { get; set; }
-
-
+    public static bool wonLastBattle;
 
     private void Awake()
     {
@@ -28,11 +25,6 @@ public class ProgressManager : MonoBehaviour
     public void IncreaseLevel()
     {
         currentLevel++;
-        WonLastBattle = true;
-    }
-
-    public void ResetProgress()
-    {
-        currentLevel = 0;
+        wonLastBattle = true;
     }
 }

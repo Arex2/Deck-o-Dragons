@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -41,6 +42,8 @@ public class SlideToSwitchScene : MonoBehaviour, IDragHandler, IBeginDragHandler
             canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
             out Vector2 localPoint
         );
+
+        rectTransform.DOKill();
 
         dragOffset = rectTransform.anchoredPosition - localPoint;
     }
@@ -86,7 +89,8 @@ public class SlideToSwitchScene : MonoBehaviour, IDragHandler, IBeginDragHandler
 
         if (!hasSwitched)
         {
-            rectTransform.anchoredPosition = initialPosition;
+            rectTransform.DOKill();
+            rectTransform.DOAnchorPos(initialPosition, 0.5f).SetEase(Ease.OutExpo);
         }
     }
 

@@ -17,10 +17,8 @@ public class MusicPlayer : Singleton<MusicPlayer>
 
     private static ObjectPool<MusicTrack> _musicTrackPool;
 
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
-
         _musicTrackPool = new ObjectPool<MusicTrack>(CreateMusicTrack,
             (track) => _activeMusicTracks.Add(track),
             (track) => _activeMusicTracks.Remove(track)

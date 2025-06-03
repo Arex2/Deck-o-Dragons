@@ -20,6 +20,11 @@ public class CardVFXManager : Singleton<CardVFXManager>
     {
         base.Awake();
 
+        if (isDestroyed)
+        {
+            return;
+        }
+
         // Caching by doing whatever this is
         Dictionary<string, List<CardVFX>> temp = new();
 

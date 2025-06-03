@@ -18,7 +18,7 @@ public class EggChecker : MonoBehaviour
     {
         GameObject egg = GameObject.FindWithTag("Egg");
 
-        if (egg != null)
+        if (egg != null || string.IsNullOrEmpty(DragonActive.dragonName))
         {
             sword.SetActive(false);
             ball.SetActive(false);

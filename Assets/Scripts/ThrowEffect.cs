@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections;
+using DG.Tweening;
 
 public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
@@ -27,6 +28,8 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = false;
+
+        rectTransform.DOKill();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -36,8 +39,6 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (canvasGroup != null)
-            canvasGroup.blocksRaycasts = true;
 
         if (targetObject != null && IsCollidingWithTarget())
         {
@@ -52,7 +53,10 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         }
         else
         {
-            ResetPosition();
+            if (canvasGroup != null)
+                canvasGroup.blocksRaycasts = true;
+
+            ResetPosition(false);
         }
     }
 
@@ -68,6 +72,9 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private IEnumerator ResetAfterAnimation()
     {
+        if (canvasGroup != null)
+            canvasGroup.blocksRaycasts = false;
+
         if (meatballAnimator != null)
         {
 
@@ -90,10 +97,6 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             }
         }
 
-
-        ResetPosition();
-
-
         GameObject hearts = FindInactiveHeartWithTag();
         if (hearts != null)
         {
@@ -104,6 +107,18 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         {
             Debug.LogWarning("Inactive Heart with tag 'Heart' not found in the scene.");
         }
+
+        yield return new WaitForSeconds(0.3f);
+
+        ResetPosition(true);
+
+        yield return new WaitForSeconds(0.1f);
+
+        if (meatballAnimator != null)
+            meatballAnimator.SetTrigger("Done");
+
+        if (canvasGroup != null)
+            canvasGroup.blocksRaycasts = true;
     }
 
     private IEnumerator ActivateHeartTemporarily(GameObject heart)
@@ -129,8 +144,17 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
 
 
-    private void ResetPosition()
+    private void ResetPosition(bool instant)
     {
-        rectTransform.localPosition = initialPosition;
+        rectTransform.DOKill();
+
+        if (instant)
+        {
+            rectTransform.localPosition = initialPosition;
+        }
+        else
+        {
+            rectTransform.DOLocalMove(initialPosition, 0.5f).SetEase(Ease.OutExpo);
+        }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEditor;
 
 [SingletonMode(true)]
 public class SaveManager : Singleton<SaveManager>
@@ -87,24 +88,30 @@ public class SaveManager : Singleton<SaveManager>
             _data = JsonUtility.FromJson<SaveData>(File.ReadAllText(GetSavePath()));
         }
 
+        Load(_data);
+    }
+
+    private static void Load(SaveData data)
+    {
         // Load current level
-        ProgressManager.currentLevel = _data.currentLevel;
+        ProgressManager.currentLevel = data.currentLevel;
+        ProgressManager.wonLastBattle = data.wonLastBattle;
 
         // Load active dragon
-        if (string.IsNullOrEmpty(_data.activeDragonName))
+        if (string.IsNullOrEmpty(data.activeDragonName))
         {
             DragonActive.dragonName = null;
             DragonActive.isDragonActive = false;
         }
         else
         {
-            DragonActive.dragonName = _data.activeDragonName;
+            DragonActive.dragonName = data.activeDragonName;
             DragonActive.isDragonActive = true;
         }
 
-        DragonActive.index = _data.activeDragonIndex;
-        DragonActive.age = _data.activeDragonAge;
-        DragonActive.evolutionProcess = _data.activeDragonEvolutionProcess;
+        DragonActive.index = data.activeDragonIndex;
+        DragonActive.age = data.activeDragonAge;
+        DragonActive.evolutionProcess = data.activeDragonEvolutionProcess;
         DragonActive.doCheck = true;
 
         // Clear all dragons in book
@@ -114,21 +121,21 @@ public class SaveManager : Singleton<SaveManager>
         DragonBookContents.GetElementsOfDragonsActiveInBackyard().Clear();
 
         // Load dragons into book
-        foreach (SaveData.Dragon dragon in _data.dragonsInBook)
+        foreach (SaveData.Dragon dragon in data.dragonsInBook)
         {
             DragonBookContents.SetNewDragonNameAndTypeInBook(dragon.name, dragon.index);
         }
-        foreach (SaveData.Dragon dragon in _data.dragonsActiveInBackyard)
+        foreach (SaveData.Dragon dragon in data.dragonsActiveInBackyard)
         {
             DragonBookContents.SetNewDragonNamesAndElementsActiveInBackyard(dragon.name, dragon.index);
         }
 
         // Load cards
-        if (_data.blacklistedCardGuids.Count > 0)
+        if (data.blacklistedCardGuids.Count > 0)
         {
             DeckManager.Instance.BlackListCards.Clear();
 
-            foreach (string cardGuid in _data.blacklistedCardGuids)
+            foreach (string cardGuid in data.blacklistedCardGuids)
             {
                 Card card = CardManager.GetCardByGUID(cardGuid);
 
@@ -140,11 +147,11 @@ public class SaveManager : Singleton<SaveManager>
                 DeckManager.Instance.BlackListCards.Add(card);
             }
         }
-        if (_data.cardGuids.Count > 0)
+        if (data.cardGuids.Count > 0)
         {
             IEnumerable<Card> LoadCards()
             {
-                foreach (string cardGuid in _data.cardGuids)
+                foreach (string cardGuid in data.cardGuids)
                 {
                     Card card = CardManager.GetCardByGUID(cardGuid);
 
@@ -167,6 +174,7 @@ public class SaveManager : Singleton<SaveManager>
     {
         // Save current level
         _data.currentLevel = ProgressManager.currentLevel;
+        _data.wonLastBattle = ProgressManager.wonLastBattle;
 
         // Save active dragon
         _data.activeDragonName = DragonActive.dragonName;
@@ -216,22 +224,40 @@ public class SaveManager : Singleton<SaveManager>
         File.WriteAllText(GetSavePath(), JsonUtility.ToJson(_data));
     }
 
+    public static void DeleteSave()
+    {
+        if (File.Exists(GetSavePath()))
+        {
+            File.Delete(GetSavePath());
+        }
+
+        SaveData newData = new();
+
+        newData.musicMuted = _data.musicMuted;
+        newData.sfxMuted = _data.sfxMuted;
+
+        _data = newData;
+
+        Load(_data);
+    }
+
     [Serializable]
     private class SaveData
     {
-        public bool seenWelcomePopup;
-        public bool seenBattleTutorial;
-        public bool seenEvolutionPopup;
-        public bool seenBackyardPopup;
+        public bool seenWelcomePopup = false;
+        public bool seenBattleTutorial = false;
+        public bool seenEvolutionPopup = false;
+        public bool seenBackyardPopup = false;
 
-        public bool musicMuted;
-        public bool sfxMuted;
-        public int currentLevel;
+        public bool musicMuted = false;
+        public bool sfxMuted = false;
+        public int currentLevel = 0;
+        public bool wonLastBattle = false;
 
         public string activeDragonName = null;
-        public int activeDragonIndex;
-        public int activeDragonAge;
-        public int activeDragonEvolutionProcess;
+        public int activeDragonIndex = 0;
+        public int activeDragonAge = 0;
+        public int activeDragonEvolutionProcess = 0;
 
         public List<int> dragonElementsGotten = new();
         public List<Dragon> dragonsInBook = new();

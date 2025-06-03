@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ public class DragonController : MonoBehaviour
     [SerializeField] private Vector2 eggStart = Vector2.zero;
 
     private CanvasGroup screenCover;
+
+    private bool _oldHasName = true;
 
     private void Start()
     {
@@ -36,6 +39,17 @@ public class DragonController : MonoBehaviour
             StepProgress();
         }
 #endif
+
+        // Block raycasts while we don't have a name for the dragon
+        bool hasName = !string.IsNullOrEmpty(DragonActive.dragonName);
+        if (_oldHasName == hasName)
+        {
+            return;
+        }
+
+        _oldHasName = hasName;
+
+        screenCover.blocksRaycasts = !hasName;
     }
 
     public void StepProgress()
@@ -73,10 +87,8 @@ public class DragonController : MonoBehaviour
                     DragonBookContents.SetNewDragonNameAndTypeInBook(DragonActive.dragonName, DragonActive.index);
 
                     //Reset the game
-                    if (ProgressManager.Instance != null)
-                    {
-                        ProgressManager.Instance.ResetProgress();
-                    }
+                    ProgressManager.currentLevel = 0;
+                    ProgressManager.wonLastBattle = false;
 
                     DeckManager.Instance.InitializeDeck(DeckManager.Instance.DefaultStarterDeck);
                     DeckManager.Instance.BlackListCards.Clear();

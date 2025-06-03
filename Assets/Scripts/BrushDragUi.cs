@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
@@ -49,6 +50,8 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         isDragging = true;
         movementHistory.Clear();
+
+        rectTransform.DOKill();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -91,7 +94,8 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     private void ResetPosition()
     {
-        rectTransform.localPosition = initialPosition;
+        rectTransform.DOKill();
+        rectTransform.DOLocalMove(initialPosition, 0.5f).SetEase(Ease.OutExpo);
 
         if (!isDragging)
         {

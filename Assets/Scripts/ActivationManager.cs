@@ -7,18 +7,13 @@ public class ActivationManager : MonoBehaviour
 {
     private void Awake()
     {
-        Debug.Log("EVOLUTION: " + DragonActive.evolutionProcess);
-
-        if (ProgressManager.Instance != null)
+        if (ProgressManager.wonLastBattle)
         {
-            if (ProgressManager.Instance.WonLastBattle)
-            {
-                ProgressManager.Instance.WonLastBattle = false;
+            ProgressManager.wonLastBattle = false;
 
-                GameObject.Find("ScreenCover").GetComponent<CanvasGroup>().blocksRaycasts = true;
+            GameObject.Find("ScreenCover").GetComponent<CanvasGroup>().blocksRaycasts = true;
 
-                Invoke("AddProgressToDragon", 1);
-            }
+            Invoke("AddProgressToDragon", 1);
         }
     }
  
