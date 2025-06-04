@@ -28,7 +28,7 @@ public class Book : MonoBehaviour
     private bool enableShadowEffect = true;
     //represent the index of the sprite shown in the right page
     public int currentPage = 0;
-    private bool addPage = true; //lagt till
+    private bool addPage = true; //lagt till för användning i inspectorn
     public int TotalPageCount
     {
         get { return bookPages.Length; }
@@ -147,7 +147,7 @@ public class Book : MonoBehaviour
 
         //Debug.Log(bookPages.Length);
 
-        //assignear sprite till nya sidan
+        //assignear rätt sidsprite till nya sidan
         if(bookPages.Length % 2 == 0)
         {
             bookPages[bookPages.Length - 1] = leftPage;
@@ -156,8 +156,6 @@ public class Book : MonoBehaviour
         {
             bookPages[bookPages.Length - 1] = rightPage;
         }
-
-        //bookPages[bookPages.Length - 1] = background; //sätt background till left/right sprite
     }
 
     private void CalcCurlCriticalPoints()
@@ -363,7 +361,6 @@ public class Book : MonoBehaviour
         mode = FlipMode.RightToLeft;
         f = point;
 
-
         NextPageClip.rectTransform.pivot = new Vector2(0, 0.12f);
         ClippingPlane.rectTransform.pivot = new Vector2(1, 0.35f);
 
@@ -457,20 +454,15 @@ public class Book : MonoBehaviour
             float distanceToRight = Vector2.Distance(c, ebr);
             if (distanceToRight < distanceToLeft && mode == FlipMode.RightToLeft)
             {
-                //canUpdatePagesWhileFlipping = true;
-                DragonBook.pageRelease = true;
                 TweenBack();
             }
             else if (distanceToRight > distanceToLeft && mode == FlipMode.LeftToRight)
             {
-                //canUpdatePagesWhileFlipping = true;
-                DragonBook.pageRelease = true;
                 TweenBack();
             }
             else
                 TweenForward();
 
-            //DragonBook.addDragonsToBook = true;
             canUpdatePagesWhileFlipping = true;
         }
     }
