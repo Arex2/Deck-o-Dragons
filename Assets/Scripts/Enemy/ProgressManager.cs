@@ -7,6 +7,7 @@ public class ProgressManager : MonoBehaviour
     public static ProgressManager Instance { get; private set; }
 
     public static int currentLevel = 0;
+    public static int nbrOfEnemies = 0;
     public static bool wonLastBattle;
 
     private void Awake()

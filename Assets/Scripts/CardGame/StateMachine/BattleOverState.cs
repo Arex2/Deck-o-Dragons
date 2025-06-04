@@ -47,9 +47,12 @@ public class BattleOverState : IState
         {
             //Debug.Log("New Encounter");
             //gameBehaviour.NewEncounter();
-
+            if (ProgressManager.currentLevel == ProgressManager.nbrOfEnemies - 1)
+            {
+                SceneSwitcher.SwitchToEgg();
+            }
             //WIN
-            if (winningTeam.HasValue && winningTeam.Value == Team.Player)
+            else if (winningTeam.HasValue && winningTeam.Value == Team.Player)
             {
                 // Card shop scene
                 SceneSwitcher.SwitchToCardShop();

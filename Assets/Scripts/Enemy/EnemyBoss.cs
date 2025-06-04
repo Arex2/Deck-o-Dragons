@@ -88,6 +88,7 @@ public class EnemyBoss : Target
 
         if (ProgressManager.Instance != null)
         {
+            ProgressManager.nbrOfEnemies = enemies.Count;
             int level = ProgressManager.currentLevel;
 
             if (enemySprites.Count - 1 > level)
@@ -354,8 +355,8 @@ public class EnemyBoss : Target
     }
 
     /*
-    //Behövs inte med CardVFX trigger systemet - Ruben
-    //För att trigga shake när dmg projektiler kommer tillräckligt nära
+    //Behï¿½vs inte med CardVFX trigger systemet - Ruben
+    //Fï¿½r att trigga shake nï¿½r dmg projektiler kommer tillrï¿½ckligt nï¿½ra
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Projectile"))

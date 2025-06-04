@@ -59,6 +59,7 @@ public class SaveManager : Singleton<SaveManager>
 
     private void Start()
     {
+        print(GetSavePath());
         UpdateAudio();
     }
 
