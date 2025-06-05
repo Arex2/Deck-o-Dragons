@@ -27,8 +27,8 @@ public class DragonBookContents : MonoBehaviour
         {
             //Only happens if you start in egg scene
             drBookCont = this;
-            dragonNamesInBook.Clear();
-            dragonTypesInBook.Clear();
+            //dragonNamesInBook.Clear();
+            //dragonTypesInBook.Clear();
             dragonsActiveInBackyard.Clear();
             elementsOfDragonsActiveInBackyard.Clear();
             pagesInBook = 1;
