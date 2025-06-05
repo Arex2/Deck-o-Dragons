@@ -27,11 +27,11 @@ public class DragonBookContents : MonoBehaviour
         {
             //Only happens if you start in egg scene
             drBookCont = this;
-            dragonNamesInBook.Clear();
+            /*dragonNamesInBook.Clear();
             dragonTypesInBook.Clear();
             dragonsActiveInBackyard.Clear();
             elementsOfDragonsActiveInBackyard.Clear();
-            pagesInBook = 1;
+            pagesInBook = 1;*/
         }
         else
         {
@@ -120,25 +120,13 @@ public class DragonBookContents : MonoBehaviour
         return DRAGONS_PER_PAGE;
     }
 
+    public static void SetPagesInBook(int pageAmount)
+    {
+        pagesInBook = pageAmount;
+    }
+
     public static int GetPagesInBook()
     {
         return pagesInBook;
     }
-    /*public static void toString()
-    {
-        string names = "Names: ";
-        string elements = "Elements: ";
-
-        foreach (string name in GetDragonsActiveInBackyard())
-        {
-            names += name + ", ";
-        }
-        foreach (int element in GetElementsOfDragonsActiveInBackyard())
-        {
-            elements += element.ToString() + ", ";
-        }
-
-        Debug.Log(names);
-        Debug.Log(elements);
-    }*/
 }

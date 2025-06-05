@@ -24,11 +24,10 @@ public class Book : MonoBehaviour
     public Sprite rightPage;
     public Sprite[] bookPages;
     private bool interactable = true;
-    private bool canUpdatePagesWhileFlipping = true;
+    private bool canUpdatePagesWhileFlipping = true; //inte del av originalscriptet
     private bool enableShadowEffect = true;
     //represent the index of the sprite shown in the right page
     public int currentPage = 0;
-    private bool addPage = true; //lagt till för användning i inspectorn
     public int TotalPageCount
     {
         get { return bookPages.Length; }
@@ -77,12 +76,11 @@ public class Book : MonoBehaviour
 
     public void OnEnable()
     {
-        //har lagt till så den bläddrar fram en sida så att man startar i rätt position (sida 1)
+        //har lagt till så den bläddrar fram en sida så att man startar på rätt position (sida 1)
         if (currentPage == 0)
         {
             TweenForward();
         }
-        //DragonBook.addDragonsToBook = true;
     }
 
     void Start()
@@ -99,8 +97,8 @@ public class Book : MonoBehaviour
         //float pageHeight = BookPanel.sizeDelta.y;
         float pageWidth = BookPanel.rect.width / 2.0f;
         float pageHeight = BookPanel.rect.height;
-        NextPageClip.rectTransform.sizeDelta = new Vector2(pageWidth, pageHeight + pageHeight * 2);
 
+        NextPageClip.rectTransform.sizeDelta = new Vector2(pageWidth, pageHeight + pageHeight * 2);
 
         ClippingPlane.rectTransform.sizeDelta = new Vector2(pageWidth * 2 + pageHeight, pageHeight + pageHeight * 2);
 
@@ -116,12 +114,11 @@ public class Book : MonoBehaviour
 
         for (int i = 0; i < DragonBookContents.GetPagesInBook(); i++)
         {
-            //Debug.Log("Pages in book: " + DragonBookContents.GetPagesInBook());
             AddBookPage();
         }
     }
 
-    //har lagt till för att testa i inspectorn
+    //har lagt till för att testa i inspectorn om man vill
     /*private void FixedUpdate()
     {
         if (addPage)
@@ -147,7 +144,7 @@ public class Book : MonoBehaviour
 
         //Debug.Log(bookPages.Length);
 
-        //assignear rätt sidsprite till nya sidan
+        //assignear sprite till nya sidan
         if(bookPages.Length % 2 == 0)
         {
             bookPages[bookPages.Length - 1] = leftPage;
@@ -156,6 +153,8 @@ public class Book : MonoBehaviour
         {
             bookPages[bookPages.Length - 1] = rightPage;
         }
+
+        //bookPages[bookPages.Length - 1] = background; //sätt background till left/right sprite
     }
 
     private void CalcCurlCriticalPoints()
@@ -206,6 +205,7 @@ public class Book : MonoBehaviour
     }
     void Update()
     {
+        //har lagt till detta
         if (pageDragging && interactable)
         {
             if(!DragonBook.addDragonsToBookOnFlipPage && canUpdatePagesWhileFlipping)
@@ -361,6 +361,7 @@ public class Book : MonoBehaviour
         mode = FlipMode.RightToLeft;
         f = point;
 
+
         NextPageClip.rectTransform.pivot = new Vector2(0, 0.12f);
         ClippingPlane.rectTransform.pivot = new Vector2(1, 0.35f);
 
@@ -454,14 +455,21 @@ public class Book : MonoBehaviour
             float distanceToRight = Vector2.Distance(c, ebr);
             if (distanceToRight < distanceToLeft && mode == FlipMode.RightToLeft)
             {
+                //canUpdatePagesWhileFlipping = true;
+                DragonBook.pageRelease = true;
                 TweenBack();
             }
             else if (distanceToRight > distanceToLeft && mode == FlipMode.LeftToRight)
             {
+                //canUpdatePagesWhileFlipping = true;
+                DragonBook.pageRelease = true;
                 TweenBack();
             }
             else
+            {
+                DragonBook.updatePagesAfterFlip = true;
                 TweenForward();
+            }
 
             canUpdatePagesWhileFlipping = true;
         }
@@ -523,6 +531,7 @@ public class Book : MonoBehaviour
                     Left.gameObject.SetActive(false);
                     Right.gameObject.SetActive(false);
                     pageDragging = false;
+                    //DragonBook.pageRelease = true;
                 }
                 ));
         }
@@ -540,6 +549,7 @@ public class Book : MonoBehaviour
                     Left.gameObject.SetActive(false);
                     Right.gameObject.SetActive(false);
                     pageDragging = false;
+                    //DragonBook.pageRelease = true;
                 }
                 ));
         }
