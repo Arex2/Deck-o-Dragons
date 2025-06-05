@@ -65,14 +65,16 @@ public class DragonBook : MonoBehaviour
 
     private void Awake()
     {
-        DragonBookContents.SetNewDragonNameAndTypeInBook("drake", 3);
+        //Kod ifall man vill lägga till testdrakar
+
+        /*DragonBookContents.SetNewDragonNameAndTypeInBook("drake", 3);
         DragonBookContents.SetNewDragonNameAndTypeInBook("hello", 1);
         DragonBookContents.SetNewDragonNameAndTypeInBook("new 1", 2);
         DragonBookContents.SetNewDragonNameAndTypeInBook("2is", 3);
         DragonBookContents.SetNewDragonNameAndTypeInBook("tree", 1);
         DragonBookContents.SetNewDragonNameAndTypeInBook("flour", 0);
         DragonBookContents.SetNewDragonNameAndTypeInBook("firth", 1);
-        DragonBookContents.SetNewDragonNameAndTypeInBook("sith", 0);
+        DragonBookContents.SetNewDragonNameAndTypeInBook("sith", 0);*/
     }
 
     public void Start()
@@ -132,7 +134,7 @@ public class DragonBook : MonoBehaviour
                 activeButton.interactable = onFlipButton.interactable;
                 activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
                 activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
-                //button.GetComponent<Image>().color = Color.white;
+                activeButton.GetComponent<Image>().color = onFlipButton.GetComponent<Image>().color;
             }
             else
             {
@@ -143,7 +145,7 @@ public class DragonBook : MonoBehaviour
                 activeButton.interactable = onFlipButton.interactable;
                 activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
                 activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
-                //button.GetComponent<Image>().color = Color.white;
+                activeButton.GetComponent<Image>().color = onFlipButton.GetComponent<Image>().color;
             }
         }
     }
