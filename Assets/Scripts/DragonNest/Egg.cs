@@ -66,10 +66,12 @@ public class Egg : MonoBehaviour
             return;
         }
 
+        /*
         if (Input.GetKeyDown(KeyCode.K))
         {
             Hatch();
         }
+        */
 
         tapCurrent -= Time.deltaTime;
         if (tapCurrent < 0) tapCurrent = 0;

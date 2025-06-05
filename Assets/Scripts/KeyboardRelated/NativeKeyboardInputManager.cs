@@ -30,8 +30,22 @@ public class NativeKeyboardInputManager : MonoBehaviour
 
     void Update()
     {
+        
         if (forCompUse)
         {
+            int randomLength = Random.Range(2, 9);
+            string allLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            for (int i = 0; i < randomLength; i++)
+            {
+                dragonName.text += allLetters[Random.Range(0, allLetters.Length)];
+            }
+
+            forCompUse = false;
+            DragonActive.dragonName = dragonName.text;
+
+            /*
+
             if (Input.GetKeyDown(KeyCode.R))
             {
                 int randomLength = Random.Range(2, 9);
@@ -45,7 +59,9 @@ public class NativeKeyboardInputManager : MonoBehaviour
                 forCompUse = false;
                 DragonActive.dragonName = dragonName.text;
             }
+            */
         }
+        
 
         if (DragonActive.dragonName == null)
         {

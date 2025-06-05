@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 
-public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class BrushDragUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public GameObject targetObject;
 
@@ -43,7 +43,7 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         initialPosition = rectTransform.localPosition;
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnBeginDrag()//PointerEventData eventData)
     {
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = false;
@@ -54,9 +54,9 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         rectTransform.DOKill();
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void OnDrag(Vector2 mousePos)//PointerEventData eventData)
     {
-        rectTransform.position = Input.mousePosition;
+        rectTransform.position = mousePos;
 
         if (IsOverTarget())
         {
@@ -81,7 +81,7 @@ public class BrushDragUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnEndDrag()//PointerEventData eventData)
     {
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = true;
