@@ -13,6 +13,8 @@ TagManager:
   - Hearts
   - Glitter
   - Dirt2
+  - Brush
+  - Food
   layers:
   - Default
   - TransparentFX

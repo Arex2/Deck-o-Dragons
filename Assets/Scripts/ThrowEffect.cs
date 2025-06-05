@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using DG.Tweening;
 
-public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class DraggableUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public GameObject targetObject; 
     public AudioClip collisionSound; 
@@ -24,7 +24,7 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         meatballAnimator = GetComponent<Animator>();
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnBeginDrag()//PointerEventData eventData)
     {
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = false;
@@ -32,12 +32,12 @@ public class DraggableUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         rectTransform.DOKill();
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void OnDrag(Vector2 pos)//PointerEventData eventData)
     {
-        rectTransform.position = Input.mousePosition;
+        rectTransform.position = pos;//Input.mousePosition;
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnEndDrag()//PointerEventData eventData)
     {
 
         if (targetObject != null && IsCollidingWithTarget())

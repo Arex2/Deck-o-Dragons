@@ -30,6 +30,7 @@ public class DragonController : MonoBehaviour
     void Update()
     {
 #if UNITY_EDITOR
+        /*
         if(Input.GetKeyDown(KeyCode.Space))
         {
             SpawnNewDragon();
@@ -38,6 +39,7 @@ public class DragonController : MonoBehaviour
         {
             StepProgress();
         }
+        */
 #endif
 
         // Block raycasts while we don't have a name for the dragon
