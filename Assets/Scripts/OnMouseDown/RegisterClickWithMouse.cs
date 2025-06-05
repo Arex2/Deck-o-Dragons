@@ -101,7 +101,24 @@ public class RegisterClickWithMouse : MonoBehaviour
         }
     }
 
+    /*
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+        if (hit)
+        {
+            // Call methods here
+            Debug.Log("Raycast Hit -> " + hit.transform.name + " HOLD");
 
+            if (hit.transform.name == "Egg")
+            {
+                //hit.transform.GetComponent<Egg>().OnMouseDown();
+            }
+
+
+
+
+
+        }*/
 
     private void MyMouseExit()
     {
