@@ -115,7 +115,7 @@ public class Egg : MonoBehaviour
         DragonActive.evolutionProcess = 0;
     }
 
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         if (!canBeCracked)
         {

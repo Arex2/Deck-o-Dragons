@@ -294,6 +294,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Touch"",
+                    ""type"": ""Button"",
+                    ""id"": ""74bc5418-0ec6-4eea-9e32-2fffae57a900"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -362,6 +371,28 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Direction1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""632c7a21-c535-482a-86e2-0ee9e5aa3472"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Touch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a228dbe-2300-4d99-a620-1458a34e7428"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Touch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -385,6 +416,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_CardMovement_Contact = m_CardMovement.FindAction("Contact", throwIfNotFound: true);
         m_CardMovement_Direction = m_CardMovement.FindAction("Direction", throwIfNotFound: true);
         m_CardMovement_Direction1 = m_CardMovement.FindAction("Direction1", throwIfNotFound: true);
+        m_CardMovement_Touch = m_CardMovement.FindAction("Touch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -553,6 +585,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_CardMovement_Contact;
     private readonly InputAction m_CardMovement_Direction;
     private readonly InputAction m_CardMovement_Direction1;
+    private readonly InputAction m_CardMovement_Touch;
     public struct CardMovementActions
     {
         private @InputSystem m_Wrapper;
@@ -562,6 +595,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Contact => m_Wrapper.m_CardMovement_Contact;
         public InputAction @Direction => m_Wrapper.m_CardMovement_Direction;
         public InputAction @Direction1 => m_Wrapper.m_CardMovement_Direction1;
+        public InputAction @Touch => m_Wrapper.m_CardMovement_Touch;
         public InputActionMap Get() { return m_Wrapper.m_CardMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -586,6 +620,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Direction1.started += instance.OnDirection1;
             @Direction1.performed += instance.OnDirection1;
             @Direction1.canceled += instance.OnDirection1;
+            @Touch.started += instance.OnTouch;
+            @Touch.performed += instance.OnTouch;
+            @Touch.canceled += instance.OnTouch;
         }
 
         private void UnregisterCallbacks(ICardMovementActions instance)
@@ -605,6 +642,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Direction1.started -= instance.OnDirection1;
             @Direction1.performed -= instance.OnDirection1;
             @Direction1.canceled -= instance.OnDirection1;
+            @Touch.started -= instance.OnTouch;
+            @Touch.performed -= instance.OnTouch;
+            @Touch.canceled -= instance.OnTouch;
         }
 
         public void RemoveCallbacks(ICardMovementActions instance)
@@ -640,5 +680,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnContact(InputAction.CallbackContext context);
         void OnDirection(InputAction.CallbackContext context);
         void OnDirection1(InputAction.CallbackContext context);
+        void OnTouch(InputAction.CallbackContext context);
     }
 }
