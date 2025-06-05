@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 
-public class BrushDragUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class BrushDragUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public GameObject targetObject;
 
@@ -33,6 +33,8 @@ public class BrushDragUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
 
     [SerializeField] private AudioClip brushingSound, shinySound;
 
+    private Vector2 pointerOffset;  // <-- Lagt till här
+
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -43,7 +45,7 @@ public class BrushDragUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
         initialPosition = rectTransform.localPosition;
     }
 
-    public void OnBeginDrag()//PointerEventData eventData)
+    public void OnBeginDrag(PointerEventData eventData)
     {
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = false;
@@ -51,21 +53,28 @@ public class BrushDragUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
         isDragging = true;
         movementHistory.Clear();
 
+        RectTransform parentRect = rectTransform.parent as RectTransform;
+        Vector2 localPointerPosition;
+
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, eventData.position, canvas.worldCamera, out localPointerPosition))
+        {
+            pointerOffset = (Vector2)rectTransform.localPosition - localPointerPosition;
+        }
+
         rectTransform.DOKill();
     }
 
-    public void OnDrag(Vector2 mousePos)//PointerEventData eventData)
+    public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.position = mousePos;
+        RectTransform parentRect = rectTransform.parent as RectTransform;
+        Vector2 localPointerPosition;
 
-        if (IsOverTarget())
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, eventData.position, canvas.worldCamera, out localPointerPosition))
         {
-            isStillOnTarget = true;
+            rectTransform.localPosition = localPointerPosition + pointerOffset;
         }
-        else
-        {
-            isStillOnTarget = false;
-        }
+
+        isStillOnTarget = IsOverTarget(eventData);
 
         TrackMovement();
 
@@ -81,7 +90,7 @@ public class BrushDragUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
         }
     }
 
-    public void OnEndDrag()//PointerEventData eventData)
+    public void OnEndDrag(PointerEventData eventData)
     {
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = true;
@@ -111,14 +120,14 @@ public class BrushDragUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
         }
     }
 
-    private bool IsOverTarget()
+    private bool IsOverTarget(PointerEventData eventData)
     {
         if (targetObject == null) return false;
 
         RectTransform targetRect = targetObject.GetComponent<RectTransform>();
         Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(targetRect, Input.mousePosition, canvas.worldCamera, out localPoint);
-        return targetRect.rect.Contains(localPoint);
+        return RectTransformUtility.ScreenPointToLocalPointInRectangle(targetRect, eventData.position, canvas.worldCamera, out localPoint)
+            && targetRect.rect.Contains(localPoint);
     }
 
     private void StartBrushing()
@@ -131,8 +140,6 @@ public class BrushDragUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
 
         if (brushAnimator != null)
             brushAnimator.SetBool("IsBrushing", true);
-
-
     }
 
     private void StopBrushing()
@@ -268,7 +275,6 @@ public class BrushDragUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
                 glitter.SetActive(false);
         }
     }
-
 
     public void PlayBrushingSound()
     {

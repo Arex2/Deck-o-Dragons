@@ -3,17 +3,19 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using DG.Tweening;
 
-public class DraggableUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public GameObject targetObject; 
-    public AudioClip collisionSound; 
-    private Animator meatballAnimator;  
+    public GameObject targetObject;
+    public AudioClip collisionSound;
+    private Animator meatballAnimator;
     private RectTransform rectTransform;
     private Canvas canvas;
-    private Vector3 initialPosition; 
+    private Vector3 initialPosition;
     private CanvasGroup canvasGroup;
 
     [SerializeField] private AudioClip happySound;
+
+    private Vector2 pointerOffset;
 
     private void Awake()
     {
@@ -24,23 +26,49 @@ public class DraggableUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
         meatballAnimator = GetComponent<Animator>();
     }
 
-    public void OnBeginDrag()//PointerEventData eventData)
+    public void OnBeginDrag(PointerEventData eventData)
     {
         if (canvasGroup != null)
             canvasGroup.blocksRaycasts = false;
 
+        RectTransform parentRect = rectTransform.parent as RectTransform;
+
+        Vector2 localPointerPosition;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            parentRect,
+            eventData.position,
+            canvas.worldCamera,
+            out localPointerPosition))
+        {
+            pointerOffset = (Vector2)rectTransform.localPosition - localPointerPosition;
+        }
+
         rectTransform.DOKill();
     }
 
-    public void OnDrag(Vector2 pos)//PointerEventData eventData)
+    public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.position = pos;//Input.mousePosition;
+        RectTransform parentRect = rectTransform.parent as RectTransform;
+
+        Vector2 localPointerPosition;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            parentRect,
+            eventData.position,
+            canvas.worldCamera,
+            out localPointerPosition))
+        {
+            rectTransform.localPosition = localPointerPosition + pointerOffset;
+        }
     }
 
-    public void OnEndDrag()//PointerEventData eventData)
+    public void OnEndDrag(PointerEventData eventData)
     {
+        if (canvasGroup != null)
+            canvasGroup.blocksRaycasts = true;
 
-        if (targetObject != null && IsCollidingWithTarget())
+        rectTransform.DOKill();
+
+        if (targetObject != null && IsCollidingWithTarget(eventData.position))
         {
             Debug.Log("Triggering CollisionAnimation on Meatball");
 
@@ -53,19 +81,19 @@ public class DraggableUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
         }
         else
         {
-            if (canvasGroup != null)
-                canvasGroup.blocksRaycasts = true;
-
             ResetPosition(false);
         }
     }
 
-    private bool IsCollidingWithTarget()
+    private bool IsCollidingWithTarget(Vector2 screenPoint)
     {
+        if (targetObject == null)
+            return false;
+
         RectTransform targetRect = targetObject.GetComponent<RectTransform>();
         return RectTransformUtility.RectangleContainsScreenPoint(
             targetRect,
-            Input.mousePosition,
+            screenPoint,
             canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera
         );
     }
@@ -77,7 +105,6 @@ public class DraggableUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
 
         if (meatballAnimator != null)
         {
-
             yield return null;
             AnimatorStateInfo stateInfo = meatballAnimator.GetCurrentAnimatorStateInfo(0);
             float timeout = 0.5f;
@@ -88,7 +115,6 @@ public class DraggableUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
                 stateInfo = meatballAnimator.GetCurrentAnimatorStateInfo(0);
                 elapsed += Time.deltaTime;
             }
-
 
             while (stateInfo.IsName("CollisionAnimation") && stateInfo.normalizedTime < 1f)
             {
@@ -105,7 +131,7 @@ public class DraggableUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
         }
         else
         {
-            Debug.LogWarning("Inactive Heart with tag 'Heart' not found in the scene.");
+            Debug.LogWarning("Inactive Heart with tag 'Hearts' not found in the scene.");
         }
 
         yield return new WaitForSeconds(0.3f);
@@ -123,7 +149,6 @@ public class DraggableUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
 
     private IEnumerator ActivateHeartTemporarily(GameObject heart)
     {
-       
         heart.SetActive(true);
         yield return new WaitForSeconds(0.7f);
         heart.SetActive(false);
@@ -141,8 +166,6 @@ public class DraggableUI : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEn
         }
         return null;
     }
-
-
 
     private void ResetPosition(bool instant)
     {

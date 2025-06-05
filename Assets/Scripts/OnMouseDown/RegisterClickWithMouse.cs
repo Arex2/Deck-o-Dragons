@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;  // <--- tillagd
 
 public class RegisterClickWithMouse : MonoBehaviour
 {
@@ -28,6 +29,15 @@ public class RegisterClickWithMouse : MonoBehaviour
         //controls.CardMovement.Contact.canceled += ctx => { OnRelease(); };
     }
 
+    // Hjälpfunktion för att skapa PointerEventData från musposition
+    private PointerEventData CreatePointerEventData()
+    {
+        return new PointerEventData(EventSystem.current)
+        {
+            position = Mouse.current.position.ReadValue()
+        };
+    }
+
     //från: https://discussions.unity.com/t/onmousedown-with-new-input-system/805305/9
     private void MyMouseClick()
     {
@@ -43,22 +53,22 @@ public class RegisterClickWithMouse : MonoBehaviour
             // Call methods here
             Debug.Log("Raycast Hit -> " + hit.transform.name + " CLICK");
 
-            if(hit.transform.CompareTag("Egg"))
+            if (hit.transform.CompareTag("Egg"))
             {
                 Debug.Log("Egg being hit");
                 hit.transform.GetComponent<Egg>().OnMouseDown();
             }
 
 
-            if(hit.transform.CompareTag("Brush"))
+            if (hit.transform.CompareTag("Brush"))
             {
-                hit.transform.GetComponent<BrushDragUI>().OnBeginDrag();
+                hit.transform.GetComponent<BrushDragUI>().OnBeginDrag(CreatePointerEventData());
             }
 
 
             if (hit.transform.CompareTag("Food"))
             {
-                hit.transform.GetComponent<DraggableUI>().OnBeginDrag();
+                hit.transform.GetComponent<DraggableUI>().OnBeginDrag(CreatePointerEventData());
             }
 
 
@@ -82,78 +92,39 @@ public class RegisterClickWithMouse : MonoBehaviour
 
         if (hitLast.transform.CompareTag("Brush"))
         {
-            hitLast.transform.GetComponent<BrushDragUI>().OnDrag(mousePos);
+            hitLast.transform.GetComponent<BrushDragUI>().OnDrag(CreatePointerEventData());
         }
 
         if (hitLast.transform.CompareTag("Food"))
         {
-            hitLast.transform.GetComponent<DraggableUI>().OnDrag(mousePos);
+            hitLast.transform.GetComponent<DraggableUI>().OnDrag(CreatePointerEventData());
         }
-
-
-        /*
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-        if (hit)
-        {
-            // Call methods here
-            Debug.Log("Raycast Hit -> " + hit.transform.name + " HOLD");
-
-            if (hit.transform.name == "Egg")
-            {
-                //hit.transform.GetComponent<Egg>().OnMouseDown();
-            }
-
-
-
-
-
-        }*/
     }
+
 
 
     private void MyMouseExit()
     {
-        if(hitLast.transform == null)
+        if (hitLast.transform == null)
             return;
 
 
-        if(hitLast.transform.CompareTag("Egg"))
+        if (hitLast.transform.CompareTag("Egg"))
         {
             Debug.Log("Raycast Hit -> " + hitLast.transform.name + " EXIT");
         }
 
         if (hitLast.transform.CompareTag("Brush"))
         {
-            hitLast.transform.GetComponent<BrushDragUI>().OnEndDrag();
+            hitLast.transform.GetComponent<BrushDragUI>().OnEndDrag(CreatePointerEventData());
         }
 
         if (hitLast.transform.CompareTag("Food"))
         {
-            hitLast.transform.GetComponent<DraggableUI>().OnEndDrag();
+            hitLast.transform.GetComponent<DraggableUI>().OnEndDrag(CreatePointerEventData());
         }
-
-
-        /*
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-        if (hit)
-        {
-            // Call methods here
-            Debug.Log("Raycast Hit -> " + hit.transform.name   + " EXIT");
-
-            if (hit.transform.name == "Egg")
-            {
-                //hit.transform.GetComponent<Egg>().OnMouseDown();
-            }
-
-
-        }
-        */
-
 
         mouseIsDown = false;
 
     }
-
 }
