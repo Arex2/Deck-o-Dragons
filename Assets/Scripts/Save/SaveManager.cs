@@ -120,6 +120,7 @@ public class SaveManager : Singleton<SaveManager>
         DragonBookContents.GetDragonTypesInBook().Clear();
         DragonBookContents.GetDragonsActiveInBackyard().Clear();
         DragonBookContents.GetElementsOfDragonsActiveInBackyard().Clear();
+        DragonBookContents.SetPagesInBook(1);
 
         // Load dragons into book
         foreach (SaveData.Dragon dragon in data.dragonsInBook)
