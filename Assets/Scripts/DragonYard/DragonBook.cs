@@ -94,6 +94,45 @@ public class DragonBook : MonoBehaviour
     private void Update()
     {
         //DragonBookContents.testprint();
+        Debug.Log("pagerelease " + pageRelease);
+        Debug.Log(controlledBook.GetComponent<Book>().mode);
+
+        if(pageRelease)
+        {
+            for (int i = 0; i < DragonBookContents.GetDragonsPerPageAmount(); i++)
+            {
+                if (controlledBook.GetComponent<Book>().mode == FlipMode.RightToLeft)
+                {
+                    Button[] buttonChildren = leftPageOnTurn.transform.GetComponentsInChildren<Button>();
+                    Button onFlipButton = buttonChildren[i].GetComponent<Button>();
+                    Button activeButton = activeRightPage.transform.GetChild(i).GetComponent<Button>();
+
+                    activeButton.interactable = onFlipButton.interactable;
+                    activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
+                    activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
+                    //button.GetComponent<Image>().color = Color.white;
+                }
+                else
+                {
+                    Button[] buttonChildren = rightPageOnTurn.transform.GetComponentsInChildren<Button>();
+                    Button onFlipButton = buttonChildren[i].GetComponent<Button>();
+                    Button activeButton = activeLeftPage.transform.GetChild(i).GetComponent<Button>();
+
+                    activeButton.interactable = onFlipButton.interactable;
+                    activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
+                    activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
+                    //button.GetComponent<Image>().color = Color.white;
+                }
+            }
+
+            pageRelease = false;
+        }
+
+        /*if(pageRelease)
+        {
+            AddDragonsToBookPages();
+            pageRelease = false;
+        }*/
 
         if(addDragonsToBook && !pageRelease)
         {

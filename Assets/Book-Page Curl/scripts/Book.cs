@@ -534,6 +534,7 @@ public class Book : MonoBehaviour
                     Left.gameObject.SetActive(false);
                     Right.gameObject.SetActive(false);
                     pageDragging = false;
+                    //DragonBook.pageRelease = true;
                 }
                 ));
         }
@@ -551,6 +552,7 @@ public class Book : MonoBehaviour
                     Left.gameObject.SetActive(false);
                     Right.gameObject.SetActive(false);
                     pageDragging = false;
+                    //DragonBook.pageRelease = true;
                 }
                 ));
         }
