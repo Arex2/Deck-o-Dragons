@@ -24,11 +24,10 @@ public class Book : MonoBehaviour
     public Sprite rightPage;
     public Sprite[] bookPages;
     private bool interactable = true;
-    private bool canUpdatePagesWhileFlipping = true;
+    private bool canUpdatePagesWhileFlipping = true; //inte del av originalscriptet
     private bool enableShadowEffect = true;
     //represent the index of the sprite shown in the right page
     public int currentPage = 0;
-    private bool addPage = true; //lagt till
     public int TotalPageCount
     {
         get { return bookPages.Length; }
@@ -77,12 +76,11 @@ public class Book : MonoBehaviour
 
     public void OnEnable()
     {
-        //har lagt till så den bläddrar fram en sida så att man startar i rätt position (sida 1)
+        //har lagt till så den bläddrar fram en sida så att man startar på rätt position (sida 1)
         if (currentPage == 0)
         {
             TweenForward();
         }
-        //DragonBook.addDragonsToBook = true;
     }
 
     void Start()
@@ -99,8 +97,8 @@ public class Book : MonoBehaviour
         //float pageHeight = BookPanel.sizeDelta.y;
         float pageWidth = BookPanel.rect.width / 2.0f;
         float pageHeight = BookPanel.rect.height;
-        NextPageClip.rectTransform.sizeDelta = new Vector2(pageWidth, pageHeight + pageHeight * 2);
 
+        NextPageClip.rectTransform.sizeDelta = new Vector2(pageWidth, pageHeight + pageHeight * 2);
 
         ClippingPlane.rectTransform.sizeDelta = new Vector2(pageWidth * 2 + pageHeight, pageHeight + pageHeight * 2);
 
@@ -116,12 +114,11 @@ public class Book : MonoBehaviour
 
         for (int i = 0; i < DragonBookContents.GetPagesInBook(); i++)
         {
-            //Debug.Log("Pages in book: " + DragonBookContents.GetPagesInBook());
             AddBookPage();
         }
     }
 
-    //har lagt till för att testa i inspectorn
+    //har lagt till för att testa i inspectorn om man vill
     /*private void FixedUpdate()
     {
         if (addPage)
@@ -208,6 +205,7 @@ public class Book : MonoBehaviour
     }
     void Update()
     {
+        //har lagt till detta
         if (pageDragging && interactable)
         {
             if(!DragonBook.addDragonsToBookOnFlipPage && canUpdatePagesWhileFlipping)
@@ -473,7 +471,6 @@ public class Book : MonoBehaviour
                 TweenForward();
             }
 
-            //DragonBook.addDragonsToBook = true;
             canUpdatePagesWhileFlipping = true;
         }
     }

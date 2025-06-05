@@ -110,14 +110,6 @@ public class DragonBookContents : MonoBehaviour
         return dragonNamesInBook;
     }
 
-    public static void testprint()
-    {
-        foreach (string name in dragonNamesInBook)
-        {
-            Debug.Log(name);
-        }
-    }
-
     public static List<int> GetDragonTypesInBook() //Används i DragonBook
     {
         return dragonTypesInBook;
@@ -132,21 +124,4 @@ public class DragonBookContents : MonoBehaviour
     {
         return pagesInBook;
     }
-    /*public static void toString()
-    {
-        string names = "Names: ";
-        string elements = "Elements: ";
-
-        foreach (string name in GetDragonsActiveInBackyard())
-        {
-            names += name + ", ";
-        }
-        foreach (int element in GetElementsOfDragonsActiveInBackyard())
-        {
-            elements += element.ToString() + ", ";
-        }
-
-        Debug.Log(names);
-        Debug.Log(elements);
-    }*/
 }

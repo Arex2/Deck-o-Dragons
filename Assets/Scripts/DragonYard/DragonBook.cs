@@ -88,142 +88,109 @@ public class DragonBook : MonoBehaviour
 
         //AddDragonsToBookCollectionAPageAtATime();
         AddSelectedDragonsToYardOnLoad();
-        AddDragonsToBookPages();
+        AddDragonsToOpenBookPages();
     }
 
     private void Update()
     {
-        //DragonBookContents.testprint();
-        Debug.Log("pagerelease " + pageRelease);
-        Debug.Log(controlledBook.GetComponent<Book>().mode);
-
         if(pageRelease)
         {
-            for (int i = 0; i < DragonBookContents.GetDragonsPerPageAmount(); i++)
-            {
-                if (controlledBook.GetComponent<Book>().mode == FlipMode.RightToLeft)
-                {
-                    Button[] buttonChildren = leftPageOnTurn.transform.GetComponentsInChildren<Button>();
-                    Button onFlipButton = buttonChildren[i].GetComponent<Button>();
-                    Button activeButton = activeRightPage.transform.GetChild(i).GetComponent<Button>();
-
-                    activeButton.interactable = onFlipButton.interactable;
-                    activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
-                    activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
-                    //button.GetComponent<Image>().color = Color.white;
-                }
-                else
-                {
-                    Button[] buttonChildren = rightPageOnTurn.transform.GetComponentsInChildren<Button>();
-                    Button onFlipButton = buttonChildren[i].GetComponent<Button>();
-                    Button activeButton = activeLeftPage.transform.GetChild(i).GetComponent<Button>();
-
-                    activeButton.interactable = onFlipButton.interactable;
-                    activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
-                    activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
-                    //button.GetComponent<Image>().color = Color.white;
-                }
-            }
-
+            CopyOnePageToAnother(leftPageOnTurn, activeRightPage, rightPageOnTurn, activeLeftPage);
             pageRelease = false;
         }
 
-        /*if(pageRelease)
-        {
-            AddDragonsToBookPages();
-            pageRelease = false;
-        }*/
-
         if(addDragonsToBook && !pageRelease)
         {
-            Debug.Log("add dragons");
-            //Debug.Log("lägger till sidor när jag släpper");
             addDragonsToBook = false;
-            AddDragonsToBookPages();
+            AddDragonsToOpenBookPages();
         }
 
         if(updatePagesAfterFlip)
         {
-            for(int i = 0; i < DragonBookContents.GetDragonsPerPageAmount(); i++)
-            {
-                if (controlledBook.GetComponent<Book>().mode == FlipMode.RightToLeft)
-                {
-                    Button[] buttonChildren = rightPageOnTurn.transform.GetComponentsInChildren<Button>();
-                    Button onFlipButton = buttonChildren[i].GetComponent<Button>();
-                    Button activeButton = activeLeftPage.transform.GetChild(i).GetComponent<Button>();
-
-                    activeButton.interactable = onFlipButton.interactable;
-                    activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
-                    activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
-                    //button.GetComponent<Image>().color = Color.white;
-                }
-                else
-                {
-                    Button[] buttonChildren = leftPageOnTurn.transform.GetComponentsInChildren<Button>();
-                    Button onFlipButton = buttonChildren[i].GetComponent<Button>();
-                    Button activeButton = activeRightPage.transform.GetChild(i).GetComponent<Button>();
-
-                    activeButton.interactable = onFlipButton.interactable;
-                    activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
-                    activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
-                    //button.GetComponent<Image>().color = Color.white;
-                }
-            }
-
+            CopyOnePageToAnother(rightPageOnTurn, activeLeftPage, leftPageOnTurn, activeRightPage);
             updatePagesAfterFlip = false;
         }
 
-        /*if(pageRelease && !addDragonsToBook)
-        {
-            pageRelease = false;
-            AddDragonsToBookPages();
-        }*/
-
         if(controlledBook.GetComponent<Book>().pageDragging)
         {
-            if(addDragonsToBookOnFlipPage)
+            AddInfoToAllPagesWhenCurrentlyFlippingPages();
+        }
+    }
+
+    //this method is based on FlipMode.RightToLeft so any call for this method
+    //has to send all pages as parameters but with those affected by RTL first
+    private void CopyOnePageToAnother(Image RTLpageOnTurn, Image RTLactivePage, Image LTRpageOnTurn, Image LTRactivePage)
+    {
+        for (int i = 0; i < DragonBookContents.GetDragonsPerPageAmount(); i++)
+        {
+            if (controlledBook.GetComponent<Book>().mode == FlipMode.RightToLeft)
             {
-                if (controlledBook.GetComponent<Book>().mode == FlipMode.RightToLeft)
-                {
-                    //activeLeftPage = normal;
+                Button[] buttonChildren = RTLpageOnTurn.transform.GetComponentsInChildren<Button>();
+                Button onFlipButton = buttonChildren[i].GetComponent<Button>();
+                Button activeButton = RTLactivePage.transform.GetChild(i).GetComponent<Button>();
 
-                    //activeRightPage = currentPage += 2;
-                    int indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage + 1) * DragonBookContents.GetDragonsPerPageAmount();
-                    AddButtonsToAPage(activeRightPage, indexOfDragonToAdd);
+                activeButton.interactable = onFlipButton.interactable;
+                activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
+                activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
+                //button.GetComponent<Image>().color = Color.white;
+            }
+            else
+            {
+                Button[] buttonChildren = LTRpageOnTurn.transform.GetComponentsInChildren<Button>();
+                Button onFlipButton = buttonChildren[i].GetComponent<Button>();
+                Button activeButton = LTRactivePage.transform.GetChild(i).GetComponent<Button>();
 
-                    //leftPageOnTurn = activeRightPage;
-                    indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 1) * DragonBookContents.GetDragonsPerPageAmount();
-                    AddButtonsToAPage(leftPageOnTurn, indexOfDragonToAdd);
-
-                    //rightPageOnTurn = currentPage += 1;
-                    indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage) * DragonBookContents.GetDragonsPerPageAmount();
-                    AddButtonsToAPage(rightPageOnTurn, indexOfDragonToAdd);
-                }
-                else
-                {
-                    //activeRightPage = normal;
-
-                    //activeLeftPage = currentPage -= 4;
-                    int indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 4) * DragonBookContents.GetDragonsPerPageAmount();
-                    AddButtonsToAPage(activeLeftPage, indexOfDragonToAdd);
-
-                    //rightPageOnTurn = activeLeftPage;
-                    indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 2) * DragonBookContents.GetDragonsPerPageAmount();
-                    AddButtonsToAPage(rightPageOnTurn, indexOfDragonToAdd);
-
-                    //leftPageOnTurn = currentPage -= 3;
-                    indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 3) * DragonBookContents.GetDragonsPerPageAmount();
-                    AddButtonsToAPage(leftPageOnTurn, indexOfDragonToAdd);
-                }
-
-                addDragonsToBookOnFlipPage = false;
+                activeButton.interactable = onFlipButton.interactable;
+                activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
+                activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
+                //button.GetComponent<Image>().color = Color.white;
             }
         }
     }
 
-    private void AddDragonsToBookPages()
+    private void AddInfoToAllPagesWhenCurrentlyFlippingPages()
     {
-        //int indexOfDragonToAdd = currentPage * DragonBookContents.GetDragonsPerPageAmount();
+        if (addDragonsToBookOnFlipPage)
+        {
+            if (controlledBook.GetComponent<Book>().mode == FlipMode.RightToLeft)
+            {
+                //activeLeftPage = normal;
+
+                //activeRightPage = currentPage += 2;
+                int indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage + 1) * DragonBookContents.GetDragonsPerPageAmount();
+                AddButtonsToAPage(activeRightPage, indexOfDragonToAdd);
+
+                //leftPageOnTurn = activeRightPage;
+                indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 1) * DragonBookContents.GetDragonsPerPageAmount();
+                AddButtonsToAPage(leftPageOnTurn, indexOfDragonToAdd);
+
+                //rightPageOnTurn = currentPage += 1;
+                indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage) * DragonBookContents.GetDragonsPerPageAmount();
+                AddButtonsToAPage(rightPageOnTurn, indexOfDragonToAdd);
+            }
+            else
+            {
+                //activeRightPage = normal;
+
+                //activeLeftPage = currentPage -= 4;
+                int indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 4) * DragonBookContents.GetDragonsPerPageAmount();
+                AddButtonsToAPage(activeLeftPage, indexOfDragonToAdd);
+
+                //rightPageOnTurn = activeLeftPage;
+                indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 2) * DragonBookContents.GetDragonsPerPageAmount();
+                AddButtonsToAPage(rightPageOnTurn, indexOfDragonToAdd);
+
+                //leftPageOnTurn = currentPage -= 3;
+                indexOfDragonToAdd = (controlledBook.GetComponent<Book>().currentPage - 3) * DragonBookContents.GetDragonsPerPageAmount();
+                AddButtonsToAPage(leftPageOnTurn, indexOfDragonToAdd);
+            }
+
+            addDragonsToBookOnFlipPage = false;
+        }
+    }
+
+    private void AddDragonsToOpenBookPages()
+    {
         if(controlledBook.GetComponent<Book>().currentPage != 0)
         {
             //.Log(" buttons changing, at: " + Time.deltaTime);
@@ -253,16 +220,12 @@ public class DragonBook : MonoBehaviour
                 button = page.transform.GetChild(i).GetComponent<Button>();
             }
 
-            //Button rightButton = activeRightPage.transform.GetChild(i).GetComponent<Button>();
-
-            //if (DragonBookContents.GetDragonNamesInBook().Count <= i) //DragonBookContents.GetDragonNames().ElementAt(i) == null)
             if (DragonBookContents.GetDragonNamesInBook().Count <= i || DragonBookContents.GetDragonNamesInBook().Count <= indexOfDragonToAdd)
             {
-                //AddDragonLoop(button, indexOfDragonToAdd);
                 button.interactable = false;
                 button.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
                 button.GetComponent<Image>().sprite = noProfile;
-                //button.GetComponent<Image>().color = Color.white;
+                button.GetComponent<Image>().color = Color.white;
 
             }
             else if (DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd) != null)
@@ -309,6 +272,7 @@ public class DragonBook : MonoBehaviour
         }
     }
 
+    //gammalt script för bok som fungerar annorlunda
     /*private void AddDragonsToBookCollectionAPageAtATime()
     {
         int indexOfDragonToAdd = currentPage * DragonBookContents.GetDragonsPerPageAmount();
@@ -434,8 +398,6 @@ public class DragonBook : MonoBehaviour
             {
                 DragonBookContents.SetNewDragonNamesAndElementsActiveInBackyard(dragonName, dragonElement);
                 changeColorOfActiveDragonButtons(button);
-                //dragonsInBackyard.Add(dragonName);
-                //dragonElementsInBackyard.Add(dragonElement);
 
                 InstatiateDragon(element);
                 //CloseDragonCollection();
@@ -448,9 +410,6 @@ public class DragonBook : MonoBehaviour
         int indexOfDragonName = DragonBookContents.GetDragonsActiveInBackyard().IndexOf(dragonName);
         DragonBookContents.RemoveDragonAndElementFromBackyard(dragonName, indexOfDragonName);
         Destroy(GameObject.Find(dragonName));
-
-        //dragonsInBackyard.Remove(dragonName);
-        //dragonElementsInBackyard.RemoveAt(indexOfDragonName);
 
         //CloseAskToAddDragon();
     }
