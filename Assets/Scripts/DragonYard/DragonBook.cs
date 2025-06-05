@@ -40,16 +40,18 @@ public class DragonBook : MonoBehaviour
     [Header ("Variables dictating which dragon to affect")]
     public static string dragonName;
     public static int dragonElement;
+    public static bool updatePagesAfterFlip;
+    public static bool firstFlipCheck;
 
     [Header("Buttons")]
     [SerializeField] private GameObject closeButton;
     //[SerializeField] private Button[] buttons;
-    /*[SerializeField] private Button button1;
+    [SerializeField] private Button button1;
     [SerializeField] private Button button2;
     [SerializeField] private Button button3;
     [SerializeField] private Button button4;
     [SerializeField] private Button button5;
-    [SerializeField] private Button button6;*/
+    [SerializeField] private Button button6;
 
     [Header("Element Types")]
     private string water = "Chibi Water Dragon"; // 0
@@ -63,14 +65,14 @@ public class DragonBook : MonoBehaviour
 
     private void Awake()
     {
-        /*DragonBookContents.SetNewDragonNameAndTypeInBook("drake", 3);
+        DragonBookContents.SetNewDragonNameAndTypeInBook("drake", 3);
         DragonBookContents.SetNewDragonNameAndTypeInBook("hello", 1);
         DragonBookContents.SetNewDragonNameAndTypeInBook("new 1", 2);
         DragonBookContents.SetNewDragonNameAndTypeInBook("2is", 3);
         DragonBookContents.SetNewDragonNameAndTypeInBook("tree", 1);
         DragonBookContents.SetNewDragonNameAndTypeInBook("flour", 0);
         DragonBookContents.SetNewDragonNameAndTypeInBook("firth", 1);
-        DragonBookContents.SetNewDragonNameAndTypeInBook("sith", 0);*/
+        DragonBookContents.SetNewDragonNameAndTypeInBook("sith", 0);
     }
 
     public void Start()
@@ -95,16 +97,48 @@ public class DragonBook : MonoBehaviour
 
         if(addDragonsToBook && !pageRelease)
         {
+            Debug.Log("add dragons");
             //Debug.Log("lägger till sidor när jag släpper");
             addDragonsToBook = false;
             AddDragonsToBookPages();
         }
 
-        if(pageRelease && !addDragonsToBook)
+        if(updatePagesAfterFlip)
+        {
+            for(int i = 0; i < DragonBookContents.GetDragonsPerPageAmount(); i++)
+            {
+                if (controlledBook.GetComponent<Book>().mode == FlipMode.RightToLeft)
+                {
+                    Button[] buttonChildren = rightPageOnTurn.transform.GetComponentsInChildren<Button>();
+                    Button onFlipButton = buttonChildren[i].GetComponent<Button>();
+                    Button activeButton = activeLeftPage.transform.GetChild(i).GetComponent<Button>();
+
+                    activeButton.interactable = onFlipButton.interactable;
+                    activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
+                    activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
+                    //button.GetComponent<Image>().color = Color.white;
+                }
+                else
+                {
+                    Button[] buttonChildren = leftPageOnTurn.transform.GetComponentsInChildren<Button>();
+                    Button onFlipButton = buttonChildren[i].GetComponent<Button>();
+                    Button activeButton = activeRightPage.transform.GetChild(i).GetComponent<Button>();
+
+                    activeButton.interactable = onFlipButton.interactable;
+                    activeButton.transform.GetChild(0).GetComponent<TMP_Text>().text = onFlipButton.transform.GetChild(0).GetComponent<TMP_Text>().text;
+                    activeButton.GetComponent<Image>().sprite = onFlipButton.GetComponent<Image>().sprite;
+                    //button.GetComponent<Image>().color = Color.white;
+                }
+            }
+
+            updatePagesAfterFlip = false;
+        }
+
+        /*if(pageRelease && !addDragonsToBook)
         {
             pageRelease = false;
             AddDragonsToBookPages();
-        }
+        }*/
 
         if(controlledBook.GetComponent<Book>().pageDragging)
         {
@@ -189,7 +223,7 @@ public class DragonBook : MonoBehaviour
                 button.interactable = false;
                 button.transform.GetChild(0).GetComponent<TMP_Text>().text = "";
                 button.GetComponent<Image>().sprite = noProfile;
-                button.GetComponent<Image>().color = Color.white;
+                //button.GetComponent<Image>().color = Color.white;
 
             }
             else if (DragonBookContents.GetDragonNamesInBook().ElementAt(indexOfDragonToAdd) != null)

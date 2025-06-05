@@ -468,7 +468,10 @@ public class Book : MonoBehaviour
                 TweenBack();
             }
             else
+            {
+                DragonBook.updatePagesAfterFlip = true;
                 TweenForward();
+            }
 
             //DragonBook.addDragonsToBook = true;
             canUpdatePagesWhileFlipping = true;
