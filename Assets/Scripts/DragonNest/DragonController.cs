@@ -11,6 +11,7 @@ public class DragonController : MonoBehaviour
     private CanvasGroup screenCover;
 
     private bool _oldHasName = true;
+    [SerializeField] private bool increaseAge; 
 
     private void Start()
     {
@@ -40,6 +41,15 @@ public class DragonController : MonoBehaviour
             StepProgress();
         }
         */
+
+        if (increaseAge)
+        {
+            StepProgress();
+            StepProgress();
+            StepProgress();
+
+            increaseAge = false;
+        }
 #endif
 
         // Block raycasts while we don't have a name for the dragon

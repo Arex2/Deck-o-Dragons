@@ -34,8 +34,9 @@ public class DragonBehavior : MonoBehaviour
 
     void Update()
     {
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = zAxis;
+        /*mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = zAxis;*/
+
         horizontalValue = transform.position.x;
 
         CheckIfOutOfBounds();
@@ -85,7 +86,7 @@ public class DragonBehavior : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         if (canMakeNoise)
         {
@@ -94,16 +95,19 @@ public class DragonBehavior : MonoBehaviour
         }
     }
 
-    private void OnMouseDrag()
+    public void OnMouseHold(Vector2 mousePos)
     {
         if(canMakeNoise)
         {
+            mousePosition = Camera.main.ScreenToWorldPoint(mousePos);
+            mousePosition.z = zAxis;
             canMove = false;
             transform.position = mousePosition;
+            //transform.position = mousePosition;
         }
     }
 
-    private void OnMouseExit()
+    public void OnMouseExit()
     {
         canMove = true;
     }

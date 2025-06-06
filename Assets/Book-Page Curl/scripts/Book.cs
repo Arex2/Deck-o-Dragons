@@ -74,8 +74,16 @@ public class Book : MonoBehaviour
     //current flip mode
     public FlipMode mode;
 
+    Vector2 mousePosition;
+
     public void OnEnable()
     {
+        InputSystem controls = new InputSystem();
+        controls.CardMovement.Enable();
+        //on mouse hold
+        controls.CardMovement.Position.performed += ctx => { mousePosition = (ctx.ReadValue<Vector2>()); };
+        controls.CardMovement.Position1.performed += ctx => { mousePosition = (ctx.ReadValue<Vector2>()); };
+
         //har lagt till så den bläddrar fram en sida så att man startar på rätt position (sida 1)
         if (currentPage == 0)
         {
@@ -186,7 +194,7 @@ public class Book : MonoBehaviour
         }
         else if (canvas.renderMode == RenderMode.WorldSpace)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition); //ScreenPointToRay(Input.mousePosition);
             Vector3 globalEBR = transform.TransformPoint(ebr);
             Vector3 globalEBL = transform.TransformPoint(ebl);
             Vector3 globalSt = transform.TransformPoint(st);
@@ -219,7 +227,7 @@ public class Book : MonoBehaviour
     }
     public void UpdateBook()
     {
-        f = Vector3.Lerp(f, transformPoint(Input.mousePosition), Time.deltaTime * 10);
+        f = Vector3.Lerp(f, transformPoint(mousePosition), Time.deltaTime * 10); //transformPoint(Input.mousePosition)
         if (mode == FlipMode.RightToLeft)
             UpdateBookRTLToPoint(f);
         else
@@ -393,7 +401,7 @@ public class Book : MonoBehaviour
                 DragonBook.addDragonsToBookOnFlipPage = true;
             }*/
 
-            DragRightPageToPoint(transformPoint(Input.mousePosition));
+            DragRightPageToPoint(transformPoint(mousePosition)); //transformPoint(Input.mousePosition)
         }
     }
     public void DragLeftPageToPoint(Vector3 point)
@@ -437,7 +445,7 @@ public class Book : MonoBehaviour
                 DragonBook.addDragonsToBookOnFlipPage = true;
             }*/
 
-            DragLeftPageToPoint(transformPoint(Input.mousePosition));
+            DragLeftPageToPoint(transformPoint(mousePosition)); //transformPoint(Input.mousePosition)
         }
         
     }

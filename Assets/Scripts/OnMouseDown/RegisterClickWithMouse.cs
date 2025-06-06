@@ -29,7 +29,7 @@ public class RegisterClickWithMouse : MonoBehaviour
         //controls.CardMovement.Contact.canceled += ctx => { OnRelease(); };
     }
 
-    // Hjälpfunktion för att skapa PointerEventData från musposition
+    // Hjï¿½lpfunktion fï¿½r att skapa PointerEventData frï¿½n musposition
     private PointerEventData CreatePointerEventData()
     {
         return new PointerEventData(EventSystem.current)
@@ -38,7 +38,7 @@ public class RegisterClickWithMouse : MonoBehaviour
         };
     }
 
-    //från: https://discussions.unity.com/t/onmousedown-with-new-input-system/805305/9
+    //frï¿½n: https://discussions.unity.com/t/onmousedown-with-new-input-system/805305/9
     private void MyMouseClick()
     {
         mouseIsDown = true;
@@ -72,9 +72,9 @@ public class RegisterClickWithMouse : MonoBehaviour
             }
 
 
-            if (hit.transform.CompareTag("Dragon"))
+            if (hit.transform.CompareTag("ChibiDragon"))
             {
-                //hit.transform.GetComponent<DragonBehavior>().   metod som ska köras vid mouseClick
+                hit.transform.GetComponent<DragonBehavior>().OnMouseDown();   //metod som ska kï¿½ras vid mouseClick
             }
 
 
@@ -98,6 +98,11 @@ public class RegisterClickWithMouse : MonoBehaviour
         if (hitLast.transform.CompareTag("Food"))
         {
             hitLast.transform.GetComponent<DraggableUI>().OnDrag(CreatePointerEventData());
+        }
+
+        if (hitLast.transform.CompareTag("ChibiDragon"))
+        {
+            hitLast.transform.GetComponent<DragonBehavior>().OnMouseHold(mousePos);
         }
     }
 
@@ -139,6 +144,11 @@ public class RegisterClickWithMouse : MonoBehaviour
         if (hitLast.transform.CompareTag("Food"))
         {
             hitLast.transform.GetComponent<DraggableUI>().OnEndDrag(CreatePointerEventData());
+        }
+
+        if (hitLast.transform.CompareTag("ChibiDragon"))
+        {
+            hitLast.transform.GetComponent<DragonBehavior>().OnMouseExit();
         }
 
         mouseIsDown = false;
