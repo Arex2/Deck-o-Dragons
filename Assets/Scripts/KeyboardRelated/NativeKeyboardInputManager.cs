@@ -23,7 +23,7 @@ public class NativeKeyboardInputManager : MonoBehaviour
 
         if (DragonActive.dragonName == null && DragonActive.isDragonActive)
         {
-            forCompUse = true;
+            //forCompUse = true;
             OpenKeyboard();
         }
     }
