@@ -59,17 +59,20 @@ public class DragonBookContents : MonoBehaviour
 
     public static void SetNewDragonNameAndTypeInBook(string name, int type) //Används i DragonController
     {
-        dragonNamesInBook.Add(name);
-        dragonTypesInBook.Add(type);
-
-        if ((dragonNamesInBook.Count - 1) % 3 == 0)
+        if(!dragonNamesInBook.Contains(name))
         {
-            if (dragonNamesInBook.Count % 2 == 0)
-            {
-                return;
-            }
+            dragonNamesInBook.Add(name);
+            dragonTypesInBook.Add(type);
 
-            pagesInBook += 2;
+            if ((dragonNamesInBook.Count - 1) % 3 == 0)
+            {
+                if (dragonNamesInBook.Count % 2 == 0)
+                {
+                    return;
+                }
+
+                pagesInBook += 2;
+            }
         }
 
         /*Debug.Log("dragonCounter: " + dragonCounter);
