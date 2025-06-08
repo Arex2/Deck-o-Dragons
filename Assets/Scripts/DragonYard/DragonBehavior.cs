@@ -10,13 +10,15 @@ public class DragonBehavior : MonoBehaviour
     [Header("Dragon Noises")]
     [SerializeField] private AudioClip[] dragonSqueals;
 
-    [Header ("Movement vectors")]
-    private static Vector3 leftOuterBounds = new Vector3(-1.5f, 4f, 0);
-    private static Vector3 rightOuterBounds = new Vector3(1.5f, -4f, 0);
+    [Header("Movement vectors")]
+    //private static Vector3 leftOuterBounds = new Vector3(-1.5f, 4f, 0);
+    //private static Vector3 rightOuterBounds = new Vector3(1.5f, -4f, 0);
+    private Vector3 bottomLeft;
+    private Vector3 topRight;
     private Vector3 currentTargetPosition;
     private Vector3 mousePosition;
 
-    [Header ("Movement related")]
+    [Header("Movement related")]
     private float moveSpeed = 1f;
     private float moveMaxTimer = 10f;
     private float moveMinTimer = 5f;
@@ -28,15 +30,15 @@ public class DragonBehavior : MonoBehaviour
 
     void Start()
     {
+        bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0.08f, 0.08f, 0));
+        topRight = Camera.main.ViewportToWorldPoint(new Vector3(0.92f, 0.92f, 0));
+
         srend = GetComponent<SpriteRenderer>();
         moveTimer = Random.Range(moveMinTimer, moveMaxTimer);
     }
 
     void Update()
     {
-        /*mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = zAxis;*/
-
         horizontalValue = transform.position.x;
 
         CheckIfOutOfBounds();
@@ -53,7 +55,7 @@ public class DragonBehavior : MonoBehaviour
         }
 
         //transform.position = Vector2.MoveTowards(transform.position, currentTarget.transform.position, moveSpeed * Time.deltaTime);
-        if(canMove)
+        if (canMove)
         {
             if (moveTimer > 0)
             {
@@ -65,24 +67,24 @@ public class DragonBehavior : MonoBehaviour
 
     private void CheckIfOutOfBounds()
     {
-        if (transform.position.x < leftOuterBounds.x)
+        if (transform.position.x < bottomLeft.x)
         {
-            transform.position = new Vector3(leftOuterBounds.x, transform.position.y, 0);
+            transform.position = new Vector3(bottomLeft.x, transform.position.y, 0);
         }
 
-        if (transform.position.x > rightOuterBounds.x)
+        if (transform.position.x > topRight.x)
         {
-            transform.position = new Vector3(rightOuterBounds.x, transform.position.y, 0);
+            transform.position = new Vector3(topRight.x, transform.position.y, 0);
         }
 
-        if (transform.position.y > leftOuterBounds.y)
+        if (transform.position.y > topRight.y)
         {
-            transform.position = new Vector3(transform.position.x, leftOuterBounds.y, 0);
+            transform.position = new Vector3(transform.position.x, topRight.y, 0);
         }
 
-        if (transform.position.y < rightOuterBounds.y)
+        if (transform.position.y < bottomLeft.y)
         {
-            transform.position = new Vector3(transform.position.x, rightOuterBounds.y, 0);
+            transform.position = new Vector3(transform.position.x, bottomLeft.y, 0);
         }
     }
 
@@ -97,7 +99,7 @@ public class DragonBehavior : MonoBehaviour
 
     public void OnMouseHold(Vector2 mousePos)
     {
-        if(canMakeNoise)
+        if (canMakeNoise)
         {
             mousePosition = Camera.main.ScreenToWorldPoint(mousePos);
             mousePosition.z = zAxis;
@@ -136,8 +138,11 @@ public class DragonBehavior : MonoBehaviour
 
     private void CreateNewTarget()
     {
-        float xPos = Random.Range(leftOuterBounds.x, rightOuterBounds.x);
-        float yPos = Random.Range(rightOuterBounds.y, leftOuterBounds.y);
+        float xPos = Random.Range(bottomLeft.x, topRight.x);
+        float yPos = Random.Range(bottomLeft.y, topRight.y);
+
+        //float xPos = Random.Range(leftOuterBounds.x, rightOuterBounds.x);
+        //float yPos = Random.Range(rightOuterBounds.y, leftOuterBounds.y);
 
         currentTargetPosition = new Vector3(xPos, yPos, 0);
         //currentTarget.transform.position = currentTargetPosition;
