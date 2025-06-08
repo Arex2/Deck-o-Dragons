@@ -243,7 +243,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 68.15
+  m_fontSize: 38.25
   m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1124,7 +1124,9 @@ MonoBehaviour:
   playerHealthText: {fileID: 530612439057878725}
   FloatingTextPrefab: {fileID: 1274994783436772728, guid: 3027dd26962f86646872c550abfc9f7f, type: 3}
   hpSlider: {fileID: 5113567561118050214}
-  damageTakenSound: []
+  damageTakenSound:
+  - {fileID: 8300000, guid: b3906a9ca9e9f2741bdab4f0e665401e, type: 3}
+  - {fileID: 8300000, guid: 77372f5dd64e8fe42bc2b60f9454ca25, type: 3}
   indicatorManager: {fileID: 1350904861571970897}
   screenShake: {fileID: 1058481263}
   camera: {fileID: 1058481261}

@@ -1,106 +1,108 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class NativeKeyboardInputManager : MonoBehaviour
 {
     [SerializeField] public TMP_Text dragonName;
     private TouchScreenKeyboard keyboard;
-    private bool canNameBeSet;
-    public bool forCompUse;
+    private bool isWaitingForName = false;
+    private bool nameFinalized = false;
 
     void Start()
     {
-        dragonName.text = DragonActive.dragonName;
-
-        if (!DragonActive.isDragonActive)
+        // Initialize name if already set
+        if (!string.IsNullOrWhiteSpace(DragonActive.dragonName))
+        {
+            dragonName.text = DragonActive.dragonName;
+            nameFinalized = true;
+        }
+        else
         {
             dragonName.text = "";
-            canNameBeSet = true;
-        }
-
-        if (DragonActive.dragonName == null && DragonActive.isDragonActive)
-        {
-            forCompUse = true;
-            OpenKeyboard();
+            nameFinalized = false;
         }
     }
 
     void Update()
     {
-        if (forCompUse)
-        {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                int randomLength = Random.Range(2, 9);
-                string allLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // Skip update if name is already finalized
+        if (nameFinalized) return;
 
-                for (int i = 0; i < randomLength; i++)
-                {
-                    dragonName.text += allLetters[Random.Range(0, allLetters.Length)];
-                }
-
-                forCompUse = false;
-                DragonActive.dragonName = dragonName.text;
-            }
-        }
-
-        if (DragonActive.dragonName == null)
-        {
-            dragonName.text = "";
-            canNameBeSet = true;
-        }
-
-        if (keyboard != null && keyboard.active == true || keyboard != null && TouchScreenKeyboard.visible == true)
+        // Update name text live while keyboard is open
+        if (keyboard != null && (keyboard.active || TouchScreenKeyboard.visible))
         {
             dragonName.text = keyboard.text.Trim();
         }
 
-        if(keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Canceled)
+        // Handle keyboard cancel
+        if (keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Canceled)
         {
-            DragonActive.statusText.text = "Dragon must have a name";
-            OpenKeyboard();
-            Invoke("ClearStatusText", 1.5f);
+            ShowStatus("Dragon must have a name");
+            Invoke(nameof(OpenKeyboard), 1.5f);
+            keyboard = null;
+            return;
         }
 
-        if(canNameBeSet && keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Done)
+        // Handle keyboard done
+        if (keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Done && isWaitingForName)
         {
-            foreach(string alredayExistingName in DragonBookContents.GetDragonNamesInBook())
+            string trimmedInput = keyboard.text.Trim();
+
+            if (string.IsNullOrEmpty(trimmedInput))
             {
-                if(dragonName.text == alredayExistingName)
+                ShowStatus("Dragon must have a name");
+                Invoke(nameof(OpenKeyboard), 1.5f);
+                keyboard = null;
+                return;
+            }
+
+            foreach (string existingName in DragonBookContents.GetDragonNamesInBook())
+            {
+                if (existingName == trimmedInput)
                 {
-                    DragonActive.statusText.text = "You already have a dragon by that name";
-                    OpenKeyboard();
-                    Invoke("ClearStatusText", 1.5f);
+                    ShowStatus("You already have a dragon by that name");
+                    Invoke(nameof(OpenKeyboard), 1.5f);
+                    keyboard = null;
                     return;
                 }
             }
 
-            if(dragonName.text == "".Trim())
-            {
-                DragonActive.statusText.text = "Dragon must have a name";
-                OpenKeyboard();
-                Invoke("ClearStatusText", 1.5f);
-            }
-            else
-            {
-                canNameBeSet = false;
-                DragonActive.dragonName = dragonName.text;
-            }
+            // All good — save name
+            dragonName.text = trimmedInput;
+            DragonActive.dragonName = trimmedInput;
+            nameFinalized = true;
+            isWaitingForName = false;
+            keyboard = null;
         }
+    }
+
+    /// <summary>
+    /// Call this method manually (e.g., from a UI button) to trigger naming
+    /// </summary>
+    public void OpenKeyboard()
+    {
+        if (nameFinalized) return;
+
+        ShowStatus("Please name your dragon");
+        isWaitingForName = true;
+        keyboard = TouchScreenKeyboard.Open(
+            "",
+            TouchScreenKeyboardType.Default,
+            false, false, false, false,
+            "Please name your dragon",
+            10
+        );
+    }
+
+    private void ShowStatus(string message)
+    {
+        DragonActive.statusText.text = message;
+        Invoke(nameof(ClearStatusText), 1.5f);
     }
 
     private void ClearStatusText()
     {
         DragonActive.statusText.text = "";
-    }
-
-    public void OpenKeyboard()
-    {
-        DragonActive.statusText.text = "Please name your dragon";
-        Invoke("ClearStatusText", 1.5f);
-        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, false, true, "Please name your dragon", 10);
     }
 }

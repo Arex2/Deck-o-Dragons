@@ -958,7 +958,7 @@ MonoBehaviour:
   cardVisuals: {fileID: 6804042252520252742}
   user: {fileID: 0}
   pointerMoveRadius: 0.5
-  dissolveSFX: {fileID: 0}
+  dissolveSFX: {fileID: 8300000, guid: eb62ada01dd56ed46881de1648b84949, type: 3}
 --- !u!114 &6804042252520252742
 MonoBehaviour:
   m_ObjectHideFlags: 0

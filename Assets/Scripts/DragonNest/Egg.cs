@@ -223,7 +223,7 @@ public class Egg : MonoBehaviour
         SpawnDragon();
         Invoke("DeleteEgg", 0.05f);
         //inputMan.SpawnKeyboard();
-        natInputMan.forCompUse = true;
+        //natInputMan.forCompUse = true;
         natInputMan.OpenKeyboard();
         //Invoke("CallToOpenKeyboard", 1f);
     }
