@@ -23,7 +23,7 @@ public class Egg : MonoBehaviour
     private int shakeCount = 0;
     private bool isHatching;
 
-    private float shakeTreshold = 2.0f;// * 2.0f;
+    private float shakeTreshold = 2.0f;//2.0f * 2.0f;
     private Vector3 lowPassValue;
 
     [SerializeField] private Sprite[] crackedSprites;
@@ -44,35 +44,44 @@ public class Egg : MonoBehaviour
     }
 
     Vector3 accel;
-    private InputAction _accelerationAction;
+    //private InputAction _accelerationAction;
     //InputSystem controls = new InputSystem();
 
     private void OnEnable()
     {
+        // All sensors start out disabled so they have to manually be enabled first.
+        //InputSystem.EnableDevice(Accelerometer.current);
+
+
+
+        //controls.EggShake.Enable();
+        //controls.EggShake.EggShake.performed += ctx => { Debug.Log("acceleration: " + ctx); };
+
+
         /*controls.CardMovement.Enable();
         //on mouse hold
         controls.CardMovement.Position.performed += ctx => { accel = (ctx.ReadValue<Vector3>()); };
         controls.CardMovement.Position1.performed += ctx => { accel = (ctx.ReadValue<Vector2>()); };*/
 
-        _accelerationAction.Enable();
+        //_accelerationAction.Enable();
 
         //Input.gyro.enabled = true;
     }
 
     void OnDisable()
     {
-        _accelerationAction.Disable();
+        //_accelerationAction.Disable();
     }
 
     void Start()
     {
-        _accelerationAction = new InputAction("Acceleration", InputActionType.Value, "accelerometer/acceleration");
+        //_accelerationAction = new InputAction("Acceleration", InputActionType.Value, "accelerometer/acceleration");
 
         //typ default shake v�rde som alltid �r d�r (m�ng acceleration mobil naturligt har)
         //lowPassValue = Input.acceleration;
 
-        accel = _accelerationAction.ReadValue<Vector3>();
-        lowPassValue = accel;
+        //accel = _accelerationAction.ReadValue<Vector3>();
+        //lowPassValue = Accelerometer.current.acceleration.ReadValue(); //accel;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         natInputMan = GameObject.Find("NativeInputManager").GetComponent<NativeKeyboardInputManager>();
@@ -82,17 +91,48 @@ public class Egg : MonoBehaviour
         SetupDragonAttributes();
     }
 
+
+    bool first = false;
     void Update()
     {
-        accel = _accelerationAction.ReadValue<Vector3>();
-
-        //controls.CardMovement.Position.performed += ctx => { accel = ctx.ReadValue<Vector3>(); };
-        //controls.CardMovement.Position1.performed += ctx => { accel = ctx.ReadValue<Vector2>(); };
-
         if (!canBeCracked)
         {
             return;
         }
+
+        tapCurrent -= Time.deltaTime;
+        if (tapCurrent < 0) tapCurrent = 0;
+        //Debug.Log("tapCurrent: " + tapCurrent);
+
+        //om device inte har acceleration
+        if(Accelerometer.current == null)
+        {
+            if(!first)
+            {
+                Debug.Log("No accelerometer!");
+                first = true;
+            }
+            return;
+        }
+
+
+        //spahgetti för det fungerade inte i start av någon anledning
+        if (!first)
+        {
+            lowPassValue = Accelerometer.current.acceleration.ReadValue();
+            Debug.Log("Lowpass; " + lowPassValue);
+            first = true;
+        }
+
+        accel = Accelerometer.current.acceleration.ReadValue();
+        //Debug.Log("accel: " + acceleration2);
+
+        //accel = _accelerationAction.ReadValue<Vector3>();
+
+        //controls.CardMovement.Position.performed += ctx => { accel = ctx.ReadValue<Vector3>(); };
+        //controls.CardMovement.Position1.performed += ctx => { accel = ctx.ReadValue<Vector2>(); };
+
+
 
         /*
         if (Input.GetKeyDown(KeyCode.K))
@@ -101,9 +141,7 @@ public class Egg : MonoBehaviour
         }
         */
 
-        tapCurrent -= Time.deltaTime;
-        if (tapCurrent < 0) tapCurrent = 0;
-        //Debug.Log("tapCurrent: " + tapCurrent);
+
 
         //Vector3 acceleration = Input.acceleration;
 
@@ -125,6 +163,8 @@ public class Egg : MonoBehaviour
 
             if (time >= timeBetweenShakes)
             {
+                Crack();
+                /*
                 Debug.Log("Shake!");
                 //f�rg�ndring representerar sprite �ndring
                 //d�r spriten f�r st�rre cracks
@@ -134,6 +174,7 @@ public class Egg : MonoBehaviour
                 }
                 shakeCount++;
                 time = 0;
+                */
             }
         }
     }
@@ -193,6 +234,8 @@ public class Egg : MonoBehaviour
         //om tapCurrent når över tapThreshold räknas det som 1 shake
         if(tapCurrent >= tapThreshhold)
         {
+            Crack();
+            /*
             AudioManager.Instance.PlaySFX(eggCrackSFX[shakeCount]);
             //change sprite
             if (shakeCount < crackedSprites.Length)
@@ -206,7 +249,29 @@ public class Egg : MonoBehaviour
             screenShake.StartShake();
             //reset tapCurrent
             tapCurrent = 0;
+            */
         }
+    }
+
+
+    private void Crack()
+    {
+
+        Debug.Log("Crack!");
+        AudioManager.Instance.PlaySFX(eggCrackSFX[shakeCount]);
+        //change sprite
+        if (shakeCount < crackedSprites.Length)
+        {
+            spriteRenderer.sprite = crackedSprites[shakeCount];
+        }
+
+        //shake
+        shakeCount++;
+        //screenshake
+        screenShake.StartShake();
+        //reset tapCurrent
+        tapCurrent = 0;
+        time = 0;
     }
 
     #region old tap shake
