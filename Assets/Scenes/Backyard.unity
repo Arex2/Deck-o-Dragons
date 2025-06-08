@@ -7515,12 +7515,6 @@ MonoBehaviour:
   noProfile: {fileID: 21300000, guid: 13b543e86b0af46d7b3c6eed3390f27c, type: 3}
   controlledBook: {fileID: 1626685303}
   closeButton: {fileID: 1089955074}
-  button1: {fileID: 0}
-  button2: {fileID: 0}
-  button3: {fileID: 0}
-  button4: {fileID: 0}
-  button5: {fileID: 0}
-  button6: {fileID: 0}
 --- !u!224 &1977415731 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 22447776, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}

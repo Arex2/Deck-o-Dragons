@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Egg : MonoBehaviour
 {
@@ -42,15 +43,37 @@ public class Egg : MonoBehaviour
         dragonActive = GameObject.Find("DragonActive").GetComponent<DragonActive>();
     }
 
+    Vector3 accel;
+    private InputAction _accelerationAction;
+    //InputSystem controls = new InputSystem();
+
     private void OnEnable()
     {
-        Input.gyro.enabled = true;
+        /*controls.CardMovement.Enable();
+        //on mouse hold
+        controls.CardMovement.Position.performed += ctx => { accel = (ctx.ReadValue<Vector3>()); };
+        controls.CardMovement.Position1.performed += ctx => { accel = (ctx.ReadValue<Vector2>()); };*/
+
+        _accelerationAction.Enable();
+
+        //Input.gyro.enabled = true;
+    }
+
+    void OnDisable()
+    {
+        _accelerationAction.Disable();
     }
 
     void Start()
     {
+        _accelerationAction = new InputAction("Acceleration", InputActionType.Value, "accelerometer/acceleration");
+
         //typ default shake v�rde som alltid �r d�r (m�ng acceleration mobil naturligt har)
-        lowPassValue = Input.acceleration;
+        //lowPassValue = Input.acceleration;
+
+        accel = _accelerationAction.ReadValue<Vector3>();
+        lowPassValue = accel;
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         natInputMan = GameObject.Find("NativeInputManager").GetComponent<NativeKeyboardInputManager>();
         screenShake = GameObject.Find("Main Camera").GetComponent<ScreenShake>();
@@ -61,6 +84,11 @@ public class Egg : MonoBehaviour
 
     void Update()
     {
+        accel = _accelerationAction.ReadValue<Vector3>();
+
+        //controls.CardMovement.Position.performed += ctx => { accel = ctx.ReadValue<Vector3>(); };
+        //controls.CardMovement.Position1.performed += ctx => { accel = ctx.ReadValue<Vector2>(); };
+
         if (!canBeCracked)
         {
             return;
@@ -77,7 +105,10 @@ public class Egg : MonoBehaviour
         if (tapCurrent < 0) tapCurrent = 0;
         //Debug.Log("tapCurrent: " + tapCurrent);
 
-        Vector3 acceleration = Input.acceleration;
+        //Vector3 acceleration = Input.acceleration;
+
+        Vector3 acceleration = accel;
+
         Vector3 deltaAcceleration = acceleration - lowPassValue;
 
         if(!isHatching && shakeCount == 3)
@@ -203,10 +234,13 @@ public class Egg : MonoBehaviour
 
     private void NewPos()
     {
-        Vector3 acceleration = Input.acceleration;
+        //Vector3 acceleration = Input.acceleration;
+
+        Vector3 acceleration = accel;
+
         //ny position b�r vara x * shake direction
         //b�r bara flytta p� sig om shake �r �ver en viss punkt
-        if(acceleration.magnitude > 1.5f)
+        if (acceleration.magnitude > 1.5f)
         {
             transform.DOMove(acceleration * 0.5f, 0.1f);
         }

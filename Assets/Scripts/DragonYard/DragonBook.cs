@@ -46,12 +46,12 @@ public class DragonBook : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private GameObject closeButton;
     //[SerializeField] private Button[] buttons;
-    [SerializeField] private Button button1;
+    /*[SerializeField] private Button button1;
     [SerializeField] private Button button2;
     [SerializeField] private Button button3;
     [SerializeField] private Button button4;
     [SerializeField] private Button button5;
-    [SerializeField] private Button button6;
+    [SerializeField] private Button button6;*/
 
     [Header("Element Types")]
     private string water = "Chibi Water Dragon"; // 0
